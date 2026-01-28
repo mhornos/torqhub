@@ -1,4 +1,7 @@
 /env.php
-/almacenamiento/*
+
+/almacenamiento/logs/*
+/almacenamiento/uploads/*
+
 /vendor/
 *.log
