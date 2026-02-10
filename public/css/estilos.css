@@ -1,0 +1,27 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f2f2f2;
+    margin: 0px; 
+    padding: 0px;
+}
+
+nav {
+    background: #000000;
+    height: 30px;
+    align-content: center;
+    height: 60px;
+}
+
+nav a {
+    text-decoration: none;
+    margin-left: 20px;
+    color: white;
+}
+
+h1 {
+    padding-left: 12px;
+}
+
+p {
+    padding-left: 12px;
+}

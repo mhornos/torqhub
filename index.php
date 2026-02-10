@@ -1,5 +1,8 @@
 <?php
 
+require __DIR__ . '/configuracion/config.php';
+require __DIR__ . '/aplicacion/servicios/Vista.php';
+
 $rutas = require __DIR__ . '/rutas/web.php';
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -12,10 +15,8 @@ if (isset($rutas[$ruta])) {
 
 list($nombre_controlador, $metodo) = explode('@', $accion);
 
-// cargar el controlador
 require __DIR__ . '/aplicacion/controladores/' . $nombre_controlador . '.php';
 
-// crear instancia y ejecutar
 $controlador = new $nombre_controlador();
 $controlador->$metodo();
 } else {

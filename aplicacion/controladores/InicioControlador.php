@@ -1,8 +1,8 @@
 <?php
 
 class InicioControlador {
-    public function index() {
-        echo "bienvenido a la página de inicio";
+    public function index(): void {
+        Vista::render('inicio');
     }
 }
 

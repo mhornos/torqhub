@@ -5,4 +5,5 @@ return [
     '/login' => 'AuthControlador@login',
     '/registro' => 'AuthControlador@registro',
     ];
+    
 ?>
