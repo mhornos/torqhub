@@ -1,9 +1,11 @@
 <?php
 
-class InicioControlador {
+class InicioControlador extends ControladorBase{
+    
     public function index(): void {
-        Vista::render('inicio');
+        $this->render('inicio');
     }
+
 }
 
 ?>
