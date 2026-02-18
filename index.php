@@ -16,7 +16,16 @@ $ruta = "/" . ltrim(str_replace($base, "", $path), "/");
 
 if (isset($rutas[$metodo_http][$ruta])) {
 
-    $accion = $rutas[$metodo_http][$ruta]; 
+    $ruta_config = $rutas[$metodo_http][$ruta];
+
+    // ejecutar middleware si existe
+    if (isset($ruta_config["middleware"])) {
+        $middleware = $ruta_config["middleware"];
+        $middleware::verificar();
+    }
+
+    $accion = $ruta_config["accion"]; 
+
     list($nombre_controlador, $metodo) = explode("@", $accion);
 
     $controlador = new $nombre_controlador();

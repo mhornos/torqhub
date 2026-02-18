@@ -31,7 +31,7 @@
             <label>password</label>
             <input type="password" name="password" required>
         </div>
-
+        
         <button type="submit">crear cuenta</button>
     </form>
 

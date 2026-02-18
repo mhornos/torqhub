@@ -1,6 +1,6 @@
 body {
-    font-family: 'Inter', sans-serif;
-    background: #f2f2f2;
+    font-family: system-ui, sans-serif;
+    background: #d4d4d4;
     /* margin: 0px;  */
     /* padding: 0px; */
 }
@@ -24,4 +24,8 @@ h1 {
 
 p {
     padding-left: 12px;
+}
+
+a:hover {
+    color: #888888;
 }

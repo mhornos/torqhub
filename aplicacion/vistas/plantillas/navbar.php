@@ -16,7 +16,7 @@
         <a href="<?= url('/login') ?>">login</a>
         <a href="<?= url('/registro') ?>">registro</a>
     <?php else: ?>
-        <span>hola, <?= htmlspecialchars($_SESSION['usuario']['nombre']) ?></span>
+        <a href="<?= url('/garaje') ?>">mi garaje</a>
         <a href="<?= url('/logout') ?>">logout</a>
     <?php endif; ?>
 </nav>

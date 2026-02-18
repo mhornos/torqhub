@@ -1,15 +1,31 @@
 <?php
 
 return [
-    "GET" => [
-        "/" => "InicioControlador@index",
-        "/login" => "AuthControlador@login",
-        "/registro" => "AuthControlador@registro",
-        "/logout" => "AuthControlador@logout",
+    'GET' => [
+        '/' => [
+            'accion' => 'InicioControlador@index',
+        ],
+        '/login' => [
+            'accion' => 'AuthControlador@login',
+        ],
+        '/registro' => [
+            'accion' => 'AuthControlador@registro',
+        ],
+        '/logout' => [
+            'accion' => 'AuthControlador@logout',
+        ],
+        '/garaje' => [
+            'accion' => 'GarajeControlador@index',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
-    "POST" => [
-        "/login" => "AuthControlador@login_post",
-        "/registro" => "AuthControlador@registro_post",
+    'POST' => [
+        '/login' => [
+            'accion' => 'AuthControlador@login_post',
+        ],
+        '/registro' => [
+            'accion' => 'AuthControlador@registro_post',
+        ],
     ],
 ];
     
