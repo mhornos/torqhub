@@ -8,6 +8,10 @@
 
 </head>
 <body>
+    <?php if (isset($_SESSION['usuario'])): ?>
+        <p>Hola, <?= htmlspecialchars($_SESSION['usuario']['nombre']) ?></p>
+    <?php endif; ?>
+
     <h1>inicio</h1>
     <p>bienvenido a torqhub</p>
 </body>

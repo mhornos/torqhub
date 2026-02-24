@@ -1,7 +1,7 @@
 body {
     font-family: system-ui, sans-serif;
     background: #d4d4d4;
-    /* margin: 0px;  */
+    margin: 0px; 
     /* padding: 0px; */
 }
 
@@ -28,4 +28,8 @@ p {
 
 a:hover {
     color: #888888;
+}
+
+form {
+    padding-left: 15px;
 }
