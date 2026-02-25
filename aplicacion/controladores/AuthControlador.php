@@ -18,7 +18,12 @@ class AuthControlador extends ControladorBase {
             $this->redirigir('/login');
         }
 
-        $usuario = RepositorioUsuarios::buscar_por_email($email);
+        try {
+            $usuario = RepositorioUsuarios::buscar_por_email($email);
+        } catch (PDOException $e) {
+            flash_set('error', 'error de servidor, intentalo mas tarde');
+            $this->redirigir('/login');
+        }
 
         if (!$usuario || !password_verify($password, $usuario['password_hash'])) {
             flash_set('error', 'credenciales incorrectas');
@@ -64,10 +69,23 @@ class AuthControlador extends ControladorBase {
         }
 
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        RepositorioUsuarios::crear($nombre, $email, $hash);
+        
+        try {
+            RepositorioUsuarios::crear($nombre, $email, $hash);
 
-        flash_set('ok', 'registro completado, ahora inicia sesion');
-        $this->redirigir('/login');
+            flash_set('ok', 'registro completado, ahora inicia sesion');
+            $this->redirigir('/login');
+
+        } catch (PDOException $e) {
+
+            if (($e->getCode() ?? '') === '23000') {
+                flash_set('error', 'nombre o email ya estan en uso');
+                $this->redirigir('/registro');
+            }
+
+            flash_set('error', 'error al registrar, intentalo mas tarde');
+            $this->redirigir('/registro');
+        }
     }
 
 // procesa el logout
