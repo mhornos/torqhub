@@ -21,6 +21,8 @@
 
 <!-- // formulario de login -->
     <form method="post" action="<?= url('/login') ?>">
+        <?= csrf_campo() ?>
+
         <div>
             <label>email</label>
             <input type="email" name="email" required>

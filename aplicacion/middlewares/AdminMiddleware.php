@@ -5,7 +5,7 @@ class AdminMiddleware
     public static function verificar(): void
     {
         if (!isset($_SESSION['usuario'])) {
-            flash_set('error', 'debes iniciar sesion');
+            flash_set('error', 'debes iniciar sesión');
             header('Location: ' . url('/login'));
             exit;
         }

@@ -1,7 +1,6 @@
 <?php
 
-class ConexionBBDD
-{
+class ConexionBBDD {
     private static ?PDO $pdo = null;
     
     public static function obtener(): PDO {

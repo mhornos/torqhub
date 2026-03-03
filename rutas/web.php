@@ -18,6 +18,10 @@ return [
             'accion' => 'GarajeControlador@index',
             'middleware' => 'AuthMiddleware',
         ],
+        '/garaje/nuevo' => [
+            'accion' => 'GarajeControlador@nuevo',
+            'middleware' => 'AuthMiddleware',
+        ],
         '/admin' => [
             'accion' => 'AdminControlador@index',
             'middleware' => 'AdminMiddleware',
@@ -29,6 +33,10 @@ return [
         ],
         '/registro' => [
             'accion' => 'AuthControlador@registro_post',
+        ],
+        '/garaje/nuevo' => [
+            'accion' => 'GarajeControlador@nuevo_post',
+            'middleware' => 'AuthMiddleware',
         ],
     ],
 ];

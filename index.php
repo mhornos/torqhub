@@ -1,4 +1,16 @@
 <?php
+// seguridad para cookies de sesión
+$es_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'domain' => '',
+    'secure' => $es_https,
+    'httponly' => true,
+    'samesite' => 'Lax',
+]);
+
 session_start();
 
 require __DIR__ . "/configuracion/config.php";

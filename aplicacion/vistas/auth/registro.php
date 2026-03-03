@@ -17,6 +17,8 @@
 
 <!-- // formulario de registro -->
     <form method="post" action="<?= url('/registro') ?>">
+        <?= csrf_campo() ?>
+
         <div>
             <label>nombre</label>
             <input type="text" name="nombre" required>

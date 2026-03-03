@@ -1,7 +1,6 @@
 <?php
 
-class RepositorioUsuarios
-{
+class RepositorioUsuarios {
     
     public static function existe_nombre(string $nombre): bool{
         $pdo = ConexionBBDD::obtener();

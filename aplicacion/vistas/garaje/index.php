@@ -8,6 +8,31 @@
 </head>
 <body>
     <h1>mi garaje</h1>
-    <p>zona privada del usuario</p> 
+
+    <?php if ($m = flash_get('ok')): ?>
+        <p><?= htmlspecialchars($m) ?></p>
+    <?php endif; ?>
+
+    <?php if ($m = flash_get('error')): ?>
+        <p><?= htmlspecialchars($m) ?></p>
+    <?php endif; ?>
+
+    <p><a href="<?= url('/garaje/nuevo') ?>">añadir vehiculo</a></p>
+
+    <?php if (count($vehiculos) === 0): ?>
+        <p>no tienes vehiculos aún</p>
+    <?php else: ?>
+        <ul>
+            <?php foreach ($vehiculos as $v): ?>
+                <li>
+                    <?= htmlspecialchars($v['marca']) ?> <?= htmlspecialchars($v['modelo']) ?>
+                    <?php if (!empty($v['any'])): ?>
+                        (<?= (int) $v['any'] ?>)
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
 </body>
 </html>

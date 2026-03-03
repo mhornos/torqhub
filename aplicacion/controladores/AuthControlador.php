@@ -10,6 +10,8 @@ class AuthControlador extends ControladorBase {
 
 // procesa el formulario de login
     public function login_post(): void {
+        csrf_verificar();
+
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
 
@@ -30,6 +32,9 @@ class AuthControlador extends ControladorBase {
             $this->redirigir('/login');
         }
 
+        // regenerar id de sesion para evitar session fixation
+        session_regenerate_id(true);
+
         $_SESSION['usuario'] = [
             'id' => (int) $usuario['id'],
             'nombre' => $usuario['nombre'],
@@ -37,7 +42,7 @@ class AuthControlador extends ControladorBase {
             'rol' => $usuario['rol'],
         ];
 
-        flash_set('ok', 'sesion iniciada');
+        flash_set('ok', 'sesión iniciada');
         $this->redirigir('/');
     }
 
@@ -49,6 +54,8 @@ class AuthControlador extends ControladorBase {
 
 // procesa el formulario de registro
     public function registro_post(): void {
+        csrf_verificar();
+
         $nombre = trim($_POST['nombre'] ?? '');
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
@@ -91,7 +98,7 @@ class AuthControlador extends ControladorBase {
 // procesa el logout
     public function logout(): void {
         unset($_SESSION['usuario']);
-        flash_set('ok', 'sesion cerrada');
+        flash_set('ok', 'sesión cerrada');
         $this->redirigir('/');
     }
 
