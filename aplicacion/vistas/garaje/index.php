@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>TorqHub</title>
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 </head>
 <body>
     <h1>mi garaje</h1>
-
+ 
     <?php if ($m = flash_get('ok')): ?>
         <p><?= htmlspecialchars($m) ?></p>
     <?php endif; ?>
@@ -29,6 +29,8 @@
                     <?php if (!empty($v['any'])): ?>
                         (<?= (int) $v['any'] ?>)
                     <?php endif; ?>
+                    
+                    <a href="<?= url('/garaje/eliminar?id=' . (int) $v['id']) ?>">eliminar</a>
                 </li>
             <?php endforeach; ?>
         </ul>

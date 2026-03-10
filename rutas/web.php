@@ -1,5 +1,7 @@
 <?php
 
+//definición de rutas para la aplicación, cada ruta tiene una acción asociada y opcionalmente un middleware
+
 return [
     'GET' => [
         '/' => [
@@ -26,6 +28,14 @@ return [
             'accion' => 'AdminControlador@index',
             'middleware' => 'AdminMiddleware',
         ],
+        '/garaje/eliminar' => [
+            'accion' => 'GarajeControlador@eliminar',
+            'middleware' => 'AuthMiddleware',
+        ],
+        '/garaje/editar' => [
+            'accion' => 'GarajeControlador@editar',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
     'POST' => [
         '/login' => [
@@ -36,6 +46,14 @@ return [
         ],
         '/garaje/nuevo' => [
             'accion' => 'GarajeControlador@nuevo_post',
+            'middleware' => 'AuthMiddleware',
+        ],
+        '/garaje/eliminar' => [
+            'accion' => 'GarajeControlador@eliminar_post',
+            'middleware' => 'AuthMiddleware',
+        ],
+        '/garaje/editar' => [
+            'accion' => 'GarajeControlador@editar_post',
             'middleware' => 'AuthMiddleware',
         ],
     ],

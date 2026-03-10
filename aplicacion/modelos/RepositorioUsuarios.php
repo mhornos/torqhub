@@ -2,6 +2,7 @@
 
 class RepositorioUsuarios {
     
+    //devuelve true si el nombre ya existe en la base de datos, false si no
     public static function existe_nombre(string $nombre): bool{
         $pdo = ConexionBBDD::obtener();
 
@@ -12,6 +13,7 @@ class RepositorioUsuarios {
         return (bool) $stmt->fetchColumn();
     }
 
+    //devuelve true si el email ya existe en la base de datos, false si no
     public static function existe_email(string $email): bool {
         $pdo = ConexionBBDD::obtener();
 
@@ -22,6 +24,7 @@ class RepositorioUsuarios {
         return (bool) $stmt->fetchColumn();
     }
 
+    //añade un nuevo usuario a la base de datos y devuelve su id
     public static function crear(string $nombre, string $email, string $hash_password): int {
         $pdo = ConexionBBDD::obtener();
 
@@ -36,6 +39,7 @@ class RepositorioUsuarios {
         return (int) $pdo->lastInsertId();
     }
 
+    //busca un usuario por su email, devuelve un array con los datos o null si no se encuentra
     public static function buscar_por_email(string $email): ?array {
         $pdo = ConexionBBDD::obtener();
 
