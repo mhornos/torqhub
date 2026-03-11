@@ -73,17 +73,35 @@ class RepositorioVehiculos
     }
 
     //edita los datos de un vehículo, devuelve true si se actualizó o false si no se encontró
-    public static function actualizar(int $vehiculo_id, int $usuario_id, string $marca, string $modelo, ?int $any, ?string $vin): bool {
+    public static function actualizar(int $vehiculo_id, int $usuario_id, string $marca, string $modelo, ?int $any, ?string $vin): bool{
         $pdo = ConexionBBDD::obtener();
-
+    
+        $sql_comprobar = "SELECT id
+                            FROM vehiculos
+                            WHERE id = :id
+                            AND usuario_id = :usuario_id
+                            LIMIT 1";
+    
+        $stmt_comprobar = $pdo->prepare($sql_comprobar);
+        $stmt_comprobar->execute([
+            'id' => $vehiculo_id,
+            'usuario_id' => $usuario_id,
+        ]);
+    
+        $existe = $stmt_comprobar->fetch();
+    
+        if (!$existe) {
+            return false;
+        }
+    
         $sql = "UPDATE vehiculos
                 SET marca = :marca,
                     modelo = :modelo,
                     any = :any,
                     vin = :vin
                 WHERE id = :id
-                  AND usuario_id = :usuario_id";
-
+                    AND usuario_id = :usuario_id";
+    
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             'marca' => $marca,
@@ -93,7 +111,7 @@ class RepositorioVehiculos
             'id' => $vehiculo_id,
             'usuario_id' => $usuario_id,
         ]);
-
-        return $stmt->rowCount() > 0;
+    
+        return true;
     }
 }
