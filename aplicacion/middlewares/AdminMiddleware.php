@@ -2,6 +2,7 @@
 
 class AdminMiddleware
 {
+    // verifica que el usuario esté logueado y tenga rol de admin, si no redirige o muestra error
     public static function verificar(): void
     {
         if (!isset($_SESSION['usuario'])) {

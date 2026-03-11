@@ -1,5 +1,7 @@
 <?php
-// seguridad para cookies de sesión
+//punto de entrada de la aplicación, maneja el enrutamiento y la ejecución de controladores
+
+//seguridad para cookies de sesión
 $es_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
 
 session_set_cookie_params([
@@ -26,11 +28,12 @@ $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 $base = rtrim(dirname($_SERVER["SCRIPT_NAME"]), "/");
 $ruta = "/" . ltrim(str_replace($base, "", $path), "/");
 
+
 if (isset($rutas[$metodo_http][$ruta])) {
 
     $ruta_config = $rutas[$metodo_http][$ruta];
 
-    // ejecutar middleware si existe
+    //ejecutar middleware si existe
     if (isset($ruta_config["middleware"])) {
         $middleware = $ruta_config["middleware"];
         $middleware::verificar();
