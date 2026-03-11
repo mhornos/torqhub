@@ -36,6 +36,10 @@ return [
             'accion' => 'GarajeControlador@editar',
             'middleware' => 'AuthMiddleware',
         ],
+        '/garaje/ver' => [
+            'accion' => 'GarajeControlador@ver',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
     'POST' => [
         '/login' => [

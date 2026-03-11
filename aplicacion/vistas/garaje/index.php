@@ -30,6 +30,7 @@
                         (<?= (int) $v['any'] ?>)
                     <?php endif; ?>
                     
+                    <a href="<?= url('/garaje/ver?id=' . (int) $v['id']) ?>">ver</a>
                     <a href="<?= url('/garaje/editar?id=' . (int) $v['id']) ?>">editar</a>
                     <a href="<?= url('/garaje/eliminar?id=' . (int) $v['id']) ?>">eliminar</a>
                 </li>

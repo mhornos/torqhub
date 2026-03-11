@@ -146,6 +146,28 @@ class GarajeControlador extends ControladorBase {
         flash_set('ok', 'vehiculo actualizado correctamente');
         $this->redirigir('/garaje');
     }
+
+    //muestra el detalle de un vehículo, verificando que pertenece al usuario logueado
+    public function ver(): void {
+        $usuario_id = (int) $_SESSION['usuario']['id'];
+        $vehiculo_id = (int) ($_GET['id'] ?? 0);
+    
+        if ($vehiculo_id <= 0) {
+            flash_set('error', 'vehiculo no valido');
+            $this->redirigir('/garaje');
+        }
+    
+        $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
+    
+        if (!$vehiculo) {
+            flash_set('error', 'vehiculo no encontrado');
+            $this->redirigir('/garaje');
+        }
+    
+        $this->render('garaje/ver', [
+            'vehiculo' => $vehiculo,
+        ]);
+    }
 }
 
 ?>
