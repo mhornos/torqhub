@@ -22,9 +22,55 @@ CREATE TABLE vehiculos (
   modelo VARCHAR(60) NOT NULL,
   any SMALLINT UNSIGNED NULL,
   vin VARCHAR(25) NULL,
+
+  carroceria ENUM(
+    'coche pequeño',
+    'sedán',
+    'familiar',
+    'cabrio',
+    'coupé',
+    'suv/4x4',
+    'monovolumen',
+    'furgoneta',
+    'otros'
+  ) NULL,
+
+  tipo_combustible ENUM(
+    'gasolina',
+    'diesel',
+    'electrico',
+    'electro/gasolina',
+    'electro/diesel',
+    'gas natural (CNG)',
+    'etanol',
+    'hidrogeno',
+    'gas licuado (GLP)',
+    'otros'
+  ) NULL,
+
+  tipo_cambio ENUM('automatico', 'manual') NULL,
+
+  potencia_cv SMALLINT UNSIGNED NULL,
+  cilindrada_cm3 INT UNSIGNED NULL,
+
   fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
   CONSTRAINT fk_vehiculos_usuario
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE mantenimientos (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  vehiculo_id INT UNSIGNED NOT NULL,
+  fecha DATE NOT NULL,
+  tipo VARCHAR(100) NOT NULL,
+  descripcion TEXT NULL,
+  kilometros INT UNSIGNED NULL,
+  coste DECIMAL(10,2) NULL,
+  fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  CONSTRAINT fk_mantenimientos_vehiculo
+    FOREIGN KEY (vehiculo_id) REFERENCES vehiculos(id)
     ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

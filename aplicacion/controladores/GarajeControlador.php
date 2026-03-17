@@ -2,6 +2,39 @@
 
 class GarajeControlador extends ControladorBase {
 
+    //listas de opciones para los campos del vehículo
+    private array $carrocerias_validas = [
+        'coche pequeño',
+        'sedán',
+        'familiar',
+        'cabrio',
+        'coupé',
+        'suv/4x4',
+        'monovolumen',
+        'furgoneta',
+        'otros',
+    ];
+
+    private array $tipos_combustible_validos = [
+        'gasolina',
+        'diesel',
+        'electrico',
+        'electro/gasolina',
+        'electro/diesel',
+        'gas natural (CNG)',
+        'etanol',
+        'hidrogeno',
+        'gas licuado (GLP)',
+        'otros',
+    ];
+    
+    private array $tipos_cambio_validos = [
+        'automatico',
+        'manual',
+    ];
+
+
+
     //muestra la lista de vehículos del usuario logueado
     public function index(): void {
         $usuario_id = (int) $_SESSION['usuario']['id'];
@@ -26,9 +59,52 @@ class GarajeControlador extends ControladorBase {
         $modelo = trim($_POST['modelo'] ?? '');
         $any_txt = trim($_POST['any'] ?? '');
         $vin = trim($_POST['vin'] ?? '');
+        $carroceria = trim($_POST['carroceria'] ?? '');
+        $tipo_combustible = trim($_POST['tipo_combustible'] ?? '');
+        $tipo_cambio = trim($_POST['tipo_cambio'] ?? '');
+        $potencia_cv_txt = trim($_POST['potencia_cv'] ?? '');
+        $cilindrada_cm3_txt = trim($_POST['cilindrada_cm3'] ?? '');
 
         $any = ($any_txt === '') ? null : (int) $any_txt;
         $vin = ($vin === '') ? null : $vin;
+        
+        $carroceria = ($carroceria === '') ? null : $carroceria;
+        $tipo_combustible = ($tipo_combustible === '') ? null : $tipo_combustible;
+        $tipo_cambio = ($tipo_cambio === '') ? null : $tipo_cambio;
+
+        if (!is_null($carroceria) && !in_array($carroceria, $this->carrocerias_validas, true)) {
+            flash_set('error', 'la carroceria no es valida');
+            $this->redirigir('/garaje/nuevo');
+        }
+
+        if (!is_null($tipo_combustible) && !in_array($tipo_combustible, $this->tipos_combustible_validos, true)) {
+            flash_set('error', 'el tipo de combustible no es valido');
+            $this->redirigir('/garaje/nuevo');
+        }
+
+        if (!is_null($tipo_cambio) && !in_array($tipo_cambio, $this->tipos_cambio_validos, true)) {
+            flash_set('error', 'el tipo de cambio no es valido');
+            $this->redirigir('/garaje/nuevo');
+        }
+
+        if ($potencia_cv_txt === '') {
+            $potencia_cv = null;
+        } elseif (ctype_digit($potencia_cv_txt) && (int) $potencia_cv_txt >= 0) {
+            $potencia_cv = (int) $potencia_cv_txt;
+        } else {
+            flash_set('error', 'la potencia en cv debe ser un numero entero positivo');
+            $this->redirigir('/garaje/nuevo');
+        }
+
+        if ($cilindrada_cm3_txt === '') {
+            $cilindrada_cm3 = null;
+        } elseif (ctype_digit($cilindrada_cm3_txt) && (int) $cilindrada_cm3_txt >= 0) {
+            $cilindrada_cm3 = (int) $cilindrada_cm3_txt;
+        } else {
+            flash_set('error', 'la cilindrada debe ser un numero entero positivo');
+            $this->redirigir('/garaje/nuevo');
+        }
+
 
         if ($marca === '' || $modelo === '') {
             flash_set('error', 'marca y modelo son obligatorios');
@@ -38,7 +114,7 @@ class GarajeControlador extends ControladorBase {
         $usuario_id = (int) $_SESSION['usuario']['id'];
 
         try {
-            RepositorioVehiculos::crear($usuario_id, $marca, $modelo, $any, $vin);
+            RepositorioVehiculos::crear($usuario_id, $marca, $modelo, $any, $vin, $carroceria, $tipo_combustible, $tipo_cambio, $potencia_cv, $cilindrada_cm3);
         } catch (PDOException $e) {
     http_response_code(500);
     echo "error pdo al guardar vehiculo: " . htmlspecialchars($e->getMessage());
@@ -117,9 +193,19 @@ class GarajeControlador extends ControladorBase {
         $modelo = trim($_POST['modelo'] ?? '');
         $any_txt = trim($_POST['any'] ?? '');
         $vin = trim($_POST['vin'] ?? '');
+        $carroceria = trim($_POST['carroceria'] ?? '');
+        $tipo_combustible = trim($_POST['tipo_combustible'] ?? '');
+        $tipo_cambio = trim($_POST['tipo_cambio'] ?? '');
+        $potencia_cv_txt = trim($_POST['potencia_cv'] ?? '');
+        $cilindrada_cm3_txt = trim($_POST['cilindrada_cm3'] ?? '');
 
         $any = ($any_txt === '') ? null : (int) $any_txt;
         $vin = ($vin === '') ? null : $vin;
+        $carroceria = ($carroceria === '') ? null : $carroceria;
+        $tipo_combustible = ($tipo_combustible === '') ? null : $tipo_combustible;
+        $tipo_cambio = ($tipo_cambio === '') ? null : $tipo_cambio;
+        $potencia_cv = ($potencia_cv_txt === '') ? null : (int) $potencia_cv_txt;
+        $cilindrada_cm3 = ($cilindrada_cm3_txt === '') ? null : (int) $cilindrada_cm3_txt;
 
         if ($vehiculo_id <= 0) {
             flash_set('error', 'vehiculo no valido');
@@ -131,12 +217,55 @@ class GarajeControlador extends ControladorBase {
             $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
         }
 
-        try {
-            $actualizado = RepositorioVehiculos::actualizar($vehiculo_id, $usuario_id, $marca, $modelo, $any, $vin);
-        } catch (PDOException $e) {
-            flash_set('error', 'no se pudo actualizar el vehiculo');
+        $carroceria = ($carroceria === '') ? null : $carroceria;
+        $tipo_combustible = ($tipo_combustible === '') ? null : $tipo_combustible;
+        $tipo_cambio = ($tipo_cambio === '') ? null : $tipo_cambio;
+        
+        if (!is_null($carroceria) && !in_array($carroceria, $this->carrocerias_validas, true)) {
+            flash_set('error', 'la carroceria no es valida');
             $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
         }
+        
+        if (!is_null($tipo_combustible) && !in_array($tipo_combustible, $this->tipos_combustible_validos, true)) {
+            flash_set('error', 'el tipo de combustible no es valido');
+            $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
+        }
+        
+        if (!is_null($tipo_cambio) && !in_array($tipo_cambio, $this->tipos_cambio_validos, true)) {
+            flash_set('error', 'el tipo de cambio no es valido');
+            $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
+        }
+        
+        if ($potencia_cv_txt === '') {
+            $potencia_cv = null;
+        } elseif (ctype_digit($potencia_cv_txt) && (int) $potencia_cv_txt >= 0) {
+            $potencia_cv = (int) $potencia_cv_txt;
+        } else {
+            flash_set('error', 'la potencia en cv debe ser un numero entero positivo');
+            $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
+        }
+        
+        if ($cilindrada_cm3_txt === '') {
+            $cilindrada_cm3 = null;
+        } elseif (ctype_digit($cilindrada_cm3_txt) && (int) $cilindrada_cm3_txt >= 0) {
+            $cilindrada_cm3 = (int) $cilindrada_cm3_txt;
+        } else {
+            flash_set('error', 'la cilindrada debe ser un numero entero positivo');
+            $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
+        }
+
+        try {
+            $actualizado = RepositorioVehiculos::actualizar($vehiculo_id, $usuario_id, $marca, $modelo, $any, $vin, $carroceria, $tipo_combustible, $tipo_cambio, $potencia_cv, $cilindrada_cm3);
+        } // catch (PDOException $e) {
+        //     flash_set('error', 'no se pudo actualizar el vehiculo');
+        //     $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
+        // }
+        catch (PDOException $e) {
+    echo "<pre>";
+    print_r($e->getMessage());
+    echo "</pre>";
+    exit;
+}
 
         if (!$actualizado) {
             flash_set('error', 'vehiculo no encontrado o sin permisos');

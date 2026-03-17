@@ -18,11 +18,11 @@ class RepositorioVehiculos
     }
 
     //añade un nuevo vehículo a la base de datos y devuelve su id
-    public static function crear(int $usuario_id, string $marca, string $modelo, ?int $any, ?string $vin): int {
+    public static function crear(int $usuario_id, string $marca, string $modelo, ?int $any, ?string $vin, ?string $carroceria, ?string $tipo_combustible, ?string $tipo_cambio, ?int $potencia_cv, ?int $cilindrada_cm3): int {
         $pdo = ConexionBBDD::obtener();
 
-        $sql = "INSERT INTO vehiculos (usuario_id, marca, modelo, any, vin)
-                VALUES (:usuario_id, :marca, :modelo, :any, :vin)";
+        $sql = "INSERT INTO vehiculos (usuario_id, marca, modelo, any, vin, carroceria, tipo_combustible, tipo_cambio, potencia_cv, cilindrada_cm3)
+                VALUES (:usuario_id, :marca, :modelo, :any, :vin, :carroceria, :tipo_combustible, :tipo_cambio, :potencia_cv, :cilindrada_cm3)";
 
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
@@ -31,6 +31,11 @@ class RepositorioVehiculos
             'modelo' => $modelo,
             'any' => $any,
             'vin' => $vin,
+            'carroceria' => $carroceria,
+            'tipo_combustible' => $tipo_combustible,
+            'tipo_cambio' => $tipo_cambio,
+            'potencia_cv' => $potencia_cv,
+            'cilindrada_cm3' => $cilindrada_cm3,
         ]);
 
         return (int) $pdo->lastInsertId();
@@ -40,7 +45,9 @@ class RepositorioVehiculos
     public static function buscar_por_id_y_usuario(int $vehiculo_id, int $usuario_id): ?array {
         $pdo = ConexionBBDD::obtener();
 
-        $sql = "SELECT id, usuario_id, marca, modelo, any, vin, fecha_creacion
+        $sql = "SELECT id, usuario_id, marca, modelo, any, vin,
+                       carroceria, tipo_combustible, tipo_cambio,
+                       potencia_cv, cilindrada_cm3, fecha_creacion
                 FROM vehiculos
                 WHERE id = :id AND usuario_id = :usuario_id
                 LIMIT 1";
@@ -73,7 +80,7 @@ class RepositorioVehiculos
     }
 
     //edita los datos de un vehículo, devuelve true si se actualizó o false si no se encontró
-    public static function actualizar(int $vehiculo_id, int $usuario_id, string $marca, string $modelo, ?int $any, ?string $vin): bool{
+    public static function actualizar( int $vehiculo_id, int $usuario_id, string $marca, string $modelo, ?int $any, ?string $vin, ?string $carroceria, ?string $tipo_combustible, ?string $tipo_cambio, ?int $potencia_cv, ?int $cilindrada_cm3): bool{
         $pdo = ConexionBBDD::obtener();
     
         $sql_comprobar = "SELECT id
@@ -98,18 +105,28 @@ class RepositorioVehiculos
                 SET marca = :marca,
                     modelo = :modelo,
                     any = :any,
-                    vin = :vin
+                    vin = :vin,
+                    carroceria = :carroceria,
+                    tipo_combustible = :tipo_combustible,
+                    tipo_cambio = :tipo_cambio,
+                    potencia_cv = :potencia_cv,
+                    cilindrada_cm3 = :cilindrada_cm3
                 WHERE id = :id
-                    AND usuario_id = :usuario_id";
+                  AND usuario_id = :usuario_id";
     
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
+            'id' => $vehiculo_id,
+            'usuario_id' => $usuario_id,
             'marca' => $marca,
             'modelo' => $modelo,
             'any' => $any,
             'vin' => $vin,
-            'id' => $vehiculo_id,
-            'usuario_id' => $usuario_id,
+            'carroceria' => $carroceria,
+            'tipo_combustible' => $tipo_combustible,
+            'tipo_cambio' => $tipo_cambio,
+            'potencia_cv' => $potencia_cv,
+            'cilindrada_cm3' => $cilindrada_cm3,
         ]);
     
         return true;
