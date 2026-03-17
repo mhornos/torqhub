@@ -256,16 +256,10 @@ class GarajeControlador extends ControladorBase {
 
         try {
             $actualizado = RepositorioVehiculos::actualizar($vehiculo_id, $usuario_id, $marca, $modelo, $any, $vin, $carroceria, $tipo_combustible, $tipo_cambio, $potencia_cv, $cilindrada_cm3);
-        } // catch (PDOException $e) {
-        //     flash_set('error', 'no se pudo actualizar el vehiculo');
-        //     $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
-        // }
-        catch (PDOException $e) {
-    echo "<pre>";
-    print_r($e->getMessage());
-    echo "</pre>";
-    exit;
-}
+        } catch (PDOException $e) {
+            flash_set('error', 'no se pudo actualizar el vehiculo');
+            $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
+        }
 
         if (!$actualizado) {
             flash_set('error', 'vehiculo no encontrado o sin permisos');
@@ -293,8 +287,11 @@ class GarajeControlador extends ControladorBase {
             $this->redirigir('/garaje');
         }
     
+        $mantenimientos = RepositorioMantenimientos::listar_por_vehiculo($vehiculo_id);
+
         $this->render('garaje/ver', [
             'vehiculo' => $vehiculo,
+            'mantenimientos' => $mantenimientos,
         ]);
     }
 }

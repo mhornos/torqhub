@@ -51,7 +51,7 @@ CREATE TABLE vehiculos (
   tipo_cambio ENUM('automatico', 'manual') NULL,
 
   potencia_cv SMALLINT UNSIGNED NULL,
-  cilindrada_cm3 INT UNSIGNED NULL,
+  cilindrada_cm3 SMALLINT UNSIGNED NULL,
 
   fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 

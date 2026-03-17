@@ -82,6 +82,55 @@
     
     <p><strong>fecha de alta:</strong> <?= htmlspecialchars($vehiculo['fecha_creacion']) ?></p>
 
+
+    <hr>
+    <h1>historial de mantenimiento</h1>
+
+    <?php if (empty($mantenimientos)): ?>
+        <p>este vehículo todavía no tiene mantenimientos registrados.</p>
+    <?php else: ?>
+        <?php foreach ($mantenimientos as $mantenimiento): ?>
+            <div style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc;">
+                <p>
+                    <strong>fecha:</strong>
+                    <?= htmlspecialchars($mantenimiento['fecha']) ?>
+                </p>
+
+                <p>
+                    <strong>tipo:</strong>
+                    <?= htmlspecialchars($mantenimiento['tipo']) ?>
+                </p>
+
+                <p>
+                    <strong>descripción:</strong>
+                    <?php if (!empty($mantenimiento['descripcion'])): ?>
+                        <?= nl2br(htmlspecialchars($mantenimiento['descripcion'])) ?>
+                    <?php else: ?>
+                        no indicada
+                    <?php endif; ?>
+                </p>
+
+                <p>
+                    <strong>kilómetros:</strong>
+                    <?php if (!is_null($mantenimiento['kilometros'])): ?>
+                        <?= (int) $mantenimiento['kilometros'] ?> km
+                    <?php else: ?>
+                        no indicados
+                    <?php endif; ?>
+                </p>
+
+                <p>
+                    <strong>coste:</strong>
+                    <?php if (!is_null($mantenimiento['coste'])): ?>
+                        <?= number_format((float) $mantenimiento['coste'], 2, ',', '.') ?> €
+                    <?php else: ?>
+                        no indicado
+                    <?php endif; ?>
+                </p>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+    
     <p>
         <a href="<?= url('/garaje') ?>">volver al garaje</a>
         <a href="<?= url('/garaje/editar?id=' . (int) $vehiculo['id']) ?>">editar</a>
