@@ -21,7 +21,7 @@
     <form method="post" action="<?= url('/garaje/eliminar') ?>">
         <?= csrf_campo() ?>
         <input type="hidden" name="id" value="<?= (int) $vehiculo['id'] ?>">
-        <button type="button" onclick="location.href='<?= url('/garaje') ?>'">cancelar</button>
+        <button type="button" onclick="history.back()">cancelar</button>
         <button type="submit">eliminar</button>
     </form>
 

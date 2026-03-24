@@ -2,7 +2,7 @@
 
 class GarajeControlador extends ControladorBase {
 
-    //listas de opciones para los campos del vehículo
+//listas de opciones para los campos del vehículo
     private array $carrocerias_validas = [
         'coche pequeño',
         'sedán',
@@ -34,8 +34,7 @@ class GarajeControlador extends ControladorBase {
     ];
 
 
-
-    //muestra la lista de vehículos del usuario logueado
+//muestra la lista de vehículos del usuario logueado
     public function index(): void {
         $usuario_id = (int) $_SESSION['usuario']['id'];
 
@@ -46,12 +45,14 @@ class GarajeControlador extends ControladorBase {
         ]);
     }
 
-    //muestra el formulario para añadir un nuevo vehículo
+
+//muestra el formulario para añadir un nuevo vehículo
     public function nuevo(): void {
         $this->render('garaje/nuevo');
     }
 
-    //procesa el formulario para añadir un nuevo vehículo, valida los datos y redirige al garaje
+
+//procesa el formulario para añadir un nuevo vehículo, valida los datos y redirige al garaje
     public function nuevo_post(): void {
         csrf_verificar();
 
@@ -125,7 +126,8 @@ class GarajeControlador extends ControladorBase {
         $this->redirigir('/garaje');
     }
 
-    //muestra la confirmación para eliminar un vehículo, verifica que el vehículo existe y pertenece al usuario
+
+//muestra la confirmación para eliminar un vehículo, verifica que el vehículo existe y pertenece al usuario
     public function eliminar(): void {
         $usuario_id = (int) $_SESSION['usuario']['id'];
         $vehiculo_id = (int) ($_GET['id'] ?? 0);
@@ -142,7 +144,8 @@ class GarajeControlador extends ControladorBase {
         ]);
     }
 
-    //procesa la eliminación de un vehículo, verifica que el vehículo existe y pertenece al usuario, luego lo elimina y redirige al garaje
+
+//procesa la eliminación de un vehículo, verifica que el vehículo existe y pertenece al usuario, luego lo elimina y redirige al garaje
     public function eliminar_post(): void {
         csrf_verificar();
         $usuario_id = (int) $_SESSION['usuario']['id'];
@@ -165,7 +168,8 @@ class GarajeControlador extends ControladorBase {
         $this->redirigir('/garaje');
     }
 
-    //muestra el formulario para editar un vehículo, verifica que el vehículo existe y pertenece al usuario
+
+//muestra el formulario para editar un vehículo, verifica que el vehículo existe y pertenece al usuario
     public function editar(): void{
         $usuario_id = (int) $_SESSION['usuario']['id'];
         $vehiculo_id = (int) ($_GET['id'] ?? 0);
@@ -182,7 +186,8 @@ class GarajeControlador extends ControladorBase {
         ]);
     }
 
-    //procesa la edición de un vehículo, verifica que el vehículo existe y pertenece al usuario, luego lo actualiza y redirige al garaje
+
+//procesa la edición de un vehículo, verifica que el vehículo existe y pertenece al usuario, luego lo actualiza y redirige al garaje
     public function editar_post(): void {
         csrf_verificar();
 
@@ -270,7 +275,8 @@ class GarajeControlador extends ControladorBase {
         $this->redirigir('/garaje');
     }
 
-    //muestra el detalle de un vehículo, verificando que pertenece al usuario logueado
+
+//muestra el detalle de un vehículo, verificando que pertenece al usuario logueado
     public function ver(): void {
         $usuario_id = (int) $_SESSION['usuario']['id'];
         $vehiculo_id = (int) ($_GET['id'] ?? 0);
@@ -293,6 +299,296 @@ class GarajeControlador extends ControladorBase {
             'vehiculo' => $vehiculo,
             'mantenimientos' => $mantenimientos,
         ]);
+    }
+
+
+//procesa el alta de un nuevo mantenimiento para un vehículo del usuario
+    public function mantenimiento_nuevo_post(): void {
+        csrf_verificar();
+
+        $usuario_id = (int) $_SESSION['usuario']['id'];
+        $vehiculo_id = (int) ($_POST['vehiculo_id'] ?? 0);
+
+        $fecha = trim($_POST['fecha'] ?? '');
+        $tipo = trim($_POST['tipo'] ?? '');
+        $descripcion = trim($_POST['descripcion'] ?? '');
+        $kilometros_txt = trim($_POST['kilometros'] ?? '');
+        $coste_txt = trim($_POST['coste'] ?? '');
+
+        $_SESSION['mantenimiento_form'] = [
+            'fecha' => $fecha,
+            'tipo' => $tipo,
+            'descripcion' => $descripcion,
+            'kilometros' => $kilometros_txt,
+            'coste' => $coste_txt,
+        ];
+
+        if ($vehiculo_id <= 0) {
+            flash_set('error', 'vehiculo no valido');
+            $this->redirigir('/garaje');
+        }
+
+        $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
+
+        if (!$vehiculo) {
+            flash_set('error', 'vehiculo no encontrado o sin permisos');
+            $this->redirigir('/garaje');
+        }
+
+        if ($fecha === '' || $tipo === '') {
+            flash_set('error', 'la fecha y el tipo son obligatorios');
+            $this->redirigir('/garaje/mantenimientos/nuevo?vehiculo_id=' . $vehiculo_id);
+        }
+
+        $fecha_objeto = DateTime::createFromFormat('Y-m-d', $fecha);
+        $fecha_valida = $fecha_objeto && $fecha_objeto->format('Y-m-d') === $fecha;
+
+        if (!$fecha_valida) {
+            flash_set('error', 'la fecha no es valida');
+            $this->redirigir('/garaje/mantenimientos/nuevo?vehiculo_id=' . $vehiculo_id);
+        }
+
+        if (mb_strlen($tipo) > 100) {
+            flash_set('error', 'el tipo no puede superar los 100 caracteres');
+            $this->redirigir('/garaje/mantenimientos/nuevo?vehiculo_id=' . $vehiculo_id);
+        }
+
+        $descripcion = ($descripcion === '') ? null : $descripcion;
+
+        if ($kilometros_txt === '') {
+            $kilometros = null;
+        } elseif (ctype_digit($kilometros_txt)) {
+            $kilometros = (int) $kilometros_txt;
+        } else {
+            flash_set('error', 'los kilometros deben ser un numero entero positivo');
+            $this->redirigir('/garaje/mantenimientos/nuevo?vehiculo_id=' . $vehiculo_id);
+        }
+
+        if ($coste_txt === '') {
+            $coste = null;
+        } else {
+            $coste_normalizado = str_replace(',', '.', $coste_txt);
+
+            if (!is_numeric($coste_normalizado) || (float) $coste_normalizado < 0) {
+                flash_set('error', 'el coste debe ser un numero valido mayor o igual que cero');
+                $this->redirigir('/garaje/mantenimientos/nuevo?vehiculo_id=' . $vehiculo_id);
+            }
+
+            $coste = (float) $coste_normalizado;
+        }
+
+        try {
+            RepositorioMantenimientos::crear(
+                $vehiculo_id,
+                $fecha,
+                $tipo,
+                $descripcion,
+                $kilometros,
+                $coste
+            );
+        } catch (PDOException $e) {
+            flash_set('error', 'no se pudo guardar el mantenimiento');
+            $this->redirigir('/garaje/mantenimientos/nuevo?vehiculo_id=' . $vehiculo_id);
+        }
+
+        unset($_SESSION['mantenimiento_form']);
+        
+        flash_set('ok', 'mantenimiento añadido correctamente');
+        $this->redirigir('/garaje/ver?id=' . $vehiculo_id);
+    }
+
+
+//muestra el formulario para crear un mantenimiento de un vehículo del usuario
+    public function mantenimiento_nuevo(): void {
+        $usuario_id = (int) $_SESSION['usuario']['id'];
+        $vehiculo_id = (int) ($_GET['vehiculo_id'] ?? 0);
+
+        if ($vehiculo_id <= 0) {
+            flash_set('error', 'vehiculo no valido');
+            $this->redirigir('/garaje');
+        }
+
+        $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
+
+        if (!$vehiculo) {
+            flash_set('error', 'vehiculo no encontrado o sin permisos');
+            $this->redirigir('/garaje');
+        }
+
+        $datos_formulario = $_SESSION['mantenimiento_form'] ?? [];
+        unset($_SESSION['mantenimiento_form']);
+
+        $this->render('garaje/mantenimientos/nuevo', [
+            'vehiculo' => $vehiculo,
+            'datos_formulario' => $datos_formulario,
+        ]);
+    }
+
+
+//muestra el formulario para editar un mantenimiento del usuario
+    public function mantenimiento_editar(): void {
+        $usuario_id = (int) $_SESSION['usuario']['id'];
+        $mantenimiento_id = (int) ($_GET['id'] ?? 0);
+
+        if ($mantenimiento_id <= 0) {
+            flash_set('error', 'mantenimiento no valido');
+            $this->redirigir('/garaje');
+        }
+
+        $mantenimiento = RepositorioMantenimientos::buscar_por_id_y_usuario($mantenimiento_id, $usuario_id);
+
+        if (!$mantenimiento) {
+            flash_set('error', 'mantenimiento no encontrado o sin permisos');
+            $this->redirigir('/garaje');
+        }
+
+        $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario((int) $mantenimiento['vehiculo_id'], $usuario_id);
+
+        if (!$vehiculo) {
+            flash_set('error', 'vehiculo no encontrado o sin permisos');
+            $this->redirigir('/garaje');
+        }
+
+        $datos_formulario = $_SESSION['mantenimiento_editar_form'] ?? [];
+        unset($_SESSION['mantenimiento_editar_form']);
+
+        $this->render('garaje/mantenimientos/editar', [
+            'vehiculo' => $vehiculo,
+            'mantenimiento' => $mantenimiento,
+            'datos_formulario' => $datos_formulario,
+        ]);
+    }
+
+
+//procesa la edicion de un mantenimiento del usuario
+    public function mantenimiento_editar_post(): void {
+        csrf_verificar();
+
+        $usuario_id = (int) $_SESSION['usuario']['id'];
+        $mantenimiento_id = (int) ($_POST['mantenimiento_id'] ?? 0);
+
+        if ($mantenimiento_id <= 0) {
+            flash_set('error', 'mantenimiento no valido');
+            $this->redirigir('/garaje');
+        }
+
+        $mantenimiento = RepositorioMantenimientos::buscar_por_id_y_usuario($mantenimiento_id, $usuario_id);
+
+        if (!$mantenimiento) {
+            flash_set('error', 'mantenimiento no encontrado o sin permisos');
+            $this->redirigir('/garaje');
+        }
+
+        $vehiculo_id = (int) $mantenimiento['vehiculo_id'];
+
+        $fecha = trim($_POST['fecha'] ?? '');
+        $tipo = trim($_POST['tipo'] ?? '');
+        $descripcion = trim($_POST['descripcion'] ?? '');
+        $kilometros_txt = trim($_POST['kilometros'] ?? '');
+        $coste_txt = trim($_POST['coste'] ?? '');
+
+        $_SESSION['mantenimiento_editar_form'] = [
+            'fecha' => $fecha,
+            'tipo' => $tipo,
+            'descripcion' => $descripcion,
+            'kilometros' => $kilometros_txt,
+            'coste' => $coste_txt,
+        ];
+
+        if ($fecha === '' || $tipo === '') {
+            flash_set('error', 'la fecha y el tipo son obligatorios');
+            $this->redirigir('/garaje/mantenimientos/editar?id=' . $mantenimiento_id);
+        }
+
+        $fecha_objeto = DateTime::createFromFormat('Y-m-d', $fecha);
+        $fecha_valida = $fecha_objeto && $fecha_objeto->format('Y-m-d') === $fecha;
+
+        if (!$fecha_valida) {
+            flash_set('error', 'la fecha no es valida');
+            $this->redirigir('/garaje/mantenimientos/editar?id=' . $mantenimiento_id);
+        }
+
+        if (mb_strlen($tipo) > 100) {
+            flash_set('error', 'el tipo no puede superar los 100 caracteres');
+            $this->redirigir('/garaje/mantenimientos/editar?id=' . $mantenimiento_id);
+        }
+
+        $descripcion = ($descripcion === '') ? null : $descripcion;
+
+        if ($kilometros_txt === '') {
+            $kilometros = null;
+        } elseif (ctype_digit($kilometros_txt)) {
+            $kilometros = (int) $kilometros_txt;
+        } else {
+            flash_set('error', 'los kilometros deben ser un numero entero positivo');
+            $this->redirigir('/garaje/mantenimientos/editar?id=' . $mantenimiento_id);
+        }
+
+        if ($coste_txt === '') {
+            $coste = null;
+        } else {
+            $coste_normalizado = str_replace(',', '.', $coste_txt);
+
+            if (!is_numeric($coste_normalizado) || (float) $coste_normalizado < 0) {
+                flash_set('error', 'el coste debe ser un numero valido mayor o igual que cero');
+                $this->redirigir('/garaje/mantenimientos/editar?id=' . $mantenimiento_id);
+            }
+
+            $coste = (float) $coste_normalizado;
+        }
+
+        try {
+            RepositorioMantenimientos::actualizar(
+                $mantenimiento_id,
+                $vehiculo_id,
+                $fecha,
+                $tipo,
+                $descripcion,
+                $kilometros,
+                $coste
+            );
+        } catch (PDOException $e) {
+            flash_set('error', 'no se pudo actualizar el mantenimiento');
+            $this->redirigir('/garaje/mantenimientos/editar?id=' . $mantenimiento_id);
+        }
+
+        unset($_SESSION['mantenimiento_editar_form']);
+
+        flash_set('ok', 'mantenimiento actualizado correctamente');
+        $this->redirigir('/garaje/ver?id=' . $vehiculo_id);
+    }
+
+    
+//elimina un mantenimiento del usuario
+    public function mantenimiento_eliminar_post(): void {
+        csrf_verificar();
+
+        $usuario_id = (int) $_SESSION['usuario']['id'];
+        $mantenimiento_id = (int) ($_POST['mantenimiento_id'] ?? 0);
+
+        if ($mantenimiento_id <= 0) {
+            flash_set('error', 'mantenimiento no valido');
+            $this->redirigir('/garaje');
+        }
+
+        $mantenimiento = RepositorioMantenimientos::buscar_por_id_y_usuario($mantenimiento_id, $usuario_id);
+
+        if (!$mantenimiento) {
+            flash_set('error', 'mantenimiento no encontrado o sin permisos');
+            $this->redirigir('/garaje');
+        }
+
+        $vehiculo_id = (int) $mantenimiento['vehiculo_id'];
+
+        try {
+            RepositorioMantenimientos::eliminar($mantenimiento_id, $vehiculo_id);
+        } catch (PDOException $e) {
+            flash_set('error', 'no se pudo eliminar el mantenimiento');
+            $this->redirigir('/garaje/ver?id=' . $vehiculo_id);
+        }
+
+        flash_set('ok', 'mantenimiento eliminado correctamente');
+        $this->redirigir('/garaje/ver?id=' . $vehiculo_id);
     }
 }
 

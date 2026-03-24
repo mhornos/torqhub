@@ -33,3 +33,32 @@ a:hover {
 form {
     padding-left: 15px;
 }
+
+.tabla-mantenimientos {
+    width: 98%;
+    border-collapse: collapse;
+    margin: 20px;
+    background-color: #ffffff45;
+}
+
+.tabla-mantenimientos th,
+.tabla-mantenimientos td {
+    padding: 5px 10px;
+    border: 1px solid #00000023;
+    text-align: left;
+}
+
+.tabla-mantenimientos th {
+    background-color: #00000010;
+}
+
+.tabla-mantenimientos button {
+    position: relative;
+    top: 8px;
+    right: 10px;
+}
+
+.tabla-mantenimientos td.nowrap {
+    white-space: nowrap;
+    width: 0%;
+}

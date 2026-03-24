@@ -40,6 +40,14 @@ return [
             'accion' => 'GarajeControlador@ver',
             'middleware' => 'AuthMiddleware',
         ],
+        '/garaje/mantenimientos/nuevo' => [
+            'accion' => 'GarajeControlador@mantenimiento_nuevo',
+            'middleware' => 'AuthMiddleware',
+        ],
+        '/garaje/mantenimientos/editar' => [
+            'accion' => 'GarajeControlador@mantenimiento_editar',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
     'POST' => [
         '/login' => [
@@ -58,6 +66,18 @@ return [
         ],
         '/garaje/editar' => [
             'accion' => 'GarajeControlador@editar_post',
+            'middleware' => 'AuthMiddleware',
+        ],
+        '/garaje/mantenimientos/nuevo' => [
+            'accion' => 'GarajeControlador@mantenimiento_nuevo_post',
+            'middleware' => 'AuthMiddleware',
+        ],
+        '/garaje/mantenimientos/editar' => [
+            'accion' => 'GarajeControlador@mantenimiento_editar_post',
+            'middleware' => 'AuthMiddleware',
+        ],
+        '/garaje/mantenimientos/eliminar' => [
+            'accion' => 'GarajeControlador@mantenimiento_eliminar_post',
             'middleware' => 'AuthMiddleware',
         ],
     ],

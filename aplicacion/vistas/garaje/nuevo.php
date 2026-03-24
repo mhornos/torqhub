@@ -17,27 +17,27 @@
         <?= csrf_campo() ?>
 
         <div>
-            <label>marca</label>
+            <label>marca: *</label>
             <input type="text" name="marca" required>
         </div>
 
         <div>
-            <label>modelo</label>
+            <label>modelo: *</label>
             <input type="text" name="modelo" required>
         </div>
 
         <div>
-            <label>año</label>
+            <label>año:</label>
             <input type="number" name="any" min="1900" max="2026">
         </div>
 
         <div>
-            <label>vin (opcional)</label>
+            <label>vin (opcional):</label>
             <input type="text" name="vin" maxlength="25">
         </div>
         
         <div>
-            <label for="carroceria">carroceria</label>
+            <label for="carroceria">carroceria:</label>
             <select name="carroceria" id="carroceria">
                 <option value="">selecciona una opcion</option>
                 <option value="coche pequeño">coche pequeño</option>
@@ -53,7 +53,7 @@
         </div>
 
         <div>
-            <label for="tipo_combustible">tipo de combustible</label>
+            <label for="tipo_combustible">tipo de combustible:</label>
             <select name="tipo_combustible" id="tipo_combustible">
                 <option value="">selecciona una opcion</option>
                 <option value="gasolina">gasolina</option>
@@ -70,7 +70,7 @@
         </div>
 
         <div>
-            <label for="tipo_cambio">tipo de cambio</label>
+            <label for="tipo_cambio">tipo de cambio:</label>
             <select name="tipo_cambio" id="tipo_cambio">
                 <option value="">selecciona una opcion</option>
                 <option value="automatico">automatico</option>
@@ -79,17 +79,17 @@
         </div>
 
         <div>
-            <label for="potencia_cv">potencia (cv)</label>
+            <label for="potencia_cv">potencia (cv):</label>
             <input type="number" name="potencia_cv" id="potencia_cv" min="0">
         </div>
 
         <div>
-            <label for="cilindrada_cm3">cilindrada (cm3)</label>
+            <label for="cilindrada_cm3">cilindrada (cm3):</label>
             <input type="number" name="cilindrada_cm3" id="cilindrada_cm3" min="0">
         </div><br>
 
         <button type="button" onclick="location.href='<?= url('/garaje') ?>'">cancelar</button>
-        <button type="submit">guardar</button>
+        <button type="submit">guardar vehículo</button>
     </form>
 
 </body>

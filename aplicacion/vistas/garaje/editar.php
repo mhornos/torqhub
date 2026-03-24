@@ -19,27 +19,27 @@
         <input type="hidden" name="id" value="<?= (int) $vehiculo['id'] ?>">
 
         <div>
-            <label>marca</label>
+            <label>marca: *</label>
             <input type="text" name="marca" value="<?= htmlspecialchars($vehiculo['marca']) ?>" required>
         </div>
 
         <div>
-            <label>modelo</label>
+            <label>modelo: *</label>
             <input type="text" name="modelo" value="<?= htmlspecialchars($vehiculo['modelo']) ?>" required>
         </div>
 
         <div>
-            <label>año</label>
+            <label>año:</label>
             <input type="number" name="any" min="1900" max="2100" value="<?= htmlspecialchars((string) ($vehiculo['any'] ?? '')) ?>">
         </div>
 
         <div>
-            <label>vin</label>
+            <label>vin:</label>
             <input type="text" name="vin" maxlength="25" value="<?= htmlspecialchars((string) ($vehiculo['vin'] ?? '')) ?>">
         </div>
         
         <div>
-            <label for="carroceria">carroceria</label>
+            <label for="carroceria">carroceria:</label>
             <select name="carroceria" id="carroceria">
                 <option value="">selecciona una opcion</option>
                 <option value="coche pequeño" <?= ($vehiculo['carroceria'] ?? '') === 'coche pequeño' ? 'selected' : '' ?>>coche pequeño</option>
@@ -55,7 +55,7 @@
         </div>
 
         <div>
-            <label for="tipo_combustible">tipo de combustible</label>
+            <label for="tipo_combustible">tipo de combustible:</label>
             <select name="tipo_combustible" id="tipo_combustible">
                 <option value="">selecciona una opcion</option>
                 <option value="gasolina" <?= ($vehiculo['tipo_combustible'] ?? '') === 'gasolina' ? 'selected' : '' ?>>gasolina</option>
@@ -72,7 +72,7 @@
         </div>
 
         <div>
-            <label for="tipo_cambio">tipo de cambio</label>
+            <label for="tipo_cambio">tipo de cambio:</label>
             <select name="tipo_cambio" id="tipo_cambio">
                 <option value="">selecciona una opcion</option>
                 <option value="automatico" <?= ($vehiculo['tipo_cambio'] ?? '') === 'automatico' ? 'selected' : '' ?>>automatico</option>
@@ -81,7 +81,7 @@
         </div>
 
         <div>
-            <label for="potencia_cv">potencia (cv)</label>
+            <label for="potencia_cv">potencia (cv):</label>
             <input
                 type="number"
                 name="potencia_cv"
@@ -92,7 +92,7 @@
         </div>
 
         <div>
-            <label for="cilindrada_cm3">cilindrada (cm3)</label>
+            <label for="cilindrada_cm3">cilindrada (cm³):</label>
             <input
                 type="number"
                 name="cilindrada_cm3"
@@ -102,7 +102,7 @@
             >
         </div> <br>
 
-        <button type="button" onclick="location.href='<?= url('/garaje') ?>'">cancelar</button>
+        <button type="button" onclick="history.back()">cancelar</button>
         <button type="submit">guardar cambios</button>
     </form>
 

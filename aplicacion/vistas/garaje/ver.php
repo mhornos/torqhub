@@ -13,6 +13,10 @@
         <p><?= htmlspecialchars($m) ?></p>
     <?php endif; ?>
 
+    <?php if ($m = flash_get('ok')): ?>
+        <p><?= htmlspecialchars($m) ?></p>
+    <?php endif; ?>
+
     <p><strong>marca:</strong> <?= htmlspecialchars($vehiculo['marca']) ?></p>
 
     <p><strong>modelo:</strong> <?= htmlspecialchars($vehiculo['modelo']) ?></p>
@@ -74,7 +78,7 @@
     <p>
         <strong>cilindrada:</strong>
         <?php if (!is_null($vehiculo['cilindrada_cm3'])): ?>
-            <?= (int) $vehiculo['cilindrada_cm3'] ?> cm3
+            <?= (int) $vehiculo['cilindrada_cm3'] ?> cc
         <?php else: ?>
             no indicado
         <?php endif; ?>
@@ -82,59 +86,91 @@
     
     <p><strong>fecha de alta:</strong> <?= htmlspecialchars($vehiculo['fecha_creacion']) ?></p>
 
+    <p>
+        <button type="button" onclick="location.href='<?= url('/garaje') ?>'">volver al garaje</button>
+        <button type="button" onclick="location.href='<?= url('/garaje/editar?id=' . (int) $vehiculo['id']) ?>'">editar</button>
+        <button type="button" onclick="location.href='<?= url('/garaje/eliminar?id=' . (int) $vehiculo['id']) ?>'">eliminar</button>
+    </p>
 
     <hr>
     <h1>historial de mantenimiento</h1>
 
+    <p>
+        <a href="<?= url('/garaje/mantenimientos/nuevo?vehiculo_id=' . (int) $vehiculo['id']) ?>">
+            añadir mantenimiento
+        </a>
+    </p>
+
     <?php if (empty($mantenimientos)): ?>
         <p>este vehículo todavía no tiene mantenimientos registrados.</p>
     <?php else: ?>
-        <?php foreach ($mantenimientos as $mantenimiento): ?>
-            <div style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc;">
-                <p>
-                    <strong>fecha:</strong>
-                    <?= htmlspecialchars($mantenimiento['fecha']) ?>
-                </p>
+        <table class="tabla-mantenimientos">
+            <thead>
+                <tr>
+                    <th>fecha</th>
+                    <th>tipo</th>
+                    <th>descripción</th>
+                    <th>kilómetros</th>
+                    <th>coste</th>
+                    <th>acciones</th>
+                </tr>
+            </thead>
 
-                <p>
-                    <strong>tipo:</strong>
-                    <?= htmlspecialchars($mantenimiento['tipo']) ?>
-                </p>
+            <tbody>
+                <?php foreach ($mantenimientos as $mantenimiento): ?>
+                    <tr>
+                        <td class="nowrap">
+                            <?= htmlspecialchars($mantenimiento['fecha']) ?>
+                        </td>
 
-                <p>
-                    <strong>descripción:</strong>
-                    <?php if (!empty($mantenimiento['descripcion'])): ?>
-                        <?= nl2br(htmlspecialchars($mantenimiento['descripcion'])) ?>
-                    <?php else: ?>
-                        no indicada
-                    <?php endif; ?>
-                </p>
+                        <td>
+                            <?= htmlspecialchars($mantenimiento['tipo']) ?>
+                        </td>
 
-                <p>
-                    <strong>kilómetros:</strong>
-                    <?php if (!is_null($mantenimiento['kilometros'])): ?>
-                        <?= (int) $mantenimiento['kilometros'] ?> km
-                    <?php else: ?>
-                        no indicados
-                    <?php endif; ?>
-                </p>
+                        <td>
+                            <?php if (!empty($mantenimiento['descripcion'])): ?>
+                                <?= nl2br(htmlspecialchars($mantenimiento['descripcion'])) ?>
+                            <?php else: ?>
+                                no indicada
+                            <?php endif; ?>
+                        </td>
 
-                <p>
-                    <strong>coste:</strong>
-                    <?php if (!is_null($mantenimiento['coste'])): ?>
-                        <?= number_format((float) $mantenimiento['coste'], 2, ',', '.') ?> €
-                    <?php else: ?>
-                        no indicado
-                    <?php endif; ?>
-                </p>
-            </div>
-        <?php endforeach; ?>
+                        <td class="nowrap">
+                            <?php if (!is_null($mantenimiento['kilometros'])): ?>
+                                <?= (int) $mantenimiento['kilometros'] ?> km
+                            <?php else: ?>
+                                no indicados
+                            <?php endif; ?>
+                        </td>
+
+                        <td class="nowrap">
+                            <?php if (!is_null($mantenimiento['coste'])): ?>
+                                <?= number_format((float) $mantenimiento['coste'], 2, ',', '.') ?> €
+                            <?php else: ?>
+                                no indicado
+                            <?php endif; ?>
+                        </td>
+
+                        <td class="nowrap">
+                            <form action="<?= url('/garaje/mantenimientos/eliminar') ?>" method="POST" onsubmit="return confirm('¿seguro que quieres eliminar este mantenimiento?');">
+
+                                <?= csrf_campo() ?>
+
+                                <input type="hidden" name="mantenimiento_id" value="<?= (int) $mantenimiento['id'] ?>">
+
+                                <button type="button"
+                                    onclick="location.href='<?= url('/garaje/mantenimientos/editar?id=' . (int) $mantenimiento['id']) ?>'">
+                                    editar
+                                </button>
+
+                                <button type="submit">eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     <?php endif; ?>
     
-    <p>
-        <a href="<?= url('/garaje') ?>">volver al garaje</a>
-        <a href="<?= url('/garaje/editar?id=' . (int) $vehiculo['id']) ?>">editar</a>
-        <a href="<?= url('/garaje/eliminar?id=' . (int) $vehiculo['id']) ?>">eliminar</a>
-    </p>
 </body>
 </html>

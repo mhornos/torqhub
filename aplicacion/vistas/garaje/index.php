@@ -30,9 +30,10 @@
                         (<?= (int) $v['any'] ?>)
                     <?php endif; ?>
                     
-                    <a href="<?= url('/garaje/ver?id=' . (int) $v['id']) ?>">ver</a>
-                    <a href="<?= url('/garaje/editar?id=' . (int) $v['id']) ?>">editar</a>
-                    <a href="<?= url('/garaje/eliminar?id=' . (int) $v['id']) ?>">eliminar</a>
+                    <button type="button" onclick="location.href='<?= url('/garaje/ver?id=' . (int) $v['id']) ?>'">ver</button>
+                    <button type="button" onclick="location.href='<?= url('/garaje/editar?id=' . (int) $v['id']) ?>'">editar</button>
+                    <button type="button" onclick="location.href='<?= url('/garaje/eliminar?id=' . (int) $v['id']) ?>'">eliminar</button>
+                    
                 </li>
             <?php endforeach; ?>
         </ul>
