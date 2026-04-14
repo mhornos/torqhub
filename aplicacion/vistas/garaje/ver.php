@@ -101,76 +101,117 @@
         </a>
     </p>
 
-    <?php if (empty($mantenimientos)): ?>
-        <p>este vehículo todavía no tiene mantenimientos registrados.</p>
-    <?php else: ?>
-        <table class="tabla-mantenimientos">
-            <thead>
-                <tr>
-                    <th>fecha</th>
-                    <th>tipo</th>
-                    <th>descripción</th>
-                    <th>kilómetros</th>
-                    <th>coste</th>
-                    <th>acciones</th>
-                </tr>
-            </thead>
+    <!-- formulario de filtros de mantenimientos -->
+    <?php $filtros = $filtros ?? []; ?>
+    <?php $tipos_mantenimiento = $tipos_mantenimiento ?? []; ?>
 
-            <tbody>
-                <?php foreach ($mantenimientos as $mantenimiento): ?>
-                    <tr>
-                        <td class="nowrap">
-                            <?= htmlspecialchars($mantenimiento['fecha']) ?>
-                        </td>
+    <form
+    id="form-filtros-mantenimientos"
+    class="form-filtros-mantenimientos"
+    action="<?= url('/garaje/ver') ?>"
+    method="GET"
+    data-url-ajax="<?= url('/garaje/mantenimientos/filtrar') ?>">
 
-                        <td>
-                            <?= htmlspecialchars($mantenimiento['tipo']) ?>
-                        </td>
+        <input type="hidden" name="id" value="<?= (int) $vehiculo['id'] ?>">
+        <input type="hidden" name="vehiculo_id" value="<?= (int) $vehiculo['id'] ?>">
 
-                        <td>
-                            <?php if (!empty($mantenimiento['descripcion'])): ?>
-                                <?= nl2br(htmlspecialchars($mantenimiento['descripcion'])) ?>
-                            <?php else: ?>
-                                no indicada
-                            <?php endif; ?>
-                        </td>
+        <div class="fila-filtros">
+            <div class="campo-filtro">
+                <label for="tipo">tipo</label>
+                <select id="tipo" name="tipo">
+                    <option value="">todos</option>
 
-                        <td class="nowrap">
-                            <?php if (!is_null($mantenimiento['kilometros'])): ?>
-                                <?= (int) $mantenimiento['kilometros'] ?> km
-                            <?php else: ?>
-                                no indicados
-                            <?php endif; ?>
-                        </td>
+                    <?php foreach ($tipos_mantenimiento as $tipo_mantenimiento): ?>
+                        <option
+                            value="<?= htmlspecialchars($tipo_mantenimiento) ?>"
+                            <?= (($filtros['tipo'] ?? '') === $tipo_mantenimiento) ? 'selected' : '' ?>
+                        >
+                            <?= htmlspecialchars($tipo_mantenimiento) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-                        <td class="nowrap">
-                            <?php if (!is_null($mantenimiento['coste'])): ?>
-                                <?= number_format((float) $mantenimiento['coste'], 2, ',', '.') ?> €
-                            <?php else: ?>
-                                no indicado
-                            <?php endif; ?>
-                        </td>
+            <div class="campo-filtro">
+                <label for="fecha_desde">fecha desde</label>
+                <input
+                    type="date"
+                    id="fecha_desde"
+                    name="fecha_desde"
+                    value="<?= htmlspecialchars($filtros['fecha_desde'] ?? '') ?>"
+                >
+            </div>
 
-                        <td class="nowrap">
-                            <form action="<?= url('/garaje/mantenimientos/eliminar') ?>" method="POST" onsubmit="return confirm('¿seguro que quieres eliminar este mantenimiento?');">
+            <div class="campo-filtro">
+                <label for="fecha_hasta">fecha hasta</label>
+                <input
+                    type="date"
+                    id="fecha_hasta"
+                    name="fecha_hasta"
+                    value="<?= htmlspecialchars($filtros['fecha_hasta'] ?? '') ?>"
+                >
+            </div>
+        
+            <div class="campo-filtro">
+                <label for="kilometros_min">km mínimos</label>
+                <input
+                    type="number"
+                    id="kilometros_min"
+                    name="kilometros_min"
+                    min="0"
+                    step="1"
+                    value="<?= htmlspecialchars($filtros['kilometros_min'] ?? '') ?>"
+                >
+            </div>
 
-                                <?= csrf_campo() ?>
+            <div class="campo-filtro">
+                <label for="kilometros_max">km máximos</label>
+                <input
+                    type="number"
+                    id="kilometros_max"
+                    name="kilometros_max"
+                    min="0"
+                    step="1"
+                    value="<?= htmlspecialchars($filtros['kilometros_max'] ?? '') ?>"
+                >
+            </div>
 
-                                <input type="hidden" name="mantenimiento_id" value="<?= (int) $mantenimiento['id'] ?>">
+            <div class="campo-filtro">
+                <label for="coste_min">coste mínimo</label>
+                <input
+                    type="number"
+                    id="coste_min"
+                    name="coste_min"
+                    min="0"
+                    step="0.01"
+                    value="<?= htmlspecialchars($filtros['coste_min'] ?? '') ?>"
+                >
+            </div>
 
-                                <button type="button"
-                                    onclick="location.href='<?= url('/garaje/mantenimientos/editar?id=' . (int) $mantenimiento['id']) ?>'">
-                                    editar
-                                </button>
+            <div class="campo-filtro">
+                <label for="coste_max">coste máximo</label>
+                <input
+                    type="number"
+                    id="coste_max"
+                    name="coste_max"
+                    min="0"
+                    step="0.01"
+                    value="<?= htmlspecialchars($filtros['coste_max'] ?? '') ?>"
+                >
+            </div>
+        </div>
 
-                                <button type="submit">eliminar</button>
-                            </form>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php endif; ?>
+        <div class="acciones-filtros">
+            <button type="submit">filtrar</button>
+            <button type="button" id="btn-limpiar-filtros">limpiar</button>
+        </div>
+    </form>
+
+    <div id="contenedor-tabla-mantenimientos">
+        <?php require __DIR__ . '/mantenimientos/tabla.php'; ?>
+    </div>
+
+    <script src="<?= url('/public/js/garaje-ver.js') ?>"></script>
     
 </body>
 </html>

@@ -48,6 +48,10 @@ return [
             'accion' => 'GarajeControlador@mantenimiento_editar',
             'middleware' => 'AuthMiddleware',
         ],
+        '/garaje/mantenimientos/filtrar' => [
+            'accion' => 'GarajeControlador@mantenimientos_filtrar',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
     'POST' => [
         '/login' => [

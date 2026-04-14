@@ -62,3 +62,44 @@ form {
     white-space: nowrap;
     width: 0%;
 }
+
+/* estilos para el formulario de filtros */
+.form-filtros-mantenimientos {
+    margin: 20px;
+    /* padding: 15px; */
+    /* background-color: #ffffff45;
+    border: 1px solid #00000023; */
+}
+
+.fila-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 12px;
+}
+
+.campo-filtro {
+    display: flex;
+    flex-direction: column;
+    /* min-width: 120px; */
+}
+
+.campo-filtro label {
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.campo-filtro input,
+.campo-filtro select {
+    padding: 6px;
+}
+
+.acciones-filtros {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#contenedor-tabla-mantenimientos {
+    margin-top: 10px;
+}

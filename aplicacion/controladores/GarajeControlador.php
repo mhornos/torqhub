@@ -280,25 +280,116 @@ class GarajeControlador extends ControladorBase {
     public function ver(): void {
         $usuario_id = (int) $_SESSION['usuario']['id'];
         $vehiculo_id = (int) ($_GET['id'] ?? 0);
-    
+
         if ($vehiculo_id <= 0) {
             flash_set('error', 'vehiculo no valido');
             $this->redirigir('/garaje');
         }
-    
+
         $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
-    
+
         if (!$vehiculo) {
             flash_set('error', 'vehiculo no encontrado');
             $this->redirigir('/garaje');
         }
-    
-        $mantenimientos = RepositorioMantenimientos::listar_por_vehiculo($vehiculo_id);
+
+        try {
+            $filtros = $this->obtener_filtros_mantenimiento();
+        } catch (InvalidArgumentException $e) {
+            flash_set('error', $e->getMessage());
+            $this->redirigir('/garaje/ver?id=' . $vehiculo_id);
+        }
+
+        $mantenimientos = RepositorioMantenimientos::filtrar_por_vehiculo($vehiculo_id, $filtros);
+        $tipos_mantenimiento = RepositorioMantenimientos::listar_tipos_por_vehiculo($vehiculo_id);
 
         $this->render('garaje/ver', [
             'vehiculo' => $vehiculo,
             'mantenimientos' => $mantenimientos,
+            'tipos_mantenimiento' => $tipos_mantenimiento,
+            'filtros' => $filtros,
         ]);
+    }
+
+
+//recoge y valida los filtros del historial de mantenimiento enviados por get
+    private function obtener_filtros_mantenimiento(): array
+    {
+        $tipo = trim($_GET['tipo'] ?? '');
+        $fecha_desde = trim($_GET['fecha_desde'] ?? '');
+        $fecha_hasta = trim($_GET['fecha_hasta'] ?? '');
+        $kilometros_min = trim($_GET['kilometros_min'] ?? '');
+        $kilometros_max = trim($_GET['kilometros_max'] ?? '');
+        $coste_min = trim($_GET['coste_min'] ?? '');
+        $coste_max = trim($_GET['coste_max'] ?? '');
+
+        if ($fecha_desde !== '') {
+            $fecha_desde_objeto = DateTime::createFromFormat('Y-m-d', $fecha_desde);
+            $fecha_desde_valida = $fecha_desde_objeto && $fecha_desde_objeto->format('Y-m-d') === $fecha_desde;
+
+            if (!$fecha_desde_valida) {
+                throw new InvalidArgumentException('la fecha desde no es valida');
+            }
+        }
+
+        if ($fecha_hasta !== '') {
+            $fecha_hasta_objeto = DateTime::createFromFormat('Y-m-d', $fecha_hasta);
+            $fecha_hasta_valida = $fecha_hasta_objeto && $fecha_hasta_objeto->format('Y-m-d') === $fecha_hasta;
+
+            if (!$fecha_hasta_valida) {
+                throw new InvalidArgumentException('la fecha hasta no es valida');
+            }
+        }
+
+        if ($fecha_desde !== '' && $fecha_hasta !== '' && $fecha_desde > $fecha_hasta) {
+            throw new InvalidArgumentException('la fecha desde no puede ser mayor que la fecha hasta');
+        }
+
+        if ($kilometros_min !== '' && !ctype_digit($kilometros_min)) {
+            throw new InvalidArgumentException('los kilómetros mínimos deben ser un numero entero positivo');
+        }
+
+        if ($kilometros_max !== '' && !ctype_digit($kilometros_max)) {
+            throw new InvalidArgumentException('los kilómetros máximos deben ser un numero entero positivo');
+        }
+
+        if ($kilometros_min !== '' && $kilometros_max !== '' && (int) $kilometros_min > (int) $kilometros_max) {
+            throw new InvalidArgumentException('los kilómetros mínimos no pueden ser mayores que los máximos');
+        }
+
+        if ($coste_min !== '') {
+            $coste_min_normalizado = str_replace(',', '.', $coste_min);
+
+            if (!is_numeric($coste_min_normalizado) || (float) $coste_min_normalizado < 0) {
+                throw new InvalidArgumentException('el coste mínimo no es valido');
+            }
+
+            $coste_min = $coste_min_normalizado;
+        }
+
+        if ($coste_max !== '') {
+            $coste_max_normalizado = str_replace(',', '.', $coste_max);
+
+            if (!is_numeric($coste_max_normalizado) || (float) $coste_max_normalizado < 0) {
+                throw new InvalidArgumentException('el coste máximo no es valido');
+            }
+
+            $coste_max = $coste_max_normalizado;
+        }
+
+        if ($coste_min !== '' && $coste_max !== '' && (float) $coste_min > (float) $coste_max) {
+            throw new InvalidArgumentException('el coste mínimo no puede ser mayor que el coste máximo');
+        }
+
+        return [
+            'tipo' => $tipo,
+            'fecha_desde' => $fecha_desde,
+            'fecha_hasta' => $fecha_hasta,
+            'kilometros_min' => $kilometros_min,
+            'kilometros_max' => $kilometros_max,
+            'coste_min' => $coste_min,
+            'coste_max' => $coste_max,
+        ];
     }
 
 
@@ -590,6 +681,46 @@ class GarajeControlador extends ControladorBase {
         flash_set('ok', 'mantenimiento eliminado correctamente');
         $this->redirigir('/garaje/ver?id=' . $vehiculo_id);
     }
+
+
+//devuelve por ajax solo la tabla filtrada de mantenimientos
+    public function mantenimientos_filtrar(): void {
+        $usuario_id = (int) $_SESSION['usuario']['id'];
+        $vehiculo_id = (int) ($_GET['vehiculo_id'] ?? 0);
+
+        if ($vehiculo_id <= 0) {
+            http_response_code(400);
+            echo '<p>vehiculo no valido</p>';
+            return;
+        }
+
+        $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
+
+        if (!$vehiculo) {
+            http_response_code(403);
+            echo '<p>vehiculo no encontrado o sin permisos</p>';
+            return;
+        }
+
+        try {
+            $filtros = $this->obtener_filtros_mantenimiento();
+        } catch (InvalidArgumentException $e) {
+            http_response_code(400);
+            echo '<p>' . htmlspecialchars($e->getMessage()) . '</p>';
+            return;
+        }
+
+        $mantenimientos = RepositorioMantenimientos::filtrar_por_vehiculo($vehiculo_id, $filtros);
+
+        $ruta_tabla = __DIR__ . '/../vistas/garaje/mantenimientos/tabla.php';
+
+        extract([
+            'mantenimientos' => $mantenimientos,
+        ]);
+
+        require $ruta_tabla;
+    }
+
 }
 
 ?>
