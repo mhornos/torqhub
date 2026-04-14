@@ -27,52 +27,59 @@
     ?>
 
     <section class="detalle-vehiculo-cabecera">
-        <div class="detalle-vehiculo-bloque detalle-vehiculo-bloque-principal">
-            <h2>
-                <?= htmlspecialchars($vehiculo['marca']) ?>
-                <?= htmlspecialchars($vehiculo['modelo']) ?>
-            </h2>
-
-            <p class="detalle-vehiculo-subtitulo">
-                vehículo registrado en tu garaje
-            </p>
-
-            <div class="detalle-vehiculo-acciones">
-                <button type="button" onclick="location.href='<?= url('/garaje') ?>'">volver al garaje</button>
-                <button type="button" onclick="location.href='<?= url('/garaje/editar?id=' . (int) $vehiculo['id']) ?>'">editar</button>
-                <button type="button" onclick="location.href='<?= url('/garaje/eliminar?id=' . (int) $vehiculo['id']) ?>'">eliminar</button>
+        <div class="detalle-vehiculo-bloque detalle-vehiculo-bloque-imagen">
+            <div class="detalle-vehiculo-placeholder-imagen">
+                <span class="detalle-vehiculo-placeholder-texto">imagen del vehiculo</span>
+                <small class="detalle-vehiculo-placeholder-ayuda">proximamente podras subir una foto aqui</small>
             </div>
         </div>
-
-        <div class="detalle-vehiculo-bloque detalle-vehiculo-bloque-estadisticas">
-            <h3>estadísticas rápidas</h3>
-
-            <div class="estadisticas-vehiculo-grid">
-                <div class="estadistica-vehiculo-card">
-                    <span class="estadistica-vehiculo-label">total gastado</span>
-                    <strong><?= number_format((float) $estadisticas_vehiculo['total_gastado'], 2, ',', '.') ?> €</strong>
+        
+        <div class="detalle-vehiculo-columna-principal">
+            <div class="detalle-vehiculo-bloque detalle-vehiculo-bloque-principal">
+                <h2>
+                    <?= htmlspecialchars($vehiculo['marca']) ?>
+                    <?= htmlspecialchars($vehiculo['modelo']) ?>
+                </h2>
+        
+                <p class="detalle-vehiculo-subtitulo">vehiculo registrado en tu garaje</p>
+        
+                <div class="detalle-vehiculo-acciones">
+                    <button type="button" onclick="location.href='<?= url('/garaje') ?>'">volver al garaje</button>
+                    <button type="button" onclick="location.href='<?= url('/garaje/editar?id=' . (int) $vehiculo['id']) ?>'">editar</button>
+                    <button type="button" onclick="location.href='<?= url('/garaje/eliminar?id=' . (int) $vehiculo['id']) ?>'">eliminar</button>
                 </div>
-
-                <div class="estadistica-vehiculo-card">
-                    <span class="estadistica-vehiculo-label">mantenimientos</span>
-                    <strong><?= (int) $estadisticas_vehiculo['total_mantenimientos'] ?></strong>
-                </div>
-
-                <div class="estadistica-vehiculo-card">
-                    <span class="estadistica-vehiculo-label">último mantenimiento</span>
-                    <strong>
-                        <?php if (!empty($estadisticas_vehiculo['ultima_fecha'])): ?>
-                            <?= htmlspecialchars($estadisticas_vehiculo['ultima_fecha']) ?>
-                        <?php else: ?>
-                            sin registros
+            </div>
+        
+            <div class="detalle-vehiculo-bloque detalle-vehiculo-bloque-estadisticas">
+                <h3>estadisticas rapidas</h3>
+        
+                <div class="estadisticas-vehiculo-grid">
+                    <div class="estadistica-vehiculo-card">
+                        <span class="estadistica-vehiculo-label">total gastado</span>
+                        <strong><?= number_format((float) $estadisticas_vehiculo['total_gastado'], 2, ',', '.') ?> €</strong>
+                    </div>
+        
+                    <div class="estadistica-vehiculo-card">
+                        <span class="estadistica-vehiculo-label">mantenimientos</span>
+                        <strong><?= (int) $estadisticas_vehiculo['total_mantenimientos'] ?></strong>
+                    </div>
+        
+                    <div class="estadistica-vehiculo-card">
+                        <span class="estadistica-vehiculo-label">ultimo mantenimiento</span>
+                        <strong>
+                            <?php if (!empty($estadisticas_vehiculo['ultima_fecha'])): ?>
+                                <?= htmlspecialchars($estadisticas_vehiculo['ultima_fecha']) ?>
+                            <?php else: ?>
+                                sin registros
+                            <?php endif; ?>
+                        </strong>
+                            
+                        <?php if (!empty($estadisticas_vehiculo['ultimo_tipo'])): ?>
+                            <span class="estadistica-vehiculo-extra">
+                                <?= htmlspecialchars($estadisticas_vehiculo['ultimo_tipo']) ?>
+                            </span>
                         <?php endif; ?>
-                    </strong>
-
-                    <?php if (!empty($estadisticas_vehiculo['ultimo_tipo'])): ?>
-                        <span class="estadistica-vehiculo-extra">
-                            <?= htmlspecialchars($estadisticas_vehiculo['ultimo_tipo']) ?>
-                        </span>
-                    <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -173,7 +180,7 @@
     </section>
 
     <hr>
-    
+
     <h1>historial de mantenimiento</h1>
 
     <p>

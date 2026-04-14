@@ -244,3 +244,50 @@ form {
     font-size: 14px;
     color: #333333;
 }
+
+.detalle-vehiculo-bloque-imagen {
+    flex: 0 0 900px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.detalle-vehiculo-columna-principal {
+    flex: 1;
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+}
+
+.detalle-vehiculo-placeholder-imagen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #00000030;
+    background-color: #ffffff40;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.detalle-vehiculo-placeholder-texto {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333333;
+    text-transform: uppercase;
+}
+
+.detalle-vehiculo-placeholder-ayuda {
+    display: block;
+    font-size: 13px;
+    color: #555555;
+    max-width: 180px;
+    line-height: 1.4;
+}
