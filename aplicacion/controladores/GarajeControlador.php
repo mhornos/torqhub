@@ -302,12 +302,14 @@ class GarajeControlador extends ControladorBase {
 
         $mantenimientos = RepositorioMantenimientos::filtrar_por_vehiculo($vehiculo_id, $filtros);
         $tipos_mantenimiento = RepositorioMantenimientos::listar_tipos_por_vehiculo($vehiculo_id);
+        $resumen_mantenimientos = RepositorioMantenimientos::obtener_resumen_filtrado_por_vehiculo($vehiculo_id, $filtros);
 
         $this->render('garaje/ver', [
             'vehiculo' => $vehiculo,
             'mantenimientos' => $mantenimientos,
             'tipos_mantenimiento' => $tipos_mantenimiento,
             'filtros' => $filtros,
+            'resumen_mantenimientos' => $resumen_mantenimientos,
         ]);
     }
 
@@ -727,13 +729,17 @@ class GarajeControlador extends ControladorBase {
         }
 
         $mantenimientos = RepositorioMantenimientos::filtrar_por_vehiculo($vehiculo_id, $filtros);
+        $resumen_mantenimientos = RepositorioMantenimientos::obtener_resumen_filtrado_por_vehiculo($vehiculo_id, $filtros);
 
+        $ruta_resumen = __DIR__ . '/../vistas/garaje/mantenimientos/resumen.php';
         $ruta_tabla = __DIR__ . '/../vistas/garaje/mantenimientos/tabla.php';
 
         extract([
             'mantenimientos' => $mantenimientos,
+            'resumen_mantenimientos' => $resumen_mantenimientos,
         ]);
 
+        require $ruta_resumen;
         require $ruta_tabla;
     }
 

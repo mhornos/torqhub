@@ -192,4 +192,65 @@ class RepositorioMantenimientos
 
         return $stmt->fetchAll();
     }
+
+
+//devuelve un resumen de los mantenimientos filtrados de un vehículo
+    public static function obtener_resumen_filtrado_por_vehiculo(int $vehiculo_id, array $filtros = []): array {
+        $pdo = ConexionBBDD::obtener();
+
+        $sql = "SELECT
+                    COUNT(*) AS total_mantenimientos,
+                    COALESCE(SUM(coste), 0) AS coste_total
+                FROM mantenimientos
+                WHERE vehiculo_id = :vehiculo_id";
+
+        $params = [
+            'vehiculo_id' => $vehiculo_id,
+        ];
+
+        if (($filtros['tipo'] ?? '') !== '') {
+            $sql .= " AND tipo = :tipo";
+            $params['tipo'] = $filtros['tipo'];
+        }
+
+        if (($filtros['fecha_desde'] ?? '') !== '') {
+            $sql .= " AND fecha >= :fecha_desde";
+            $params['fecha_desde'] = $filtros['fecha_desde'];
+        }
+
+        if (($filtros['fecha_hasta'] ?? '') !== '') {
+            $sql .= " AND fecha <= :fecha_hasta";
+            $params['fecha_hasta'] = $filtros['fecha_hasta'];
+        }
+
+        if (($filtros['kilometros_min'] ?? '') !== '') {
+            $sql .= " AND kilometros IS NOT NULL AND kilometros >= :kilometros_min";
+            $params['kilometros_min'] = $filtros['kilometros_min'];
+        }
+
+        if (($filtros['kilometros_max'] ?? '') !== '') {
+            $sql .= " AND kilometros IS NOT NULL AND kilometros <= :kilometros_max";
+            $params['kilometros_max'] = $filtros['kilometros_max'];
+        }
+
+        if (($filtros['coste_min'] ?? '') !== '') {
+            $sql .= " AND coste IS NOT NULL AND coste >= :coste_min";
+            $params['coste_min'] = $filtros['coste_min'];
+        }
+
+        if (($filtros['coste_max'] ?? '') !== '') {
+            $sql .= " AND coste IS NOT NULL AND coste <= :coste_max";
+            $params['coste_max'] = $filtros['coste_max'];
+        }
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
+
+        $resumen = $stmt->fetch();
+
+        return [
+            'total_mantenimientos' => (int) ($resumen['total_mantenimientos'] ?? 0),
+            'coste_total' => (float) ($resumen['coste_total'] ?? 0),
+        ];
+    }
 }

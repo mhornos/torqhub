@@ -66,7 +66,7 @@ form {
 /* estilos para el formulario de filtros */
 .form-filtros-mantenimientos {
     margin: 20px;
-    padding: 15px;
+    padding: 10px;
     /* background-color: #ffffff45;
     border: 1px solid #00000023; */
 }
@@ -81,7 +81,7 @@ form {
 .campo-filtro {
     display: flex;
     flex-direction: column;
-    min-width: 120px;
+    /* min-width: 120px; */
 }
 
 .campo-filtro label {
@@ -104,6 +104,28 @@ form {
     margin-top: 10px;
 }
 
+/* ordenacion mantenimientos */
 .form-filtros-mantenimientos select {
     min-width: 180px;
+}
+
+/* resumen de mantenimientos */
+.resumen-mantenimientos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 20px;
+}
+
+.resumen-item {
+    padding: 12px;
+    border: 1px solid #00000023;
+    background-color: #ffffff45;
+    min-width: 180px;
+}
+
+.resumen-label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
 }

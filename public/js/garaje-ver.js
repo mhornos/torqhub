@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     const formulario = document.getElementById('form-filtros-mantenimientos');
-    const contenedorTabla = document.getElementById('contenedor-tabla-mantenimientos');
+    const contenedorHistorial = document.getElementById('contenedor-historial-mantenimientos');
     const botonLimpiar = document.getElementById('btn-limpiar-filtros');
 
-    if (!formulario || !contenedorTabla) {
+    if (!formulario || !contenedorHistorial) {
         return;
     }
 
@@ -20,9 +20,9 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             const html = await respuesta.text();
-            contenedorTabla.innerHTML = html;
+            contenedorHistorial.innerHTML = html;
         } catch (error) {
-            contenedorTabla.innerHTML = '<p>no se pudo actualizar el historial.</p>';
+            contenedorHistorial.innerHTML = '<p>no se pudo actualizar el historial.</p>';
         }
     };
 

@@ -238,7 +238,8 @@
         </div>
     </form>
 
-    <div id="contenedor-tabla-mantenimientos">
+    <div id="contenedor-historial-mantenimientos">
+        <?php require __DIR__ . '/mantenimientos/resumen.php'; ?>
         <?php require __DIR__ . '/mantenimientos/tabla.php'; ?>
     </div>
 
