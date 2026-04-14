@@ -311,4 +311,44 @@ class RepositorioMantenimientos
 
         return (int) $stmt->fetchColumn();
     }
+
+
+//devuelve estadísticas rápidas globales de un vehículo
+    public static function obtener_estadisticas_rapidas_por_vehiculo(int $vehiculo_id): array {
+    $pdo = ConexionBBDD::obtener();
+
+    $sql_resumen = "SELECT 
+                        COUNT(*) AS total_mantenimientos,
+                        COALESCE(SUM(coste), 0) AS total_gastado
+                    FROM mantenimientos
+                    WHERE vehiculo_id = :vehiculo_id";
+
+    $stmt_resumen = $pdo->prepare($sql_resumen);
+    $stmt_resumen->execute([
+        'vehiculo_id' => $vehiculo_id,
+    ]);
+
+    $resumen = $stmt_resumen->fetch();
+
+    $sql_ultimo = "SELECT fecha, tipo
+                   FROM mantenimientos
+                   WHERE vehiculo_id = :vehiculo_id
+                   ORDER BY fecha DESC, id DESC
+                   LIMIT 1";
+
+    $stmt_ultimo = $pdo->prepare($sql_ultimo);
+    $stmt_ultimo->execute([
+        'vehiculo_id' => $vehiculo_id,
+    ]);
+
+    $ultimo_mantenimiento = $stmt_ultimo->fetch();
+
+    return [
+        'total_mantenimientos' => (int) ($resumen['total_mantenimientos'] ?? 0),
+        'total_gastado' => (float) ($resumen['total_gastado'] ?? 0),
+        'ultima_fecha' => $ultimo_mantenimiento['fecha'] ?? null,
+        'ultimo_tipo' => $ultimo_mantenimiento['tipo'] ?? null,
+    ];
+}
+
 }

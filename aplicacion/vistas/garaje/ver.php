@@ -17,82 +17,163 @@
         <p><?= htmlspecialchars($m) ?></p>
     <?php endif; ?>
 
-    <p><strong>marca:</strong> <?= htmlspecialchars($vehiculo['marca']) ?></p>
+    <?php
+    $estadisticas_vehiculo = $estadisticas_vehiculo ?? [
+        'total_mantenimientos' => 0,
+        'total_gastado' => 0,
+        'ultima_fecha' => null,
+        'ultimo_tipo' => null,
+    ];
+    ?>
 
-    <p><strong>modelo:</strong> <?= htmlspecialchars($vehiculo['modelo']) ?></p>
+    <section class="detalle-vehiculo-cabecera">
+        <div class="detalle-vehiculo-bloque detalle-vehiculo-bloque-principal">
+            <h2>
+                <?= htmlspecialchars($vehiculo['marca']) ?>
+                <?= htmlspecialchars($vehiculo['modelo']) ?>
+            </h2>
 
-    <p>
-        <strong>año:</strong>
-        <?php if (!empty($vehiculo['any'])): ?>
-            <?= (int) $vehiculo['any'] ?>
-        <?php else: ?>
-            no indicado
-        <?php endif; ?>
-    </p>
+            <p class="detalle-vehiculo-subtitulo">
+                vehículo registrado en tu garaje
+            </p>
 
-    <p>
-        <strong>vin:</strong>
-        <?php if (!empty($vehiculo['vin'])): ?>
-            <?= htmlspecialchars($vehiculo['vin']) ?>
-        <?php else: ?>  
-            no indicado
-        <?php endif; ?>
-    </p>
+            <div class="detalle-vehiculo-acciones">
+                <button type="button" onclick="location.href='<?= url('/garaje') ?>'">volver al garaje</button>
+                <button type="button" onclick="location.href='<?= url('/garaje/editar?id=' . (int) $vehiculo['id']) ?>'">editar</button>
+                <button type="button" onclick="location.href='<?= url('/garaje/eliminar?id=' . (int) $vehiculo['id']) ?>'">eliminar</button>
+            </div>
+        </div>
 
-    <p>
-        <strong>carroceria:</strong>
-        <?php if (!empty($vehiculo['carroceria'])): ?>
-            <?= htmlspecialchars($vehiculo['carroceria']) ?>
-        <?php else: ?>
-            no indicado
-        <?php endif; ?>
-    </p>
+        <div class="detalle-vehiculo-bloque detalle-vehiculo-bloque-estadisticas">
+            <h3>estadísticas rápidas</h3>
 
-    <p>
-        <strong>tipo de combustible:</strong>
-        <?php if (!empty($vehiculo['tipo_combustible'])): ?>
-            <?= htmlspecialchars($vehiculo['tipo_combustible']) ?>
-        <?php else: ?>
-            no indicado
-        <?php endif; ?>
-    </p>
+            <div class="estadisticas-vehiculo-grid">
+                <div class="estadistica-vehiculo-card">
+                    <span class="estadistica-vehiculo-label">total gastado</span>
+                    <strong><?= number_format((float) $estadisticas_vehiculo['total_gastado'], 2, ',', '.') ?> €</strong>
+                </div>
 
-    <p>
-        <strong>tipo de cambio:</strong>
-        <?php if (!empty($vehiculo['tipo_cambio'])): ?>
-            <?= htmlspecialchars($vehiculo['tipo_cambio']) ?>
-        <?php else: ?>
-            no indicado
-        <?php endif; ?>
-    </p>
+                <div class="estadistica-vehiculo-card">
+                    <span class="estadistica-vehiculo-label">mantenimientos</span>
+                    <strong><?= (int) $estadisticas_vehiculo['total_mantenimientos'] ?></strong>
+                </div>
 
-    <p>
-        <strong>potencia:</strong>
-        <?php if (!is_null($vehiculo['potencia_cv'])): ?>
-            <?= (int) $vehiculo['potencia_cv'] ?> cv
-        <?php else: ?>
-            no indicado
-        <?php endif; ?>
-    </p>
+                <div class="estadistica-vehiculo-card">
+                    <span class="estadistica-vehiculo-label">último mantenimiento</span>
+                    <strong>
+                        <?php if (!empty($estadisticas_vehiculo['ultima_fecha'])): ?>
+                            <?= htmlspecialchars($estadisticas_vehiculo['ultima_fecha']) ?>
+                        <?php else: ?>
+                            sin registros
+                        <?php endif; ?>
+                    </strong>
 
-    <p>
-        <strong>cilindrada:</strong>
-        <?php if (!is_null($vehiculo['cilindrada_cm3'])): ?>
-            <?= (int) $vehiculo['cilindrada_cm3'] ?> cc
-        <?php else: ?>
-            no indicado
-        <?php endif; ?>
-    </p>
-    
-    <p><strong>fecha de alta:</strong> <?= htmlspecialchars($vehiculo['fecha_creacion']) ?></p>
+                    <?php if (!empty($estadisticas_vehiculo['ultimo_tipo'])): ?>
+                        <span class="estadistica-vehiculo-extra">
+                            <?= htmlspecialchars($estadisticas_vehiculo['ultimo_tipo']) ?>
+                        </span>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <p>
-        <button type="button" onclick="location.href='<?= url('/garaje') ?>'">volver al garaje</button>
-        <button type="button" onclick="location.href='<?= url('/garaje/editar?id=' . (int) $vehiculo['id']) ?>'">editar</button>
-        <button type="button" onclick="location.href='<?= url('/garaje/eliminar?id=' . (int) $vehiculo['id']) ?>'">eliminar</button>
-    </p>
+    <section class="detalle-vehiculo-ficha">
+        <div class="detalle-vehiculo-dato">
+            <span class="detalle-vehiculo-label">marca</span>
+            <strong><?= htmlspecialchars($vehiculo['marca']) ?></strong>
+        </div>
+
+        <div class="detalle-vehiculo-dato">
+            <span class="detalle-vehiculo-label">modelo</span>
+            <strong><?= htmlspecialchars($vehiculo['modelo']) ?></strong>
+        </div>
+
+        <div class="detalle-vehiculo-dato">
+            <span class="detalle-vehiculo-label">año</span>
+            <strong>
+                <?php if (!empty($vehiculo['any'])): ?>
+                    <?= (int) $vehiculo['any'] ?>
+                <?php else: ?>
+                    no indicado
+                <?php endif; ?>
+            </strong>
+        </div>
+
+        <div class="detalle-vehiculo-dato">
+            <span class="detalle-vehiculo-label">vin</span>
+            <strong>
+                <?php if (!empty($vehiculo['vin'])): ?>
+                    <?= htmlspecialchars($vehiculo['vin']) ?>
+                <?php else: ?>
+                    no indicado
+                <?php endif; ?>
+            </strong>
+        </div>
+
+        <div class="detalle-vehiculo-dato">
+            <span class="detalle-vehiculo-label">carroceria</span>
+            <strong>
+                <?php if (!empty($vehiculo['carroceria'])): ?>
+                    <?= htmlspecialchars($vehiculo['carroceria']) ?>
+                <?php else: ?>
+                    no indicado
+                <?php endif; ?>
+            </strong>
+        </div>
+
+        <div class="detalle-vehiculo-dato">
+            <span class="detalle-vehiculo-label">tipo de combustible</span>
+            <strong>
+                <?php if (!empty($vehiculo['tipo_combustible'])): ?>
+                    <?= htmlspecialchars($vehiculo['tipo_combustible']) ?>
+                <?php else: ?>
+                    no indicado
+                <?php endif; ?>
+            </strong>
+        </div>
+
+        <div class="detalle-vehiculo-dato">
+            <span class="detalle-vehiculo-label">tipo de cambio</span>
+            <strong>
+                <?php if (!empty($vehiculo['tipo_cambio'])): ?>
+                    <?= htmlspecialchars($vehiculo['tipo_cambio']) ?>
+                <?php else: ?>
+                    no indicado
+                <?php endif; ?>
+            </strong>
+        </div>
+
+        <div class="detalle-vehiculo-dato">
+            <span class="detalle-vehiculo-label">potencia</span>
+            <strong>
+                <?php if (!is_null($vehiculo['potencia_cv'])): ?>
+                    <?= (int) $vehiculo['potencia_cv'] ?> cv
+                <?php else: ?>
+                    no indicado
+                <?php endif; ?>
+            </strong>
+        </div>
+
+        <div class="detalle-vehiculo-dato">
+            <span class="detalle-vehiculo-label">cilindrada</span>
+            <strong>
+                <?php if (!is_null($vehiculo['cilindrada_cm3'])): ?>
+                    <?= (int) $vehiculo['cilindrada_cm3'] ?> cc
+                <?php else: ?>
+                    no indicado
+                <?php endif; ?>
+            </strong>
+        </div>
+
+        <div class="detalle-vehiculo-dato">
+            <span class="detalle-vehiculo-label">fecha de alta</span>
+            <strong><?= htmlspecialchars($vehiculo['fecha_creacion']) ?></strong>
+        </div>
+    </section>
 
     <hr>
+    
     <h1>historial de mantenimiento</h1>
 
     <p>

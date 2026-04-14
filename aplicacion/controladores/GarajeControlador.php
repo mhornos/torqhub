@@ -315,6 +315,7 @@ class GarajeControlador extends ControladorBase {
         $mantenimientos = RepositorioMantenimientos::filtrar_por_vehiculo($vehiculo_id, $filtros, $por_pagina, $offset);
         $tipos_mantenimiento = RepositorioMantenimientos::listar_tipos_por_vehiculo($vehiculo_id);
         $resumen_mantenimientos = RepositorioMantenimientos::obtener_resumen_filtrado_por_vehiculo($vehiculo_id, $filtros);
+        $estadisticas_vehiculo = RepositorioMantenimientos::obtener_estadisticas_rapidas_por_vehiculo($vehiculo_id);
 
         $this->render('garaje/ver', [
             'vehiculo' => $vehiculo,
@@ -322,6 +323,7 @@ class GarajeControlador extends ControladorBase {
             'tipos_mantenimiento' => $tipos_mantenimiento,
             'filtros' => $filtros,
             'resumen_mantenimientos' => $resumen_mantenimientos,
+            'estadisticas_vehiculo' => $estadisticas_vehiculo,
             'pagina_actual' => $pagina_actual,
             'por_pagina' => $por_pagina,
             'total_paginas' => $total_paginas,
