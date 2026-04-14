@@ -122,7 +122,7 @@ class RepositorioMantenimientos
     }
 
 //devuelve los mantenimientos filtrados de un vehículo
-    public static function filtrar_por_vehiculo(int $vehiculo_id, array $filtros = []): array {
+    public static function filtrar_por_vehiculo(int $vehiculo_id, array $filtros = [], ?int $limite = null, int $offset = 0): array {
         $pdo = ConexionBBDD::obtener();
 
         $sql = "SELECT id, vehiculo_id, fecha, tipo, descripcion, kilometros, coste, fecha_creacion
@@ -168,7 +168,7 @@ class RepositorioMantenimientos
             $params['coste_max'] = $filtros['coste_max'];
         }
 
-                $orden_campo = $filtros['orden_campo'] ?? 'fecha';
+        $orden_campo = $filtros['orden_campo'] ?? 'fecha';
         $orden_direccion = $filtros['orden_direccion'] ?? 'desc';
 
         $campos_orden_validos = [
@@ -186,6 +186,10 @@ class RepositorioMantenimientos
         $sql_direccion_orden = $direcciones_validas[$orden_direccion] ?? 'DESC';
 
         $sql .= " ORDER BY {$sql_campo_orden} {$sql_direccion_orden}, id DESC";
+
+        if (!is_null($limite)) {
+            $sql .= " LIMIT " . (int) $limite . " OFFSET " . (int) $offset;
+        }
 
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
@@ -252,5 +256,59 @@ class RepositorioMantenimientos
             'total_mantenimientos' => (int) ($resumen['total_mantenimientos'] ?? 0),
             'coste_total' => (float) ($resumen['coste_total'] ?? 0),
         ];
+    }
+
+
+//devuelve el total de mantenimientos filtrados de un vehículo
+    public static function contar_filtrados_por_vehiculo(int $vehiculo_id, array $filtros = []): int {
+        $pdo = ConexionBBDD::obtener();
+
+        $sql = "SELECT COUNT(*) AS total
+                FROM mantenimientos
+                WHERE vehiculo_id = :vehiculo_id";
+
+        $params = [
+            'vehiculo_id' => $vehiculo_id,
+        ];
+
+        if (($filtros['tipo'] ?? '') !== '') {
+            $sql .= " AND tipo = :tipo";
+            $params['tipo'] = $filtros['tipo'];
+        }
+
+        if (($filtros['fecha_desde'] ?? '') !== '') {
+            $sql .= " AND fecha >= :fecha_desde";
+            $params['fecha_desde'] = $filtros['fecha_desde'];
+        }
+
+        if (($filtros['fecha_hasta'] ?? '') !== '') {
+            $sql .= " AND fecha <= :fecha_hasta";
+            $params['fecha_hasta'] = $filtros['fecha_hasta'];
+        }
+
+        if (($filtros['kilometros_min'] ?? '') !== '') {
+            $sql .= " AND kilometros IS NOT NULL AND kilometros >= :kilometros_min";
+            $params['kilometros_min'] = $filtros['kilometros_min'];
+        }
+
+        if (($filtros['kilometros_max'] ?? '') !== '') {
+            $sql .= " AND kilometros IS NOT NULL AND kilometros <= :kilometros_max";
+            $params['kilometros_max'] = $filtros['kilometros_max'];
+        }
+
+        if (($filtros['coste_min'] ?? '') !== '') {
+            $sql .= " AND coste IS NOT NULL AND coste >= :coste_min";
+            $params['coste_min'] = $filtros['coste_min'];
+        }
+
+        if (($filtros['coste_max'] ?? '') !== '') {
+            $sql .= " AND coste IS NOT NULL AND coste <= :coste_max";
+            $params['coste_max'] = $filtros['coste_max'];
+        }
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
+
+        return (int) $stmt->fetchColumn();
     }
 }

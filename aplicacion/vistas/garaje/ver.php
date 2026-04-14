@@ -114,6 +114,7 @@
 
         <input type="hidden" name="id" value="<?= (int) $vehiculo['id'] ?>">
         <input type="hidden" name="vehiculo_id" value="<?= (int) $vehiculo['id'] ?>">
+        <input type="hidden" name="pagina" id="pagina-historial" value="<?= (int) ($pagina_actual ?? 1) ?>">
 
         <div class="fila-filtros">
             <div class="campo-filtro">
@@ -240,6 +241,7 @@
 
     <div id="contenedor-historial-mantenimientos">
         <?php require __DIR__ . '/mantenimientos/resumen.php'; ?>
+        <?php require __DIR__ . '/mantenimientos/paginacion.php'; ?>
         <?php require __DIR__ . '/mantenimientos/tabla.php'; ?>
     </div>
 

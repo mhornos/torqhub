@@ -129,3 +129,23 @@ form {
     margin-bottom: 5px;
     font-size: 14px;
 }
+
+/* estilos para la paginación */
+.paginacion-mantenimientos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 20px;
+}
+
+.btn-paginacion {
+    padding: 8px 12px;
+    border: 1px solid #00000023;
+    background-color: #ffffff45;
+    cursor: pointer;
+}
+
+.btn-paginacion.activo {
+    font-weight: bold;
+    background-color: #00000010;
+}

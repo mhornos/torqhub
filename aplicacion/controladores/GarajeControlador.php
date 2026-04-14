@@ -300,7 +300,19 @@ class GarajeControlador extends ControladorBase {
             $this->redirigir('/garaje/ver?id=' . $vehiculo_id);
         }
 
-        $mantenimientos = RepositorioMantenimientos::filtrar_por_vehiculo($vehiculo_id, $filtros);
+        //obtener el total de mantenimientos filtrados para calcular la paginación
+        $pagina_actual = $this->obtener_pagina_historial();
+        $por_pagina = 5;
+        $total_mantenimientos_filtrados = RepositorioMantenimientos::contar_filtrados_por_vehiculo($vehiculo_id, $filtros);
+        $total_paginas = max(1, (int) ceil($total_mantenimientos_filtrados / $por_pagina));
+
+        if ($pagina_actual > $total_paginas) {
+            $pagina_actual = $total_paginas;
+        }
+
+        $offset = ($pagina_actual - 1) * $por_pagina;
+
+        $mantenimientos = RepositorioMantenimientos::filtrar_por_vehiculo($vehiculo_id, $filtros, $por_pagina, $offset);
         $tipos_mantenimiento = RepositorioMantenimientos::listar_tipos_por_vehiculo($vehiculo_id);
         $resumen_mantenimientos = RepositorioMantenimientos::obtener_resumen_filtrado_por_vehiculo($vehiculo_id, $filtros);
 
@@ -310,6 +322,10 @@ class GarajeControlador extends ControladorBase {
             'tipos_mantenimiento' => $tipos_mantenimiento,
             'filtros' => $filtros,
             'resumen_mantenimientos' => $resumen_mantenimientos,
+            'pagina_actual' => $pagina_actual,
+            'por_pagina' => $por_pagina,
+            'total_paginas' => $total_paginas,
+            'total_mantenimientos_filtrados' => $total_mantenimientos_filtrados,
         ]);
     }
 
@@ -408,6 +424,19 @@ class GarajeControlador extends ControladorBase {
             'orden_campo' => $orden_campo,
             'orden_direccion' => $orden_direccion,
         ];
+    }
+
+
+//obtiene y valida la página actual del historial
+    private function obtener_pagina_historial(): int
+    {
+        $pagina = (int) ($_GET['pagina'] ?? 1);
+
+        if ($pagina < 1) {
+            $pagina = 1;
+        }
+
+        return $pagina;
     }
 
 
@@ -728,18 +757,36 @@ class GarajeControlador extends ControladorBase {
             return;
         }
 
-        $mantenimientos = RepositorioMantenimientos::filtrar_por_vehiculo($vehiculo_id, $filtros);
+        //obtener el total de mantenimientos filtrados para calcular la paginación
+        $pagina_actual = $this->obtener_pagina_historial();
+        $por_pagina = 5;
+        $total_mantenimientos_filtrados = RepositorioMantenimientos::contar_filtrados_por_vehiculo($vehiculo_id, $filtros);
+        $total_paginas = max(1, (int) ceil($total_mantenimientos_filtrados / $por_pagina));
+
+        if ($pagina_actual > $total_paginas) {
+            $pagina_actual = $total_paginas;
+        }
+
+        $offset = ($pagina_actual - 1) * $por_pagina;
+
+        $mantenimientos = RepositorioMantenimientos::filtrar_por_vehiculo($vehiculo_id, $filtros, $por_pagina, $offset);
         $resumen_mantenimientos = RepositorioMantenimientos::obtener_resumen_filtrado_por_vehiculo($vehiculo_id, $filtros);
 
         $ruta_resumen = __DIR__ . '/../vistas/garaje/mantenimientos/resumen.php';
         $ruta_tabla = __DIR__ . '/../vistas/garaje/mantenimientos/tabla.php';
+        $ruta_paginacion = __DIR__ . '/../vistas/garaje/mantenimientos/paginacion.php';
 
         extract([
             'mantenimientos' => $mantenimientos,
             'resumen_mantenimientos' => $resumen_mantenimientos,
+            'pagina_actual' => $pagina_actual,
+            'por_pagina' => $por_pagina,
+            'total_paginas' => $total_paginas,
+            'total_mantenimientos_filtrados' => $total_mantenimientos_filtrados,
         ]);
 
         require $ruta_resumen;
+        require $ruta_paginacion;
         require $ruta_tabla;
     }
 
