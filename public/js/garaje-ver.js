@@ -31,6 +31,14 @@ document.addEventListener('DOMContentLoaded', function () {
         actualizarTabla();
     });
 
+    const camposAutoActualizar = formulario.querySelectorAll('select');
+
+    camposAutoActualizar.forEach(function (campo) {
+        campo.addEventListener('change', function () {
+            actualizarTabla();
+        });
+    });
+
     if (botonLimpiar) {
         botonLimpiar.addEventListener('click', function () {
             formulario.reset();

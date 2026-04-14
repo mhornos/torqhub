@@ -168,7 +168,24 @@ class RepositorioMantenimientos
             $params['coste_max'] = $filtros['coste_max'];
         }
 
-        $sql .= " ORDER BY fecha DESC, id DESC";
+                $orden_campo = $filtros['orden_campo'] ?? 'fecha';
+        $orden_direccion = $filtros['orden_direccion'] ?? 'desc';
+
+        $campos_orden_validos = [
+            'fecha' => 'fecha',
+            'kilometros' => 'kilometros',
+            'coste' => 'coste',
+        ];
+
+        $direcciones_validas = [
+            'asc' => 'ASC',
+            'desc' => 'DESC',
+        ];
+
+        $sql_campo_orden = $campos_orden_validos[$orden_campo] ?? 'fecha';
+        $sql_direccion_orden = $direcciones_validas[$orden_direccion] ?? 'DESC';
+
+        $sql .= " ORDER BY {$sql_campo_orden} {$sql_direccion_orden}, id DESC";
 
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);

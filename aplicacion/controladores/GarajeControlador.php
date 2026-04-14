@@ -323,6 +323,9 @@ class GarajeControlador extends ControladorBase {
         $coste_min = trim($_GET['coste_min'] ?? '');
         $coste_max = trim($_GET['coste_max'] ?? '');
 
+        $orden_campo = trim($_GET['orden_campo'] ?? 'fecha');
+        $orden_direccion = trim($_GET['orden_direccion'] ?? 'desc');
+
         if ($fecha_desde !== '') {
             $fecha_desde_objeto = DateTime::createFromFormat('Y-m-d', $fecha_desde);
             $fecha_desde_valida = $fecha_desde_objeto && $fecha_desde_objeto->format('Y-m-d') === $fecha_desde;
@@ -381,6 +384,17 @@ class GarajeControlador extends ControladorBase {
             throw new InvalidArgumentException('el coste mínimo no puede ser mayor que el coste máximo');
         }
 
+        $campos_orden_validos = ['fecha', 'kilometros', 'coste'];
+        $direcciones_validas = ['asc', 'desc'];
+
+        if (!in_array($orden_campo, $campos_orden_validos, true)) {
+            throw new InvalidArgumentException('el campo de ordenación no es valido');
+        }
+
+        if (!in_array($orden_direccion, $direcciones_validas, true)) {
+            throw new InvalidArgumentException('la dirección de ordenación no es valida');
+        }
+
         return [
             'tipo' => $tipo,
             'fecha_desde' => $fecha_desde,
@@ -389,6 +403,8 @@ class GarajeControlador extends ControladorBase {
             'kilometros_max' => $kilometros_max,
             'coste_min' => $coste_min,
             'coste_max' => $coste_max,
+            'orden_campo' => $orden_campo,
+            'orden_direccion' => $orden_direccion,
         ];
     }
 

@@ -151,7 +151,9 @@
                     value="<?= htmlspecialchars($filtros['fecha_hasta'] ?? '') ?>"
                 >
             </div>
-        
+        <!-- </div> -->
+
+        <!-- <div class="fila-filtros"> -->
             <div class="campo-filtro">
                 <label for="kilometros_min">km mínimos</label>
                 <input
@@ -198,6 +200,35 @@
                     step="0.01"
                     value="<?= htmlspecialchars($filtros['coste_max'] ?? '') ?>"
                 >
+            </div>
+        </div>
+
+                <div class="fila-filtros">
+            <div class="campo-filtro">
+                <label for="orden_campo">ordenar por</label>
+                <select id="orden_campo" name="orden_campo">
+                    <option value="fecha" <?= (($filtros['orden_campo'] ?? 'fecha') === 'fecha') ? 'selected' : '' ?>>
+                        fecha
+                    </option>
+                    <option value="kilometros" <?= (($filtros['orden_campo'] ?? '') === 'kilometros') ? 'selected' : '' ?>>
+                        kilómetros
+                    </option>
+                    <option value="coste" <?= (($filtros['orden_campo'] ?? '') === 'coste') ? 'selected' : '' ?>>
+                        coste
+                    </option>
+                </select>
+            </div>
+
+            <div class="campo-filtro">
+                <label for="orden_direccion">dirección</label>
+                <select id="orden_direccion" name="orden_direccion">
+                    <option value="desc" <?= (($filtros['orden_direccion'] ?? 'desc') === 'desc') ? 'selected' : '' ?>>
+                        descendente
+                    </option>
+                    <option value="asc" <?= (($filtros['orden_direccion'] ?? '') === 'asc') ? 'selected' : '' ?>>
+                        ascendente
+                    </option>
+                </select>
             </div>
         </div>
 
