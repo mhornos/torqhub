@@ -13,7 +13,7 @@
         <p><?= htmlspecialchars($m) ?></p>
     <?php endif; ?>
 
-    <form method="post" action="<?= url('/garaje/nuevo') ?>">
+    <form method="post" action="<?= url('/garaje/nuevo') ?>" enctype="multipart/form-data">
         <?= csrf_campo() ?>
 
         <div>
@@ -86,8 +86,14 @@
         <div>
             <label for="cilindrada_cm3">Cilindrada (cm3):</label>
             <input type="number" name="cilindrada_cm3" id="cilindrada_cm3" min="0">
-        </div><br>
-
+        </div>
+        <br>
+        <div>
+            <label for="imagen">Imagen del vehículo:</label>
+            <input type="file" name="imagen" id="imagen" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"> <br>
+            <small>Formatos permitidos: jpg, png, webp. (Máximo 3 mb)</small>
+        </div>
+        <br>
         <button type="button" onclick="location.href='<?= url('/garaje') ?>'">Cancelar</button>
         <button type="submit">Guardar vehículo</button>
     </form>

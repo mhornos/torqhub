@@ -28,10 +28,18 @@
 
     <section class="detalle-vehiculo-cabecera">
         <div class="detalle-vehiculo-bloque detalle-vehiculo-bloque-imagen">
-            <div class="detalle-vehiculo-placeholder-imagen">
-                <span class="detalle-vehiculo-placeholder-texto">imagen del vehiculo</span>
-                <small class="detalle-vehiculo-placeholder-ayuda">proximamente podras subir una foto aqui</small>
-            </div>
+            <?php if (!empty($vehiculo['imagen'])): ?>
+                <img
+                    class="detalle-vehiculo-imagen-real"
+                    src="<?= url('/public/uploads/vehiculos/' . rawurlencode($vehiculo['imagen'])) ?>"
+                    alt="imagen del vehiculo <?= htmlspecialchars($vehiculo['marca'] . ' ' . $vehiculo['modelo']) ?>"
+                >
+            <?php else: ?>
+                <div class="detalle-vehiculo-placeholder-imagen">
+                    <span class="detalle-vehiculo-placeholder-texto">Imagen no disponible</span>
+                    <small class="detalle-vehiculo-placeholder-ayuda">Todavía no se ha subido una foto para este vehiculo</small>
+                </div>
+            <?php endif; ?>
         </div>
         
         <div class="detalle-vehiculo-columna-principal">
@@ -108,7 +116,7 @@
         </div>
 
         <div class="detalle-vehiculo-dato">
-            <span class="detalle-vehiculo-label">NIGGA</span>
+            <span class="detalle-vehiculo-label">VIN</span>
             <strong>
                 <?php if (!empty($vehiculo['vin'])): ?>
                     <?= htmlspecialchars($vehiculo['vin']) ?>

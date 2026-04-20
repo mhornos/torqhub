@@ -13,7 +13,7 @@
         <p><?= htmlspecialchars($m) ?></p>
     <?php endif; ?>
 
-    <form method="post" action="<?= url('/garaje/editar') ?>">
+    <form method="post" action="<?= url('/garaje/editar') ?>" enctype="multipart/form-data">
         <?= csrf_campo() ?>
 
         <input type="hidden" name="id" value="<?= (int) $vehiculo['id'] ?>">
@@ -102,6 +102,24 @@
             >
         </div> <br>
 
+        <div>
+            <label for="imagen">Cambiar imagen del vehiculo:</label>
+            <input type="file" name="imagen" id="imagen" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"> <br>
+            <small>Si subes una nueva imagen, reemplazará la actual. (Máximo 3 mb)</small>
+        </div>
+
+        <?php if (!empty($vehiculo['imagen'])): ?>
+            <p>
+                <strong>Imagen actual:</strong><br>
+                <img
+                    src="<?= url('/public/uploads/vehiculos/' . rawurlencode($vehiculo['imagen'])) ?>"
+                    alt="imagen actual del vehiculo"
+                    style="max-width: 280px; height: auto; margin-top: 8px;"
+                >
+            </p>
+        <?php endif; ?>
+        
+        <br>
         <button type="button" onclick="history.back()">Cancelar</button>
         <button type="submit">Guardar cambios</button>
     </form>

@@ -65,6 +65,7 @@ class GarajeControlador extends ControladorBase {
         $tipo_cambio = trim($_POST['tipo_cambio'] ?? '');
         $potencia_cv_txt = trim($_POST['potencia_cv'] ?? '');
         $cilindrada_cm3_txt = trim($_POST['cilindrada_cm3'] ?? '');
+        $archivo_imagen = $_FILES['imagen'] ?? null;
 
         $any = ($any_txt === '') ? null : (int) $any_txt;
         $vin = ($vin === '') ? null : $vin;
@@ -114,8 +115,19 @@ class GarajeControlador extends ControladorBase {
 
         $usuario_id = (int) $_SESSION['usuario']['id'];
 
+        $imagen = null;
+
+        if ($archivo_imagen && ($archivo_imagen['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
+            try {
+                $imagen = $this->guardar_imagen_vehiculo($archivo_imagen);
+            } catch (RuntimeException $e) {
+                flash_set('error', $e->getMessage());
+                $this->redirigir('/garaje/nuevo');
+            }
+        }
+
         try {
-            RepositorioVehiculos::crear($usuario_id, $marca, $modelo, $any, $vin, $carroceria, $tipo_combustible, $tipo_cambio, $potencia_cv, $cilindrada_cm3);
+            RepositorioVehiculos::crear($usuario_id, $marca, $modelo, $any, $vin, $carroceria, $tipo_combustible, $tipo_cambio, $potencia_cv, $cilindrada_cm3, $imagen);
         } catch (PDOException $e) {
     http_response_code(500);
     echo "error pdo al guardar vehiculo: " . htmlspecialchars($e->getMessage());
@@ -154,12 +166,25 @@ class GarajeControlador extends ControladorBase {
             flash_set('error', 'vehiculo no valido');
             $this->redirigir('/garaje');
         }
+
+        $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
+
+        if (!$vehiculo) {
+            flash_set('error', 'vehiculo no encontrado o sin permisos');
+            $this->redirigir('/garaje');
+        }
+
         try {
             $eliminado = RepositorioVehiculos::eliminar($vehiculo_id, $usuario_id);
         } catch (PDOException $e) {
             flash_set('error', 'no se pudo eliminar el vehiculo');
             $this->redirigir('/garaje');
         }
+
+        if ($eliminado && !empty($vehiculo['imagen'])) {
+            $this->eliminar_archivo_imagen_vehiculo($vehiculo['imagen']);
+        }
+
         if (!$eliminado) {
             flash_set('error', 'vehiculo no encontrado o sin permisos');
             $this->redirigir('/garaje');
@@ -211,9 +236,17 @@ class GarajeControlador extends ControladorBase {
         $tipo_cambio = ($tipo_cambio === '') ? null : $tipo_cambio;
         $potencia_cv = ($potencia_cv_txt === '') ? null : (int) $potencia_cv_txt;
         $cilindrada_cm3 = ($cilindrada_cm3_txt === '') ? null : (int) $cilindrada_cm3_txt;
+        $archivo_imagen = $_FILES['imagen'] ?? null;
 
         if ($vehiculo_id <= 0) {
             flash_set('error', 'vehiculo no valido');
+            $this->redirigir('/garaje');
+        }
+
+        $vehiculo_actual = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
+
+        if (!$vehiculo_actual) {
+            flash_set('error', 'vehiculo no encontrado');
             $this->redirigir('/garaje');
         }
 
@@ -259,8 +292,25 @@ class GarajeControlador extends ControladorBase {
             $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
         }
 
+        $imagen = $vehiculo_actual['imagen'] ?? null;
+
+        if ($archivo_imagen && ($archivo_imagen['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
+            try {
+                $nueva_imagen = $this->guardar_imagen_vehiculo($archivo_imagen);
+
+                if (!empty($vehiculo_actual['imagen'])) {
+                    $this->eliminar_archivo_imagen_vehiculo($vehiculo_actual['imagen']);
+                }
+
+                $imagen = $nueva_imagen;
+            } catch (RuntimeException $e) {
+                flash_set('error', $e->getMessage());
+                $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
+            }
+        }
+
         try {
-            $actualizado = RepositorioVehiculos::actualizar($vehiculo_id, $usuario_id, $marca, $modelo, $any, $vin, $carroceria, $tipo_combustible, $tipo_cambio, $potencia_cv, $cilindrada_cm3);
+            $actualizado = RepositorioVehiculos::actualizar($vehiculo_id, $usuario_id, $marca, $modelo, $any, $vin, $carroceria, $tipo_combustible, $tipo_cambio, $potencia_cv, $cilindrada_cm3, $imagen);
         } catch (PDOException $e) {
             flash_set('error', 'no se pudo actualizar el vehiculo');
             $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
@@ -792,6 +842,65 @@ class GarajeControlador extends ControladorBase {
         require $ruta_tabla;
     }
 
+
+//funciones auxiliares para guardar y eliminar imagenes de vehiculos
+    private function guardar_imagen_vehiculo(array $archivo): string
+    {
+        if (($archivo['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+            throw new RuntimeException('no se pudo subir la imagen del vehiculo');
+        }
+
+        if (!isset($archivo['tmp_name']) || !is_uploaded_file($archivo['tmp_name'])) {
+            throw new RuntimeException('el archivo subido no es valido');
+        }
+
+        $tamanyo_maximo = 3 * 1024 * 1024;
+
+        if (($archivo['size'] ?? 0) > $tamanyo_maximo) {
+            throw new RuntimeException('la imagen no puede superar los 3 mb');
+        }
+
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime_type = $finfo->file($archivo['tmp_name']);
+
+        $extensiones_permitidas = [
+            'image/jpeg' => 'jpg',
+            'image/png' => 'png',
+            'image/webp' => 'webp',
+        ];
+
+        if (!isset($extensiones_permitidas[$mime_type])) {
+            throw new RuntimeException('solo se permiten imagenes jpg, png o webp');
+        }
+
+        $directorio = dirname(__DIR__, 2) . '/public/uploads/vehiculos';
+
+        if (!is_dir($directorio) && !mkdir($directorio, 0775, true)) {
+            throw new RuntimeException('no se pudo crear el directorio de imagenes');
+        }
+
+        $nombre_archivo = 'vehiculo_' . bin2hex(random_bytes(16)) . '.' . $extensiones_permitidas[$mime_type];
+        $ruta_destino = $directorio . '/' . $nombre_archivo;
+
+        if (!move_uploaded_file($archivo['tmp_name'], $ruta_destino)) {
+            throw new RuntimeException('no se pudo guardar la imagen del vehiculo');
+        }
+
+        return $nombre_archivo;
+    }
+
+    private function eliminar_archivo_imagen_vehiculo(?string $nombre_archivo): void
+    {
+        if (empty($nombre_archivo)) {
+            return;
+        }
+
+        $ruta = dirname(__DIR__, 2) . '/public/uploads/vehiculos/' . $nombre_archivo;
+
+        if (is_file($ruta)) {
+            @unlink($ruta);
+        }
+    }
 }
 
 ?>

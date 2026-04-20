@@ -18,11 +18,13 @@ class RepositorioVehiculos
     }
 
     //añade un nuevo vehículo a la base de datos y devuelve su id
-    public static function crear(int $usuario_id, string $marca, string $modelo, ?int $any, ?string $vin, ?string $carroceria, ?string $tipo_combustible, ?string $tipo_cambio, ?int $potencia_cv, ?int $cilindrada_cm3): int {
+    public static function crear(int $usuario_id, string $marca, string $modelo, ?int $any, ?string $vin, ?string $carroceria, ?string $tipo_combustible, ?string $tipo_cambio, ?int $potencia_cv, ?int $cilindrada_cm3, ?string $imagen): int {
         $pdo = ConexionBBDD::obtener();
 
-        $sql = "INSERT INTO vehiculos (usuario_id, marca, modelo, any, vin, carroceria, tipo_combustible, tipo_cambio, potencia_cv, cilindrada_cm3)
-                VALUES (:usuario_id, :marca, :modelo, :any, :vin, :carroceria, :tipo_combustible, :tipo_cambio, :potencia_cv, :cilindrada_cm3)";
+        $sql = "INSERT INTO vehiculos (
+            usuario_id, marca, modelo, any, vin, carroceria,
+            tipo_combustible, tipo_cambio, potencia_cv, cilindrada_cm3, imagen
+        )   VALUES (:usuario_id, :marca, :modelo, :any, :vin, :carroceria, :tipo_combustible, :tipo_cambio, :potencia_cv, :cilindrada_cm3, :imagen)";
 
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
@@ -36,6 +38,7 @@ class RepositorioVehiculos
             'tipo_cambio' => $tipo_cambio,
             'potencia_cv' => $potencia_cv,
             'cilindrada_cm3' => $cilindrada_cm3,
+            'imagen' => $imagen,
         ]);
 
         return (int) $pdo->lastInsertId();
@@ -46,11 +49,11 @@ class RepositorioVehiculos
         $pdo = ConexionBBDD::obtener();
 
         $sql = "SELECT id, usuario_id, marca, modelo, any, vin,
-                       carroceria, tipo_combustible, tipo_cambio,
-                       potencia_cv, cilindrada_cm3, fecha_creacion
-                FROM vehiculos
-                WHERE id = :id AND usuario_id = :usuario_id
-                LIMIT 1";
+               carroceria, tipo_combustible, tipo_cambio,
+               potencia_cv, cilindrada_cm3, imagen, fecha_creacion
+        FROM vehiculos
+        WHERE id = :id AND usuario_id = :usuario_id
+        LIMIT 1";
 
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
@@ -80,7 +83,7 @@ class RepositorioVehiculos
     }
 
     //edita los datos de un vehículo, devuelve true si se actualizó o false si no se encontró
-    public static function actualizar( int $vehiculo_id, int $usuario_id, string $marca, string $modelo, ?int $any, ?string $vin, ?string $carroceria, ?string $tipo_combustible, ?string $tipo_cambio, ?int $potencia_cv, ?int $cilindrada_cm3): bool{
+    public static function actualizar(int $vehiculo_id, int $usuario_id, string $marca, string $modelo, ?int $any, ?string $vin, ?string $carroceria, ?string $tipo_combustible, ?string $tipo_cambio, ?int $potencia_cv, ?int $cilindrada_cm3, ?string $imagen): bool {
         $pdo = ConexionBBDD::obtener();
     
         $sql_comprobar = "SELECT id
@@ -102,17 +105,18 @@ class RepositorioVehiculos
         }
     
         $sql = "UPDATE vehiculos
-                SET marca = :marca,
-                    modelo = :modelo,
-                    any = :any,
-                    vin = :vin,
-                    carroceria = :carroceria,
-                    tipo_combustible = :tipo_combustible,
-                    tipo_cambio = :tipo_cambio,
-                    potencia_cv = :potencia_cv,
-                    cilindrada_cm3 = :cilindrada_cm3
-                WHERE id = :id
-                  AND usuario_id = :usuario_id";
+            SET marca = :marca,
+                modelo = :modelo,
+                any = :any,
+                vin = :vin,
+                carroceria = :carroceria,
+                tipo_combustible = :tipo_combustible,
+                tipo_cambio = :tipo_cambio,
+                potencia_cv = :potencia_cv,
+                cilindrada_cm3 = :cilindrada_cm3,
+                imagen = :imagen
+            WHERE id = :id
+              AND usuario_id = :usuario_id";
     
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
@@ -127,6 +131,7 @@ class RepositorioVehiculos
             'tipo_cambio' => $tipo_cambio,
             'potencia_cv' => $potencia_cv,
             'cilindrada_cm3' => $cilindrada_cm3,
+            'imagen' => $imagen,
         ]);
     
         return true;

@@ -74,3 +74,6 @@ CREATE TABLE mantenimientos (
     FOREIGN KEY (vehiculo_id) REFERENCES vehiculos(id)
     ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE vehiculos
+ADD COLUMN imagen VARCHAR(255) NULL AFTER cilindrada_cm3;

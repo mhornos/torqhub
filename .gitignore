@@ -2,6 +2,7 @@
 
 /almacenamiento/logs/*
 /almacenamiento/uploads/*
+/public/uploads/*
 
 /vendor/
 *.log
