@@ -30,10 +30,18 @@
         </div>
 
         <div>
-            <label>Contraseña</label>
-            <input type="password" name="password" required>
+            <label>Contraseña<a href="http://" target="_blank" rel="noopener noreferrer"></a></label>
+            <input
+                type="password"
+                name="password"
+                required
+                minlength="8"
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
+                title="Mínimo 8 caracteres, una mayuscula, una minuscula y un numero"
+            > <br>
+            <small>Mínimo 8 caracteres, una mayuscula, una minuscula y un numero</small>
         </div>
-
+        <br>
         <button type="submit">Crear cuenta</button>
     </form>
 

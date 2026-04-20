@@ -32,7 +32,7 @@
             <label>Contraseña</label>
             <input type="password" name="password" required>
         </div>
-        
+        <br>
         <button type="submit">Entrar</button>
     </form>
 

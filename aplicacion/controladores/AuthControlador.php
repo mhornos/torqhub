@@ -65,6 +65,11 @@ class AuthControlador extends ControladorBase {
             $this->redirigir('/registro');
         }
 
+        if (!$this->password_cumple_requisitos($password)) {
+            flash_set('error', 'la password debe tener minimo 8 caracteres, una mayuscula, una minuscula y un numero');
+            $this->redirigir('/registro');
+        }
+
         if (RepositorioUsuarios::existe_nombre($nombre)) {
             flash_set('error', 'ese nombre ya esta en uso');
             $this->redirigir('/registro');
@@ -100,6 +105,23 @@ class AuthControlador extends ControladorBase {
         unset($_SESSION['usuario']);
         flash_set('ok', 'sesión cerrada');
         $this->redirigir('/');
+    }
+
+// verifica que la password cumpla los requisitos de seguridad
+    private function password_cumple_requisitos(string $password): bool {
+        if (strlen($password) < 8) {
+            return false;
+        }
+        if (!preg_match('/[A-Z]/', $password)) {
+            return false;
+        }
+        if (!preg_match('/[a-z]/', $password)) {
+            return false;
+        }
+        if (!preg_match('/[0-9]/', $password)) {
+            return false;
+        }
+        return true;
     }
 
 }
