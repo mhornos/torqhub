@@ -14,10 +14,10 @@
     <?php endif; ?>
 
     <?php if (isset($_SESSION['usuario'])): ?>
-        <p>hola, <?= htmlspecialchars($_SESSION['usuario']['nombre']) ?>!</p>
+        <p>Hola, <?= htmlspecialchars($_SESSION['usuario']['nombre']) ?>!</p>
     <?php endif; ?>
 
-    <h1>inicio</h1>
-    <p>bienvenido a torqhub</p>
+    <h1>Inicio</h1>
+    <p>Bienvenido a TorqHub!</p>
 </body>
 </html>

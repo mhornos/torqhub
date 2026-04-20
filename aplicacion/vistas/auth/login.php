@@ -8,7 +8,7 @@
 
 </head>
 <body>
-    <h1>login</h1>
+    <h1>Iniciar sesión</h1>
 
 <!-- // mensajes flash -->
     <?php if ($mensaje = flash_get('error')): ?>
@@ -24,16 +24,16 @@
         <?= csrf_campo() ?>
 
         <div>
-            <label>email</label>
+            <label>Correo electrónico</label>
             <input type="email" name="email" required>
         </div>
 
         <div>
-            <label>password</label>
+            <label>Contraseña</label>
             <input type="password" name="password" required>
         </div>
         
-        <button type="submit">entrar</button>
+        <button type="submit">Entrar</button>
     </form>
 
 </body>

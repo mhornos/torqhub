@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 </head>
 <body>
-    <h1>eliminar vehiculo</h1>
+    <h1>Eliminar vehículo</h1>
 
-    <p>¿seguro que quieres eliminar este vehiculo?</p>
+    <p>¿Seguro que quieres eliminar este vehículo?</p>
 
     <p>
         <strong><?= htmlspecialchars($vehiculo['marca']) ?> <?= htmlspecialchars($vehiculo['modelo']) ?></strong>
@@ -21,8 +21,8 @@
     <form method="post" action="<?= url('/garaje/eliminar') ?>">
         <?= csrf_campo() ?>
         <input type="hidden" name="id" value="<?= (int) $vehiculo['id'] ?>">
-        <button type="button" onclick="history.back()">cancelar</button>
-        <button type="submit">eliminar</button>
+        <button type="button" onclick="history.back()">Cancelar</button>
+        <button type="submit">Eliminar</button>
     </form>
 
 

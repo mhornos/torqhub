@@ -1,17 +1,17 @@
 <nav>
-    <a href="<?= url('/') ?>">inicio</a>
+    <a href="<?= url('/') ?>">Inicio</a>
 
     <?php if (!isset($_SESSION['usuario'])): ?>
-        <a href="<?= url('/login') ?>">login</a>
-        <a href="<?= url('/registro') ?>">registro</a>
+        <a href="<?= url('/login') ?>">Iniciar sesión</a>
+        <a href="<?= url('/registro') ?>">Registrarse</a>
     <?php else: ?>
-        <a href="<?= url('/garaje') ?>">mi garaje</a>
+        <a href="<?= url('/garaje') ?>">Mi garaje</a>
 
         <?php if (($_SESSION['usuario']['rol'] ?? '') === 'admin'): ?>
-            <a href="<?= url('/admin') ?>">admin</a>
+            <a href="<?= url('/admin') ?>">Panel de administración</a>
         <?php endif; ?>
         
-        <a href="<?= url('/logout') ?>">logout</a>
+        <a href="<?= url('/logout') ?>">Cerrar sesión</a>
     <?php endif; ?>
     
 </nav>

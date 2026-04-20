@@ -9,17 +9,17 @@ $primer_mantenimiento = $mantenimientos[0] ?? null;
 
 <div class="resumen-mantenimientos">
     <div class="resumen-item">
-        <span class="resumen-label">total visibles</span>
+        <span class="resumen-label">Total visibles</span>
         <strong><?= (int) $resumen_mantenimientos['total_mantenimientos'] ?></strong>
     </div>
 
     <div class="resumen-item">
-        <span class="resumen-label">coste total visible</span>
+        <span class="resumen-label">Coste total visible</span>
         <strong><?= number_format((float) $resumen_mantenimientos['coste_total'], 2, ',', '.') ?> €</strong>
     </div>
 
     <div class="resumen-item">
-        <span class="resumen-label">primer resultado</span>
+        <span class="resumen-label">Primer resultado</span>
         <strong>
             <?php if ($primer_mantenimiento): ?>
                 <?= htmlspecialchars($primer_mantenimiento['fecha']) ?>

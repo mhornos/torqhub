@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 </head>
 <body>
-    <h1>detalle del vehiculo</h1>
+    <h1>Detalle del vehículo</h1>
 
     <?php if ($m = flash_get('error')): ?>
         <p><?= htmlspecialchars($m) ?></p>
@@ -41,36 +41,36 @@
                     <?= htmlspecialchars($vehiculo['modelo']) ?>
                 </h2>
         
-                <p class="detalle-vehiculo-subtitulo">vehiculo registrado en tu garaje</p>
+                <p class="detalle-vehiculo-subtitulo">Vehiculo registrado en tu garaje</p>
         
                 <div class="detalle-vehiculo-acciones">
-                    <button type="button" onclick="location.href='<?= url('/garaje') ?>'">volver al garaje</button>
-                    <button type="button" onclick="location.href='<?= url('/garaje/editar?id=' . (int) $vehiculo['id']) ?>'">editar</button>
-                    <button type="button" onclick="location.href='<?= url('/garaje/eliminar?id=' . (int) $vehiculo['id']) ?>'">eliminar</button>
+                    <button type="button" onclick="location.href='<?= url('/garaje') ?>'">Volver al garaje</button>
+                    <button type="button" onclick="location.href='<?= url('/garaje/editar?id=' . (int) $vehiculo['id']) ?>'">Editar</button>
+                    <button type="button" onclick="location.href='<?= url('/garaje/eliminar?id=' . (int) $vehiculo['id']) ?>'">Eliminar</button>
                 </div>
             </div>
         
             <div class="detalle-vehiculo-bloque detalle-vehiculo-bloque-estadisticas">
-                <h3>estadisticas rapidas</h3>
+                <h3>Estadísticas rápidas</h3>
         
                 <div class="estadisticas-vehiculo-grid">
                     <div class="estadistica-vehiculo-card">
-                        <span class="estadistica-vehiculo-label">total gastado</span>
+                        <span class="estadistica-vehiculo-label">Total gastado</span>
                         <strong><?= number_format((float) $estadisticas_vehiculo['total_gastado'], 2, ',', '.') ?> €</strong>
                     </div>
         
                     <div class="estadistica-vehiculo-card">
-                        <span class="estadistica-vehiculo-label">mantenimientos</span>
+                        <span class="estadistica-vehiculo-label">Mantenimientos</span>
                         <strong><?= (int) $estadisticas_vehiculo['total_mantenimientos'] ?></strong>
                     </div>
         
                     <div class="estadistica-vehiculo-card">
-                        <span class="estadistica-vehiculo-label">ultimo mantenimiento</span>
+                        <span class="estadistica-vehiculo-label">Último mantenimiento</span>
                         <strong>
                             <?php if (!empty($estadisticas_vehiculo['ultima_fecha'])): ?>
                                 <?= htmlspecialchars($estadisticas_vehiculo['ultima_fecha']) ?>
                             <?php else: ?>
-                                sin registros
+                                Sin registros
                             <?php endif; ?>
                         </strong>
                             
@@ -87,105 +87,105 @@
 
     <section class="detalle-vehiculo-ficha">
         <div class="detalle-vehiculo-dato">
-            <span class="detalle-vehiculo-label">marca</span>
+            <span class="detalle-vehiculo-label">Marca</span>
             <strong><?= htmlspecialchars($vehiculo['marca']) ?></strong>
         </div>
 
         <div class="detalle-vehiculo-dato">
-            <span class="detalle-vehiculo-label">modelo</span>
+            <span class="detalle-vehiculo-label">Modelo</span>
             <strong><?= htmlspecialchars($vehiculo['modelo']) ?></strong>
         </div>
 
         <div class="detalle-vehiculo-dato">
-            <span class="detalle-vehiculo-label">año</span>
+            <span class="detalle-vehiculo-label">Año</span>
             <strong>
                 <?php if (!empty($vehiculo['any'])): ?>
                     <?= (int) $vehiculo['any'] ?>
                 <?php else: ?>
-                    no indicado
+                    (No indicado)
                 <?php endif; ?>
             </strong>
         </div>
 
         <div class="detalle-vehiculo-dato">
-            <span class="detalle-vehiculo-label">vin</span>
+            <span class="detalle-vehiculo-label">NIGGA</span>
             <strong>
                 <?php if (!empty($vehiculo['vin'])): ?>
                     <?= htmlspecialchars($vehiculo['vin']) ?>
                 <?php else: ?>
-                    no indicado
+                    (No indicado)
                 <?php endif; ?>
             </strong>
         </div>
 
         <div class="detalle-vehiculo-dato">
-            <span class="detalle-vehiculo-label">carroceria</span>
+            <span class="detalle-vehiculo-label">Carrocería</span>
             <strong>
                 <?php if (!empty($vehiculo['carroceria'])): ?>
                     <?= htmlspecialchars($vehiculo['carroceria']) ?>
                 <?php else: ?>
-                    no indicado
+                    (No indicado)
                 <?php endif; ?>
             </strong>
         </div>
 
         <div class="detalle-vehiculo-dato">
-            <span class="detalle-vehiculo-label">tipo de combustible</span>
+            <span class="detalle-vehiculo-label">Tipo de combustible</span>
             <strong>
                 <?php if (!empty($vehiculo['tipo_combustible'])): ?>
                     <?= htmlspecialchars($vehiculo['tipo_combustible']) ?>
                 <?php else: ?>
-                    no indicado
+                    (No indicado)
                 <?php endif; ?>
             </strong>
         </div>
 
         <div class="detalle-vehiculo-dato">
-            <span class="detalle-vehiculo-label">tipo de cambio</span>
+            <span class="detalle-vehiculo-label">Tipo de cambio</span>
             <strong>
                 <?php if (!empty($vehiculo['tipo_cambio'])): ?>
                     <?= htmlspecialchars($vehiculo['tipo_cambio']) ?>
                 <?php else: ?>
-                    no indicado
+                    (No indicado)
                 <?php endif; ?>
             </strong>
         </div>
 
         <div class="detalle-vehiculo-dato">
-            <span class="detalle-vehiculo-label">potencia</span>
+            <span class="detalle-vehiculo-label">Potencia</span>
             <strong>
                 <?php if (!is_null($vehiculo['potencia_cv'])): ?>
                     <?= (int) $vehiculo['potencia_cv'] ?> cv
                 <?php else: ?>
-                    no indicado
+                    (No indicado)
                 <?php endif; ?>
             </strong>
         </div>
 
         <div class="detalle-vehiculo-dato">
-            <span class="detalle-vehiculo-label">cilindrada</span>
+            <span class="detalle-vehiculo-label">Cilindrada</span>
             <strong>
                 <?php if (!is_null($vehiculo['cilindrada_cm3'])): ?>
                     <?= (int) $vehiculo['cilindrada_cm3'] ?> cc
                 <?php else: ?>
-                    no indicado
+                    (No indicado)
                 <?php endif; ?>
             </strong>
         </div>
 
         <div class="detalle-vehiculo-dato">
-            <span class="detalle-vehiculo-label">fecha de alta</span>
+            <span class="detalle-vehiculo-label">Fecha de alta</span>
             <strong><?= htmlspecialchars($vehiculo['fecha_creacion']) ?></strong>
         </div>
     </section>
 
     <hr>
 
-    <h1>historial de mantenimiento</h1>
+    <h1>Historial de mantenimiento</h1>
 
     <p>
         <a href="<?= url('/garaje/mantenimientos/nuevo?vehiculo_id=' . (int) $vehiculo['id']) ?>">
-            añadir mantenimiento
+            Añadir mantenimiento
         </a>
     </p>
 
@@ -206,9 +206,9 @@
 
         <div class="fila-filtros">
             <div class="campo-filtro">
-                <label for="tipo">tipo</label>
+                <label for="tipo">Tipo</label>
                 <select id="tipo" name="tipo">
-                    <option value="">todos</option>
+                    <option value="">Todos</option>
 
                     <?php foreach ($tipos_mantenimiento as $tipo_mantenimiento): ?>
                         <option
@@ -222,7 +222,7 @@
             </div>
 
             <div class="campo-filtro">
-                <label for="fecha_desde">fecha desde</label>
+                <label for="fecha_desde">Fecha desde</label>
                 <input
                     type="date"
                     id="fecha_desde"
@@ -232,7 +232,7 @@
             </div>
 
             <div class="campo-filtro">
-                <label for="fecha_hasta">fecha hasta</label>
+                <label for="fecha_hasta">Fecha hasta</label>
                 <input
                     type="date"
                     id="fecha_hasta"
@@ -244,7 +244,7 @@
 
         <!-- <div class="fila-filtros"> -->
             <div class="campo-filtro">
-                <label for="kilometros_min">km mínimos</label>
+                <label for="kilometros_min">Km mínimos</label>
                 <input
                     type="number"
                     id="kilometros_min"
@@ -256,7 +256,7 @@
             </div>
 
             <div class="campo-filtro">
-                <label for="kilometros_max">km máximos</label>
+                <label for="kilometros_max">Km máximos</label>
                 <input
                     type="number"
                     id="kilometros_max"
@@ -268,7 +268,7 @@
             </div>
 
             <div class="campo-filtro">
-                <label for="coste_min">coste mínimo</label>
+                <label for="coste_min">Coste mínimo</label>
                 <input
                     type="number"
                     id="coste_min"
@@ -280,7 +280,7 @@
             </div>
 
             <div class="campo-filtro">
-                <label for="coste_max">coste máximo</label>
+                <label for="coste_max">Coste máximo</label>
                 <input
                     type="number"
                     id="coste_max"
@@ -294,36 +294,36 @@
 
                 <div class="fila-filtros">
             <div class="campo-filtro">
-                <label for="orden_campo">ordenar por</label>
+                <label for="orden_campo">Ordenar por</label>
                 <select id="orden_campo" name="orden_campo">
                     <option value="fecha" <?= (($filtros['orden_campo'] ?? 'fecha') === 'fecha') ? 'selected' : '' ?>>
-                        fecha
+                        Fecha
                     </option>
                     <option value="kilometros" <?= (($filtros['orden_campo'] ?? '') === 'kilometros') ? 'selected' : '' ?>>
-                        kilómetros
+                        Kilómetros
                     </option>
                     <option value="coste" <?= (($filtros['orden_campo'] ?? '') === 'coste') ? 'selected' : '' ?>>
-                        coste
+                        Coste
                     </option>
                 </select>
             </div>
 
             <div class="campo-filtro">
-                <label for="orden_direccion">dirección</label>
+                <label for="orden_direccion">Dirección</label>
                 <select id="orden_direccion" name="orden_direccion">
                     <option value="desc" <?= (($filtros['orden_direccion'] ?? 'desc') === 'desc') ? 'selected' : '' ?>>
-                        descendente
+                        Descendente
                     </option>
                     <option value="asc" <?= (($filtros['orden_direccion'] ?? '') === 'asc') ? 'selected' : '' ?>>
-                        ascendente
+                        Ascendente
                     </option>
                 </select>
             </div>
         </div>
 
         <div class="acciones-filtros">
-            <button type="submit">filtrar</button>
-            <button type="button" id="btn-limpiar-filtros">limpiar</button>
+            <button type="submit">Filtrar</button>
+            <button type="button" id="btn-limpiar-filtros">Limpiar</button>
         </div>
     </form>
 

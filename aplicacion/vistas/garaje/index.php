@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 </head>
 <body>
-    <h1>mi garaje</h1>
+    <h1>Mi garaje</h1>
  
     <?php if ($m = flash_get('ok')): ?>
         <p><?= htmlspecialchars($m) ?></p>
@@ -17,10 +17,10 @@
         <p><?= htmlspecialchars($m) ?></p>
     <?php endif; ?>
 
-    <p><a href="<?= url('/garaje/nuevo') ?>">añadir vehiculo</a></p>
+    <p><a href="<?= url('/garaje/nuevo') ?>">Añadir vehículo</a></p>
 
     <?php if (count($vehiculos) === 0): ?>
-        <p>no tienes vehiculos aún</p>
+        <p>No tienes vehículos aún</p>
     <?php else: ?>
         <ul>
             <?php foreach ($vehiculos as $v): ?>
@@ -30,9 +30,9 @@
                         (<?= (int) $v['any'] ?>)
                     <?php endif; ?>
                     
-                    <button type="button" onclick="location.href='<?= url('/garaje/ver?id=' . (int) $v['id']) ?>'">ver</button>
-                    <button type="button" onclick="location.href='<?= url('/garaje/editar?id=' . (int) $v['id']) ?>'">editar</button>
-                    <button type="button" onclick="location.href='<?= url('/garaje/eliminar?id=' . (int) $v['id']) ?>'">eliminar</button>
+                    <button type="button" onclick="location.href='<?= url('/garaje/ver?id=' . (int) $v['id']) ?>'">Ver</button>
+                    <button type="button" onclick="location.href='<?= url('/garaje/editar?id=' . (int) $v['id']) ?>'">Editar</button>
+                    <button type="button" onclick="location.href='<?= url('/garaje/eliminar?id=' . (int) $v['id']) ?>'">Eliminar</button>
                     
                 </li>
             <?php endforeach; ?>

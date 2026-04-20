@@ -1,15 +1,15 @@
 <?php if (empty($mantenimientos)): ?>
-    <p>no hay mantenimientos que coincidan con los filtros aplicados.</p>
+    <p>No hay mantenimientos que coincidan con los filtros aplicados.</p>
 <?php else: ?>
     <table class="tabla-mantenimientos">
         <thead>
             <tr>
-                <th>fecha</th>
-                <th>tipo</th>
-                <th>descripción</th>
-                <th>kilómetros</th>
-                <th>coste</th>
-                <th>acciones</th>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Descripción</th>
+                <th>Kilómetros</th>
+                <th>Coste</th>
+                <th>Acciones</th>
             </tr>
         </thead>
 
@@ -28,7 +28,7 @@
                         <?php if (!empty($mantenimiento['descripcion'])): ?>
                             <?= nl2br(htmlspecialchars($mantenimiento['descripcion'])) ?>
                         <?php else: ?>
-                            no indicada
+                            (No indicada)
                         <?php endif; ?>
                     </td>
 
@@ -36,7 +36,7 @@
                         <?php if (!is_null($mantenimiento['kilometros'])): ?>
                             <?= (int) $mantenimiento['kilometros'] ?> km
                         <?php else: ?>
-                            no indicados
+                            (No indicados)
                         <?php endif; ?>
                     </td>
 
@@ -44,7 +44,7 @@
                         <?php if (!is_null($mantenimiento['coste'])): ?>
                             <?= number_format((float) $mantenimiento['coste'], 2, ',', '.') ?> €
                         <?php else: ?>
-                            no indicado
+                            (No indicado)
                         <?php endif; ?>
                     </td>
 
