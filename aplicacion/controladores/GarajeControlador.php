@@ -381,6 +381,73 @@ class GarajeControlador extends ControladorBase {
         ]);
     }
 
+//exporta el historial de mantenimiento filtrado a un archivo csv, verificando que el vehículo pertenece al usuario logueado
+    public function mantenimientos_exportar_csv(): void {
+        $usuario_id = (int) $_SESSION['usuario']['id'];
+        $vehiculo_id = (int) ($_GET['vehiculo_id'] ?? $_GET['id'] ?? 0);
+
+        if ($vehiculo_id <= 0) {
+            flash_set('error', 'vehiculo no valido');
+            $this->redirigir('/garaje');
+        }
+
+        $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
+
+        if (!$vehiculo) {
+            flash_set('error', 'vehiculo no encontrado');
+            $this->redirigir('/garaje');
+        }
+
+        try {
+            $filtros = $this->obtener_filtros_mantenimiento();
+        } catch (InvalidArgumentException $e) {
+            flash_set('error', $e->getMessage());
+            $this->redirigir('/garaje/ver?id=' . $vehiculo_id);
+        }
+
+        $mantenimientos = RepositorioMantenimientos::filtrar_por_vehiculo($vehiculo_id, $filtros);
+
+        $nombre_archivo = 'historial_' 
+            . preg_replace('/[^a-zA-Z0-9_-]/', '_', $vehiculo['marca']) . '_'
+            . preg_replace('/[^a-zA-Z0-9_-]/', '_', $vehiculo['modelo']) . '_'
+            . date('Y-m-d') 
+            . '.csv';
+
+        header('Content-Type: text/csv; charset=UTF-8');
+        header('Content-Disposition: attachment; filename="' . $nombre_archivo . '"');
+
+        $salida = fopen('php://output', 'w');
+
+        if ($salida === false) {
+            exit;
+        }
+
+        fprintf($salida, chr(0xEF) . chr(0xBB) . chr(0xBF));
+
+        fputcsv($salida, [
+            'fecha',
+            'tipo',
+            'descripcion',
+            'kilometros',
+            'coste',
+            'fecha_creacion',
+        ], ';');
+
+        foreach ($mantenimientos as $mantenimiento) {
+            fputcsv($salida, [
+                $mantenimiento['fecha'] ?? '',
+                $mantenimiento['tipo'] ?? '',
+                $mantenimiento['descripcion'] ?? '',
+                $mantenimiento['kilometros'] ?? '',
+                $mantenimiento['coste'] ?? '',
+                $mantenimiento['fecha_creacion'] ?? '',
+            ], ';');
+        }
+
+        fclose($salida);
+        exit;
+    }
+
 
 //recoge y valida los filtros del historial de mantenimiento enviados por get
     private function obtener_filtros_mantenimiento(): array

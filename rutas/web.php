@@ -52,6 +52,10 @@ return [
             'accion' => 'GarajeControlador@mantenimientos_filtrar',
             'middleware' => 'AuthMiddleware',
         ],
+        '/garaje/mantenimientos/exportar-csv' => [
+            'accion' => 'GarajeControlador@mantenimientos_exportar_csv',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
     'POST' => [
         '/login' => [

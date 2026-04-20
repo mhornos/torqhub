@@ -192,10 +192,25 @@
     <h1>Historial de mantenimiento</h1>
 
     <p>
-        <a href="<?= url('/garaje/mantenimientos/nuevo?vehiculo_id=' . (int) $vehiculo['id']) ?>">
-            Añadir mantenimiento
-        </a>
-    </p>
+    <a href="<?= url('/garaje/mantenimientos/nuevo?vehiculo_id=' . (int) $vehiculo['id']) ?>">
+        añadir mantenimiento
+    </a>
+
+    |
+
+    <a href="<?= url('/garaje/mantenimientos/exportar-csv?vehiculo_id=' . (int) $vehiculo['id']
+        . '&tipo=' . urlencode($filtros['tipo'] ?? '')
+        . '&fecha_desde=' . urlencode($filtros['fecha_desde'] ?? '')
+        . '&fecha_hasta=' . urlencode($filtros['fecha_hasta'] ?? '')
+        . '&kilometros_min=' . urlencode($filtros['kilometros_min'] ?? '')
+        . '&kilometros_max=' . urlencode($filtros['kilometros_max'] ?? '')
+        . '&coste_min=' . urlencode($filtros['coste_min'] ?? '')
+        . '&coste_max=' . urlencode($filtros['coste_max'] ?? '')
+        . '&orden_campo=' . urlencode($filtros['orden_campo'] ?? 'fecha')
+        . '&orden_direccion=' . urlencode($filtros['orden_direccion'] ?? 'desc')) ?>">
+        exportar csv
+    </a>
+</p>
 
     <!-- formulario de filtros de mantenimientos -->
     <?php $filtros = $filtros ?? []; ?>
