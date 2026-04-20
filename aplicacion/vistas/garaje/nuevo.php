@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TorqHub</title>
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
+
 </head>
 <body>
     <h1>Añadir vehículo</h1>
@@ -13,7 +14,7 @@
         <p><?= htmlspecialchars($m) ?></p>
     <?php endif; ?>
 
-    <form method="post" action="<?= url('/garaje/nuevo') ?>" enctype="multipart/form-data">
+    <form method="post" action="<?= url('/garaje/nuevo') ?>" enctype="multipart/form-data" class="formulario-garaje-validado" novalidate>
         <?= csrf_campo() ?>
 
         <div>
@@ -97,6 +98,7 @@
         <button type="button" onclick="location.href='<?= url('/garaje') ?>'">Cancelar</button>
         <button type="submit">Guardar vehículo</button>
     </form>
-
+    
+    <script src="<?= url('/public/js/garaje-formulario.js') ?>"></script>
 </body>
 </html>

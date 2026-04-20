@@ -13,7 +13,7 @@
         <p><?= htmlspecialchars($m) ?></p>
     <?php endif; ?>
 
-    <form method="post" action="<?= url('/garaje/editar') ?>" enctype="multipart/form-data">
+    <form method="post" action="<?= url('/garaje/editar') ?>" enctype="multipart/form-data" class="formulario-garaje-validado" novalidate>
         <?= csrf_campo() ?>
 
         <input type="hidden" name="id" value="<?= (int) $vehiculo['id'] ?>">
@@ -123,6 +123,7 @@
         <button type="button" onclick="history.back()">Cancelar</button>
         <button type="submit">Guardar cambios</button>
     </form>
-
+    
+    <script src="<?= url('/public/js/garaje-formulario.js') ?>"></script>
 </body>
 </html>
