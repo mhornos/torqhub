@@ -6,6 +6,7 @@
         <a href="<?= url('/registro') ?>">Registrarse</a>
     <?php else: ?>
         <a href="<?= url('/garaje') ?>">Mi garaje</a>
+        <a href="<?= url('/comunidad') ?>">Comunidad</a>
 
         <?php if (($_SESSION['usuario']['rol'] ?? '') === 'admin'): ?>
             <a href="<?= url('/admin') ?>">Panel de administración</a>

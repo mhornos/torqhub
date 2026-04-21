@@ -183,7 +183,7 @@
 
         <div class="detalle-vehiculo-dato">
             <span class="detalle-vehiculo-label">Fecha de alta</span>
-            <strong><?= htmlspecialchars($vehiculo['fecha_creacion']) ?></strong>
+            <strong><?= formatear_fecha($vehiculo['fecha_creacion']) ?></strong>
         </div>
     </section>
 

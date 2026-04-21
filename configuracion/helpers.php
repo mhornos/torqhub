@@ -51,5 +51,17 @@ function csrf_verificar(): void {
     }
 }
 
+// función para formatear fechas en un formato legible
+function formatear_fecha(string $fecha): string
+{
+    $timestamp = strtotime($fecha);
+
+    if ($timestamp === false) {
+        return $fecha;
+    }
+
+    return date('d-m-Y H:i:s', $timestamp);
+}
+
 
 ?>

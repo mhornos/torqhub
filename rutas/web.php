@@ -56,6 +56,14 @@ return [
             'accion' => 'GarajeControlador@mantenimientos_exportar_csv',
             'middleware' => 'AuthMiddleware',
         ],
+        '/comunidad' => [
+            'accion' => 'ComunidadControlador@index',
+            'middleware' => 'AuthMiddleware',
+        ],
+        '/comunidad/nueva' => [
+            'accion' => 'ComunidadControlador@nueva',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
     'POST' => [
         '/login' => [
@@ -86,6 +94,10 @@ return [
         ],
         '/garaje/mantenimientos/eliminar' => [
             'accion' => 'GarajeControlador@mantenimiento_eliminar_post',
+            'middleware' => 'AuthMiddleware',
+        ],
+        '/comunidad/nueva' => [
+            'accion' => 'ComunidadControlador@nueva_post',
             'middleware' => 'AuthMiddleware',
         ],
     ],

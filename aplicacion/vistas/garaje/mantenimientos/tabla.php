@@ -17,7 +17,7 @@
             <?php foreach ($mantenimientos as $mantenimiento): ?>
                 <tr>
                     <td class="nowrap">
-                        <?= htmlspecialchars($mantenimiento['fecha']) ?>
+                        <?= formatear_fecha($mantenimiento['fecha_creacion']) ?>
                     </td>
 
                     <td>

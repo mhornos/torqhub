@@ -12,11 +12,7 @@ TorqHub es una plataforma web social para aficionados al motor desarrollada desd
 
 - crear o unirse a clubs de coches según marca, modelo o estilo
 
-- organizar y participar en quedadas de coches entre usuarios 
-
-- crear y compartir rutas con otros usuarios, incluyendo estadísticas y resultados
-
-- comunicarse con otros usuarios mediante distintos tipos de chat en tiempo real (global, privado, clubs y eventos)
+- comunicarse con otros usuarios mediante distintos tipos de chat en tiempo real (global, privado, clubs...)
 
 - recibir notificaciones dentro de la plataforma
 

@@ -15,6 +15,17 @@ CREATE TABLE usuarios (
   fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE publicaciones (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT UNSIGNED NOT NULL,
+    titulo VARCHAR(150) NOT NULL,
+    contenido TEXT NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_publicaciones_usuario
+        FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE vehiculos (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   usuario_id INT UNSIGNED NOT NULL,
