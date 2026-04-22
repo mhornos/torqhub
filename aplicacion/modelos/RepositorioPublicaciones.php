@@ -2,9 +2,9 @@
 
 class RepositorioPublicaciones
 {
-    // devuelve todas las publicaciones con el nombre del autor
-    public static function listar_todas(): array
-    {
+
+// devuelve todas las publicaciones con el nombre del autor
+    public static function listar_todas(): array {
         $pdo = ConexionBBDD::obtener();
 
         $sql = "SELECT 
@@ -24,9 +24,8 @@ class RepositorioPublicaciones
         return $stmt->fetchAll();
     }
 
-    // crea una nueva publicación y devuelve su id
-    public static function crear(int $usuario_id, string $titulo, string $contenido): int
-    {
+// crea una nueva publicación y devuelve su id
+    public static function crear(int $usuario_id, string $titulo, string $contenido): int {
         $pdo = ConexionBBDD::obtener();
 
         $sql = "INSERT INTO publicaciones (usuario_id, titulo, contenido)
@@ -40,5 +39,31 @@ class RepositorioPublicaciones
         ]);
 
         return (int) $pdo->lastInsertId();
+    }
+
+// devuelve una publicación por su id con el nombre del autor
+    public static function obtener_por_id(int $id): ?array {
+        $pdo = ConexionBBDD::obtener();
+
+        $sql = "SELECT 
+                    p.id,
+                    p.usuario_id,
+                    p.titulo,
+                    p.contenido,
+                    p.fecha_creacion,
+                    u.nombre AS autor_nombre
+                FROM publicaciones p
+                INNER JOIN usuarios u ON u.id = p.usuario_id
+                WHERE p.id = :id
+                LIMIT 1";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'id' => $id,
+        ]);
+
+        $publicacion = $stmt->fetch();
+
+        return $publicacion ?: null;
     }
 }

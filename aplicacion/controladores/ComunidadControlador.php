@@ -1,8 +1,7 @@
 <?php
 
-class ComunidadControlador extends ControladorBase
-{
-    // muestra el listado de publicaciones
+class ComunidadControlador extends ControladorBase {
+// muestra el listado de publicaciones
     public function index(): void
     {
         $publicaciones = RepositorioPublicaciones::listar_todas();
@@ -12,13 +11,13 @@ class ComunidadControlador extends ControladorBase
         ]);
     }
 
-    // muestra el formulario para crear una publicación
+// muestra el formulario para crear una publicación
     public function nueva(): void
     {
         $this->render('comunidad/nueva');
     }
 
-    // procesa el alta de una nueva publicación
+// procesa el alta de una nueva publicación
     public function nueva_post(): void
     {
         csrf_verificar();
@@ -47,5 +46,29 @@ class ComunidadControlador extends ControladorBase
 
         flash_set('ok', 'publicacion creada correctamente');
         $this->redirigir('/comunidad');
+    }
+
+// muestra el detalle de una publicación
+    public function ver(): void {
+        $id = (int) ($_GET['id'] ?? 0);
+
+        if ($id <= 0) {
+            flash_set('error', 'publicacion no valida');
+            $this->redirigir('/comunidad');
+        }
+
+        $publicacion = RepositorioPublicaciones::obtener_por_id($id);
+
+        if (!$publicacion) {
+            flash_set('error', 'la publicacion no existe');
+            $this->redirigir('/comunidad');
+        }
+
+        $comentarios = RepositorioComentariosPublicaciones::listar_por_publicacion($id);
+
+        $this->render('comunidad/ver', [
+            'publicacion' => $publicacion,
+            'comentarios' => $comentarios,
+        ]);
     }
 }

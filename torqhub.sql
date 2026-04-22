@@ -26,6 +26,20 @@ CREATE TABLE publicaciones (
         ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE comentarios_publicaciones (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    publicacion_id INT UNSIGNED NOT NULL,
+    usuario_id INT UNSIGNED NOT NULL,
+    contenido TEXT NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_comentarios_publicacion
+        FOREIGN KEY (publicacion_id) REFERENCES publicaciones(id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_comentarios_usuario
+        FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE vehiculos (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   usuario_id INT UNSIGNED NOT NULL,

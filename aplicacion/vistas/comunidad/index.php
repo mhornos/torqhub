@@ -35,6 +35,10 @@
 
                 <p><?= nl2br(htmlspecialchars($publicacion['contenido'])) ?></p>
 
+                <p>
+                    <a href="<?= url('/comunidad/ver?id=' . $publicacion['id']) ?>">Ver publicación</a>
+                </p>
+
                 <hr>
             </article>
         <?php endforeach; ?>

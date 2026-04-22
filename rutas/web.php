@@ -64,6 +64,10 @@ return [
             'accion' => 'ComunidadControlador@nueva',
             'middleware' => 'AuthMiddleware',
         ],
+        '/comunidad/ver' => [
+            'accion' => 'ComunidadControlador@ver',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
     'POST' => [
         '/login' => [
