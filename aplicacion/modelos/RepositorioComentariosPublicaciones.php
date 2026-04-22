@@ -26,4 +26,22 @@ class RepositorioComentariosPublicaciones
 
         return $stmt->fetchAll();
     }
+
+
+// crea un comentario en una publicación y devuelve su id
+    public static function crear(int $publicacion_id, int $usuario_id, string $contenido): int{
+        $pdo = ConexionBBDD::obtener();
+
+        $sql = "INSERT INTO comentarios_publicaciones (publicacion_id, usuario_id, contenido)
+                VALUES (:publicacion_id, :usuario_id, :contenido)";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'publicacion_id' => $publicacion_id,
+            'usuario_id' => $usuario_id,
+            'contenido' => $contenido,
+        ]);
+
+        return (int) $pdo->lastInsertId();
+    }
 }

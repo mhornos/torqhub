@@ -75,17 +75,17 @@ class GarajeControlador extends ControladorBase {
         $tipo_cambio = ($tipo_cambio === '') ? null : $tipo_cambio;
 
         if (!is_null($carroceria) && !in_array($carroceria, $this->carrocerias_validas, true)) {
-            flash_set('error', 'la carroceria no es valida');
+            flash_set('error', 'La carrocería no es válida');
             $this->redirigir('/garaje/nuevo');
         }
 
         if (!is_null($tipo_combustible) && !in_array($tipo_combustible, $this->tipos_combustible_validos, true)) {
-            flash_set('error', 'el tipo de combustible no es valido');
+            flash_set('error', 'El tipo de combustible no es válido');
             $this->redirigir('/garaje/nuevo');
         }
 
         if (!is_null($tipo_cambio) && !in_array($tipo_cambio, $this->tipos_cambio_validos, true)) {
-            flash_set('error', 'el tipo de cambio no es valido');
+            flash_set('error', 'El tipo de cambio no es válido');
             $this->redirigir('/garaje/nuevo');
         }
 
@@ -94,7 +94,7 @@ class GarajeControlador extends ControladorBase {
         } elseif (ctype_digit($potencia_cv_txt) && (int) $potencia_cv_txt >= 0) {
             $potencia_cv = (int) $potencia_cv_txt;
         } else {
-            flash_set('error', 'la potencia en cv debe ser un numero entero positivo');
+            flash_set('error', 'La potencia en cv debe ser un número entero positivo');
             $this->redirigir('/garaje/nuevo');
         }
 
@@ -103,13 +103,13 @@ class GarajeControlador extends ControladorBase {
         } elseif (ctype_digit($cilindrada_cm3_txt) && (int) $cilindrada_cm3_txt >= 0) {
             $cilindrada_cm3 = (int) $cilindrada_cm3_txt;
         } else {
-            flash_set('error', 'la cilindrada debe ser un numero entero positivo');
+            flash_set('error', 'La cilindrada debe ser un número entero positivo');
             $this->redirigir('/garaje/nuevo');
         }
 
 
         if ($marca === '' || $modelo === '') {
-            flash_set('error', 'marca y modelo son obligatorios');
+            flash_set('error', 'Marca y modelo son obligatorios');
             $this->redirigir('/garaje/nuevo');
         }
 
@@ -134,7 +134,7 @@ class GarajeControlador extends ControladorBase {
     exit;
         }
 
-        flash_set('ok', 'vehiculo añadido');
+        flash_set('ok', 'Vehículo añadido');
         $this->redirigir('/garaje');
     }
 
@@ -147,7 +147,7 @@ class GarajeControlador extends ControladorBase {
         $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
 
         if (!$vehiculo) {
-            flash_set('error', 'vehiculo no encontrado');
+            flash_set('error', 'Vehículo no encontrado');
             $this->redirigir('/garaje');
         }
 
@@ -170,14 +170,14 @@ class GarajeControlador extends ControladorBase {
         $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
 
         if (!$vehiculo) {
-            flash_set('error', 'vehiculo no encontrado o sin permisos');
+            flash_set('error', 'Vehículo no encontrado o sin permisos');
             $this->redirigir('/garaje');
         }
 
         try {
             $eliminado = RepositorioVehiculos::eliminar($vehiculo_id, $usuario_id);
         } catch (PDOException $e) {
-            flash_set('error', 'no se pudo eliminar el vehiculo');
+            flash_set('error', 'No se pudo eliminar el vehículo');
             $this->redirigir('/garaje');
         }
 
@@ -186,10 +186,10 @@ class GarajeControlador extends ControladorBase {
         }
 
         if (!$eliminado) {
-            flash_set('error', 'vehiculo no encontrado o sin permisos');
+            flash_set('error', 'Vehículo no encontrado o sin permisos');
             $this->redirigir('/garaje');
         }
-        flash_set('ok', 'vehiculo eliminado correctamente');
+        flash_set('ok', 'Vehículo eliminado correctamente');
         $this->redirigir('/garaje');
     }
 
@@ -202,7 +202,7 @@ class GarajeControlador extends ControladorBase {
         $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
 
         if (!$vehiculo) {
-            flash_set('error', 'vehiculo no encontrado');
+            flash_set('error', 'Vehículo no encontrado');
             $this->redirigir('/garaje');
         }
 
@@ -239,19 +239,19 @@ class GarajeControlador extends ControladorBase {
         $archivo_imagen = $_FILES['imagen'] ?? null;
 
         if ($vehiculo_id <= 0) {
-            flash_set('error', 'vehiculo no valido');
+            flash_set('error', 'Vehículo no válido');
             $this->redirigir('/garaje');
         }
 
         $vehiculo_actual = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
 
         if (!$vehiculo_actual) {
-            flash_set('error', 'vehiculo no encontrado');
+            flash_set('error', 'Vehículo no encontrado');
             $this->redirigir('/garaje');
         }
 
         if ($marca === '' || $modelo === '') {
-            flash_set('error', 'marca y modelo son obligatorios');
+            flash_set('error', 'Marca y modelo son obligatorios');
             $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
         }
 
@@ -260,17 +260,17 @@ class GarajeControlador extends ControladorBase {
         $tipo_cambio = ($tipo_cambio === '') ? null : $tipo_cambio;
         
         if (!is_null($carroceria) && !in_array($carroceria, $this->carrocerias_validas, true)) {
-            flash_set('error', 'la carroceria no es valida');
+            flash_set('error', 'La carrocería no es válida');
             $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
         }
         
         if (!is_null($tipo_combustible) && !in_array($tipo_combustible, $this->tipos_combustible_validos, true)) {
-            flash_set('error', 'el tipo de combustible no es valido');
+            flash_set('error', 'El tipo de combustible no es válido');
             $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
         }
         
         if (!is_null($tipo_cambio) && !in_array($tipo_cambio, $this->tipos_cambio_validos, true)) {
-            flash_set('error', 'el tipo de cambio no es valido');
+            flash_set('error', 'El tipo de cambio no es válido');
             $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
         }
         
@@ -279,7 +279,7 @@ class GarajeControlador extends ControladorBase {
         } elseif (ctype_digit($potencia_cv_txt) && (int) $potencia_cv_txt >= 0) {
             $potencia_cv = (int) $potencia_cv_txt;
         } else {
-            flash_set('error', 'la potencia en cv debe ser un numero entero positivo');
+            flash_set('error', 'La potencia en cv debe ser un número entero positivo');
             $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
         }
         
@@ -288,7 +288,7 @@ class GarajeControlador extends ControladorBase {
         } elseif (ctype_digit($cilindrada_cm3_txt) && (int) $cilindrada_cm3_txt >= 0) {
             $cilindrada_cm3 = (int) $cilindrada_cm3_txt;
         } else {
-            flash_set('error', 'la cilindrada debe ser un numero entero positivo');
+            flash_set('error', 'La cilindrada debe ser un número entero positivo');
             $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
         }
 
@@ -312,16 +312,16 @@ class GarajeControlador extends ControladorBase {
         try {
             $actualizado = RepositorioVehiculos::actualizar($vehiculo_id, $usuario_id, $marca, $modelo, $any, $vin, $carroceria, $tipo_combustible, $tipo_cambio, $potencia_cv, $cilindrada_cm3, $imagen);
         } catch (PDOException $e) {
-            flash_set('error', 'no se pudo actualizar el vehiculo');
+            flash_set('error', 'No se pudo actualizar el vehículo');
             $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
         }
 
         if (!$actualizado) {
-            flash_set('error', 'vehiculo no encontrado o sin permisos');
+            flash_set('error', 'Vehículo no encontrado o sin permisos');
             $this->redirigir('/garaje');
         }
 
-        flash_set('ok', 'vehiculo actualizado correctamente');
+        flash_set('ok', 'Vehículo actualizado correctamente');
         $this->redirigir('/garaje');
     }
 
@@ -332,14 +332,14 @@ class GarajeControlador extends ControladorBase {
         $vehiculo_id = (int) ($_GET['id'] ?? 0);
 
         if ($vehiculo_id <= 0) {
-            flash_set('error', 'vehiculo no valido');
+            flash_set('error', 'Vehículo no válido');
             $this->redirigir('/garaje');
         }
 
         $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
 
         if (!$vehiculo) {
-            flash_set('error', 'vehiculo no encontrado');
+            flash_set('error', 'Vehículo no encontrado');
             $this->redirigir('/garaje');
         }
 
@@ -387,14 +387,14 @@ class GarajeControlador extends ControladorBase {
         $vehiculo_id = (int) ($_GET['vehiculo_id'] ?? $_GET['id'] ?? 0);
 
         if ($vehiculo_id <= 0) {
-            flash_set('error', 'vehiculo no valido');
+            flash_set('error', 'Vehículo no válido');
             $this->redirigir('/garaje');
         }
 
         $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
 
         if (!$vehiculo) {
-            flash_set('error', 'vehiculo no encontrado');
+            flash_set('error', 'Vehículo no encontrado');
             $this->redirigir('/garaje');
         }
 
@@ -581,19 +581,19 @@ class GarajeControlador extends ControladorBase {
         ];
 
         if ($vehiculo_id <= 0) {
-            flash_set('error', 'vehiculo no valido');
+            flash_set('error', 'Vehículo no válido');
             $this->redirigir('/garaje');
         }
 
         $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
 
         if (!$vehiculo) {
-            flash_set('error', 'vehiculo no encontrado o sin permisos');
+            flash_set('error', 'Vehículo no encontrado o sin permisos');
             $this->redirigir('/garaje');
         }
 
         if ($fecha === '' || $tipo === '') {
-            flash_set('error', 'la fecha y el tipo son obligatorios');
+            flash_set('error', 'La fecha y el tipo son obligatorios');
             $this->redirigir('/garaje/mantenimientos/nuevo?vehiculo_id=' . $vehiculo_id);
         }
 
@@ -601,12 +601,12 @@ class GarajeControlador extends ControladorBase {
         $fecha_valida = $fecha_objeto && $fecha_objeto->format('Y-m-d') === $fecha;
 
         if (!$fecha_valida) {
-            flash_set('error', 'la fecha no es valida');
+            flash_set('error', 'La fecha no es válida');
             $this->redirigir('/garaje/mantenimientos/nuevo?vehiculo_id=' . $vehiculo_id);
         }
 
         if (mb_strlen($tipo) > 100) {
-            flash_set('error', 'el tipo no puede superar los 100 caracteres');
+            flash_set('error', 'El tipo no puede superar los 100 caracteres');
             $this->redirigir('/garaje/mantenimientos/nuevo?vehiculo_id=' . $vehiculo_id);
         }
 
@@ -617,7 +617,7 @@ class GarajeControlador extends ControladorBase {
         } elseif (ctype_digit($kilometros_txt)) {
             $kilometros = (int) $kilometros_txt;
         } else {
-            flash_set('error', 'los kilometros deben ser un numero entero positivo');
+            flash_set('error', 'Los kilometros deben ser un número entero positivo');
             $this->redirigir('/garaje/mantenimientos/nuevo?vehiculo_id=' . $vehiculo_id);
         }
 
@@ -627,7 +627,7 @@ class GarajeControlador extends ControladorBase {
             $coste_normalizado = str_replace(',', '.', $coste_txt);
 
             if (!is_numeric($coste_normalizado) || (float) $coste_normalizado < 0) {
-                flash_set('error', 'el coste debe ser un numero valido mayor o igual que cero');
+                flash_set('error', 'El coste debe ser un número válido mayor o igual que cero');
                 $this->redirigir('/garaje/mantenimientos/nuevo?vehiculo_id=' . $vehiculo_id);
             }
 
@@ -644,13 +644,13 @@ class GarajeControlador extends ControladorBase {
                 $coste
             );
         } catch (PDOException $e) {
-            flash_set('error', 'no se pudo guardar el mantenimiento');
+            flash_set('error', 'No se pudo guardar el mantenimiento');
             $this->redirigir('/garaje/mantenimientos/nuevo?vehiculo_id=' . $vehiculo_id);
         }
 
         unset($_SESSION['mantenimiento_form']);
         
-        flash_set('ok', 'mantenimiento añadido correctamente');
+        flash_set('ok', 'Mantenimiento añadido correctamente');
         $this->redirigir('/garaje/ver?id=' . $vehiculo_id);
     }
 
@@ -668,7 +668,7 @@ class GarajeControlador extends ControladorBase {
         $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
 
         if (!$vehiculo) {
-            flash_set('error', 'vehiculo no encontrado o sin permisos');
+            flash_set('error', 'Vehículo no encontrado o sin permisos');
             $this->redirigir('/garaje');
         }
 
@@ -688,21 +688,21 @@ class GarajeControlador extends ControladorBase {
         $mantenimiento_id = (int) ($_GET['id'] ?? 0);
 
         if ($mantenimiento_id <= 0) {
-            flash_set('error', 'mantenimiento no valido');
+            flash_set('error', 'Mantenimiento no válido');
             $this->redirigir('/garaje');
         }
 
         $mantenimiento = RepositorioMantenimientos::buscar_por_id_y_usuario($mantenimiento_id, $usuario_id);
 
         if (!$mantenimiento) {
-            flash_set('error', 'mantenimiento no encontrado o sin permisos');
+            flash_set('error', 'Mantenimiento no encontrado o sin permisos');
             $this->redirigir('/garaje');
         }
 
         $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario((int) $mantenimiento['vehiculo_id'], $usuario_id);
 
         if (!$vehiculo) {
-            flash_set('error', 'vehiculo no encontrado o sin permisos');
+            flash_set('error', 'Vehículo no encontrado o sin permisos');
             $this->redirigir('/garaje');
         }
 
@@ -725,14 +725,14 @@ class GarajeControlador extends ControladorBase {
         $mantenimiento_id = (int) ($_POST['mantenimiento_id'] ?? 0);
 
         if ($mantenimiento_id <= 0) {
-            flash_set('error', 'mantenimiento no valido');
+            flash_set('error', 'Mantenimiento no válido');
             $this->redirigir('/garaje');
         }
 
         $mantenimiento = RepositorioMantenimientos::buscar_por_id_y_usuario($mantenimiento_id, $usuario_id);
 
         if (!$mantenimiento) {
-            flash_set('error', 'mantenimiento no encontrado o sin permisos');
+            flash_set('error', 'Mantenimiento no encontrado o sin permisos');
             $this->redirigir('/garaje');
         }
 
@@ -753,7 +753,7 @@ class GarajeControlador extends ControladorBase {
         ];
 
         if ($fecha === '' || $tipo === '') {
-            flash_set('error', 'la fecha y el tipo son obligatorios');
+            flash_set('error', 'La fecha y el tipo son obligatorios');
             $this->redirigir('/garaje/mantenimientos/editar?id=' . $mantenimiento_id);
         }
 
@@ -761,12 +761,12 @@ class GarajeControlador extends ControladorBase {
         $fecha_valida = $fecha_objeto && $fecha_objeto->format('Y-m-d') === $fecha;
 
         if (!$fecha_valida) {
-            flash_set('error', 'la fecha no es valida');
+            flash_set('error', 'La fecha no es válida');
             $this->redirigir('/garaje/mantenimientos/editar?id=' . $mantenimiento_id);
         }
 
         if (mb_strlen($tipo) > 100) {
-            flash_set('error', 'el tipo no puede superar los 100 caracteres');
+            flash_set('error', 'El tipo no puede superar los 100 caracteres');
             $this->redirigir('/garaje/mantenimientos/editar?id=' . $mantenimiento_id);
         }
 
@@ -777,7 +777,7 @@ class GarajeControlador extends ControladorBase {
         } elseif (ctype_digit($kilometros_txt)) {
             $kilometros = (int) $kilometros_txt;
         } else {
-            flash_set('error', 'los kilometros deben ser un numero entero positivo');
+            flash_set('error', 'Los kilometros deben ser un número entero positivo');
             $this->redirigir('/garaje/mantenimientos/editar?id=' . $mantenimiento_id);
         }
 
@@ -787,7 +787,7 @@ class GarajeControlador extends ControladorBase {
             $coste_normalizado = str_replace(',', '.', $coste_txt);
 
             if (!is_numeric($coste_normalizado) || (float) $coste_normalizado < 0) {
-                flash_set('error', 'el coste debe ser un numero valido mayor o igual que cero');
+                flash_set('error', 'El coste debe ser un número válido mayor o igual que cero');
                 $this->redirigir('/garaje/mantenimientos/editar?id=' . $mantenimiento_id);
             }
 
@@ -805,13 +805,13 @@ class GarajeControlador extends ControladorBase {
                 $coste
             );
         } catch (PDOException $e) {
-            flash_set('error', 'no se pudo actualizar el mantenimiento');
+            flash_set('error', 'No se pudo actualizar el mantenimiento');
             $this->redirigir('/garaje/mantenimientos/editar?id=' . $mantenimiento_id);
         }
 
         unset($_SESSION['mantenimiento_editar_form']);
 
-        flash_set('ok', 'mantenimiento actualizado correctamente');
+        flash_set('ok', 'Mantenimiento actualizado correctamente');
         $this->redirigir('/garaje/ver?id=' . $vehiculo_id);
     }
 
@@ -824,14 +824,14 @@ class GarajeControlador extends ControladorBase {
         $mantenimiento_id = (int) ($_POST['mantenimiento_id'] ?? 0);
 
         if ($mantenimiento_id <= 0) {
-            flash_set('error', 'mantenimiento no valido');
+            flash_set('error', 'Mantenimiento no válido');
             $this->redirigir('/garaje');
         }
 
         $mantenimiento = RepositorioMantenimientos::buscar_por_id_y_usuario($mantenimiento_id, $usuario_id);
 
         if (!$mantenimiento) {
-            flash_set('error', 'mantenimiento no encontrado o sin permisos');
+            flash_set('error', 'Mantenimiento no encontrado o sin permisos');
             $this->redirigir('/garaje');
         }
 
@@ -840,11 +840,11 @@ class GarajeControlador extends ControladorBase {
         try {
             RepositorioMantenimientos::eliminar($mantenimiento_id, $vehiculo_id);
         } catch (PDOException $e) {
-            flash_set('error', 'no se pudo eliminar el mantenimiento');
+            flash_set('error', 'No se pudo eliminar el mantenimiento');
             $this->redirigir('/garaje/ver?id=' . $vehiculo_id);
         }
 
-        flash_set('ok', 'mantenimiento eliminado correctamente');
+        flash_set('ok', 'Mantenimiento eliminado correctamente');
         $this->redirigir('/garaje/ver?id=' . $vehiculo_id);
     }
 
@@ -864,7 +864,7 @@ class GarajeControlador extends ControladorBase {
 
         if (!$vehiculo) {
             http_response_code(403);
-            echo '<p>vehiculo no encontrado o sin permisos</p>';
+            echo '<p>Vehículo no encontrado o sin permisos</p>';
             return;
         }
 
@@ -914,17 +914,17 @@ class GarajeControlador extends ControladorBase {
     private function guardar_imagen_vehiculo(array $archivo): string
     {
         if (($archivo['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
-            throw new RuntimeException('no se pudo subir la imagen del vehiculo');
+            throw new RuntimeException('No se pudo subir la imagen del vehículo');
         }
 
         if (!isset($archivo['tmp_name']) || !is_uploaded_file($archivo['tmp_name'])) {
-            throw new RuntimeException('el archivo subido no es valido');
+            throw new RuntimeException('El archivo subido no es válido');
         }
 
         $tamanyo_maximo = 3 * 1024 * 1024;
 
         if (($archivo['size'] ?? 0) > $tamanyo_maximo) {
-            throw new RuntimeException('la imagen no puede superar los 3 mb');
+            throw new RuntimeException('La imagen no puede superar los 3 MB');
         }
 
         $finfo = new finfo(FILEINFO_MIME_TYPE);
@@ -937,20 +937,20 @@ class GarajeControlador extends ControladorBase {
         ];
 
         if (!isset($extensiones_permitidas[$mime_type])) {
-            throw new RuntimeException('solo se permiten imagenes jpg, png o webp');
+            throw new RuntimeException('Solo se permiten imágenes jpg, png o webp');
         }
 
         $directorio = dirname(__DIR__, 2) . '/public/uploads/vehiculos';
 
         if (!is_dir($directorio) && !mkdir($directorio, 0775, true)) {
-            throw new RuntimeException('no se pudo crear el directorio de imagenes');
+            throw new RuntimeException('No se pudo crear el directorio de imágenes de vehículos');
         }
 
         $nombre_archivo = 'vehiculo_' . bin2hex(random_bytes(16)) . '.' . $extensiones_permitidas[$mime_type];
         $ruta_destino = $directorio . '/' . $nombre_archivo;
 
         if (!move_uploaded_file($archivo['tmp_name'], $ruta_destino)) {
-            throw new RuntimeException('no se pudo guardar la imagen del vehiculo');
+            throw new RuntimeException('No se pudo guardar la imagen del vehículo');
         }
 
         return $nombre_archivo;

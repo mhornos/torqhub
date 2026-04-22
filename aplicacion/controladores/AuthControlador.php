@@ -16,19 +16,19 @@ class AuthControlador extends ControladorBase {
         $password = $_POST['password'] ?? '';
 
         if ($email === '' || $password === '') {
-            flash_set('error', 'rellena email y password');
+            flash_set('error', 'Rellena email y password');
             $this->redirigir('/login');
         }
 
         try {
             $usuario = RepositorioUsuarios::buscar_por_email($email);
         } catch (PDOException $e) {
-            flash_set('error', 'error de servidor, intentalo mas tarde');
+            flash_set('error', 'Error de servidor, intentalo mas tarde');
             $this->redirigir('/login');
         }
 
         if (!$usuario || !password_verify($password, $usuario['password_hash'])) {
-            flash_set('error', 'credenciales incorrectas');
+            flash_set('error', 'Credenciales incorrectas');
             $this->redirigir('/login');
         }
 
@@ -42,7 +42,7 @@ class AuthControlador extends ControladorBase {
             'rol' => $usuario['rol'],
         ];
 
-        flash_set('ok', 'sesión iniciada');
+        flash_set('ok', 'Sesión iniciada');
         $this->redirigir('/');
     }
 
@@ -61,22 +61,22 @@ class AuthControlador extends ControladorBase {
         $password = $_POST['password'] ?? '';
 
         if ($nombre === '' || $email === '' || $password === '') {
-            flash_set('error', 'rellena nombre, email y password');
+            flash_set('error', 'Rellena nombre, email y password');
             $this->redirigir('/registro');
         }
 
         if (!$this->password_cumple_requisitos($password)) {
-            flash_set('error', 'la password debe tener minimo 8 caracteres, una mayuscula, una minuscula y un numero');
+            flash_set('error', 'La password debe tener mínimo 8 carácteres, una mayúscula, una minúscula y un número');
             $this->redirigir('/registro');
         }
 
         if (RepositorioUsuarios::existe_nombre($nombre)) {
-            flash_set('error', 'ese nombre ya esta en uso');
+            flash_set('error', 'Ese nombre ya esta en uso');
             $this->redirigir('/registro');
         }
 
         if (RepositorioUsuarios::existe_email($email)) {
-            flash_set('error', 'ese email ya esta registrado');
+            flash_set('error', 'Ese email ya esta registrado');
             $this->redirigir('/registro');
         }
 
@@ -85,17 +85,17 @@ class AuthControlador extends ControladorBase {
         try {
             RepositorioUsuarios::crear($nombre, $email, $hash);
 
-            flash_set('ok', 'registro completado, ahora inicia sesion');
+            flash_set('ok', 'Registro completado, ahora inicia sesión');
             $this->redirigir('/login');
 
         } catch (PDOException $e) {
 
             if (($e->getCode() ?? '') === '23000') {
-                flash_set('error', 'nombre o email ya estan en uso');
+                flash_set('error', 'Nombre o email ya están en uso');
                 $this->redirigir('/registro');
             }
 
-            flash_set('error', 'error al registrar, intentalo mas tarde');
+            flash_set('error', 'Error al registrar, inténtalo mas tarde');
             $this->redirigir('/registro');
         }
     }
@@ -103,7 +103,7 @@ class AuthControlador extends ControladorBase {
 // procesa el logout
     public function logout(): void {
         unset($_SESSION['usuario']);
-        flash_set('ok', 'sesión cerrada');
+        flash_set('ok', 'Sesión cerrada correctamente');
         $this->redirigir('/');
     }
 
