@@ -19,7 +19,7 @@
 
     <article>
         <p>
-            por <?= htmlspecialchars($publicacion['autor_nombre']) ?>
+            por: <?= htmlspecialchars($publicacion['autor_nombre']) ?>
             · <?= formatear_fecha($publicacion['fecha_creacion']) ?>
         </p>
         
@@ -27,7 +27,7 @@
             <img 
                 src="<?= url('/public/' . $publicacion['imagen']) ?>"
                 alt="Imagen publicación"
-                style="max-width: 600px; display:block; margin-bottom:15px; padding-left:20px;"
+                style="max-width: 600px; display:block; margin-bottom:15px; margin-left:20px; box-shadow: 0 2px 5px rgba(0,0,0,0.5);"
             >
         <?php endif; ?>
 
@@ -60,6 +60,18 @@
     <p>
         <?= $total_likes ?> likes
     </p>
+    
+    <?php if ((int) $publicacion['usuario_id'] === (int) $_SESSION['usuario']['id']): ?>
+        <p>
+            <a href="<?= url('/comunidad/editar?id=' . $publicacion['id']) ?>">Editar publicación</a>
+        </p>
+
+        <form action="<?= url('/comunidad/eliminar') ?>" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar esta publicación?')">
+            <?= csrf_campo() ?>
+            <input type="hidden" name="id" value="<?= (int) $publicacion['id'] ?>">
+            <button type="submit">Eliminar publicación</button>
+        </form>
+    <?php endif; ?>
 
     <hr>
 

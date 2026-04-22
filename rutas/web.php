@@ -68,6 +68,10 @@ return [
             'accion' => 'ComunidadControlador@ver',
             'middleware' => 'AuthMiddleware',
         ],
+        '/comunidad/editar' => [
+            'accion' => 'ComunidadControlador@editar',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
     'POST' => [
         '/login' => [
@@ -110,6 +114,14 @@ return [
         ],
         '/comunidad/like' => [
             'accion' => 'ComunidadControlador@toggle_like',
+            'middleware' => 'AuthMiddleware',
+        ],
+        '/comunidad/editar' => [
+            'accion' => 'ComunidadControlador@editar_post',
+            'middleware' => 'AuthMiddleware',
+        ],
+        '/comunidad/eliminar' => [
+            'accion' => 'ComunidadControlador@eliminar',
             'middleware' => 'AuthMiddleware',
         ],
     ],

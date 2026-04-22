@@ -17,12 +17,12 @@
         <?= csrf_campo() ?>
 
         <div>
-            <label for="contenido">Contenido</label>
+            <label for="contenido">Contenido:</label>
             <textarea name="contenido" id="contenido" rows="8" required></textarea>
         </div>
 
         <div>
-            <label for="imagen">Imagen opcional</label>
+            <label for="imagen">Imagen opcional:</label>
             <input type="file" name="imagen" id="imagen" accept=".jpg,.jpeg,.png,.webp">
         </div>
 

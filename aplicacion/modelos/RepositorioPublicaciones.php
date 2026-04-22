@@ -71,4 +71,34 @@ class RepositorioPublicaciones
 
         return $publicacion ?: null;
     }
+
+// actualiza una publicación
+    public static function actualizar(int $id, string $contenido, ?string $imagen): void {
+        $pdo = ConexionBBDD::obtener();
+
+        $sql = "UPDATE publicaciones
+                SET contenido = :contenido,
+                    imagen = :imagen
+                WHERE id = :id";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'id' => $id,
+            'contenido' => $contenido,
+            'imagen' => $imagen,
+        ]);
+    }
+
+// elimina una publicación
+    public static function eliminar(int $id): void {
+        $pdo = ConexionBBDD::obtener();
+
+        $sql = "DELETE FROM publicaciones
+                WHERE id = :id";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'id' => $id,
+        ]);
+    }
 }

@@ -168,4 +168,157 @@ class ComunidadControlador extends ControladorBase {
 
         $this->redirigir('/comunidad/ver?id=' . $publicacion_id);
     }
+
+    
+// muestra el formulario para editar una publicación propia
+    public function editar(): void {
+        $id = (int) ($_GET['id'] ?? 0);
+
+        if ($id <= 0) {
+            flash_set('error', 'Publicación no válida');
+            $this->redirigir('/comunidad');
+        }
+
+        $publicacion = RepositorioPublicaciones::obtener_por_id($id);
+
+        if (!$publicacion) {
+            flash_set('error', 'La publicación no existe');
+            $this->redirigir('/comunidad');
+        }
+
+        $usuario_id = (int) $_SESSION['usuario']['id'];
+
+        if ((int) $publicacion['usuario_id'] !== $usuario_id) {
+            flash_set('error', 'No tienes permiso para editar esta publicación');
+            $this->redirigir('/comunidad');
+        }
+
+        $this->render('comunidad/editar', [
+            'publicacion' => $publicacion,
+        ]);
+    }
+
+
+// procesa la edición de una publicación propia
+    public function editar_post(): void {
+        csrf_verificar();
+
+        $id = (int) ($_POST['id'] ?? 0);
+        $contenido = trim($_POST['contenido'] ?? '');
+
+        if ($id <= 0) {
+            flash_set('error', 'Publicación no válida');
+            $this->redirigir('/comunidad');
+        }
+
+        $publicacion = RepositorioPublicaciones::obtener_por_id($id);
+
+        if (!$publicacion) {
+            flash_set('error', 'La publicación no existe');
+            $this->redirigir('/comunidad');
+        }
+
+        $usuario_id = (int) $_SESSION['usuario']['id'];
+
+        if ((int) $publicacion['usuario_id'] !== $usuario_id) {
+            flash_set('error', 'No tienes permiso para editar esta publicación');
+            $this->redirigir('/comunidad');
+        }
+
+        if ($contenido === '') {
+            flash_set('error', 'El contenido es obligatorio');
+            $this->redirigir('/comunidad/editar?id=' . $id);
+        }
+
+        $imagen = $publicacion['imagen'];
+
+        if (!empty($_FILES['imagen']['name'])) {
+            $carpeta = __DIR__ . '/../../public/uploads/publicaciones/';
+
+            if (!is_dir($carpeta)) {
+                mkdir($carpeta, 0777, true);
+            }
+
+            $extension = strtolower(pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION));
+            $permitidas = ['jpg', 'jpeg', 'png', 'webp'];
+
+            if (!in_array($extension, $permitidas, true)) {
+                flash_set('error', 'Formato de imagen no permitido');
+                $this->redirigir('/comunidad/editar?id=' . $id);
+            }
+
+            $nombre_archivo = uniqid('post_', true) . '.' . $extension;
+            $ruta_destino = $carpeta . $nombre_archivo;
+
+            if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $ruta_destino)) {
+                flash_set('error', 'No se pudo subir la imagen');
+                $this->redirigir('/comunidad/editar?id=' . $id);
+            }
+
+            if (!empty($publicacion['imagen'])) {
+                $ruta_imagen_anterior = __DIR__ . '/../../public/' . $publicacion['imagen'];
+
+                if (is_file($ruta_imagen_anterior)) {
+                    unlink($ruta_imagen_anterior);
+                }
+            }
+
+            $imagen = 'uploads/publicaciones/' . $nombre_archivo;
+        }
+
+        try {
+            RepositorioPublicaciones::actualizar($id, $contenido, $imagen);
+        } catch (PDOException $e) {
+            flash_set('error', 'No se pudo actualizar la publicación');
+            $this->redirigir('/comunidad/editar?id=' . $id);
+        }
+
+        flash_set('ok', 'Publicación actualizada correctamente');
+        $this->redirigir('/comunidad/ver?id=' . $id);
+    }
+
+
+// elimina una publicación propia
+    public function eliminar(): void {
+        csrf_verificar();
+
+        $id = (int) ($_POST['id'] ?? 0);
+
+        if ($id <= 0) {
+            flash_set('error', 'Publicación no válida');
+            $this->redirigir('/comunidad');
+        }
+
+        $publicacion = RepositorioPublicaciones::obtener_por_id($id);
+
+        if (!$publicacion) {
+            flash_set('error', 'La publicación no existe');
+            $this->redirigir('/comunidad');
+        }
+
+        $usuario_id = (int) $_SESSION['usuario']['id'];
+
+        if ((int) $publicacion['usuario_id'] !== $usuario_id) {
+            flash_set('error', 'No tienes permiso para eliminar esta publicación');
+            $this->redirigir('/comunidad');
+        }
+
+        try {
+            RepositorioPublicaciones::eliminar($id);
+        } catch (PDOException $e) {
+            flash_set('error', 'No se pudo eliminar la publicación');
+            $this->redirigir('/comunidad/ver?id=' . $id);
+        }
+
+        if (!empty($publicacion['imagen'])) {
+            $ruta_imagen = __DIR__ . '/../../public/' . $publicacion['imagen'];
+
+            if (is_file($ruta_imagen)) {
+                unlink($ruta_imagen);
+            }
+        }
+
+        flash_set('ok', 'Publicación eliminada correctamente');
+        $this->redirigir('/comunidad');
+    }
 }
