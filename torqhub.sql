@@ -40,6 +40,23 @@ CREATE TABLE comentarios_publicaciones (
         ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE publicaciones_likes (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    publicacion_id INT UNSIGNED NOT NULL,
+    usuario_id INT UNSIGNED NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_like_publicacion
+        FOREIGN KEY (publicacion_id) REFERENCES publicaciones(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_like_usuario
+        FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+        ON DELETE CASCADE,
+
+    UNIQUE KEY unique_like (publicacion_id, usuario_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE vehiculos (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   usuario_id INT UNSIGNED NOT NULL,
@@ -102,3 +119,4 @@ CREATE TABLE mantenimientos (
 
 ALTER TABLE vehiculos
 ADD COLUMN imagen VARCHAR(255) NULL AFTER cilindrada_cm3;
+

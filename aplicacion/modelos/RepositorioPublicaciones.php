@@ -8,15 +8,20 @@ class RepositorioPublicaciones
         $pdo = ConexionBBDD::obtener();
 
         $sql = "SELECT 
-                    p.id,
-                    p.usuario_id,
-                    p.titulo,
-                    p.contenido,
-                    p.fecha_creacion,
-                    u.nombre AS autor_nombre
-                FROM publicaciones p
-                INNER JOIN usuarios u ON u.id = p.usuario_id
-                ORDER BY p.id DESC";
+                p.id,
+                p.usuario_id,
+                p.titulo,
+                p.contenido,
+                p.fecha_creacion,
+                u.nombre AS autor_nombre,
+                COUNT(DISTINCT c.id) AS total_comentarios,
+                COUNT(DISTINCT l.id) AS total_likes
+            FROM publicaciones p
+            INNER JOIN usuarios u ON u.id = p.usuario_id
+            LEFT JOIN comentarios_publicaciones c ON c.publicacion_id = p.id
+            LEFT JOIN publicaciones_likes l ON l.publicacion_id = p.id
+            GROUP BY p.id, p.usuario_id, p.titulo, p.contenido, p.fecha_creacion, u.nombre
+            ORDER BY p.id DESC";
 
         $stmt = $pdo->prepare($sql);
         $stmt->execute();

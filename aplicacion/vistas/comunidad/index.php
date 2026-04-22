@@ -36,6 +36,17 @@
                 <p><?= nl2br(htmlspecialchars($publicacion['contenido'])) ?></p>
 
                 <p>
+                    <?php if ((int) $publicacion['total_comentarios'] === 1): ?>
+                        1 comentario
+                    <?php else: ?>
+                        <?= (int) $publicacion['total_comentarios'] ?> comentarios
+                    <?php endif; ?>
+                </p>
+                <p>
+                    <?= (int) $publicacion['total_likes'] ?> likes
+                </p>
+
+                <p>
                     <a href="<?= url('/comunidad/ver?id=' . $publicacion['id']) ?>">Ver publicación</a>
                 </p>
 

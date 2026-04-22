@@ -104,6 +104,14 @@ return [
             'accion' => 'ComunidadControlador@nueva_post',
             'middleware' => 'AuthMiddleware',
         ],
+        '/comunidad/comentar' => [
+            'accion' => 'ComunidadControlador@comentar',
+            'middleware' => 'AuthMiddleware',
+        ],
+        '/comunidad/like' => [
+            'accion' => 'ComunidadControlador@toggle_like',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
 ];
     

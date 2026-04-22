@@ -11,11 +11,13 @@ class ComunidadControlador extends ControladorBase {
         ]);
     }
 
+    
 // muestra el formulario para crear una publicación
     public function nueva(): void
     {
         $this->render('comunidad/nueva');
     }
+
 
 // procesa el alta de una nueva publicación
     public function nueva_post(): void
@@ -47,6 +49,7 @@ class ComunidadControlador extends ControladorBase {
         flash_set('ok', 'Publicación creada correctamente');
         $this->redirigir('/comunidad');
     }
+
 
 // muestra el detalle de una publicación
     public function ver(): void {
@@ -107,6 +110,39 @@ class ComunidadControlador extends ControladorBase {
         }
 
         flash_set('ok', 'Comentario publicado correctamente');
+        $this->redirigir('/comunidad/ver?id=' . $publicacion_id);
+    }
+
+
+// procesa el toggle de like de una publicación
+    public function toggle_like(): void {
+        csrf_verificar();
+
+        $publicacion_id = (int) ($_POST['publicacion_id'] ?? 0);
+        $usuario_id = (int) $_SESSION['usuario']['id'];
+
+        if ($publicacion_id <= 0) {
+            flash_set('error', 'Publicación no válida');
+            $this->redirigir('/comunidad');
+        }
+
+        $ya_dio_like = RepositorioLikesPublicaciones::usuario_ya_dio_like(
+            $publicacion_id,
+            $usuario_id
+        );
+
+        try {
+            if ($ya_dio_like) {
+                RepositorioLikesPublicaciones::quitar_like($publicacion_id, $usuario_id);
+                // flash_set('ok', 'Like eliminado');
+            } else {
+                RepositorioLikesPublicaciones::dar_like($publicacion_id, $usuario_id);
+                // flash_set('ok', 'Like añadido');
+            }
+        } catch (PDOException $e) {
+            flash_set('error', 'No se pudo actualizar el like');
+        }
+
         $this->redirigir('/comunidad/ver?id=' . $publicacion_id);
     }
 }

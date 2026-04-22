@@ -27,11 +27,55 @@
 
         <p><?= nl2br(htmlspecialchars($publicacion['contenido'])) ?></p>
     </article>
+    
+    <?php
+    $usuario_id = (int) $_SESSION['usuario']['id'];
+        
+    $ya_dio_like = RepositorioLikesPublicaciones::usuario_ya_dio_like(
+        (int) $publicacion['id'],
+        $usuario_id
+    );
+        
+    $total_likes = RepositorioLikesPublicaciones::contar_likes(
+        (int) $publicacion['id']
+    );
+    ?>
+    
+    <form action="<?= url('/comunidad/like') ?>" method="POST">
+        <?= csrf_campo() ?>
+        
+        <input type="hidden" name="publicacion_id" value="<?= (int) $publicacion['id'] ?>">
+        
+        <button type="submit">
+            <?= $ya_dio_like ? 'Quitar like' : 'Dar like' ?>
+        </button>
+    </form>
+        
+    <p>
+        <?= $total_likes ?> likes
+    </p>
 
     <hr>
 
     <section>
-        <h2>Comentarios</h2>
+        <h3>Añadir comentario</h3>
+
+        <form action="<?= url('/comunidad/comentar') ?>" method="POST">
+            <?= csrf_campo() ?>
+
+            <input type="hidden" name="publicacion_id" value="<?= (int) $publicacion['id'] ?>">
+
+            <div>
+                <label for="contenido">Comentario:</label><br>
+                <textarea name="contenido" id="contenido" rows="5" required></textarea>
+            </div>
+            <br>
+            <button type="submit">Publicar comentario</button>
+        </form>
+    </section>
+
+    <section>
+        <h3>Comentarios</h3>
 
         <?php if (count($comentarios) === 0): ?>
             <p>Aún no hay comentarios en esta publicación.</p>

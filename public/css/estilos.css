@@ -10,7 +10,6 @@ nav {
     align-content: center;
     height: 60px;
     width: 100%;
-    
 }
 
 nav a {
@@ -20,7 +19,7 @@ nav a {
     font-weight: 600;
 }
 
-h1 {
+h1, h2, h3 {
     padding-left: 12px;
 }
 
