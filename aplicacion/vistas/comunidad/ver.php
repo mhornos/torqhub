@@ -18,12 +18,18 @@
     <?php endif; ?>
 
     <article>
-        <h2><?= htmlspecialchars($publicacion['titulo']) ?></h2>
-
         <p>
             por <?= htmlspecialchars($publicacion['autor_nombre']) ?>
             · <?= formatear_fecha($publicacion['fecha_creacion']) ?>
         </p>
+        
+        <?php if (!empty($publicacion['imagen'])): ?>
+            <img 
+                src="<?= url('/public/' . $publicacion['imagen']) ?>"
+                alt="Imagen publicación"
+                style="max-width: 600px; display:block; margin-bottom:15px; padding-left:20px;"
+            >
+        <?php endif; ?>
 
         <p><?= nl2br(htmlspecialchars($publicacion['contenido'])) ?></p>
     </article>

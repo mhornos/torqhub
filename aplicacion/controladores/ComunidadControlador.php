@@ -24,23 +24,46 @@ class ComunidadControlador extends ControladorBase {
     {
         csrf_verificar();
 
-        $titulo = trim($_POST['titulo'] ?? '');
         $contenido = trim($_POST['contenido'] ?? '');
 
-        if ($titulo === '' || $contenido === '') {
-            flash_set('error', 'Título y contenido son obligatorios');
-            $this->redirigir('/comunidad/nueva');
-        }
-
-        if (mb_strlen($titulo) > 150) {
-            flash_set('error', 'El título no puede superar los 150 caracteres');
+        if ($contenido === '') {
+            flash_set('error', 'El contenido es obligatorio');
             $this->redirigir('/comunidad/nueva');
         }
 
         $usuario_id = (int) $_SESSION['usuario']['id'];
 
+        $imagen = null;
+
+        if (!empty($_FILES['imagen']['name'])) {
+
+            $carpeta = __DIR__ . '/../../public/uploads/publicaciones/';
+
+            if (!is_dir($carpeta)) {
+                mkdir($carpeta, 0777, true);
+            }
+
+            $extension = strtolower(pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION));
+
+            $permitidas = ['jpg', 'jpeg', 'png', 'webp'];
+
+            if (!in_array($extension, $permitidas, true)) {
+                flash_set('error', 'Formato de imagen no permitido');
+                $this->redirigir('/comunidad/nueva');
+            }
+
+            $nombre_archivo = uniqid('post_', true) . '.' . $extension;
+
+            move_uploaded_file(
+                $_FILES['imagen']['tmp_name'],
+                $carpeta . $nombre_archivo
+            );
+
+            $imagen = 'uploads/publicaciones/' . $nombre_archivo;
+        }
+
         try {
-            RepositorioPublicaciones::crear($usuario_id, $titulo, $contenido);
+            RepositorioPublicaciones::crear($usuario_id, $contenido, $imagen);
         } catch (PDOException $e) {
             flash_set('error', 'No se pudo guardar la publicación');
             $this->redirigir('/comunidad/nueva');

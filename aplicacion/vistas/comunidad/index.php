@@ -26,12 +26,18 @@
     <?php else: ?>
         <?php foreach ($publicaciones as $publicacion): ?>
             <article>
-                <h2><?= htmlspecialchars($publicacion['titulo']) ?></h2>
-
                 <p>
                     por <?= htmlspecialchars($publicacion['autor_nombre']) ?>
                     · <?= formatear_fecha($publicacion['fecha_creacion']) ?>
                 </p>
+                
+                <?php if (!empty($publicacion['imagen'])): ?>
+                    <img 
+                        src="<?= url('/public/' . $publicacion['imagen']) ?>"
+                        alt="Imagen publicación"
+                        style="max-width: 400px; display:block; margin-bottom:10px; padding-left:20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"
+                    >
+                <?php endif; ?>
 
                 <p><?= nl2br(htmlspecialchars($publicacion['contenido'])) ?></p>
 

@@ -120,3 +120,9 @@ CREATE TABLE mantenimientos (
 ALTER TABLE vehiculos
 ADD COLUMN imagen VARCHAR(255) NULL AFTER cilindrada_cm3;
 
+ALTER TABLE publicaciones
+DROP COLUMN titulo;
+
+ALTER TABLE publicaciones
+ADD imagen VARCHAR(255) NULL AFTER contenido;
+

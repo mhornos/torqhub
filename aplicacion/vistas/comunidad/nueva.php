@@ -13,17 +13,17 @@
         <p><?= htmlspecialchars($m) ?></p>
     <?php endif; ?>
 
-    <form action="<?= url('/comunidad/nueva') ?>" method="POST">
+    <form action="<?= url('/comunidad/nueva') ?>" method="POST" enctype="multipart/form-data">
         <?= csrf_campo() ?>
-
-        <div>
-            <label for="titulo">Título</label>
-            <input type="text" name="titulo" id="titulo" maxlength="150" required>
-        </div>
 
         <div>
             <label for="contenido">Contenido</label>
             <textarea name="contenido" id="contenido" rows="8" required></textarea>
+        </div>
+
+        <div>
+            <label for="imagen">Imagen opcional</label>
+            <input type="file" name="imagen" id="imagen" accept=".jpg,.jpeg,.png,.webp">
         </div>
 
         <button type="submit">Publicar</button>
