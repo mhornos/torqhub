@@ -126,3 +126,8 @@ DROP COLUMN titulo;
 ALTER TABLE publicaciones
 ADD imagen VARCHAR(255) NULL AFTER contenido;
 
+ALTER TABLE comentarios_publicaciones
+ADD respuesta_a_id INT UNSIGNED NULL AFTER publicacion_id,
+ADD CONSTRAINT fk_comentarios_respuesta_a
+    FOREIGN KEY (respuesta_a_id) REFERENCES comentarios_publicaciones(id)
+    ON DELETE CASCADE;

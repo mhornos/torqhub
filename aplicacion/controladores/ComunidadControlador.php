@@ -90,7 +90,7 @@ class ComunidadControlador extends ControladorBase {
             $this->redirigir('/comunidad');
         }
 
-        $comentarios = RepositorioComentariosPublicaciones::listar_por_publicacion($id);
+        $comentarios = RepositorioComentariosPublicaciones::listar_principales_por_publicacion($id);
 
         $this->render('comunidad/ver', [
             'publicacion' => $publicacion,
@@ -98,6 +98,58 @@ class ComunidadControlador extends ControladorBase {
         ]);
     }
 
+// guarda una respuesta a un comentario principal
+    public function responder_comentario(): void {
+        csrf_verificar();
+
+        $publicacion_id = (int) ($_POST['publicacion_id'] ?? 0);
+        $respuesta_a_id = (int) ($_POST['respuesta_a_id'] ?? 0);
+        $contenido = trim($_POST['contenido'] ?? '');
+
+        if ($publicacion_id <= 0 || $respuesta_a_id <= 0) {
+            flash_set('error', 'Datos de respuesta no válidos');
+            $this->redirigir('/comunidad');
+        }
+
+        $publicacion = RepositorioPublicaciones::obtener_por_id($publicacion_id);
+
+        if (!$publicacion) {
+            flash_set('error', 'La publicación no existe');
+            $this->redirigir('/comunidad');
+        }
+
+        $comentario_padre = RepositorioComentariosPublicaciones::obtener_comentario_principal(
+            $respuesta_a_id,
+            $publicacion_id
+        );
+
+        if (!$comentario_padre) {
+            flash_set('error', 'El comentario al que intentas responder no es válido');
+            $this->redirigir('/comunidad/ver?id=' . $publicacion_id);
+        }
+
+        if ($contenido === '') {
+            flash_set('error', 'La respuesta no puede estar vacía');
+            $this->redirigir('/comunidad/ver?id=' . $publicacion_id);
+        }
+
+        $usuario_id = (int) $_SESSION['usuario']['id'];
+
+        try {
+            RepositorioComentariosPublicaciones::crear(
+                $publicacion_id,
+                $usuario_id,
+                $contenido,
+                $respuesta_a_id
+            );
+        } catch (PDOException $e) {
+            flash_set('error', 'No se pudo guardar la respuesta');
+            $this->redirigir('/comunidad/ver?id=' . $publicacion_id);
+        }
+
+        flash_set('ok', 'Respuesta publicada correctamente');
+        $this->redirigir('/comunidad/ver?id=' . $publicacion_id);
+    }
 
 // guarda un comentario en una publicación
     public function comentar(): void{

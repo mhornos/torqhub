@@ -117,8 +117,55 @@
                         <input type="hidden" name="id" value="<?= (int) $comentario['id'] ?>">
                         <button type="submit">Eliminar comentario</button>
                     </form>
-                    
                 <?php endif; ?>
+
+                <p>
+                    <?php
+                        $total_respuestas = (int) $comentario['total_respuestas'];
+                    ?>
+                
+                    <?php if ($total_respuestas === 1): ?>
+                        Ver 1 respuesta
+                    <?php elseif ($total_respuestas > 1): ?>
+                        Ver <?= $total_respuestas ?> respuestas
+                    <?php endif; ?>
+                </p>
+                    
+                <p>
+                    <button
+                        type="button"
+                        class="boton-responder-comentario"
+                        data-comentario-id="<?= (int) $comentario['id'] ?>"
+                        data-usuario="<?= htmlspecialchars($comentario['autor_nombre']) ?>"
+                    >
+                        Responder
+                    </button>
+                </p>
+                    
+                <div
+                    id="formulario-respuesta-<?= (int) $comentario['id'] ?>"
+                    style="display:none; margin: 10px 0 15px 20px;"
+                >
+                    <form action="<?= url('/comunidad/responder-comentario') ?>" method="POST">
+                        <?= csrf_campo() ?>
+                    
+                        <input type="hidden" name="publicacion_id" value="<?= (int) $publicacion['id'] ?>">
+                        <input type="hidden" name="respuesta_a_id" value="<?= (int) $comentario['id'] ?>">
+                    
+                        <div>
+                            <label for="respuesta-<?= (int) $comentario['id'] ?>">Tu respuesta</label>
+                            <textarea
+                                name="contenido"
+                                id="respuesta-<?= (int) $comentario['id'] ?>"
+                                rows="4"
+                                required
+                            ></textarea>
+                        </div>
+                    
+                        <button type="submit">Publicar respuesta</button>
+                    </form>
+                </div>
+                        
                     <hr>
                 </article>
             <?php endforeach; ?>
@@ -128,5 +175,7 @@
     <p>
         <a href="<?= url('/comunidad') ?>">Volver a comunidad</a>
     </p>
+
+    <script src="<?= url('/public/js/comunidad/ver-publicacion.js') ?>"></script>
 </body>
 </html>

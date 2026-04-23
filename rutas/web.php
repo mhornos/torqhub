@@ -136,6 +136,10 @@ return [
             'accion' => 'ComunidadControlador@eliminar_comentario',
             'middleware' => 'AuthMiddleware',
         ],
+        '/comunidad/responder-comentario' => [
+            'accion' => 'ComunidadControlador@responder_comentario',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
 ];
     
