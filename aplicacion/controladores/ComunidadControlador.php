@@ -481,4 +481,66 @@ class ComunidadControlador extends ControladorBase {
         $this->redirigir('/comunidad/ver?id=' . $comentario['publicacion_id']);
     }
     
+        // devuelve por ajax las respuestas de un comentario principal
+    public function respuestas_comentario(): void
+    {
+        $publicacion_id = (int) ($_GET['publicacion_id'] ?? 0);
+        $comentario_id = (int) ($_GET['comentario_id'] ?? 0);
+
+        header('Content-Type: application/json; charset=utf-8');
+
+        if ($publicacion_id <= 0 || $comentario_id <= 0) {
+            http_response_code(400);
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => 'Datos no válidos',
+            ]);
+            exit;
+        }
+
+        $publicacion = RepositorioPublicaciones::obtener_por_id($publicacion_id);
+
+        if (!$publicacion) {
+            http_response_code(404);
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => 'La publicación no existe',
+            ]);
+            exit;
+        }
+
+        $comentario_padre = RepositorioComentariosPublicaciones::obtener_comentario_principal(
+            $comentario_id,
+            $publicacion_id
+        );
+
+        if (!$comentario_padre) {
+            http_response_code(404);
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => 'El comentario no es válido',
+            ]);
+            exit;
+        }
+
+        $respuestas = RepositorioComentariosPublicaciones::listar_respuestas_de_comentario($comentario_id);
+
+        $respuestas_formateadas = array_map(function (array $respuesta): array {
+            return [
+                'id' => (int) $respuesta['id'],
+                'publicacion_id' => (int) $respuesta['publicacion_id'],
+                'usuario_id' => (int) $respuesta['usuario_id'],
+                'autor_nombre' => $respuesta['autor_nombre'],
+                'contenido' => $respuesta['contenido'],
+                'fecha_creacion' => formatear_fecha($respuesta['fecha_creacion']),
+            ];
+        }, $respuestas);
+
+        echo json_encode([
+            'ok' => true,
+            'respuestas' => $respuestas_formateadas,
+        ]);
+
+        exit;
+    }
 }

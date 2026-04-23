@@ -1,4 +1,5 @@
-// este archivo contiene la lógica de validación de los formularios de garaje
+//lógica de validación de los formularios de garaje
+
 document.addEventListener('DOMContentLoaded', function () {
     const formularios = document.querySelectorAll('.formulario-garaje-validado');
 

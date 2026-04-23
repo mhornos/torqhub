@@ -76,6 +76,10 @@ return [
             'accion' => 'ComunidadControlador@editar_comentario',
             'middleware' => 'AuthMiddleware',
         ],
+        '/comunidad/respuestas-comentario' => [
+            'accion' => 'ComunidadControlador@respuestas_comentario',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
     'POST' => [
         '/login' => [

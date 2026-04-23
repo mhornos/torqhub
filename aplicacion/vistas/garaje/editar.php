@@ -124,6 +124,6 @@
         <button type="submit">Guardar cambios</button>
     </form>
     
-    <script src="<?= url('/public/js/garaje-formulario.js') ?>"></script>
+    <script src="<?= url('/public/js/garaje/formulario.js') ?>"></script>
 </body>
 </html>

@@ -356,7 +356,7 @@
         <?php require __DIR__ . '/mantenimientos/tabla.php'; ?>
     </div>
 
-    <script src="<?= url('/public/js/garaje-ver.js') ?>"></script>
+    <script src="<?= url('/public/js/garaje/ver.js') ?>"></script>
     
 </body>
 </html>

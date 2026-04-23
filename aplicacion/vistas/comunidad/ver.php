@@ -118,19 +118,7 @@
                         <button type="submit">Eliminar comentario</button>
                     </form>
                 <?php endif; ?>
-
-                <p>
-                    <?php
-                        $total_respuestas = (int) $comentario['total_respuestas'];
-                    ?>
                 
-                    <?php if ($total_respuestas === 1): ?>
-                        Ver 1 respuesta
-                    <?php elseif ($total_respuestas > 1): ?>
-                        Ver <?= $total_respuestas ?> respuestas
-                    <?php endif; ?>
-                </p>
-                    
                 <p>
                     <button
                         type="button"
@@ -153,7 +141,7 @@
                         <input type="hidden" name="respuesta_a_id" value="<?= (int) $comentario['id'] ?>">
                     
                         <div>
-                            <label for="respuesta-<?= (int) $comentario['id'] ?>">Tu respuesta</label>
+                            <label for="respuesta-<?= (int) $comentario['id'] ?>">Tu respuesta:</label> <br>
                             <textarea
                                 name="contenido"
                                 id="respuesta-<?= (int) $comentario['id'] ?>"
@@ -161,10 +149,38 @@
                                 required
                             ></textarea>
                         </div>
-                    
+                        <br>
                         <button type="submit">Publicar respuesta</button>
                     </form>
                 </div>
+            
+                <?php $total_respuestas = (int) $comentario['total_respuestas']; ?>
+
+                <?php if ($total_respuestas > 0): ?>
+                    <p>
+                        <button
+                            type="button"
+                            class="boton-toggle-respuestas"
+                            data-publicacion-id="<?= (int) $publicacion['id'] ?>"
+                            data-comentario-id="<?= (int) $comentario['id'] ?>"
+                            data-total-respuestas="<?= $total_respuestas ?>"
+                            data-url="<?= url('/comunidad/respuestas-comentario') ?>"
+                        >
+                            <?php if ($total_respuestas === 1): ?>
+                                Ver 1 respuesta
+                            <?php else: ?>
+                                Ver <?= $total_respuestas ?> respuestas
+                            <?php endif; ?>
+                        </button>
+                    </p>
+                            
+                    <div
+                        id="respuestas-comentario-<?= (int) $comentario['id'] ?>"
+                        class="contenedor-respuestas-comentario"
+                        data-cargadas="0"
+                        style="display:none; margin: 10px 0 15px 20px;"
+                    ></div>
+                <?php endif; ?>
                         
                     <hr>
                 </article>

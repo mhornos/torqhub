@@ -99,6 +99,6 @@
         <button type="submit">Guardar vehículo</button>
     </form>
     
-    <script src="<?= url('/public/js/garaje-formulario.js') ?>"></script>
+    <script src="<?= url('/public/js/garaje/formulario.js') ?>"></script>
 </body>
 </html>
