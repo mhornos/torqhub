@@ -58,9 +58,15 @@
                     );
                 ?>
 
-                <p class="texto-total-likes-publicacion-listado"
-                data-publicacion-id="<?= (int) $publicacion['id'] ?>">
-                    <?= (int) $publicacion['total_likes'] ?> likes
+                <p
+                    class="texto-total-likes-publicacion-listado"
+                    data-publicacion-id="<?= (int) $publicacion['id'] ?>"
+                >
+                    <?php if ((int) $publicacion['total_likes'] === 1): ?>
+                        1 like
+                    <?php else: ?>
+                        <?= (int) $publicacion['total_likes'] ?> likes
+                    <?php endif; ?>
                 </p>
 
                 <form

@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
                 boton.textContent = datos.texto_boton;
-                textoTotalLikes.textContent = datos.total_likes + ' likes';
+                textoTotalLikes.textContent = construirTextoLikes(datos.total_likes);
 
                 /* if (datos.accion === 'añadido') {
                     mensaje.textContent = 'Like añadido correctamente';
@@ -68,4 +68,13 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
+    function construirTextoLikes(totalLikes) {
+        if (totalLikes === 1) {
+            return '1 like';
+        }
+
+        return totalLikes + ' likes';
+    }
+    
 });
