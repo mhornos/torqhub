@@ -1,4 +1,4 @@
-// manejar los likes de una publicación en la comunidad
+// manejar los likes con ajax del detalle de una publicación
 
 document.addEventListener('DOMContentLoaded', function () {
     const formulario = document.getElementById('formulario-like-publicacion');

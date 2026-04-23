@@ -1,4 +1,4 @@
-//manejar la actualización dinámica del historial de mantenimientos en la vista de un vehículo
+//manejar la actualización dinámica del historial de mantenimientos en la vista de un vehículo con filtros y paginación mediante ajax
 
 document.addEventListener('DOMContentLoaded', function () {
     const formulario = document.getElementById('form-filtros-mantenimientos');

@@ -47,6 +47,10 @@
     );
     ?>
     
+    <p id="texto-total-likes-publicacion">
+        <?= (int) $total_likes ?> likes
+    </p>
+
     <form
         action="<?= url('/comunidad/like-ajax') ?>"
         method="POST"
@@ -61,10 +65,6 @@
             <?= $ya_dio_like ? 'Quitar like' : 'Dar like' ?>
         </button>
     </form>
-
-    <p id="texto-total-likes-publicacion">
-        <?= (int) $total_likes ?> likes
-    </p>
 
     <p id="mensaje-like-publicacion" style="display:none;"></p>
     

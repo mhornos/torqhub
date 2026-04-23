@@ -1,4 +1,4 @@
-//manejar la visualización de respuestas a comentarios en la vista de publicación
+//manejar la visualización de respuestas a comentarios en la vista de publicación con ajax
 
 document.addEventListener('DOMContentLoaded', function () {
     inicializarBotonesResponder();
