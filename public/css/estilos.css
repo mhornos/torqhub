@@ -12,6 +12,11 @@ nav {
     width: 100%;
 }
 
+small {
+    opacity: 0.5;
+    font-size: 16px;
+}
+
 nav a {
     text-decoration: none;
     margin-left: 20px;

@@ -61,22 +61,27 @@ class AuthControlador extends ControladorBase {
         $password = $_POST['password'] ?? '';
 
         if ($nombre === '' || $email === '' || $password === '') {
-            flash_set('error', 'Rellena nombre, email y password');
+            flash_set('error', 'Debes rellenar nombre de usuario, correo electrónico y contraseña');
+            $this->redirigir('/registro');
+        }
+
+        if (!$this->nombre_usuario_cumple_requisitos($nombre)) {
+            flash_set('error', 'El nombre de usuario solo puede contener letras minúsculas, números, puntos y guiones bajos, sin espacios, sin puntos consecutivos y sin terminar en punto');
             $this->redirigir('/registro');
         }
 
         if (!$this->password_cumple_requisitos($password)) {
-            flash_set('error', 'La password debe tener mínimo 8 carácteres, una mayúscula, una minúscula y un número');
+            flash_set('error', 'La contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula y un número');
             $this->redirigir('/registro');
         }
 
         if (RepositorioUsuarios::existe_nombre($nombre)) {
-            flash_set('error', 'Ese nombre ya esta en uso');
+            flash_set('error', 'Ese nombre de usuario ya está en uso');
             $this->redirigir('/registro');
         }
 
         if (RepositorioUsuarios::existe_email($email)) {
-            flash_set('error', 'Ese email ya esta registrado');
+            flash_set('error', 'Ese correo electrónico ya está registrado');
             $this->redirigir('/registro');
         }
 
@@ -91,11 +96,11 @@ class AuthControlador extends ControladorBase {
         } catch (PDOException $e) {
 
             if (($e->getCode() ?? '') === '23000') {
-                flash_set('error', 'Nombre o email ya están en uso');
+                flash_set('error', 'El nombre de usuario o el correo electrónico ya están en uso');
                 $this->redirigir('/registro');
             }
 
-            flash_set('error', 'Error al registrar, inténtalo mas tarde');
+            flash_set('error', 'Se produjo un error al registrar la cuenta');
             $this->redirigir('/registro');
         }
     }
@@ -105,6 +110,11 @@ class AuthControlador extends ControladorBase {
         unset($_SESSION['usuario']);
         flash_set('ok', 'Sesión cerrada correctamente');
         $this->redirigir('/');
+    }
+
+// valida el formato del nombre de usuario
+    private function nombre_usuario_cumple_requisitos(string $nombre): bool {
+        return preg_match('/^(?!.*\.\.)(?!.*\.$)[a-z0-9._]+$/', $nombre) === 1;
     }
 
 // verifica que la password cumpla los requisitos de seguridad

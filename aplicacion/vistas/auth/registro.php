@@ -20,8 +20,18 @@
         <?= csrf_campo() ?>
 
         <div>
-            <label>Nombre</label>
-            <input type="text" name="nombre" required>
+            <label for="nombre">Nombre de usuario</label>
+            <input
+                type="text"
+                name="nombre"
+                id="nombre"
+                required
+                maxlength="80"
+                pattern="^(?!.*\.\.)(?!.*\.$)[a-z0-9._]+$"
+                title="Solo letras minúsculas, números, puntos y guiones bajos, sin espacios, sin puntos consecutivos y sin terminar en punto"
+                autocomplete="username"
+            >
+            <small>Solo letras minúsculas, números, puntos y guiones bajos, sin espacios, sin puntos consecutivos y sin terminar en punto</small>
         </div>
 
         <div>
@@ -30,16 +40,18 @@
         </div>
 
         <div>
-            <label>Contraseña<a href="http://" target="_blank" rel="noopener noreferrer"></a></label>
+            <label for="password">Contraseña</label>
             <input
                 type="password"
                 name="password"
+                id="password"
                 required
                 minlength="8"
                 pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
-                title="Mínimo 8 caracteres, una mayuscula, una minuscula y un numero"
-            > <br>
-            <small>Mínimo 8 caracteres, una mayuscula, una minuscula y un numero</small>
+                title="Mínimo 8 caracteres, una mayúscula, una minúscula y un número"
+                autocomplete="new-password"
+            >
+            <small>Mínimo 8 caracteres, una mayúscula, una minúscula y un número</small>
         </div>
         <br>
         <button type="submit">Crear cuenta</button>
