@@ -321,4 +321,112 @@ class ComunidadControlador extends ControladorBase {
         flash_set('ok', 'Publicación eliminada correctamente');
         $this->redirigir('/comunidad');
     }
+
+
+// muestra el formulario para editar un comentario propio
+    public function editar_comentario(): void {
+        $id = (int) ($_GET['id'] ?? 0);
+
+        if ($id <= 0) {
+            flash_set('error', 'Comentario no válido');
+            $this->redirigir('/comunidad');
+        }
+
+        $comentario = RepositorioComentariosPublicaciones::obtener_por_id($id);
+
+        if (!$comentario) {
+            flash_set('error', 'El comentario no existe');
+            $this->redirigir('/comunidad');
+        }
+
+        $usuario_id = (int) $_SESSION['usuario']['id'];
+
+        if ((int) $comentario['usuario_id'] !== $usuario_id) {
+            flash_set('error', 'No tienes permiso para editar este comentario');
+            $this->redirigir('/comunidad/ver?id=' . $comentario['publicacion_id']);
+        }
+
+        $this->render('comunidad/editar_comentario', [
+            'comentario' => $comentario,
+        ]);
+    }
+
+// procesa la edición de un comentario propio
+    public function editar_comentario_post(): void {
+        csrf_verificar();
+
+        $id = (int) ($_POST['id'] ?? 0);
+        $contenido = trim($_POST['contenido'] ?? '');
+
+        if ($id <= 0) {
+            flash_set('error', 'Comentario no válido');
+            $this->redirigir('/comunidad');
+        }
+
+        $comentario = RepositorioComentariosPublicaciones::obtener_por_id($id);
+
+        if (!$comentario) {
+            flash_set('error', 'El comentario no existe');
+            $this->redirigir('/comunidad');
+        }
+
+        $usuario_id = (int) $_SESSION['usuario']['id'];
+
+        if ((int) $comentario['usuario_id'] !== $usuario_id) {
+            flash_set('error', 'No tienes permiso para editar este comentario');
+            $this->redirigir('/comunidad/ver?id=' . $comentario['publicacion_id']);
+        }
+
+        if ($contenido === '') {
+            flash_set('error', 'El contenido del comentario es obligatorio');
+            $this->redirigir('/comunidad/editar-comentario?id=' . $id);
+        }
+
+        try {
+            RepositorioComentariosPublicaciones::actualizar($id, $contenido);
+        } catch (PDOException $e) {
+            flash_set('error', 'No se pudo actualizar el comentario');
+            $this->redirigir('/comunidad/editar-comentario?id=' . $id);
+        }
+
+        flash_set('ok', 'Comentario actualizado correctamente');
+        $this->redirigir('/comunidad/ver?id=' . $comentario['publicacion_id']);
+    }
+
+// elimina un comentario propio
+    public function eliminar_comentario(): void {
+        csrf_verificar();
+
+        $id = (int) ($_POST['id'] ?? 0);
+
+        if ($id <= 0) {
+            flash_set('error', 'Comentario no válido');
+            $this->redirigir('/comunidad');
+        }
+
+        $comentario = RepositorioComentariosPublicaciones::obtener_por_id($id);
+
+        if (!$comentario) {
+            flash_set('error', 'El comentario no existe');
+            $this->redirigir('/comunidad');
+        }
+
+        $usuario_id = (int) $_SESSION['usuario']['id'];
+
+        if ((int) $comentario['usuario_id'] !== $usuario_id) {
+            flash_set('error', 'No tienes permiso para eliminar este comentario');
+            $this->redirigir('/comunidad/ver?id=' . $comentario['publicacion_id']);
+        }
+
+        try {
+            RepositorioComentariosPublicaciones::eliminar($id);
+        } catch (PDOException $e) {
+            flash_set('error', 'No se pudo eliminar el comentario');
+            $this->redirigir('/comunidad/ver?id=' . $comentario['publicacion_id']);
+        }
+
+        flash_set('ok', 'Comentario eliminado correctamente');
+        $this->redirigir('/comunidad/ver?id=' . $comentario['publicacion_id']);
+    }
+    
 }

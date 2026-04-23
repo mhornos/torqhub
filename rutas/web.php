@@ -72,6 +72,10 @@ return [
             'accion' => 'ComunidadControlador@editar',
             'middleware' => 'AuthMiddleware',
         ],
+        '/comunidad/editar-comentario' => [
+            'accion' => 'ComunidadControlador@editar_comentario',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
     'POST' => [
         '/login' => [
@@ -122,6 +126,14 @@ return [
         ],
         '/comunidad/eliminar' => [
             'accion' => 'ComunidadControlador@eliminar',
+            'middleware' => 'AuthMiddleware',
+        ],
+        '/comunidad/editar-comentario' => [
+            'accion' => 'ComunidadControlador@editar_comentario_post',
+            'middleware' => 'AuthMiddleware',
+        ],
+        '/comunidad/eliminar-comentario' => [
+            'accion' => 'ComunidadControlador@eliminar_comentario',
             'middleware' => 'AuthMiddleware',
         ],
     ],

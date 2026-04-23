@@ -106,6 +106,19 @@
                     </p>
 
                     <p><?= nl2br(htmlspecialchars($comentario['contenido'])) ?></p>
+
+                    <?php if ((int) $comentario['usuario_id'] === (int) $_SESSION['usuario']['id']): ?>
+                    <p>
+                        <a href="<?= url('/comunidad/editar-comentario?id=' . $comentario['id']) ?>">Editar comentario</a>
+                    </p>
+
+                    <form action="<?= url('/comunidad/eliminar-comentario') ?>" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar este comentario?')">
+                        <?= csrf_campo() ?>
+                        <input type="hidden" name="id" value="<?= (int) $comentario['id'] ?>">
+                        <button type="submit">Eliminar comentario</button>
+                    </form>
+                    
+                <?php endif; ?>
                     <hr>
                 </article>
             <?php endforeach; ?>
