@@ -543,4 +543,69 @@ class ComunidadControlador extends ControladorBase {
 
         exit;
     }
+
+
+// procesa likes por ajax en una publicación
+    public function toggle_like_ajax(): void {
+        csrf_verificar();
+
+        header('Content-Type: application/json; charset=utf-8');
+
+        $publicacion_id = (int) ($_POST['publicacion_id'] ?? 0);
+        $usuario_id = (int) ($_SESSION['usuario']['id'] ?? 0);
+
+        if ($publicacion_id <= 0 || $usuario_id <= 0) {
+            http_response_code(400);
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => 'Datos no válidos',
+            ]);
+            exit;
+        }
+
+        $publicacion = RepositorioPublicaciones::obtener_por_id($publicacion_id);
+
+        if (!$publicacion) {
+            http_response_code(404);
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => 'La publicación no existe',
+            ]);
+            exit;
+        }
+
+        $ya_dio_like = RepositorioLikesPublicaciones::usuario_ya_dio_like(
+            $publicacion_id,
+            $usuario_id
+        );
+
+        try {
+            if ($ya_dio_like) {
+                RepositorioLikesPublicaciones::quitar_like($publicacion_id, $usuario_id);
+                $accion = 'quitado';
+                $texto_boton = 'Dar like';
+            } else {
+                RepositorioLikesPublicaciones::dar_like($publicacion_id, $usuario_id);
+                $accion = 'añadido';
+                $texto_boton = 'Quitar like';
+            }
+
+            $total_likes = RepositorioLikesPublicaciones::contar_likes($publicacion_id);
+
+            echo json_encode([
+                'ok' => true,
+                'accion' => $accion,
+                'texto_boton' => $texto_boton,
+                'total_likes' => $total_likes,
+            ]);
+            exit;
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => 'No se pudo actualizar el like',
+            ]);
+            exit;
+        }
+    }
 }

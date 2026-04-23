@@ -144,6 +144,10 @@ return [
             'accion' => 'ComunidadControlador@responder_comentario',
             'middleware' => 'AuthMiddleware',
         ],
+        '/comunidad/like-ajax' => [
+            'accion' => 'ComunidadControlador@toggle_like_ajax',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
 ];
     

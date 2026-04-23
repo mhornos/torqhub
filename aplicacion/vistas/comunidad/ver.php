@@ -47,19 +47,26 @@
     );
     ?>
     
-    <form action="<?= url('/comunidad/like') ?>" method="POST">
+    <form
+        action="<?= url('/comunidad/like-ajax') ?>"
+        method="POST"
+        id="formulario-like-publicacion"
+        data-url="<?= url('/comunidad/like-ajax') ?>"
+    >
         <?= csrf_campo() ?>
-        
+
         <input type="hidden" name="publicacion_id" value="<?= (int) $publicacion['id'] ?>">
-        
-        <button type="submit">
+
+        <button type="submit" id="boton-like-publicacion">
             <?= $ya_dio_like ? 'Quitar like' : 'Dar like' ?>
         </button>
     </form>
-        
-    <p>
-        <?= $total_likes ?> likes
+
+    <p id="texto-total-likes-publicacion">
+        <?= (int) $total_likes ?> likes
     </p>
+
+    <p id="mensaje-like-publicacion" style="display:none;"></p>
     
     <?php if ((int) $publicacion['usuario_id'] === (int) $_SESSION['usuario']['id']): ?>
         <p>
@@ -193,5 +200,6 @@
     </p>
 
     <script src="<?= url('/public/js/comunidad/ver-publicacion.js') ?>"></script>
+    <script src="<?= url('/public/js/comunidad/like-publicacion.js') ?>"></script>
 </body>
 </html>
