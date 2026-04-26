@@ -27,7 +27,9 @@
         <?php foreach ($publicaciones as $publicacion): ?>
             <article>
                 <p>
-                    por: <?= htmlspecialchars($publicacion['autor_nombre']) ?>
+                    por: <a href="<?= url('/perfil?usuario=' . urlencode($publicacion['autor_nombre'])) ?>">
+                            @<?= htmlspecialchars($publicacion['autor_nombre']) ?>
+                        </a>
                     · <?= formatear_fecha($publicacion['fecha_creacion']) ?>
                 </p>
                 

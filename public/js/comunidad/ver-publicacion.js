@@ -122,7 +122,7 @@ function renderizarRespuestas(respuestas) {
     respuestas.forEach(function (respuesta) {
         html += ''
             + '<article style="margin-bottom: 15px; padding-left: 15px; border-left: 3px solid #b8b8b8;">'
-            + '    <p><strong>' + escaparHtml(respuesta.autor_nombre) + '</strong> · ' + escaparHtml(respuesta.fecha_creacion) + '</p>'
+            + '    <p><strong><a href="/torqhub/perfil?usuario=' + encodeURIComponent(respuesta.autor_nombre) + '">@' + escaparHtml(respuesta.autor_nombre) + '</a></strong> · ' + escaparHtml(respuesta.fecha_creacion) + '</p>'
             + '    <p>' + convertirSaltosLinea(escaparHtml(respuesta.contenido)) + '</p>'
             + '</article>';
     });

@@ -19,7 +19,9 @@
 
     <article>
         <p>
-            por: <?= htmlspecialchars($publicacion['autor_nombre']) ?>
+            por: <a href="<?= url('/perfil?usuario=' . urlencode($publicacion['autor_nombre'])) ?>">
+                    @<?= htmlspecialchars($publicacion['autor_nombre']) ?>
+                </a>
             · <?= formatear_fecha($publicacion['fecha_creacion']) ?>
         </p>
         
@@ -108,7 +110,9 @@
             <?php foreach ($comentarios as $comentario): ?>
                 <article>
                     <p>
-                        <strong><?= htmlspecialchars($comentario['autor_nombre']) ?></strong>
+                        <strong><a href="<?= url('/perfil?usuario=' . urlencode($comentario['autor_nombre'])) ?>">
+                                    @<?= htmlspecialchars($comentario['autor_nombre']) ?>
+                                </a></strong>
                         · <?= formatear_fecha($comentario['fecha_creacion']) ?>
                     </p>
 
