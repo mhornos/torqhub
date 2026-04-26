@@ -80,6 +80,10 @@ return [
             'accion' => 'ComunidadControlador@respuestas_comentario',
             'middleware' => 'AuthMiddleware',
         ],
+        '/perfil' => [
+            'accion' => 'PerfilControlador@ver',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
     'POST' => [
         '/login' => [

@@ -50,4 +50,24 @@ class RepositorioUsuarios {
         $usuario = $stmt->fetch();
         return $usuario ?: null;
     }
+
+
+    // busca un usuario por su nombre de usuario
+    public static function buscar_por_nombre(string $nombre): ?array {
+        $pdo = ConexionBBDD::obtener();
+    
+        $sql = "SELECT id, nombre, email, foto_perfil, rol, fecha_creacion
+                FROM usuarios
+                WHERE nombre = :nombre
+                LIMIT 1";
+    
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'nombre' => $nombre,
+        ]);
+    
+        $usuario = $stmt->fetch();
+    
+        return $usuario ?: null;
+    }
 }

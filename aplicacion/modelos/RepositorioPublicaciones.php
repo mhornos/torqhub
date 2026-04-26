@@ -101,4 +101,34 @@ class RepositorioPublicaciones
             'id' => $id,
         ]);
     }
+
+
+    // lista las publicaciones de un usuario concreto
+    public static function listar_por_usuario(int $usuario_id): array {
+        $pdo = ConexionBBDD::obtener();
+    
+        $sql = "SELECT 
+                    p.id,
+                    p.usuario_id,
+                    p.contenido,
+                    p.imagen,
+                    p.fecha_creacion,
+                    u.nombre AS autor_nombre,
+                    COUNT(DISTINCT c.id) AS total_comentarios,
+                    COUNT(DISTINCT l.id) AS total_likes
+                FROM publicaciones p
+                INNER JOIN usuarios u ON u.id = p.usuario_id
+                LEFT JOIN comentarios_publicaciones c ON c.publicacion_id = p.id
+                LEFT JOIN publicaciones_likes l ON l.publicacion_id = p.id
+                WHERE p.usuario_id = :usuario_id
+                GROUP BY p.id, p.usuario_id, p.contenido, p.imagen, p.fecha_creacion, u.nombre
+                ORDER BY p.id DESC";
+    
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'usuario_id' => $usuario_id,
+        ]);
+    
+        return $stmt->fetchAll();
+    }
 }

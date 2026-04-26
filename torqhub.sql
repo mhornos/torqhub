@@ -131,3 +131,6 @@ ADD respuesta_a_id INT UNSIGNED NULL AFTER publicacion_id,
 ADD CONSTRAINT fk_comentarios_respuesta_a
     FOREIGN KEY (respuesta_a_id) REFERENCES comentarios_publicaciones(id)
     ON DELETE CASCADE;
+
+ALTER TABLE usuarios
+ADD foto_perfil VARCHAR(255) NULL AFTER email;
