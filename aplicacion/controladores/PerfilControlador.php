@@ -125,4 +125,66 @@ class PerfilControlador extends ControladorBase {
             @unlink($ruta);
         }
     }
+
+// actualiza el nombre de usuario y el correo del perfil
+    public function actualizar(): void {
+        csrf_verificar();
+
+        $usuario_id = (int) $_SESSION['usuario']['id'];
+
+        $nombre_actual = $_SESSION['usuario']['nombre'];
+
+        $nombre = strtolower(trim($_POST['nombre'] ?? ''));
+        $email = strtolower(trim($_POST['email'] ?? ''));
+
+        if ($nombre === '' || $email === '') {
+            flash_set('error', 'Todos los campos son obligatorios');
+            $this->redirigir('/perfil?usuario=' . urlencode($nombre_actual));
+        }
+
+        if (!$this->nombre_usuario_valido($nombre)) {
+            flash_set('error', 'El nombre de usuario no cumple las reglas permitidas');
+            $this->redirigir('/perfil?usuario=' . urlencode($nombre_actual));
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            flash_set('error', 'El correo electrónico no es válido');
+            $this->redirigir('/perfil?usuario=' . urlencode($nombre_actual));
+        }
+
+        if (RepositorioUsuarios::existe_nombre_en_otro_usuario($nombre, $usuario_id)) {
+            flash_set('error', 'El nombre de usuario ya está en uso');
+            $this->redirigir('/perfil?usuario=' . urlencode($nombre_actual));
+        }
+
+        if (RepositorioUsuarios::existe_email_en_otro_usuario($email, $usuario_id)) {
+            flash_set('error', 'El correo electrónico ya está en uso');
+            $this->redirigir('/perfil?usuario=' . urlencode($nombre_actual));
+        }
+
+        RepositorioUsuarios::actualizar_datos_perfil($usuario_id, $nombre, $email);
+
+        $_SESSION['usuario']['nombre'] = $nombre;
+        $_SESSION['usuario']['email'] = $email;
+
+        flash_set('ok', 'Perfil actualizado correctamente');
+        $this->redirigir('/perfil?usuario=' . urlencode($nombre));
+    }
+
+// valida las reglas del handle del usuario
+    private function nombre_usuario_valido(string $nombre): bool {
+        if (!preg_match('/^[a-z0-9._]+$/', $nombre)) {
+            return false;
+        }
+
+        if (str_contains($nombre, '..')) {
+            return false;
+        }
+
+        if (str_ends_with($nombre, '.')) {
+            return false;
+        }
+
+        return true;
+    }
 }

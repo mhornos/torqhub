@@ -87,4 +87,61 @@ class RepositorioUsuarios {
             'usuario_id' => $usuario_id,
         ]);
     }
+
+
+// comprueba si un nombre de usuario ya está usado por otro usuario
+    public static function existe_nombre_en_otro_usuario(string $nombre, int $usuario_id): bool {
+        $pdo = ConexionBBDD::obtener();
+
+        $sql = "SELECT id
+                FROM usuarios
+                WHERE nombre = :nombre
+                AND id != :usuario_id
+                LIMIT 1";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'nombre' => $nombre,
+            'usuario_id' => $usuario_id,
+        ]);
+
+        return (bool) $stmt->fetch();
+    }
+
+// comprueba si un email ya está usado por otro usuario
+    public static function existe_email_en_otro_usuario(string $email, int $usuario_id): bool {
+        $pdo = ConexionBBDD::obtener();
+
+        $sql = "SELECT id
+                FROM usuarios
+                WHERE email = :email
+                AND id != :usuario_id
+                LIMIT 1";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'email' => $email,
+            'usuario_id' => $usuario_id,
+        ]);
+
+        return (bool) $stmt->fetch();
+    }
+
+// actualiza nombre de usuario y email
+    public static function actualizar_datos_perfil(int $usuario_id, string $nombre, string $email): bool {
+        $pdo = ConexionBBDD::obtener();
+
+        $sql = "UPDATE usuarios
+                SET nombre = :nombre,
+                    email = :email
+                WHERE id = :usuario_id";
+
+        $stmt = $pdo->prepare($sql);
+
+        return $stmt->execute([
+            'nombre' => $nombre,
+            'email' => $email,
+            'usuario_id' => $usuario_id,
+        ]);
+    }
 }

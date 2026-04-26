@@ -156,6 +156,10 @@ return [
             'accion' => 'PerfilControlador@actualizar_foto',
             'middleware' => 'AuthMiddleware',
         ],
+        '/perfil/actualizar' => [
+            'accion' => 'PerfilControlador@actualizar',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
 ];
     
