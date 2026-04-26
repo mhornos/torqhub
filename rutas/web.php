@@ -152,6 +152,10 @@ return [
             'accion' => 'ComunidadControlador@toggle_like_ajax',
             'middleware' => 'AuthMiddleware',
         ],
+        '/perfil/foto' => [
+            'accion' => 'PerfilControlador@actualizar_foto',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
 ];
     

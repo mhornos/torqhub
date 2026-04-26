@@ -18,32 +18,90 @@
         <p><?= htmlspecialchars($m) ?></p>
     <?php endif; ?>
 
-    <section>
-        <?php if (!empty($usuario['foto_perfil'])): ?>
-            <img 
-                src="<?= url('/public/' . $usuario['foto_perfil']) ?>" 
-                alt="Foto de perfil"
-                style="width:120px;height:120px;object-fit:cover;border-radius:50%;"
-            >
-        <?php else: ?>
-            <div style="width:120px;height:120px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;">
-                sin foto
+    <section class="perfil-contenedor">
+        <div class="perfil-cabecera">
+            <div class="perfil-foto">
+                <?php if (!empty($usuario['foto_perfil'])): ?>
+                    <img 
+                        src="<?= url('/public/uploads/perfiles/' . rawurlencode($usuario['foto_perfil'])) ?>" 
+                        alt="Foto de perfil de <?= htmlspecialchars($usuario['nombre']) ?>"
+                    >
+                <?php else: ?>
+                    <div class="perfil-foto-vacia">
+                        Sin foto
+                    </div>
+                <?php endif; ?>
             </div>
-        <?php endif; ?>
 
-        <p><strong>@<?= htmlspecialchars($usuario['nombre']) ?></strong></p>
+            <div class="perfil-info">
+                <h2>@<?= htmlspecialchars($usuario['nombre']) ?></h2>
+
+                <?php if ($es_mi_perfil): ?>
+                    <p><?= htmlspecialchars($usuario['email']) ?></p>
+                    <p>Contraseña: ********</p>
+                <?php endif; ?>
+            </div>
+        </div>
 
         <?php if ($es_mi_perfil): ?>
-            <p>correo electrónico: <?= htmlspecialchars($usuario['email']) ?></p>
-            <p>contraseña: ********</p>
+            <div class="perfil-bloque">
+                <h3>Cambiar foto de perfil</h3>
 
-            <p>
-                <a href="#">editar perfil</a>
-            </p>
+                <form action="<?= url('/perfil/foto') ?>" method="POST" enctype="multipart/form-data">
+                    <?= csrf_campo() ?>
 
-            <p>
-                <a href="#">cambiar contraseña</a>
-            </p>
+                    <div>
+                        <label for="foto_perfil">Nueva foto:</label>
+                        <input 
+                            type="file" 
+                            name="foto_perfil" 
+                            id="foto_perfil" 
+                            accept="image/jpeg,image/png,image/webp"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit">Actualizar foto</button>
+                </form>
+            </div>
+
+            <div class="perfil-bloque">
+                <h3>Editar datos del perfil</h3>
+
+                <form action="<?= url('/perfil/actualizar') ?>" method="POST">
+                    <?= csrf_campo() ?>
+
+                    <div>
+                        <label for="nombre">Nombre de usuario:</label>
+                        <input 
+                            type="text" 
+                            name="nombre" 
+                            id="nombre" 
+                            value="<?= htmlspecialchars($usuario['nombre']) ?>"
+                            required
+                        >
+                    </div>
+
+                    <div>
+                        <label for="email">Correo electrónico:</label>
+                        <input 
+                            type="email" 
+                            name="email" 
+                            id="email" 
+                            value="<?= htmlspecialchars($usuario['email']) ?>"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit">Guardar cambios</button>
+                </form>
+            </div>
+
+            <div class="perfil-bloque">
+                <h3>Cambiar contraseña</h3>
+
+                <p>Este formulario lo implementaremos en el siguiente bloque.</p>
+            </div>
         <?php endif; ?>
     </section>
 

@@ -2,7 +2,7 @@
 
 class RepositorioUsuarios {
     
-    //devuelve true si el nombre ya existe en la base de datos, false si no
+//devuelve true si el nombre ya existe en la base de datos, false si no
     public static function existe_nombre(string $nombre): bool{
         $pdo = ConexionBBDD::obtener();
 
@@ -13,7 +13,7 @@ class RepositorioUsuarios {
         return (bool) $stmt->fetchColumn();
     }
 
-    //devuelve true si el email ya existe en la base de datos, false si no
+//devuelve true si el email ya existe en la base de datos, false si no
     public static function existe_email(string $email): bool {
         $pdo = ConexionBBDD::obtener();
 
@@ -24,7 +24,7 @@ class RepositorioUsuarios {
         return (bool) $stmt->fetchColumn();
     }
 
-    //añade un nuevo usuario a la base de datos y devuelve su id
+//añade un nuevo usuario a la base de datos y devuelve su id
     public static function crear(string $nombre, string $email, string $hash_password): int {
         $pdo = ConexionBBDD::obtener();
 
@@ -39,7 +39,7 @@ class RepositorioUsuarios {
         return (int) $pdo->lastInsertId();
     }
 
-    //busca un usuario por su email, devuelve un array con los datos o null si no se encuentra
+//busca un usuario por su email, devuelve un array con los datos o null si no se encuentra
     public static function buscar_por_email(string $email): ?array {
         $pdo = ConexionBBDD::obtener();
 
@@ -52,7 +52,7 @@ class RepositorioUsuarios {
     }
 
 
-    // busca un usuario por su nombre de usuario
+// busca un usuario por su nombre de usuario
     public static function buscar_por_nombre(string $nombre): ?array {
         $pdo = ConexionBBDD::obtener();
     
@@ -69,5 +69,22 @@ class RepositorioUsuarios {
         $usuario = $stmt->fetch();
     
         return $usuario ?: null;
+    }
+
+
+// actualiza la foto de perfil del usuario
+    public static function actualizar_foto_perfil(int $usuario_id, string $foto_perfil): bool {
+        $pdo = ConexionBBDD::obtener();
+    
+        $sql = "UPDATE usuarios
+                SET foto_perfil = :foto_perfil
+                WHERE id = :usuario_id";
+    
+        $stmt = $pdo->prepare($sql);
+    
+        return $stmt->execute([
+            'foto_perfil' => $foto_perfil,
+            'usuario_id' => $usuario_id,
+        ]);
     }
 }
