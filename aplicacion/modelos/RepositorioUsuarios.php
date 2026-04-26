@@ -170,7 +170,7 @@ class RepositorioUsuarios {
         $pdo = ConexionBBDD::obtener();
 
         $sql = "UPDATE usuarios
-                SET password_hash  = :password
+                SET password_hash = :password
                 WHERE id = :usuario_id";
 
         $stmt = $pdo->prepare($sql);

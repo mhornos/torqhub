@@ -36,5 +36,9 @@
         <button type="submit">Entrar</button>
     </form>
 
+    <p>
+        <a href="<?= url('/password/olvidada') ?>">He olvidado la contraseña</a>
+    </p>
+
 </body>
 </html>

@@ -84,6 +84,12 @@ return [
             'accion' => 'PerfilControlador@ver',
             'middleware' => 'AuthMiddleware',
         ],
+        '/password/olvidada' => [
+            'accion' => 'AuthControlador@formulario_password_olvidada',
+        ],
+        '/password/restablecer' => [
+            'accion' => 'AuthControlador@formulario_restablecer_password',
+        ],
     ],
     'POST' => [
         '/login' => [
@@ -163,6 +169,12 @@ return [
         '/perfil/cambiar-password' => [
             'accion' => 'PerfilControlador@cambiar_password',
             'middleware' => 'AuthMiddleware',
+        ],
+        '/password/olvidada' => [
+            'accion' => 'AuthControlador@enviar_recuperacion_password',
+        ],
+        '/password/restablecer' => [
+            'accion' => 'AuthControlador@guardar_password_restablecida',
         ],
     ],
 ];

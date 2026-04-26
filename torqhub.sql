@@ -134,3 +134,15 @@ ADD CONSTRAINT fk_comentarios_respuesta_a
 
 ALTER TABLE usuarios
 ADD foto_perfil VARCHAR(255) NULL AFTER email;
+
+CREATE TABLE recuperaciones_password (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT UNSIGNED NOT NULL,
+    token_hash VARCHAR(255) NOT NULL,
+    fecha_expiracion DATETIME NOT NULL,
+    usado TINYINT(1) NOT NULL DEFAULT 0,
+    fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_recuperaciones_password_usuario
+        FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

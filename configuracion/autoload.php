@@ -1,4 +1,5 @@
 <?php
+// autoload para cargar clases automáticamente desde las carpetas de controladores, modelos, servicios y middlewares
 
 spl_autoload_register(function (string $nombre_clase): void{
 

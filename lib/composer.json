@@ -1,0 +1,6 @@
+{
+    "name": "torqhub/lib",
+    "require": {
+        "phpmailer/phpmailer": "^7.0"
+    }
+}
