@@ -160,6 +160,10 @@ return [
             'accion' => 'PerfilControlador@actualizar',
             'middleware' => 'AuthMiddleware',
         ],
+        '/perfil/cambiar-password' => [
+            'accion' => 'PerfilControlador@cambiar_password',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
 ];
     

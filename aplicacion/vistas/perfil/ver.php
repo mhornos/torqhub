@@ -98,10 +98,44 @@
             </div>
 
             <div class="perfil-bloque">
-                <h3>Cambiar contraseña</h3>
-
-                <p>Este formulario lo implementaremos en el siguiente bloque.</p>
-            </div>
+            <h3>Cambiar contraseña</h3>
+                
+            <form action="<?= url('/perfil/cambiar-password') ?>" method="POST">
+                <?= csrf_campo() ?>
+                
+                <div>
+                    <label for="password_actual">Contraseña actual:</label>
+                    <input 
+                        type="password" 
+                        name="password_actual" 
+                        id="password_actual"
+                        required
+                    >
+                </div>
+                
+                <div>
+                    <label for="password_nueva">Nueva contraseña:</label>
+                    <input 
+                        type="password" 
+                        name="password_nueva" 
+                        id="password_nueva"
+                        required
+                    >
+                </div>
+                
+                <div>
+                    <label for="password_nueva_repetida">Repetir nueva contraseña:</label>
+                    <input 
+                        type="password" 
+                        name="password_nueva_repetida" 
+                        id="password_nueva_repetida"
+                        required
+                    >
+                </div>
+                
+                <button type="submit">Cambiar contraseña</button>
+            </form>
+        </div>
         <?php endif; ?>
     </section>
 

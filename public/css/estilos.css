@@ -394,7 +394,9 @@ form {
 
 .perfil-bloque input[type="text"],
 .perfil-bloque input[type="email"],
+.perfil-bloque input[type="password"],
 .perfil-bloque input[type="file"] {
+    
     width: 100%;
     max-width: 420px;
 }

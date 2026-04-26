@@ -144,4 +144,40 @@ class RepositorioUsuarios {
             'usuario_id' => $usuario_id,
         ]);
     }
+
+
+// busca un usuario por id incluyendo la contraseña
+    public static function buscar_por_id_con_password(int $usuario_id): ?array {
+        $pdo = ConexionBBDD::obtener();
+
+        $sql = "SELECT id, nombre, email, password_hash
+                FROM usuarios
+                WHERE id = :usuario_id
+                LIMIT 1";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'usuario_id' => $usuario_id,
+        ]);
+
+        $usuario = $stmt->fetch();
+
+        return $usuario ?: null;
+    }
+
+// actualiza la contraseña del usuario
+    public static function actualizar_password(int $usuario_id, string $password_hash): bool {
+        $pdo = ConexionBBDD::obtener();
+
+        $sql = "UPDATE usuarios
+                SET password_hash  = :password
+                WHERE id = :usuario_id";
+
+        $stmt = $pdo->prepare($sql);
+
+        return $stmt->execute([
+            'password' => $password_hash,
+            'usuario_id' => $usuario_id,
+        ]);
+    }
 }

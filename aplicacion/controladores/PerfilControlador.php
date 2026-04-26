@@ -187,4 +187,76 @@ class PerfilControlador extends ControladorBase {
 
         return true;
     }
+
+// cambia la contraseña del usuario logueado
+    public function cambiar_password(): void {
+        csrf_verificar();
+
+        $usuario_id = (int) $_SESSION['usuario']['id'];
+        $nombre_usuario = $_SESSION['usuario']['nombre'];
+
+        $password_actual = $_POST['password_actual'] ?? '';
+        $password_nueva = $_POST['password_nueva'] ?? '';
+        $password_nueva_repetida = $_POST['password_nueva_repetida'] ?? '';
+
+        if ($password_actual === '' || $password_nueva === '' || $password_nueva_repetida === '') {
+            flash_set('error', 'Todos los campos de contraseña son obligatorios');
+            $this->redirigir('/perfil?usuario=' . urlencode($nombre_usuario));
+        }
+
+        $usuario = RepositorioUsuarios::buscar_por_id_con_password($usuario_id);
+
+        if (!$usuario) {
+            flash_set('error', 'Usuario no encontrado');
+            $this->redirigir('/comunidad');
+        }
+
+        if (!password_verify($password_actual, $usuario['password_hash'])) {
+            flash_set('error', 'La contraseña actual no es correcta');
+            $this->redirigir('/perfil?usuario=' . urlencode($nombre_usuario));
+        }
+
+        if ($password_nueva !== $password_nueva_repetida) {
+            flash_set('error', 'Las nuevas contraseñas no coinciden');
+            $this->redirigir('/perfil?usuario=' . urlencode($nombre_usuario));
+        }
+
+        if (!$this->password_segura($password_nueva)) {
+            flash_set('error', 'La nueva contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula y un número');
+            $this->redirigir('/perfil?usuario=' . urlencode($nombre_usuario));
+        }
+
+        if (password_verify($password_nueva, $usuario['password_hash'])) {
+            flash_set('error', 'La nueva contraseña no puede ser igual a la actual');
+            $this->redirigir('/perfil?usuario=' . urlencode($nombre_usuario));
+        }
+
+        $password_hash = password_hash($password_nueva, PASSWORD_DEFAULT);
+
+        RepositorioUsuarios::actualizar_password($usuario_id, $password_hash);
+
+        flash_set('ok', 'Contraseña actualizada correctamente');
+        $this->redirigir('/perfil?usuario=' . urlencode($nombre_usuario));
+    }
+
+// valida requisitos mínimos de contraseña
+    private function password_segura(string $password): bool {
+        if (strlen($password) < 8) {
+            return false;
+        }
+
+        if (!preg_match('/[A-Z]/', $password)) {
+            return false;
+        }
+
+        if (!preg_match('/[a-z]/', $password)) {
+            return false;
+        }
+
+        if (!preg_match('/[0-9]/', $password)) {
+            return false;
+        }
+
+        return true;
+    }
 }
