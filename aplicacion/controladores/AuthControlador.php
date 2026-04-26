@@ -59,9 +59,15 @@ class AuthControlador extends ControladorBase {
         $nombre = trim($_POST['nombre'] ?? '');
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
+        $password_repetida = $_POST['password_repetida'] ?? '';
 
         if ($nombre === '' || $email === '' || $password === '') {
             flash_set('error', 'Debes rellenar nombre de usuario, correo electrónico y contraseña');
+            $this->redirigir('/registro');
+        }
+
+        if ($password !== $password_repetida) {
+            flash_set('error', 'Las contraseñas no coinciden');
             $this->redirigir('/registro');
         }
 

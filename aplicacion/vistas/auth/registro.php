@@ -16,7 +16,7 @@
     <?php endif; ?>
 
 <!-- // formulario de registro -->
-    <form method="post" action="<?= url('/registro') ?>">
+    <form action="<?= url('/registro') ?>" method="POST" id="formulario-registro">
         <?= csrf_campo() ?>
 
         <div>
@@ -51,11 +51,28 @@
                 title="Mínimo 8 caracteres, una mayúscula, una minúscula y un número"
                 autocomplete="new-password"
             >
+        </div>
+
+        <div>
+            <label for="password_repetida">Repetir contraseña:</label>
+            <input 
+                type="password" 
+                name="password_repetida" 
+                id="password_repetida" 
+                required
+            > <br>
+            <div id="error-password-repetida" class="mensaje-error-campo" style="display:none;">
+                Las contraseñas no coinciden
+            </div>
             <small>Mínimo 8 caracteres, una mayúscula, una minúscula y un número</small>
         </div>
+
+        
+
         <br>
         <button type="submit">Crear cuenta</button>
     </form>
 
+    <script src="<?= url('/public/js/auth/registro.js') ?>"></script>
 </body>
 </html>
