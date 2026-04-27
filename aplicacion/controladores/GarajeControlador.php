@@ -108,8 +108,8 @@ class GarajeControlador extends ControladorBase {
         }
 
 
-        if ($marca === '' || $modelo === '') {
-            flash_set('error', 'Marca y modelo son obligatorios');
+        if ($marca === '' || $modelo === '' || $any === null) {
+            flash_set('error', 'Marca, modelo y año son obligatorios');
             $this->redirigir('/garaje/nuevo');
         }
 

@@ -90,6 +90,10 @@ return [
         '/password/restablecer' => [
             'accion' => 'AuthControlador@formulario_restablecer_password',
         ],
+        '/perfil/vehiculo' => [
+            'accion' => 'PerfilControlador@vehiculo_publico',
+            'middleware' => 'AuthMiddleware',
+    ],
     ],
     'POST' => [
         '/login' => [

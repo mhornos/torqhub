@@ -19,12 +19,14 @@ class PerfilControlador extends ControladorBase {
         }
 
         $publicaciones = RepositorioPublicaciones::listar_por_usuario((int) $usuario['id']);
+        $vehiculos = RepositorioVehiculos::listar_por_usuario_publico((int) $usuario['id']);
 
         $es_mi_perfil = (int) $_SESSION['usuario']['id'] === (int) $usuario['id'];
 
         $this->render('perfil/ver', [
             'usuario' => $usuario,
             'publicaciones' => $publicaciones,
+            'vehiculos' => $vehiculos,
             'es_mi_perfil' => $es_mi_perfil,
         ]);
     }
@@ -258,5 +260,26 @@ class PerfilControlador extends ControladorBase {
         }
 
         return true;
+    }
+
+// muestra el detalle publico de un vehiculo
+    public function vehiculo_publico(): void {
+        $vehiculo_id = (int) ($_GET['id'] ?? 0);
+
+        if ($vehiculo_id <= 0) {
+            flash_set('error', 'Vehículo no válido');
+            $this->redirigir('/comunidad');
+        }
+
+        $vehiculo = RepositorioVehiculos::obtener_publico_por_id($vehiculo_id);
+
+        if (!$vehiculo) {
+            flash_set('error', 'El vehículo no existe');
+            $this->redirigir('/comunidad');
+        }
+
+        $this->render('perfil/vehiculo', [
+            'vehiculo' => $vehiculo,
+        ]);
     }
 }

@@ -30,7 +30,7 @@
 
         <div>
             <label>Año:</label>
-            <input type="number" name="any" min="1900" max="2100" value="<?= htmlspecialchars((string) ($vehiculo['any'] ?? '')) ?>">
+            <input type="number" name="any" min="1900" max="2100" value="<?= htmlspecialchars((string) ($vehiculo['any'] ?? '')) ?>" required>
         </div>
 
         <div>

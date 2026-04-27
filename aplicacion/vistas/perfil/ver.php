@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>perfil - torqhub</title>
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 </head>
+
 <body>
 
     <h1>Perfil de @<?= htmlspecialchars($usuario['nombre']) ?></h1>
@@ -22,10 +24,9 @@
         <div class="perfil-cabecera">
             <div class="perfil-foto">
                 <?php if (!empty($usuario['foto_perfil'])): ?>
-                    <img 
-                        src="<?= url('/public/uploads/perfiles/' . rawurlencode($usuario['foto_perfil'])) ?>" 
-                        alt="Foto de perfil de <?= htmlspecialchars($usuario['nombre']) ?>"
-                    >
+                    <img
+                        src="<?= url('/public/uploads/perfiles/' . rawurlencode($usuario['foto_perfil'])) ?>"
+                        alt="Foto de perfil de <?= htmlspecialchars($usuario['nombre']) ?>">
                 <?php else: ?>
                     <div class="perfil-foto-vacia">
                         Sin foto
@@ -35,11 +36,6 @@
 
             <div class="perfil-info">
                 <h2>@<?= htmlspecialchars($usuario['nombre']) ?></h2>
-
-                <?php if ($es_mi_perfil): ?>
-                    <p><?= htmlspecialchars($usuario['email']) ?></p>
-                    <p>Contraseña: ********</p>
-                <?php endif; ?>
             </div>
         </div>
 
@@ -52,13 +48,12 @@
 
                     <div>
                         <label for="foto_perfil">Nueva foto:</label>
-                        <input 
-                            type="file" 
-                            name="foto_perfil" 
-                            id="foto_perfil" 
+                        <input
+                            type="file"
+                            name="foto_perfil"
+                            id="foto_perfil"
                             accept="image/jpeg,image/png,image/webp"
-                            required
-                        >
+                            required>
                     </div>
 
                     <button type="submit">Actualizar foto</button>
@@ -73,24 +68,22 @@
 
                     <div>
                         <label for="nombre">Nombre de usuario:</label>
-                        <input 
-                            type="text" 
-                            name="nombre" 
-                            id="nombre" 
+                        <input
+                            type="text"
+                            name="nombre"
+                            id="nombre"
                             value="<?= htmlspecialchars($usuario['nombre']) ?>"
-                            required
-                        >
+                            required>
                     </div>
 
                     <div>
                         <label for="email">Correo electrónico:</label>
-                        <input 
-                            type="email" 
-                            name="email" 
-                            id="email" 
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
                             value="<?= htmlspecialchars($usuario['email']) ?>"
-                            required
-                        >
+                            required>
                     </div>
 
                     <button type="submit">Guardar cambios</button>
@@ -98,44 +91,83 @@
             </div>
 
             <div class="perfil-bloque">
-            <h3>Cambiar contraseña</h3>
-                
-            <form action="<?= url('/perfil/cambiar-password') ?>" method="POST">
-                <?= csrf_campo() ?>
-                
-                <div>
-                    <label for="password_actual">Contraseña actual:</label>
-                    <input 
-                        type="password" 
-                        name="password_actual" 
-                        id="password_actual"
-                        required
-                    >
-                </div>
-                
-                <div>
-                    <label for="password_nueva">Nueva contraseña:</label>
-                    <input 
-                        type="password" 
-                        name="password_nueva" 
-                        id="password_nueva"
-                        required
-                    >
-                </div>
-                
-                <div>
-                    <label for="password_nueva_repetida">Repetir nueva contraseña:</label>
-                    <input 
-                        type="password" 
-                        name="password_nueva_repetida" 
-                        id="password_nueva_repetida"
-                        required
-                    >
-                </div>
-                
-                <button type="submit">Cambiar contraseña</button>
-            </form>
-        </div>
+                <h3>Cambiar contraseña</h3>
+
+                <form action="<?= url('/perfil/cambiar-password') ?>" method="POST">
+                    <?= csrf_campo() ?>
+
+                    <div>
+                        <label for="password_actual">Contraseña actual:</label>
+                        <input
+                            type="password"
+                            name="password_actual"
+                            id="password_actual"
+                            required>
+                    </div>
+
+                    <div>
+                        <label for="password_nueva">Nueva contraseña:</label>
+                        <input
+                            type="password"
+                            name="password_nueva"
+                            id="password_nueva"
+                            required>
+                    </div>
+
+                    <div>
+                        <label for="password_nueva_repetida">Repetir nueva contraseña:</label>
+                        <input
+                            type="password"
+                            name="password_nueva_repetida"
+                            id="password_nueva_repetida"
+                            required>
+                    </div>
+
+                    <button type="submit">Cambiar contraseña</button>
+                </form>
+            </div>
+        <?php endif; ?>
+    </section>
+
+    <hr>
+
+    <section class="perfil-bloque">
+        <h3>Garaje público</h3>
+
+        <?php if (empty($vehiculos)): ?>
+            <p>Este usuario todavía no tiene vehículos en su garaje.</p>
+        <?php else: ?>
+            <div class="perfil-garaje">
+                <?php foreach ($vehiculos as $vehiculo): ?>
+                    <article class="perfil-vehiculo">
+                        <?php if (!empty($vehiculo['imagen'])): ?>
+                            <img
+                                src="<?= url('/public/uploads/vehiculos/' . rawurlencode($vehiculo['imagen'])) ?>"
+                                alt="Imagen de <?= htmlspecialchars($vehiculo['marca'] . ' ' . $vehiculo['modelo']) ?>">
+                        <?php else: ?>
+                            <div class="perfil-vehiculo-sin-imagen">
+                                sin imagen
+                            </div>
+                        <?php endif; ?>
+
+                        <h4>
+                            <?= htmlspecialchars($vehiculo['marca']) ?>
+                            <?= htmlspecialchars($vehiculo['modelo']) ?>
+                        </h4>
+
+                        <p>
+                            <?= htmlspecialchars($vehiculo['any']) ?>
+                            <?php if (!empty($vehiculo['tipo_combustible'])): ?>
+                                · <?= htmlspecialchars($vehiculo['tipo_combustible']) ?>
+                            <?php endif; ?>
+                        </p>
+
+                        <a href="<?= url('/perfil/vehiculo?id=' . (int) $vehiculo['id']) ?>">
+                            Ver detalles
+                        </a>
+                    </article>
+                <?php endforeach; ?>
+            </div>
         <?php endif; ?>
     </section>
 
@@ -153,11 +185,10 @@
                 </p>
 
                 <?php if (!empty($publicacion['imagen'])): ?>
-                    <img 
+                    <img
                         src="<?= url('/public/' . $publicacion['imagen']) ?>"
                         alt="Imagen publicación"
-                        style="max-width:400px;display:block;margin-bottom:10px;"
-                    >
+                        style="max-width:400px;display:block;margin-bottom:10px;">
                 <?php endif; ?>
 
                 <p><?= nl2br(htmlspecialchars($publicacion['contenido'])) ?></p>
@@ -177,4 +208,5 @@
     <?php endif; ?>
 
 </body>
+
 </html>

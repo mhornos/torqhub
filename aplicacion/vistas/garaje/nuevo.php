@@ -29,7 +29,7 @@
 
         <div>
             <label>Año:</label>
-            <input type="number" name="any" min="1900" max="2026">
+            <input type="number" name="any" min="1900" max="2026" required>
         </div>
 
         <div>

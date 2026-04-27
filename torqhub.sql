@@ -62,7 +62,7 @@ CREATE TABLE vehiculos (
   usuario_id INT UNSIGNED NOT NULL,
   marca VARCHAR(60) NOT NULL,
   modelo VARCHAR(60) NOT NULL,
-  any SMALLINT UNSIGNED NULL,
+  any SMALLINT UNSIGNED NOT NULL,
   vin VARCHAR(25) NULL,
 
   carroceria ENUM(
