@@ -1,80 +1,79 @@
-//manejar los likes con ajax en el listado de publicaciones de la comunidad
+// manejar los likes con ajax en el listado de publicaciones de la comunidad
 
 document.addEventListener('DOMContentLoaded', function () {
-    const formularios = document.querySelectorAll('.formulario-like-publicacion-listado');
+    document.addEventListener('submit', async function (evento) {
+        const formulario = evento.target.closest('.formulario-like-publicacion-listado');
 
-    formularios.forEach(function (formulario) {
-        formulario.addEventListener('submit', async function (evento) {
-            evento.preventDefault();
+        if (!formulario) {
+            return;
+        }
 
-            const boton = formulario.querySelector('.boton-like-publicacion-listado');
-            const campoPublicacionId = formulario.querySelector('input[name="publicacion_id"]');
+        evento.preventDefault();
 
-            if (!boton || !campoPublicacionId) {
-                return;
-            }
+        const boton = formulario.querySelector('.boton-like-publicacion-listado');
+        const campoPublicacionId = formulario.querySelector('input[name="publicacion_id"]');
 
-            const publicacionId = campoPublicacionId.value;
-            const textoTotalLikes = document.querySelector(
-                '.texto-total-likes-publicacion-listado[data-publicacion-id="' + publicacionId + '"]'
-            );
-            const mensaje = document.querySelector(
-                '.mensaje-like-publicacion-listado[data-publicacion-id="' + publicacionId + '"]'
-            );
+        if (!boton || !campoPublicacionId) {
+            return;
+        }
 
-            if (!textoTotalLikes || !mensaje) {
-                return;
-            }
+        const publicacionId = campoPublicacionId.value;
 
-            const url = formulario.dataset.url;
-            const datosFormulario = new FormData(formulario);
+        const textoTotalLikes = document.querySelector(
+            '.texto-total-likes-publicacion-listado[data-publicacion-id="' + publicacionId + '"]'
+        );
 
-            boton.disabled = true;
-            mensaje.style.display = 'none';
+        const mensaje = document.querySelector(
+            '.mensaje-like-publicacion-listado[data-publicacion-id="' + publicacionId + '"]'
+        );
 
-            try {
-                const respuesta = await fetch(url, {
-                    method: 'POST',
-                    body: datosFormulario,
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                });
+        if (!textoTotalLikes || !mensaje) {
+            return;
+        }
 
-                const datos = await respuesta.json();
+        const url = formulario.dataset.url;
+        const datosFormulario = new FormData(formulario);
 
-                if (!respuesta.ok || !datos.ok) {
-                    mensaje.textContent = datos.mensaje || 'No se pudo actualizar el like';
-                    mensaje.style.display = 'block';
-                    boton.disabled = false;
-                    return;
+        boton.disabled = true;
+        mensaje.style.display = 'none';
+
+        try {
+            const respuesta = await fetch(url, {
+                method: 'POST',
+                body: datosFormulario,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
                 }
+            });
 
-                boton.textContent = datos.texto_boton;
-                textoTotalLikes.textContent = construirTextoLikes(datos.total_likes);
+            const datos = await respuesta.json();
 
-                /* if (datos.accion === 'añadido') {
-                    mensaje.textContent = 'Like añadido correctamente';
-                } else {
-                    mensaje.textContent = 'Like eliminado correctamente';
-                } */
-
+            if (!respuesta.ok || !datos.ok) {
+                mensaje.textContent = datos.mensaje || 'No se pudo actualizar el like';
                 mensaje.style.display = 'block';
-            } catch (error) {
-                mensaje.textContent = 'No se pudo actualizar el like';
-                mensaje.style.display = 'block';
-            } finally {
                 boton.disabled = false;
+                return;
             }
-        });
+
+            boton.textContent = datos.texto_boton;
+            textoTotalLikes.textContent = construirTextoLikes(datos.total_likes);
+
+            mensaje.style.display = 'block';
+        } catch (error) {
+            mensaje.textContent = 'No se pudo actualizar el like';
+            mensaje.style.display = 'block';
+        } finally {
+            boton.disabled = false;
+        }
     });
 
     function construirTextoLikes(totalLikes) {
+        totalLikes = Number(totalLikes);
+
         if (totalLikes === 1) {
             return '1 like';
         }
 
         return totalLikes + ' likes';
     }
-    
 });

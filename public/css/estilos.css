@@ -450,3 +450,77 @@ form {
     background-color: #ddd;
     color: #555;
 }
+
+/* filtros de comunidad */
+
+.formulario-filtros-comunidad {
+    display: flex;
+    gap: 1rem;
+    align-items: end;
+    flex-wrap: wrap;
+}
+
+.campo-filtro-comunidad {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.campo-filtro-comunidad input,
+.campo-filtro-comunidad select {
+    min-width: 220px;
+    padding: 0.55rem;
+}
+
+.acciones-filtros-comunidad {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.enlace-limpiar-filtros {
+    text-decoration: none;
+}
+
+.contador-publicaciones {
+    margin-top: 0.8rem;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+/* paginación de comunidad */
+
+.paginacion-comunidad {
+    /* text-align: center; */
+    padding-left: 12px;
+}
+
+.estado-paginacion {
+    margin-bottom: 0.75rem;
+    color: #555;
+}
+
+.enlaces-paginacion {
+    /* display: flex;
+    justify-content: center;
+    flex-wrap: wrap; */
+}
+
+.enlaces-paginacion a,
+.pagina-activa {
+    padding: 0.45rem 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.pagina-activa {
+    font-weight: bold;
+    background: #222;
+    color: #fff;
+    border-color: #222;
+}
+
+.enlaces-paginacion a:hover {
+    background: #eee;
+}

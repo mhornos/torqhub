@@ -1,13 +1,55 @@
 <?php
 
 class ComunidadControlador extends ControladorBase {
-// muestra el listado de publicaciones
-    public function index(): void
-    {
-        $publicaciones = RepositorioPublicaciones::listar_todas();
+// muestra el listado de publicaciones con buscador, ordenación y paginación
+    public function index(): void {
+        $busqueda = trim($_GET['busqueda'] ?? '');
+        $orden = $_GET['orden'] ?? 'recientes';
+        $pagina_actual = (int) ($_GET['pagina'] ?? 1);
+
+        $ordenes_permitidos = ['recientes', 'antiguas', 'likes', 'comentarios'];
+
+        if (!in_array($orden, $ordenes_permitidos, true)) {
+            $orden = 'recientes';
+        }
+
+        if ($pagina_actual < 1) {
+            $pagina_actual = 1;
+        }
+
+        $limite = 5;
+        $offset = ($pagina_actual - 1) * $limite;
+
+        $total_publicaciones = RepositorioPublicaciones::contar_con_filtros($busqueda);
+        $total_paginas = max(1, (int) ceil($total_publicaciones / $limite));
+
+        if ($pagina_actual > $total_paginas) {
+            $pagina_actual = $total_paginas;
+            $offset = ($pagina_actual - 1) * $limite;
+        }
+
+        $publicaciones = RepositorioPublicaciones::listar_con_filtros(
+            $busqueda,
+            $orden,
+            $limite,
+            $offset
+        );
+
+        if (
+            isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+            $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest'
+        ) {
+            require __DIR__ . '/../vistas/comunidad/_resultado_publicaciones.php';
+            return;
+        }
 
         $this->render('comunidad/index', [
             'publicaciones' => $publicaciones,
+            'busqueda' => $busqueda,
+            'orden' => $orden,
+            'pagina_actual' => $pagina_actual,
+            'total_paginas' => $total_paginas,
+            'total_publicaciones' => $total_publicaciones,
         ]);
     }
 
