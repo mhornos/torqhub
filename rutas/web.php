@@ -93,7 +93,11 @@ return [
         '/perfil/vehiculo' => [
             'accion' => 'PerfilControlador@vehiculo_publico',
             'middleware' => 'AuthMiddleware',
-    ],
+        ],
+        '/diagnostico' => [
+            'accion' => 'DiagnosticoControlador@index',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
     'POST' => [
         '/login' => [
@@ -179,6 +183,10 @@ return [
         ],
         '/password/restablecer' => [
             'accion' => 'AuthControlador@guardar_password_restablecida',
+        ],
+        '/diagnostico/analizar' => [
+            'accion' => 'DiagnosticoControlador@analizar',
+            'middleware' => 'AuthMiddleware',
         ],
     ],
 ];

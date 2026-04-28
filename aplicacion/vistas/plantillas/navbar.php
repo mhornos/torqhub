@@ -7,6 +7,7 @@
     <?php else: ?>
         <a href="<?= url('/garaje') ?>">Mi garaje</a>
         <a href="<?= url('/comunidad') ?>">Comunidad</a>
+        <a href="<?= url('/diagnostico') ?>">Diagnóstico</a>
         <a href="<?= url('/perfil?usuario=' . $_SESSION['usuario']['nombre']) ?>">Mi perfil</a>
 
         <?php if (($_SESSION['usuario']['rol'] ?? '') === 'admin'): ?>

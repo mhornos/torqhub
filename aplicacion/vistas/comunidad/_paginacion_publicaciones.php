@@ -1,3 +1,10 @@
+<?php
+    $total_paginas = $total_paginas ?? 1;
+    $pagina_actual = $pagina_actual ?? 1;
+    $busqueda = $busqueda ?? '';
+    $orden = $orden ?? 'recientes';
+?>
+
 <div id="contenedor-paginacion-comunidad">
     <?php if ($total_paginas > 1): ?>
         <div class="paginacion-comunidad" aria-label="Paginación de publicaciones">
@@ -8,10 +15,10 @@
             <div class="enlaces-paginacion">
                 <?php if ($pagina_actual > 1): ?>
                     <a href="<?= url('/comunidad?' . http_build_query([
-                        'busqueda' => $busqueda,
-                        'orden' => $orden,
-                        'pagina' => $pagina_actual - 1,
-                    ])) ?>">
+                                    'busqueda' => $busqueda,
+                                    'orden' => $orden,
+                                    'pagina' => $pagina_actual - 1,
+                                ])) ?>">
                         Anterior
                     </a>
                 <?php endif; ?>
@@ -21,10 +28,10 @@
                         <span class="pagina-activa"><?= $i ?></span>
                     <?php else: ?>
                         <a href="<?= url('/comunidad?' . http_build_query([
-                            'busqueda' => $busqueda,
-                            'orden' => $orden,
-                            'pagina' => $i,
-                        ])) ?>">
+                                        'busqueda' => $busqueda,
+                                        'orden' => $orden,
+                                        'pagina' => $i,
+                                    ])) ?>">
                             <?= $i ?>
                         </a>
                     <?php endif; ?>
@@ -32,10 +39,10 @@
 
                 <?php if ($pagina_actual < $total_paginas): ?>
                     <a href="<?= url('/comunidad?' . http_build_query([
-                        'busqueda' => $busqueda,
-                        'orden' => $orden,
-                        'pagina' => $pagina_actual + 1,
-                    ])) ?>">
+                                    'busqueda' => $busqueda,
+                                    'orden' => $orden,
+                                    'pagina' => $pagina_actual + 1,
+                                ])) ?>">
                         Siguiente
                     </a>
                 <?php endif; ?>

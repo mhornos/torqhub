@@ -1,3 +1,7 @@
+<?php
+    $publicaciones = $publicaciones ?? [];
+?>
+
 <div id="contenedor-publicaciones-comunidad">
     <?php if (count($publicaciones) === 0): ?>
         <p>No se han encontrado publicaciones.</p>
