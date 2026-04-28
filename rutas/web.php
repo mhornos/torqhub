@@ -118,6 +118,10 @@ return [
             'accion' => 'GarajeControlador@editar_post',
             'middleware' => 'AuthMiddleware',
         ],
+        '/garaje/vin/consultar' => [
+            'accion' => 'GarajeControlador@consultar_vin',
+            'middleware' => 'AuthMiddleware',
+        ],
         '/garaje/mantenimientos/nuevo' => [
             'accion' => 'GarajeControlador@mantenimiento_nuevo_post',
             'middleware' => 'AuthMiddleware',

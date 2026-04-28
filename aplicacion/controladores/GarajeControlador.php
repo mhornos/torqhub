@@ -449,6 +449,69 @@ class GarajeControlador extends ControladorBase {
     }
 
 
+//consulta un vin mediante ajax y devuelve datos preparados para autocompletar el formulario
+    public function consultar_vin(): void {
+        header('Content-Type: application/json; charset=utf-8');
+
+        csrf_verificar();
+
+        $vin = trim($_POST['vin'] ?? '');
+
+        if ($vin === '') {
+            http_response_code(422);
+
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => 'debes introducir un vin'
+            ], JSON_UNESCAPED_UNICODE);
+
+            return;
+        }
+
+        try {
+            $servicio_vin = new ServicioVin();
+            $resultado = $servicio_vin->consultar($vin);
+
+            echo json_encode([
+                'ok' => true,
+                'mensaje' => $resultado['origen'] === 'cache'
+                    ? 'vin encontrado en caché'
+                    : 'vin consultado en la api externa',
+                'origen' => $resultado['origen'],
+                'vin' => $resultado['vin'],
+                'datos_api' => $resultado['datos_api'],
+                'campos_torqhub' => $resultado['campos_torqhub'],
+                'error_codigo' => $resultado['error_codigo'],
+                'error_texto' => $resultado['error_texto'],
+            ], JSON_UNESCAPED_UNICODE);
+
+        } catch (InvalidArgumentException $e) {
+            http_response_code(422);
+
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => $e->getMessage()
+            ], JSON_UNESCAPED_UNICODE);
+
+        } catch (RuntimeException $e) {
+            http_response_code(502);
+
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => $e->getMessage()
+            ], JSON_UNESCAPED_UNICODE);
+
+        } catch (PDOException $e) {
+            http_response_code(500);
+
+            echo json_encode([
+                'ok' => false,
+                'mensaje' => 'no se pudo guardar la caché del vin'
+            ], JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+
 //recoge y valida los filtros del historial de mantenimiento enviados por get
     private function obtener_filtros_mantenimiento(): array
     {

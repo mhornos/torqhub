@@ -146,3 +146,31 @@ CREATE TABLE recuperaciones_password (
         FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
         ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE cache_vin (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    vin VARCHAR(17) NOT NULL UNIQUE,
+
+    marca VARCHAR(80) NULL,
+    modelo VARCHAR(120) NULL,
+    any SMALLINT UNSIGNED NULL,
+
+    carroceria_api VARCHAR(120) NULL,
+    combustible_api VARCHAR(120) NULL,
+    cambio_api VARCHAR(120) NULL,
+
+    carroceria_torqhub VARCHAR(60) NULL,
+    combustible_torqhub VARCHAR(60) NULL,
+    cambio_torqhub VARCHAR(30) NULL,
+
+    potencia_cv SMALLINT UNSIGNED NULL,
+    cilindrada_cm3 INT UNSIGNED NULL,
+
+    error_codigo VARCHAR(50) NULL,
+    error_texto TEXT NULL,
+
+    respuesta_json LONGTEXT NOT NULL,
+
+    fecha_consulta DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
