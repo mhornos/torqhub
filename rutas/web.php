@@ -188,6 +188,14 @@ return [
             'accion' => 'DiagnosticoControlador@analizar',
             'middleware' => 'AuthMiddleware',
         ],
+        '/diagnostico/reiniciar' => [
+            'accion' => 'DiagnosticoControlador@reiniciar',
+            'middleware' => 'AuthMiddleware',
+        ],
+        '/diagnostico/ajax' => [
+            'accion' => 'DiagnosticoControlador@ajaxAnalizar',
+            'middleware' => 'AuthMiddleware',
+        ],
     ],
 ];
     

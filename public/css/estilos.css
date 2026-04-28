@@ -524,3 +524,166 @@ form {
 .enlaces-paginacion a:hover {
     background: #eee;
 }
+
+/* diagnostico asistido */
+.diagnostico {
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 30px 15px;
+}
+
+.diagnostico__cabecera {
+    margin-bottom: 25px;
+}
+
+.diagnostico__cabecera h1 {
+    margin-bottom: 8px;
+}
+
+.diagnostico__cabecera p {
+    opacity: 0.85;
+}
+
+.diagnostico__chat {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.diagnostico__mensaje {
+    max-width: 78%;
+    padding: 16px 18px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.diagnostico__mensaje strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.diagnostico__mensaje p {
+    margin: 0 0 8px;
+}
+
+.diagnostico__mensaje--ia {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.diagnostico__mensaje--usuario {
+    align-self: flex-end;
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.diagnostico__resultados {
+    display: grid;
+    gap: 14px;
+    margin-top: 14px;
+}
+
+.diagnostico__resultado {
+    padding: 15px;
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.18);
+}
+
+.diagnostico__resultado h3 {
+    margin-bottom: 8px;
+}
+
+.diagnostico__barra {
+    width: 100%;
+    height: 9px;
+    margin: 8px 0 12px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.diagnostico__barra span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: #7893ff;
+}
+
+.diagnostico__formulario {
+    padding: 16px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.diagnostico__formulario label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.diagnostico__entrada {
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+}
+
+.diagnostico__entrada textarea {
+    flex: 1;
+    resize: vertical;
+    min-height: 70px;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.diagnostico__entrada button {
+    padding: 0 22px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.diagnostico__error {
+    margin-bottom: 15px;
+    color: #ff6b6b;
+    font-weight: 600;
+}
+
+@media (max-width: 700px) {
+    .diagnostico__mensaje {
+        max-width: 100%;
+    }
+
+    .diagnostico__entrada {
+        flex-direction: column;
+    }
+
+    .diagnostico__entrada button {
+        padding: 12px;
+    }
+}
+
+.diagnostico__reiniciar {
+    margin-bottom: 18px;
+    text-align: right;
+}
+
+.diagnostico__reiniciar button {
+    padding: 9px 14px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+button:hover {
+    background-color: #7893ff;
+    color: white;
+}
+
+.diagnostico__entrada button:disabled {
+    cursor: default;
+    pointer-events: none;
+}
