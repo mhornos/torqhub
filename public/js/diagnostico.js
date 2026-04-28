@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mensaje.classList.add('diagnostico__mensaje', 'diagnostico__mensaje--usuario');
 
         const autor = document.createElement('strong');
-        autor.textContent = 'tú';
+        autor.textContent = 'Tú';
 
         const parrafo = document.createElement('p');
         parrafo.textContent = texto;
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mensaje.id = 'diagnostico-cargando';
 
         const autor = document.createElement('strong');
-        autor.textContent = 'torqhub ia';
+        autor.textContent = 'TorqHub IA';
 
         const parrafo = document.createElement('p');
         parrafo.textContent = 'analizando síntomas...';
@@ -92,18 +92,18 @@ document.addEventListener('DOMContentLoaded', () => {
         articulo.classList.add('diagnostico__resultado');
 
         const titulo = document.createElement('h3');
-        titulo.textContent = resultado.titulo;
+        titulo.textContent = '"' + resultado.titulo + '"';
 
         const confianza = document.createElement('p');
-        confianza.innerHTML = `confianza aproximada: <strong>${parseInt(resultado.confianza)}%</strong>`;
+        confianza.innerHTML = `Confianza aproximada: <strong>${parseInt(resultado.confianza)}%</strong>`;
 
         const coincidencias = document.createElement('p');
-        coincidencias.textContent = `coincidencias detectadas: ${parseInt(resultado.coincidencias)}`;
+        coincidencias.textContent = `Coincidencias detectadas: ${parseInt(resultado.coincidencias)}`;
 
         const recomendacion = document.createElement('p');
 
         const recomendacionTitulo = document.createElement('strong');
-        recomendacionTitulo.textContent = 'recomendación: ';
+        recomendacionTitulo.textContent = 'Recomendación: ';
 
         const recomendacionTexto = document.createTextNode(resultado.recomendacion);
 
@@ -124,13 +124,13 @@ document.addEventListener('DOMContentLoaded', () => {
         mensaje.classList.add('diagnostico__mensaje', 'diagnostico__mensaje--ia');
 
         const autor = document.createElement('strong');
-        autor.textContent = 'torqhub ia';
+        autor.textContent = 'TorqHub IA';
 
         mensaje.appendChild(autor);
 
         if (resultados.length > 0) {
             const intro = document.createElement('p');
-            intro.textContent = 'he encontrado estas posibles causas:';
+            intro.textContent = 'He encontrado estas posibles causas:';
 
             const contenedorResultados = document.createElement('div');
             contenedorResultados.classList.add('diagnostico__resultados');
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mensaje.appendChild(contenedorResultados);
         } else {
             const parrafo = document.createElement('p');
-            parrafo.textContent = 'no he encontrado una causa clara. prueba describiendo síntomas más concretos como ruido, temperatura, arranque, frenos, dirección o pérdida de potencia.';
+            parrafo.textContent = 'No he encontrado una causa clara. Prueba describiendo síntomas más concretos como ruido, temperatura, arranque, frenos, dirección o pérdida de potencia.';
 
             mensaje.appendChild(parrafo);
         }
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mensaje.classList.add('diagnostico__mensaje', 'diagnostico__mensaje--ia');
 
         const autor = document.createElement('strong');
-        autor.textContent = 'torqhub ia';
+        autor.textContent = 'TorqHub IA';
 
         const parrafo = document.createElement('p');
         parrafo.textContent = texto;
