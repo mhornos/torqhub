@@ -13,7 +13,7 @@ class ServicioVin
         $vin = $this->normalizar_vin($vin);
 
         if (!$this->vin_valido($vin)) {
-            throw new InvalidArgumentException('El vin debe tener 17 caracteres y no puede contener "i", "o" ni "q"');
+            throw new InvalidArgumentException('El VIN debe tener 17 carácteres y no puede contener "i", "o" ni "q"');
         }
 
         $cache = RepositorioVinCache::buscar_por_vin($vin);

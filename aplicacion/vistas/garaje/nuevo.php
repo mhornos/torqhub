@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 
 </head>
+
 <body>
     <h1>Añadir vehículo</h1>
 
@@ -14,7 +16,13 @@
         <p><?= htmlspecialchars($m) ?></p>
     <?php endif; ?>
 
-    <form method="post" action="<?= url('/garaje/nuevo') ?>" enctype="multipart/form-data" class="formulario-garaje-validado" novalidate>
+    <form
+        method="post"
+        action="<?= url('/garaje/nuevo') ?>"
+        enctype="multipart/form-data"
+        class="formulario-garaje-validado"
+        data-url-consultar-vin="<?= url('/garaje/vin/consultar') ?>"
+        novalidate>
         <?= csrf_campo() ?>
 
         <div>
@@ -32,11 +40,18 @@
             <input type="number" name="any" min="1900" max="2026" required>
         </div>
 
-        <div>
-            <label>VIN (opcional):</label>
-            <input type="text" name="vin" maxlength="25">
+        <div class="campo-vin">
+            <label for="vin">VIN (opcional):</label>
+            <input type="text" name="vin" id="vin" maxlength="17" autocomplete="off">
+
+            <button type="button" class="boton-consultar-vin">
+                Consultar VIN
+            </button>
+
+            <small>Introduce un VIN real de 17 carácteres para autocompletar datos del vehículo.</small>
+            <p class="mensaje-vin" aria-live="polite"></p>
         </div>
-        
+
         <div>
             <label for="carroceria">Carrocería:</label>
             <select name="carroceria" id="carroceria">
@@ -98,7 +113,9 @@
         <button type="button" onclick="location.href='<?= url('/garaje') ?>'">Cancelar</button>
         <button type="submit">Guardar vehículo</button>
     </form>
-    
+
     <script src="<?= url('/public/js/garaje/formulario.js') ?>"></script>
+    <script src="<?= url('/public/js/garaje/vin.js') ?>"></script>
 </body>
+
 </html>

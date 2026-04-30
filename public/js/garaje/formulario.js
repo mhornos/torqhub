@@ -82,13 +82,11 @@ function validarCampo(campo, etiquetasCampos) {
                 mensajeError = 'El año debe estar entre 1900 y 2026';
             }
         } else if (nombreCampo === 'vin' && valor !== '') {
-            const regexVin = /^[A-HJ-NPR-Z0-9]+$/i;
+            const regexVin = /^[A-HJ-NPR-Z0-9]{17}$/i;
 
-            if (valor.length < 6 || valor.length > 25) {
-                mensajeError = 'El VIN debe tener entre 6 y 25 caracteres';
-            } else if (!regexVin.test(valor)) {
-                mensajeError = 'El VIN solo puede contener letras y números validos';
-            }
+            // if (!regexVin.test(valor)) {
+            //     mensajeError = 'El VIN debe tener 17 caracteres y no puede contener i, o ni q';
+            // }
         } else if (nombreCampo === 'potencia_cv' && valor !== '') {
             const potencia = Number(valor);
             if (!Number.isInteger(potencia) || potencia < 0) {

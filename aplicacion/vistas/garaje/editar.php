@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TorqHub</title>
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 </head>
+
 <body>
     <h1>Editar vehículo</h1>
 
@@ -13,7 +15,13 @@
         <p><?= htmlspecialchars($m) ?></p>
     <?php endif; ?>
 
-    <form method="post" action="<?= url('/garaje/editar') ?>" enctype="multipart/form-data" class="formulario-garaje-validado" novalidate>
+    <form
+        method="post"
+        action="<?= url('/garaje/editar') ?>"
+        enctype="multipart/form-data"
+        class="formulario-garaje-validado"
+        data-url-consultar-vin="<?= url('/garaje/vin/consultar') ?>"
+        novalidate>
         <?= csrf_campo() ?>
 
         <input type="hidden" name="id" value="<?= (int) $vehiculo['id'] ?>">
@@ -33,11 +41,24 @@
             <input type="number" name="any" min="1900" max="2100" value="<?= htmlspecialchars((string) ($vehiculo['any'] ?? '')) ?>" required>
         </div>
 
-        <div>
-            <label>VIN:</label>
-            <input type="text" name="vin" maxlength="25" value="<?= htmlspecialchars((string) ($vehiculo['vin'] ?? '')) ?>">
+        <div class="campo-vin">
+            <label for="vin">VIN:</label>
+            <input
+                type="text"
+                name="vin"
+                id="vin"
+                maxlength="17"
+                autocomplete="off"
+                value="<?= htmlspecialchars((string) ($vehiculo['vin'] ?? '')) ?>">
+
+            <button type="button" class="boton-consultar-vin">
+                Consultar VIN
+            </button>
+
+            <small>Si consultas el VIN, se intentarán autocompletar los datos disponibles.</small>
+            <p class="mensaje-vin" aria-live="polite"></p>
         </div>
-        
+
         <div>
             <label for="carroceria">Carroceria:</label>
             <select name="carroceria" id="carroceria">
@@ -87,8 +108,7 @@
                 name="potencia_cv"
                 id="potencia_cv"
                 min="0"
-                value="<?= isset($vehiculo['potencia_cv']) && $vehiculo['potencia_cv'] !== null ? (int) $vehiculo['potencia_cv'] : '' ?>"
-            >
+                value="<?= isset($vehiculo['potencia_cv']) && $vehiculo['potencia_cv'] !== null ? (int) $vehiculo['potencia_cv'] : '' ?>">
         </div>
 
         <div>
@@ -98,8 +118,7 @@
                 name="cilindrada_cm3"
                 id="cilindrada_cm3"
                 min="0"
-                value="<?= isset($vehiculo['cilindrada_cm3']) && $vehiculo['cilindrada_cm3'] !== null ? (int) $vehiculo['cilindrada_cm3'] : '' ?>"
-            >
+                value="<?= isset($vehiculo['cilindrada_cm3']) && $vehiculo['cilindrada_cm3'] !== null ? (int) $vehiculo['cilindrada_cm3'] : '' ?>">
         </div> <br>
 
         <div>
@@ -114,16 +133,17 @@
                 <img
                     src="<?= url('/public/uploads/vehiculos/' . rawurlencode($vehiculo['imagen'])) ?>"
                     alt="imagen actual del vehiculo"
-                    style="max-width: 280px; height: auto; margin-top: 8px;"
-                >
+                    style="max-width: 280px; height: auto; margin-top: 8px;">
             </p>
         <?php endif; ?>
-        
+
         <br>
         <button type="button" onclick="history.back()">Cancelar</button>
         <button type="submit">Guardar cambios</button>
     </form>
-    
+
     <script src="<?= url('/public/js/garaje/formulario.js') ?>"></script>
+    <script src="<?= url('/public/js/garaje/vin.js') ?>"></script>
 </body>
+
 </html>
