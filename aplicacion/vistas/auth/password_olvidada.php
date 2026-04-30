@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= htmlspecialchars(idioma_actual()) ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>recuperar contraseña - torqhub</title>
+    <title><?= htmlspecialchars(t('auth.password_olvidada.titulo_pagina')) ?> - TorqHub</title>
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 </head>
 <body>
 
-    <h1>Recuperar contraseña</h1>
+    <h1><?= htmlspecialchars(t('auth.password_olvidada.titulo')) ?></h1>
 
     <?php if ($m = flash_get('ok')): ?>
         <p><?= htmlspecialchars($m) ?></p>
@@ -22,7 +22,7 @@
         <?= csrf_campo() ?>
 
         <div>
-            <label for="email">Correo electrónico:</label>
+            <label for="email"><?= htmlspecialchars(t('auth.password_olvidada.email')) ?></label>
             <input 
                 type="email" 
                 name="email" 
@@ -33,11 +33,11 @@
 
         <br>
 
-        <button type="submit">Enviar enlace de recuperación</button>
+        <button type="submit"><?= htmlspecialchars(t('auth.password_olvidada.boton')) ?></button>
     </form>
 
     <p>
-        <a href="<?= url('/login') ?>">Volver a iniciar sesión</a>
+        <a href="<?= url('/login') ?>"><?= htmlspecialchars(t('auth.password_olvidada.volver_login')) ?></a>
     </p>
 
 </body>

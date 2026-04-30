@@ -2,7 +2,7 @@
     $token = isset($token) && is_string($token) ? trim($token) : '';
     
     if ($token === '') {
-        flash_set('error', 'El enlace para restablecer la contraseña no es válido');
+        flash_set('error', t('auth.error.enlace_restablecer_no_valido'));
         header('Location: ' . url('/login'));
         exit;
     }
@@ -11,16 +11,16 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= htmlspecialchars(idioma_actual()) ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>restablecer contraseña - torqhub</title>
+    <title><?= htmlspecialchars(t('auth.password_restablecer.titulo_pagina')) ?> - TorqHub</title>
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 </head>
 <body>
 
-    <h1>Restablecer contraseña</h1>
+    <h1><?= htmlspecialchars(t('auth.password_restablecer.titulo')) ?></h1>
 
     <?php if ($m = flash_get('error')): ?>
         <p><?= htmlspecialchars($m) ?></p>
@@ -32,18 +32,18 @@
         <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
 
         <div>
-            <label for="password">Nueva contraseña:</label>
+            <label for="password"><?= htmlspecialchars(t('auth.password_restablecer.password')) ?></label>
             <input type="password" name="password" id="password" required>
         </div>
 
         <div>
-            <label for="password_repetida">Repetir contraseña:</label>
+            <label for="password_repetida"><?= htmlspecialchars(t('auth.password_restablecer.password_repetida')) ?></label>
             <input type="password" name="password_repetida" id="password_repetida" required>
         </div>
 
         <br>
 
-        <button type="submit">Guardar nueva contraseña</button>
+        <button type="submit"><?= htmlspecialchars(t('auth.password_restablecer.boton')) ?></button>
     </form>
 
 </body>

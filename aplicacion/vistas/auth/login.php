@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= htmlspecialchars(idioma_actual()) ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TorqHub</title>
+    <title><?= htmlspecialchars(t('auth.login.titulo_pagina')) ?> - TorqHub</title>
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 
 </head>
 <body>
-    <h1>Iniciar sesión</h1>
+    <h1><?= htmlspecialchars(t('auth.login.titulo')) ?></h1>
 
 <!-- // mensajes flash -->
     <?php if ($mensaje = flash_get('error')): ?>
@@ -24,20 +24,20 @@
         <?= csrf_campo() ?>
 
         <div>
-            <label>Correo electrónico</label>
+            <label><?= htmlspecialchars(t('auth.login.email')) ?></label>
             <input type="email" name="email" required>
         </div>
 
         <div>
-            <label>Contraseña</label>
+            <label><?= htmlspecialchars(t('auth.login.password')) ?></label>
             <input type="password" name="password" required>
         </div>
         <br>
-        <button type="submit">Entrar</button>
+        <button type="submit"><?= htmlspecialchars(t('auth.login.boton')) ?></button>
     </form>
 
     <p>
-        <a href="<?= url('/password/olvidada') ?>">He olvidado la contraseña</a>
+        <a href="<?= url('/password/olvidada') ?>"><?= htmlspecialchars(t('auth.login.password_olvidada')) ?></a>
     </p>
 
 </body>

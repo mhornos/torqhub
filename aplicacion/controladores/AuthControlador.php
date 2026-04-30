@@ -21,19 +21,19 @@ class AuthControlador extends ControladorBase {
         $password = $_POST['password'] ?? '';
 
         if ($email === '' || $password === '') {
-            flash_set('error', 'Rellena email y password');
+            flash_set('error', t('auth.error.rellena_login'));
             $this->redirigir('/login');
         }
 
         try {
             $usuario = RepositorioUsuarios::buscar_por_email($email);
         } catch (PDOException $e) {
-            flash_set('error', 'Error de servidor, intentalo mas tarde');
+            flash_set('error', t('auth.error.servidor'));
             $this->redirigir('/login');
         }
 
         if (!$usuario || !password_verify($password, $usuario['password_hash'])) {
-            flash_set('error', 'Credenciales incorrectas');
+            flash_set('error', t('auth.error.credenciales'));
             $this->redirigir('/login');
         }
 
@@ -47,7 +47,7 @@ class AuthControlador extends ControladorBase {
             'rol' => $usuario['rol'],
         ];
 
-        flash_set('ok', 'Sesión iniciada');
+        flash_set('ok', t('auth.ok.sesion_iniciada'));
         $this->redirigir('/');
     }
 
@@ -67,32 +67,32 @@ class AuthControlador extends ControladorBase {
         $password_repetida = $_POST['password_repetida'] ?? '';
 
         if ($nombre === '' || $email === '' || $password === '') {
-            flash_set('error', 'Debes rellenar nombre de usuario, correo electrónico y contraseña');
+            flash_set('error', t('auth.error.registro_obligatorios'));
             $this->redirigir('/registro');
         }
 
         if ($password !== $password_repetida) {
-            flash_set('error', 'Las contraseñas no coinciden');
+            flash_set('error', t('auth.error.password_no_coincide'));
             $this->redirigir('/registro');
         }
 
         if (!$this->nombre_usuario_cumple_requisitos($nombre)) {
-            flash_set('error', 'El nombre de usuario solo puede contener letras minúsculas, números, puntos y guiones bajos, sin espacios, sin puntos consecutivos y sin terminar en punto');
+            flash_set('error', t('auth.error.nombre_requisitos'));
             $this->redirigir('/registro');
         }
 
         if (!$this->password_cumple_requisitos($password)) {
-            flash_set('error', 'La contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula y un número');
+            flash_set('error', t('auth.error.password_requisitos'));
             $this->redirigir('/registro');
         }
 
         if (RepositorioUsuarios::existe_nombre($nombre)) {
-            flash_set('error', 'Ese nombre de usuario ya está en uso');
+            flash_set('error', t('auth.error.nombre_uso'));
             $this->redirigir('/registro');
         }
 
         if (RepositorioUsuarios::existe_email($email)) {
-            flash_set('error', 'Ese correo electrónico ya está registrado');
+            flash_set('error', t('auth.error.email_registrado'));
             $this->redirigir('/registro');
         }
 
@@ -101,17 +101,17 @@ class AuthControlador extends ControladorBase {
         try {
             RepositorioUsuarios::crear($nombre, $email, $hash);
 
-            flash_set('ok', 'Registro completado, ahora inicia sesión');
+            flash_set('ok', t('auth.ok.registro_completado'));
             $this->redirigir('/login');
 
         } catch (PDOException $e) {
 
             if (($e->getCode() ?? '') === '23000') {
-                flash_set('error', 'El nombre de usuario o el correo electrónico ya están en uso');
+                flash_set('error', t('auth.error.nombre_email_uso'));
                 $this->redirigir('/registro');
             }
 
-            flash_set('error', 'Se produjo un error al registrar la cuenta');
+            flash_set('error', t('auth.error.registro_error'));
             $this->redirigir('/registro');
         }
     }
@@ -119,7 +119,7 @@ class AuthControlador extends ControladorBase {
 // procesa el logout
     public function logout(): void {
         unset($_SESSION['usuario']);
-        flash_set('ok', 'Sesión cerrada correctamente');
+        flash_set('ok', t('auth.ok.sesion_cerrada'));
         $this->redirigir('/');
     }
 
@@ -158,7 +158,7 @@ class AuthControlador extends ControladorBase {
         $email = strtolower(trim($_POST['email'] ?? ''));
 
         if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            flash_set('error', 'El correo electrónico no es válido');
+            flash_set('error', t('auth.error.email_no_valido'));
             $this->redirigir('/password/olvidada');
         }
 
@@ -180,7 +180,7 @@ class AuthControlador extends ControladorBase {
             $this->enviar_email_recuperacion($usuario['email'], $usuario['nombre'], $enlace);
         }
 
-        flash_set('ok', 'Si el correo existe, recibirás un enlace para restablecer la contraseña');
+        flash_set('ok', t('auth.ok.recuperacion_enviada'));
         $this->redirigir('/password/olvidada');
     }
 
@@ -229,7 +229,7 @@ class AuthControlador extends ControladorBase {
         $token = trim($_GET['token'] ?? '');
 
         if ($token === '') {
-            flash_set('error', 'Token no válido');
+            flash_set('error', t('auth.error.token_no_valido'));
             $this->redirigir('/login');
         }
 
@@ -238,7 +238,7 @@ class AuthControlador extends ControladorBase {
         $recuperacion = RepositorioRecuperacionesPassword::buscar_token_valido($token_hash);
 
         if (!$recuperacion) {
-            flash_set('error', 'El enlace ya no es válido o ha expirado');
+            flash_set('error', t('auth.error.enlace_expirado'));
             $this->redirigir('/login');
         }
 
@@ -256,7 +256,7 @@ class AuthControlador extends ControladorBase {
         $password_repetida = $_POST['password_repetida'] ?? '';
 
         if ($token === '' || $password === '' || $password_repetida === '') {
-            flash_set('error', 'Todos los campos son obligatorios');
+            flash_set('error', t('auth.error.campos_obligatorios'));
             $this->redirigir('/login');
         }
 
@@ -266,7 +266,7 @@ class AuthControlador extends ControladorBase {
         }
 
         if (!$this->password_segura($password)) {
-            flash_set('error', 'La contraseña no cumple los requisitos mínimos');
+            flash_set('error', t('auth.error.password_minimos'));
             $this->redirigir('/login');
         }
 
@@ -290,7 +290,7 @@ class AuthControlador extends ControladorBase {
             (int) $recuperacion['id']
         );
 
-        flash_set('ok', 'Contraseña restablecida correctamente');
+        flash_set('ok', t('auth.ok.password_restablecida'));
         $this->redirigir('/login');
     }
 

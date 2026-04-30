@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= htmlspecialchars(idioma_actual()) ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TorqHub</title>
+    <title><?= htmlspecialchars(t('auth.registro.titulo_pagina')) ?> - TorqHub</title>
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 
 </head>
 <body>
-    <h1>Registrarse</h1>
+    <h1><?= htmlspecialchars(t('auth.registro.titulo')) ?></h1>
     
 <!-- // mensajes flash -->
     <?php if ($mensaje = flash_get('error')): ?>
@@ -20,7 +20,7 @@
         <?= csrf_campo() ?>
 
         <div>
-            <label for="nombre">Nombre de usuario</label>
+            <label for="nombre"><?= htmlspecialchars(t('auth.registro.nombre')) ?></label>
             <input
                 type="text"
                 name="nombre"
@@ -28,19 +28,19 @@
                 required
                 maxlength="80"
                 pattern="^(?!.*\.\.)(?!.*\.$)[a-z0-9._]+$"
-                title="Solo letras minúsculas, números, puntos y guiones bajos, sin espacios, sin puntos consecutivos y sin terminar en punto"
+                title="<?= htmlspecialchars(t('auth.registro.nombre_ayuda')) ?>"
                 autocomplete="username"
             >
-            <small>Solo letras minúsculas, números, puntos y guiones bajos, sin espacios, sin puntos consecutivos y sin terminar en punto</small>
+            <small><?= htmlspecialchars(t('auth.registro.nombre_ayuda')) ?></small>
         </div>
 
         <div>
-            <label>Correo electrónico</label>
+            <label><?= htmlspecialchars(t('auth.registro.email')) ?></label>
             <input type="email" name="email" required>
         </div>
 
         <div>
-            <label for="password">Contraseña</label>
+            <label for="password"><?= htmlspecialchars(t('auth.registro.password')) ?></label>
             <input
                 type="password"
                 name="password"
@@ -48,7 +48,7 @@
                 required
                 minlength="8"
                 pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
-                title="Mínimo 8 caracteres, una mayúscula, una minúscula y un número"
+                title="<?= htmlspecialchars(t('auth.registro.password_ayuda')) ?>"
                 autocomplete="new-password"
             >
         </div>
@@ -62,15 +62,13 @@
                 required
             > <br>
             <div id="error-password-repetida" class="mensaje-error-campo" style="display:none;">
-                Las contraseñas no coinciden
+                <?= htmlspecialchars(t('auth.registro.error_password_repetida')) ?>
             </div>
-            <small>Mínimo 8 caracteres, una mayúscula, una minúscula y un número</small>
+            <small><?= htmlspecialchars(t('auth.registro.password_ayuda')) ?></small>
         </div>
 
-        
-
         <br>
-        <button type="submit">Crear cuenta</button>
+        <button type="submit"><?= htmlspecialchars(t('auth.registro.boton')) ?></button>
     </form>
 
     <script src="<?= url('/public/js/auth/registro.js') ?>"></script>
