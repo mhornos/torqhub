@@ -1,3 +1,15 @@
+<?php
+    $token = isset($token) && is_string($token) ? trim($token) : '';
+    
+    if ($token === '') {
+        flash_set('error', 'El enlace para restablecer la contraseña no es válido');
+        header('Location: ' . url('/login'));
+        exit;
+    }
+    
+    $errores = isset($errores) && is_array($errores) ? $errores : [];
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

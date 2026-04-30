@@ -1,3 +1,11 @@
+<?php
+    if (!isset($comentario) || !is_array($comentario)) {
+        flash_set('error', 'No se ha podido cargar el comentario');
+        header('Location: ' . url('/comunidad'));
+        exit;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

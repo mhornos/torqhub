@@ -1,3 +1,17 @@
+<?php
+    if (!isset($usuario) || !is_array($usuario)) {
+        flash_set('error', 'No se ha podido cargar el perfil');
+        header('Location: ' . url('/comunidad'));
+        exit;
+    }
+    
+    $es_mi_perfil = isset($es_mi_perfil) ? (bool) $es_mi_perfil : false;
+    
+    $publicaciones = isset($publicaciones) && is_array($publicaciones)
+        ? $publicaciones
+        : [];
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 

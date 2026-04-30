@@ -1,3 +1,11 @@
+<?php
+    if (!isset($publicacion) || !is_array($publicacion)) {
+        flash_set('error', 'No se ha podido cargar la publicación');
+        header('Location: ' . url('/comunidad'));
+        exit;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

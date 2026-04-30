@@ -958,14 +958,16 @@ class GarajeControlador extends ControladorBase {
         $ruta_tabla = __DIR__ . '/../vistas/garaje/mantenimientos/tabla.php';
         $ruta_paginacion = __DIR__ . '/../vistas/garaje/mantenimientos/paginacion.php';
 
-        extract([
+        $datos_parcial_mantenimientos = [
             'mantenimientos' => $mantenimientos,
             'resumen_mantenimientos' => $resumen_mantenimientos,
             'pagina_actual' => $pagina_actual,
             'por_pagina' => $por_pagina,
             'total_paginas' => $total_paginas,
             'total_mantenimientos_filtrados' => $total_mantenimientos_filtrados,
-        ]);
+        ];
+
+        extract($datos_parcial_mantenimientos);
 
         require $ruta_resumen;
         require $ruta_paginacion;

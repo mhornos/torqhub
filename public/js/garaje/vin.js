@@ -80,7 +80,7 @@ async function consultarVin(boton) {
 
         autocompletarFormularioVin(formulario, datosRespuesta.campos_torqhub);
 
-        const origen = datosRespuesta.origen === 'cache' ? 'caché local' : 'api externa';
+        const origen = datosRespuesta.origen === 'cache' ? 'caché local' : 'API externa';
 
         mostrarMensajeVin(
             mensaje,

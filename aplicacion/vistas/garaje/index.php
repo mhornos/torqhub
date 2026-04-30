@@ -1,3 +1,7 @@
+<?php
+    $vehiculos = isset($vehiculos) && is_array($vehiculos) ? $vehiculos : [];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

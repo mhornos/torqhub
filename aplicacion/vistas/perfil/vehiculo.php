@@ -1,3 +1,11 @@
+<?php
+    if (!isset($vehiculo) || !is_array($vehiculo)) {
+        flash_set('error', 'No se ha podido cargar el vehículo');
+        header('Location: ' . url('/comunidad'));
+        exit;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
