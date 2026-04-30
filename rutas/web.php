@@ -103,6 +103,9 @@ return [
         '/login' => [
             'accion' => 'AuthControlador@login_post',
         ],
+        '/idioma' => [
+            'accion' => 'IdiomaControlador@cambiar',
+        ],
         '/registro' => [
             'accion' => 'AuthControlador@registro_post',
         ],

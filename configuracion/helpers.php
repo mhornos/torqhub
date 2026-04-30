@@ -6,13 +6,11 @@ function url(string $ruta = ""): string {
 }
 
 // comprobacion web del login
-function flash_set(string $clave, string $mensaje): void
-{
+function flash_set(string $clave, string $mensaje): void {
     $_SESSION['flash'][$clave] = $mensaje;
 }
 
-function flash_get(string $clave): ?string
-{
+function flash_get(string $clave): ?string {
     if (!isset($_SESSION['flash'][$clave])) {
         return null;
     }
@@ -52,8 +50,7 @@ function csrf_verificar(): void {
 }
 
 // función para formatear fechas en un formato legible
-function formatear_fecha(string $fecha): string
-{
+function formatear_fecha(string $fecha): string{
     $timestamp = strtotime($fecha);
 
     if ($timestamp === false) {
@@ -63,5 +60,53 @@ function formatear_fecha(string $fecha): string
     return date('d-m-Y H:i:s', $timestamp);
 }
 
+
+// devuelve los idiomas disponibles en la aplicación
+function idiomas_disponibles(): array{
+    return ['es', 'ca'];
+}
+
+// devuelve el idioma actual guardado en sesión
+function idioma_actual(): string{
+    $idioma = $_SESSION['idioma'] ?? 'es';
+
+    if (!in_array($idioma, idiomas_disponibles(), true)) {
+        $idioma = 'es';
+        $_SESSION['idioma'] = $idioma;
+    }
+
+    return $idioma;
+}
+
+// carga el archivo de traducciones del idioma actual
+function traducciones_actuales(): array{
+    static $traducciones = null;
+    static $idioma_cargado = null;
+
+    $idioma = idioma_actual();
+
+    if ($traducciones !== null && $idioma_cargado === $idioma) {
+        return $traducciones;
+    }
+
+    $ruta_idioma = __DIR__ . '/idiomas/' . $idioma . '.php';
+    $ruta_defecto = __DIR__ . '/idiomas/es.php';
+
+    if (!file_exists($ruta_idioma)) {
+        $ruta_idioma = $ruta_defecto;
+    }
+
+    $traducciones = require $ruta_idioma;
+    $idioma_cargado = $idioma;
+
+    return is_array($traducciones) ? $traducciones : [];
+}
+
+// traduce una clave de texto según el idioma actual
+function t(string $clave): string{
+    $traducciones = traducciones_actuales();
+
+    return $traducciones[$clave] ?? $clave;
+}
 
 ?>
