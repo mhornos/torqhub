@@ -1,8 +1,9 @@
-//manejar la visualización de respuestas a comentarios en la vista de publicación con ajax
+// manejar la visualización de respuestas a comentarios en la vista de publicación con ajax
 
 document.addEventListener('DOMContentLoaded', function () {
     inicializarBotonesResponder();
     inicializarBotonesRespuestas();
+    inicializarConfirmacionesComunidad();
 });
 
 function inicializarBotonesResponder() {
@@ -63,18 +64,18 @@ function inicializarBotonesRespuestas() {
 
             if (estaVisible) {
                 contenedor.style.display = 'none';
-                boton.textContent = construirTextoVer(totalRespuestas);
+                boton.textContent = construirTextoVer(totalRespuestas, boton);
                 return;
             }
 
             if (contenedor.dataset.cargadas === '1') {
                 contenedor.style.display = 'block';
-                boton.textContent = 'Ocultar respuestas';
+                boton.textContent = boton.dataset.textoOcultar || 'Ocultar respuestas';
                 return;
             }
 
             contenedor.style.display = 'block';
-            contenedor.innerHTML = '<p>Cargando respuestas...</p>';
+            contenedor.innerHTML = '<p>' + escaparHtml(boton.dataset.textoCargando || 'Cargando respuestas...') + '</p>';
 
             const url = urlBase
                 + '?publicacion_id=' + encodeURIComponent(publicacionId)
@@ -90,31 +91,49 @@ function inicializarBotonesRespuestas() {
                 const datos = await respuesta.json();
 
                 if (!respuesta.ok || !datos.ok) {
-                    contenedor.innerHTML = '<p>No se pudieron cargar las respuestas</p>';
+                    contenedor.innerHTML = '<p>' + escaparHtml(datos.mensaje || boton.dataset.textoError || 'No se pudieron cargar las respuestas') + '</p>';
                     return;
                 }
 
-                contenedor.innerHTML = renderizarRespuestas(datos.respuestas);
+                contenedor.innerHTML = renderizarRespuestas(datos.respuestas, boton);
                 contenedor.dataset.cargadas = '1';
-                boton.textContent = 'Ocultar respuestas';
+                boton.textContent = boton.dataset.textoOcultar || 'Ocultar respuestas';
             } catch (error) {
-                contenedor.innerHTML = '<p>No se pudieron cargar las respuestas</p>';
+                contenedor.innerHTML = '<p>' + escaparHtml(boton.dataset.textoError || 'No se pudieron cargar las respuestas') + '</p>';
             }
         });
     });
 }
 
-function construirTextoVer(totalRespuestas) {
-    if (totalRespuestas === 1) {
-        return 'Ver 1 respuesta';
-    }
+function inicializarConfirmacionesComunidad() {
+    document.addEventListener('submit', function (evento) {
+        const formulario = evento.target.closest('.form-eliminar-publicacion, .form-eliminar-comentario');
 
-    return 'Ver ' + totalRespuestas + ' respuestas';
+        if (!formulario) {
+            return;
+        }
+
+        const mensaje = formulario.dataset.confirmacion || '¿Seguro que quieres eliminar?';
+
+        if (!confirm(mensaje)) {
+            evento.preventDefault();
+        }
+    });
 }
 
-function renderizarRespuestas(respuestas) {
+function construirTextoVer(totalRespuestas, boton) {
+    if (totalRespuestas === 1) {
+        return boton.dataset.textoVerUna || 'Ver 1 respuesta';
+    }
+
+    const texto = boton.dataset.textoVerVarias || 'Ver {total} respuestas';
+
+    return texto.replace('{total}', totalRespuestas);
+}
+
+function renderizarRespuestas(respuestas, boton) {
     if (!Array.isArray(respuestas) || respuestas.length === 0) {
-        return '<p>No hay respuestas</p>';
+        return '<p>' + escaparHtml(boton.dataset.textoSinRespuestas || 'No hay respuestas') + '</p>';
     }
 
     let html = '';

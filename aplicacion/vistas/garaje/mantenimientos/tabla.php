@@ -1,15 +1,15 @@
 <?php if (empty($mantenimientos)): ?>
-    <p>No hay mantenimientos que coincidan con los filtros aplicados.</p>
+    <p><?= htmlspecialchars(t('garaje.historial.sin_mantenimientos')) ?>.</p>
 <?php else: ?>
     <table class="tabla-mantenimientos">
         <thead>
             <tr>
-                <th>Fecha</th>
-                <th>Tipo</th>
-                <th>Descripción</th>
-                <th>Kilómetros</th>
-                <th>Coste</th>
-                <th>Acciones</th>
+                <th><?= htmlspecialchars(t('garaje.historial.fecha')) ?></th>
+                <th><?= htmlspecialchars(t('garaje.historial.tipo')) ?></th>
+                <th><?= htmlspecialchars(t('garaje.historial.descripcion')) ?></th>
+                <th><?= htmlspecialchars(t('garaje.historial.kilometros')) ?></th>
+                <th><?= htmlspecialchars(t('garaje.historial.coste')) ?></th>
+                <th><?= htmlspecialchars(t('garaje.historial.acciones')) ?></th>
             </tr>
         </thead>
 
@@ -28,7 +28,7 @@
                         <?php if (!empty($mantenimiento['descripcion'])): ?>
                             <?= nl2br(htmlspecialchars($mantenimiento['descripcion'])) ?>
                         <?php else: ?>
-                            (No indicada)
+                            (<?= htmlspecialchars(t('garaje.historial.no_indicada')) ?>)
                         <?php endif; ?>
                     </td>
 
@@ -36,7 +36,7 @@
                         <?php if (!is_null($mantenimiento['kilometros'])): ?>
                             <?= (int) $mantenimiento['kilometros'] ?> km
                         <?php else: ?>
-                            (No indicados)
+                            (<?= htmlspecialchars(t('garaje.historial.no_indicados')) ?>)
                         <?php endif; ?>
                     </td>
 
@@ -44,12 +44,16 @@
                         <?php if (!is_null($mantenimiento['coste'])): ?>
                             <?= number_format((float) $mantenimiento['coste'], 2, ',', '.') ?> €
                         <?php else: ?>
-                            (No indicado)
+                            (<?= htmlspecialchars(t('garaje.detalle.no_indicado')) ?>)
                         <?php endif; ?>
                     </td>
 
                     <td class="nowrap">
-                        <form action="<?= url('/garaje/mantenimientos/eliminar') ?>" method="POST" onsubmit="return confirm('¿seguro que quieres eliminar este mantenimiento?');">
+                        <form
+                            action="<?= url('/garaje/mantenimientos/eliminar') ?>"
+                            method="POST"
+                            class="form-eliminar-mantenimiento"
+                            data-confirmacion-eliminar="<?= htmlspecialchars(t('garaje.historial.confirmar_eliminar')) ?>">
                             <?= csrf_campo() ?>
 
                             <input type="hidden" name="mantenimiento_id" value="<?= (int) $mantenimiento['id'] ?>">
@@ -57,10 +61,10 @@
                             <button
                                 type="button"
                                 onclick="location.href='<?= url('/garaje/mantenimientos/editar?id=' . (int) $mantenimiento['id']) ?>'">
-                                editar
+                                <?= htmlspecialchars(t('garaje.historial.editar')) ?>
                             </button>
 
-                            <button type="submit">eliminar</button>
+                            <button type="submit"><?= htmlspecialchars(t('garaje.historial.eliminar')) ?></button>
                         </form>
                     </td>
                 </tr>

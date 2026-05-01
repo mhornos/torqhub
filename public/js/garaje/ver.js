@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-//función para actualizar la tabla de mantenimientos mediante AJAX
+    //función para actualizar la tabla de mantenimientos mediante AJAX
     const actualizarTabla = async function () {
         const urlAjax = formulario.dataset.urlAjax;
         const datosFormulario = new FormData(formulario);
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-//función para cambiar la página de la paginación
+    //función para cambiar la página de la paginación
     const cambiarPagina = function (pagina) {
         const campoPagina = document.getElementById('pagina-historial');
 
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
         campoPagina.value = pagina;
         actualizarTabla();
     };
-    
+
     formulario.addEventListener('submit', function (evento) {
         evento.preventDefault();
 
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
         actualizarTabla();
     });
 
-//agregar eventos a los campos de filtro para actualizar automáticamente al cambiar
+    //agregar eventos a los campos de filtro para actualizar automáticamente al cambiar
     const camposAutoActualizar = formulario.querySelectorAll('select');
 
     camposAutoActualizar.forEach(function (campo) {
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-//delegar el evento de clic en los botones de paginación
+    //delegar el evento de clic en los botones de paginación
     document.addEventListener('click', function (evento) {
         const botonPaginacion = evento.target.closest('.btn-paginacion');
 
@@ -102,6 +102,21 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         cambiarPagina(pagina);
+    });
+
+    // confirmar eliminación de mantenimientos sin usar javascript inline en la vista
+    document.addEventListener('submit', function (evento) {
+        const formularioEliminar = evento.target.closest('.form-eliminar-mantenimiento');
+
+        if (!formularioEliminar) {
+            return;
+        }
+
+        const mensaje = formularioEliminar.dataset.confirmacionEliminar || '¿Seguro que quieres eliminar este mantenimiento?';
+
+        if (!confirm(mensaje)) {
+            evento.preventDefault();
+        }
     });
 
 });

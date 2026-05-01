@@ -36,27 +36,34 @@ document.addEventListener('DOMContentLoaded', function () {
             const datos = await respuesta.json();
 
             if (!respuesta.ok || !datos.ok) {
-                mensaje.textContent = datos.mensaje || 'No se pudo actualizar el like';
+                mensaje.textContent = datos.mensaje || formulario.dataset.errorLike || 'No se pudo actualizar el like';
                 mensaje.style.display = 'block';
                 boton.disabled = false;
                 return;
             }
 
             boton.textContent = datos.texto_boton;
-            textoTotalLikes.textContent = datos.total_likes + ' likes';
-
-            /* if (datos.accion === 'añadido') {
-                mensaje.textContent = 'Like añadido correctamente';
-            } else {
-                mensaje.textContent = 'Like eliminado correctamente';
-            } */
+            textoTotalLikes.textContent = construirTextoLikes(datos.total_likes, formulario);
 
             mensaje.style.display = 'block';
         } catch (error) {
-            mensaje.textContent = 'No se pudo actualizar el like';
+            mensaje.textContent = formulario.dataset.errorLike || 'No se pudo actualizar el like';
             mensaje.style.display = 'block';
         } finally {
             boton.disabled = false;
         }
     });
+
+    function construirTextoLikes(totalLikes, formulario) {
+        totalLikes = Number(totalLikes);
+
+        const singular = formulario.dataset.likeSingular || 'like';
+        const plural = formulario.dataset.likePlural || 'likes';
+
+        if (totalLikes === 1) {
+            return '1 ' + singular;
+        }
+
+        return totalLikes + ' ' + plural;
+    }
 });

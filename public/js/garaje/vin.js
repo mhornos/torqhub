@@ -14,6 +14,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+function traducirVin(elemento, clave, reemplazos = {}) {
+    if (typeof traducirGaraje === 'function') {
+        return traducirGaraje(elemento, clave, reemplazos);
+    }
+
+    return clave;
+}
+
 // función principal para consultar el VIN y autocompletar el formulario
 async function consultarVin(boton) {
     const formulario = boton.closest('form');
@@ -28,7 +36,7 @@ async function consultarVin(boton) {
     const urlConsultarVin = formulario.dataset.urlConsultarVin;
 
     if (!campoVin || !campoCsrf || !urlConsultarVin) {
-        mostrarMensajeVin(mensaje, 'no se pudo preparar la consulta vin', 'error');
+        mostrarMensajeVin(mensaje, traducirVin(formulario, 'vin_no_preparar'), 'error');
         return;
     }
 
@@ -37,13 +45,13 @@ async function consultarVin(boton) {
     campoVin.value = vin;
 
     if (vin === '') {
-        mostrarMensajeVin(mensaje, 'Introduce un VIN antes de consultar', 'error');
+        mostrarMensajeVin(mensaje, traducirVin(formulario, 'vin_introduce'), 'error');
         campoVin.focus();
         return;
     }
 
     if (!/^[A-HJ-NPR-Z0-9]{17}$/.test(vin)) {
-        mostrarMensajeVin(mensaje, 'El VIN debe tener 17 carácteres y no puede contener i, o ni q', 'error');
+        mostrarMensajeVin(mensaje, traducirVin(formulario, 'vin_formato'), 'error');
         campoVin.focus();
         return;
     }
@@ -52,9 +60,11 @@ async function consultarVin(boton) {
     datos.append('vin', vin);
     datos.append('csrf_token', campoCsrf.value);
 
+    const textoOriginalBoton = boton.textContent.trim();
+
     boton.disabled = true;
-    boton.textContent = 'consultando...';
-    mostrarMensajeVin(mensaje, 'consultando vin...', 'info');
+    boton.textContent = traducirVin(formulario, 'vin_consultando_boton');
+    mostrarMensajeVin(mensaje, traducirVin(formulario, 'vin_consultando_mensaje'), 'info');
 
     try {
         const respuesta = await fetch(urlConsultarVin, {
@@ -71,20 +81,22 @@ async function consultarVin(boton) {
         try {
             datosRespuesta = JSON.parse(textoRespuesta);
         } catch (error) {
-            throw new Error('la respuesta del servidor no es json válido');
+            throw new Error(traducirVin(formulario, 'vin_respuesta_no_json'));
         }
 
         if (!respuesta.ok || !datosRespuesta.ok) {
-            throw new Error(datosRespuesta.mensaje || 'no se pudo consultar el vin');
+            throw new Error(datosRespuesta.mensaje || traducirVin(formulario, 'vin_no_consultar'));
         }
 
         autocompletarFormularioVin(formulario, datosRespuesta.campos_torqhub);
 
-        const origen = datosRespuesta.origen === 'cache' ? 'caché local' : 'API externa';
+        const origen = datosRespuesta.origen === 'cache'
+            ? traducirVin(formulario, 'vin_origen_cache')
+            : traducirVin(formulario, 'vin_origen_api');
 
         mostrarMensajeVin(
             mensaje,
-            `VIN consultado correctamente desde ${origen}`,
+            traducirVin(formulario, 'vin_ok_desde', { origen: origen }),
             'ok'
         );
 
@@ -93,7 +105,7 @@ async function consultarVin(boton) {
 
     } finally {
         boton.disabled = false;
-        boton.textContent = 'consultar vin';
+        boton.textContent = textoOriginalBoton;
     }
 }
 

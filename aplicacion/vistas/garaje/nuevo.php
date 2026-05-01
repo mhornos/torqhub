@@ -16,12 +16,47 @@
         <p><?= htmlspecialchars($m) ?></p>
     <?php endif; ?>
 
+    <?php
+    $traducciones_garaje_js = [
+        'campo_marca' => t('garaje.js.campo.marca'),
+        'campo_modelo' => t('garaje.js.campo.modelo'),
+        'campo_any' => t('garaje.js.campo.any'),
+        'campo_vin' => t('garaje.js.campo.vin'),
+        'campo_carroceria' => t('garaje.js.campo.carroceria'),
+        'campo_tipo_combustible' => t('garaje.js.campo.tipo_combustible'),
+        'campo_tipo_cambio' => t('garaje.js.campo.tipo_cambio'),
+        'campo_potencia_cv' => t('garaje.js.campo.potencia_cv'),
+        'campo_cilindrada_cm3' => t('garaje.js.campo.cilindrada_cm3'),
+        'campo_imagen' => t('garaje.js.campo.imagen'),
+        'campo_este_campo' => t('garaje.js.campo.este_campo'),
+
+        'error_falta' => t('garaje.js.error.falta'),
+        'error_any_rango' => t('garaje.js.error.any_rango'),
+        'error_potencia_entero' => t('garaje.js.error.potencia_entero'),
+        'error_cilindrada_entero' => t('garaje.js.error.cilindrada_entero'),
+        'error_imagen_tipo' => t('garaje.js.error.imagen_tipo'),
+        'error_imagen_tamanyo' => t('garaje.js.error.imagen_tamanyo'),
+
+        'vin_no_preparar' => t('garaje.js.vin.no_preparar'),
+        'vin_introduce' => t('garaje.js.vin.introduce'),
+        'vin_formato' => t('garaje.js.vin.formato'),
+        'vin_consultando_boton' => t('garaje.js.vin.consultando_boton'),
+        'vin_consultando_mensaje' => t('garaje.js.vin.consultando_mensaje'),
+        'vin_respuesta_no_json' => t('garaje.js.vin.respuesta_no_json'),
+        'vin_no_consultar' => t('garaje.js.vin.no_consultar'),
+        'vin_origen_cache' => t('garaje.js.vin.origen_cache'),
+        'vin_origen_api' => t('garaje.js.vin.origen_api'),
+        'vin_ok_desde' => t('garaje.js.vin.ok_desde'),
+    ];
+    ?>
+
     <form
         method="post"
         action="<?= url('/garaje/nuevo') ?>"
         enctype="multipart/form-data"
         class="formulario-garaje-validado"
         data-url-consultar-vin="<?= url('/garaje/vin/consultar') ?>"
+        data-traducciones-garaje="<?= htmlspecialchars(json_encode($traducciones_garaje_js, JSON_UNESCAPED_UNICODE), ENT_QUOTES, 'UTF-8') ?>"
         novalidate>
         <?= csrf_campo() ?>
 

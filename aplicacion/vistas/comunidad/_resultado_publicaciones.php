@@ -1,12 +1,16 @@
 <?php
-$total_publicaciones = $total_publicaciones ?? 0;
+$total_publicaciones = isset($total_publicaciones) ? (int) $total_publicaciones : 0;
+
+$texto_resultado = $total_publicaciones === 1
+    ? t('comunidad.index.publicacion_encontrada')
+    : t('comunidad.index.publicaciones_encontradas');
 ?>
 
 <div id="resultado-publicaciones-comunidad">
     <section class="bloque-contador-publicaciones">
         <p class="contador-publicaciones">
-            <?= (int) $total_publicaciones ?>
-            <?= (int) $total_publicaciones === 1 ? 'publicación encontrada' : 'publicaciones encontradas' ?>
+            <?= $total_publicaciones ?>
+            <?= htmlspecialchars($texto_resultado) ?>
         </p>
     </section>
 

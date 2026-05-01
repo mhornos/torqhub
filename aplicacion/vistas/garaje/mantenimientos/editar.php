@@ -1,16 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= htmlspecialchars(idioma_actual()) ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TorqHub</title>
+    <title><?= htmlspecialchars(t('garaje.mantenimiento.editar.titulo_pagina')) ?> - TorqHub</title>
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 </head>
 <body>
-    <h1>editar mantenimiento</h1>
+    <h1><?= htmlspecialchars(t('garaje.mantenimiento.editar.titulo')) ?></h1>
 
     <?php
+        $vehiculo = $vehiculo ?? [];
+        $mantenimiento = $mantenimiento ?? [];
         $datos_formulario = $datos_formulario ?? [];
+
         $fecha_valor = $datos_formulario['fecha'] ?? $mantenimiento['fecha'] ?? '';
         $tipo_valor = $datos_formulario['tipo'] ?? $mantenimiento['tipo'] ?? '';
         $descripcion_valor = $datos_formulario['descripcion'] ?? $mantenimiento['descripcion'] ?? '';
@@ -24,9 +27,11 @@
 
     <p>
         <ul>
-            <li><strong>vehículo:</strong>
-                <?= htmlspecialchars($vehiculo['marca']) ?>
-                <?= htmlspecialchars($vehiculo['modelo']) ?>
+            <li>
+                <strong><?= htmlspecialchars(t('garaje.mantenimiento.vehiculo')) ?>:</strong>
+                <?= htmlspecialchars($vehiculo['marca'] ?? '') ?>
+                <?= htmlspecialchars($vehiculo['modelo'] ?? '') ?>
+
                 <?php if (!empty($vehiculo['any'])): ?>
                     (<?= (int) $vehiculo['any'] ?>)
                 <?php endif; ?>
@@ -36,10 +41,11 @@
 
     <form action="<?= url('/garaje/mantenimientos/editar') ?>" method="POST">
         <?= csrf_campo() ?>
-        <input type="hidden" name="mantenimiento_id" value="<?= (int) $mantenimiento['id'] ?>">
+
+        <input type="hidden" name="mantenimiento_id" value="<?= (int) ($mantenimiento['id'] ?? 0) ?>">
 
         <div>
-            <label for="fecha">fecha: *</label>
+            <label for="fecha"><?= htmlspecialchars(t('garaje.mantenimiento.fecha')) ?>: *</label>
             <input
                 type="date"
                 id="fecha"
@@ -50,7 +56,7 @@
         </div>
 
         <div>
-            <label for="tipo">tipo: *</label>
+            <label for="tipo"><?= htmlspecialchars(t('garaje.mantenimiento.tipo')) ?>: *</label>
             <input
                 type="text"
                 id="tipo"
@@ -62,12 +68,12 @@
         </div>
 
         <div>
-            <label for="descripcion">descripción:</label><br>
+            <label for="descripcion"><?= htmlspecialchars(t('garaje.mantenimiento.descripcion')) ?>:</label><br>
             <textarea id="descripcion" name="descripcion" rows="4"><?= htmlspecialchars((string) $descripcion_valor) ?></textarea>
         </div>
 
         <div>
-            <label for="kilometros">kilómetros:</label>
+            <label for="kilometros"><?= htmlspecialchars(t('garaje.mantenimiento.kilometros')) ?>:</label>
             <input
                 type="number"
                 id="kilometros"
@@ -79,7 +85,7 @@
         </div>
 
         <div>
-            <label for="coste">coste (€):</label>
+            <label for="coste"><?= htmlspecialchars(t('garaje.mantenimiento.coste')) ?> (€):</label>
             <input
                 type="number"
                 id="coste"
@@ -88,12 +94,17 @@
                 step="0.01"
                 value="<?= htmlspecialchars((string) $coste_valor) ?>"
             >
-        </div><br>
+        </div>
 
-        
-        <button type="button" onclick="location.href='<?= url('/garaje/ver?id=' . (int) $vehiculo['id']) ?>'">volver</button>
-        <button type="submit">guardar cambios</button>
+        <br>
+
+        <button type="button" onclick="location.href='<?= url('/garaje/ver?id=' . (int) ($vehiculo['id'] ?? 0)) ?>'">
+            <?= htmlspecialchars(t('garaje.mantenimiento.volver')) ?>
+        </button>
+
+        <button type="submit">
+            <?= htmlspecialchars(t('garaje.mantenimiento.guardar_cambios')) ?>
+        </button>
     </form>
-
 </body>
 </html>

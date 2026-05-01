@@ -8,16 +8,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const etiquetasCampos = {
-        marca: 'la marca',
-        modelo: 'el modelo',
-        any: 'el año',
-        vin: 'el vin',
-        carroceria: 'la carroceria',
-        tipo_combustible: 'el tipo de combustible',
-        tipo_cambio: 'el tipo de cambio',
-        potencia_cv: 'la potencia',
-        cilindrada_cm3: 'la cilindrada',
-        imagen: 'la imagen',
+        marca: 'campo_marca',
+        modelo: 'campo_modelo',
+        any: 'campo_any',
+        vin: 'campo_vin',
+        carroceria: 'campo_carroceria',
+        tipo_combustible: 'campo_tipo_combustible',
+        tipo_cambio: 'campo_tipo_cambio',
+        potencia_cv: 'campo_potencia_cv',
+        cilindrada_cm3: 'campo_cilindrada_cm3',
+        imagen: 'campo_imagen',
     };
 
     formularios.forEach(function (formulario) {
@@ -61,12 +61,40 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+
+function obtenerTraduccionesGaraje(elemento) {
+    const formulario = elemento.closest('form');
+
+    if (!formulario || !formulario.dataset.traduccionesGaraje) {
+        return {};
+    }
+
+    try {
+        return JSON.parse(formulario.dataset.traduccionesGaraje);
+    } catch (error) {
+        return {};
+    }
+}
+
+function traducirGaraje(elemento, clave, reemplazos = {}) {
+    const traducciones = obtenerTraduccionesGaraje(elemento);
+    let texto = traducciones[clave] || clave;
+
+    Object.keys(reemplazos).forEach(function (nombre) {
+        texto = texto.replace(`{${nombre}}`, reemplazos[nombre]);
+    });
+
+    return texto;
+}
+
+
 function validarCampo(campo, etiquetasCampos) {
     campo.dataset.tocado = '1';
 
     const contenedor = campo.parentElement;
     const nombreCampo = campo.name || 'campo';
-    const etiqueta = etiquetasCampos[nombreCampo] || 'este campo';
+    const claveEtiqueta = etiquetasCampos[nombreCampo] || 'campo_este_campo';
+    const etiqueta = traducirGaraje(campo, claveEtiqueta);
     let mensajeError = '';
 
     if (campo.type === 'file') {
@@ -75,11 +103,17 @@ function validarCampo(campo, etiquetasCampos) {
         const valor = campo.value.trim();
 
         if (campo.hasAttribute('required') && valor === '') {
-            mensajeError = `Falta ${etiqueta}`;
+            mensajeError = traducirGaraje(campo, 'error_falta', { campo: etiqueta });
         } else if (nombreCampo === 'any' && valor !== '') {
             const anyo = Number(valor);
-            if (!Number.isInteger(anyo) || anyo < 1900 || anyo > 2026) {
-                mensajeError = 'El año debe estar entre 1900 y 2026';
+            const minimo = Number(campo.getAttribute('min') || 1900);
+            const maximo = Number(campo.getAttribute('max') || new Date().getFullYear());
+
+            if (!Number.isInteger(anyo) || anyo < minimo || anyo > maximo) {
+                mensajeError = traducirGaraje(campo, 'error_any_rango', {
+                    minimo: minimo,
+                    maximo: maximo,
+                });
             }
         } else if (nombreCampo === 'vin' && valor !== '') {
             const regexVin = /^[A-HJ-NPR-Z0-9]{17}$/i;
@@ -90,12 +124,12 @@ function validarCampo(campo, etiquetasCampos) {
         } else if (nombreCampo === 'potencia_cv' && valor !== '') {
             const potencia = Number(valor);
             if (!Number.isInteger(potencia) || potencia < 0) {
-                mensajeError = 'La potencia debe ser un número entero positivo';
+                mensajeError = traducirGaraje(campo, 'error_potencia_entero');
             }
         } else if (nombreCampo === 'cilindrada_cm3' && valor !== '') {
             const cilindrada = Number(valor);
             if (!Number.isInteger(cilindrada) || cilindrada < 0) {
-                mensajeError = 'La cilindrada debe ser un número entero positivo';
+                mensajeError = traducirGaraje(campo, 'error_cilindrada_entero');
             }
         }
     }
@@ -115,11 +149,11 @@ function validarArchivoImagen(campo) {
     const tamanyoMaximo = 3 * 1024 * 1024;
 
     if (!tiposPermitidos.includes(archivo.type)) {
-        return 'Solo se permiten imagenes jpg, png o webp';
+        return traducirGaraje(campo, 'error_imagen_tipo');
     }
 
     if (archivo.size > tamanyoMaximo) {
-        return 'La imagen no puede superar los 3 mb';
+        return traducirGaraje(campo, 'error_imagen_tamanyo');
     }
 
     return '';

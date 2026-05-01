@@ -1,8 +1,10 @@
 <?php
 
-class ComunidadControlador extends ControladorBase {
-// muestra el listado de publicaciones con buscador, ordenación y paginación
-    public function index(): void {
+class ComunidadControlador extends ControladorBase
+{
+    // muestra el listado de publicaciones con buscador, ordenación y paginación
+    public function index(): void
+    {
         $busqueda = trim($_GET['busqueda'] ?? '');
         $orden = $_GET['orden'] ?? 'recientes';
         $pagina_actual = (int) ($_GET['pagina'] ?? 1);
@@ -53,15 +55,15 @@ class ComunidadControlador extends ControladorBase {
         ]);
     }
 
-    
-// muestra el formulario para crear una publicación
+
+    // muestra el formulario para crear una publicación
     public function nueva(): void
     {
         $this->render('comunidad/nueva');
     }
 
 
-// procesa el alta de una nueva publicación
+    // procesa el alta de una nueva publicación
     public function nueva_post(): void
     {
         csrf_verificar();
@@ -69,7 +71,7 @@ class ComunidadControlador extends ControladorBase {
         $contenido = trim($_POST['contenido'] ?? '');
 
         if ($contenido === '') {
-            flash_set('error', 'El contenido es obligatorio');
+            flash_set('error', t('comunidad.error.contenido_obligatorio'));
             $this->redirigir('/comunidad/nueva');
         }
 
@@ -90,7 +92,7 @@ class ComunidadControlador extends ControladorBase {
             $permitidas = ['jpg', 'jpeg', 'png', 'webp'];
 
             if (!in_array($extension, $permitidas, true)) {
-                flash_set('error', 'Formato de imagen no permitido');
+                flash_set('error', t('comunidad.error.imagen_formato'));
                 $this->redirigir('/comunidad/nueva');
             }
 
@@ -107,28 +109,29 @@ class ComunidadControlador extends ControladorBase {
         try {
             RepositorioPublicaciones::crear($usuario_id, $contenido, $imagen);
         } catch (PDOException $e) {
-            flash_set('error', 'No se pudo guardar la publicación');
+            flash_set('error', t('comunidad.error.guardar_publicacion'));
             $this->redirigir('/comunidad/nueva');
         }
 
-        flash_set('ok', 'Publicación creada correctamente');
+        flash_set('ok', t('comunidad.ok.publicacion_creada'));
         $this->redirigir('/comunidad');
     }
 
 
-// muestra el detalle de una publicación
-    public function ver(): void {
+    // muestra el detalle de una publicación
+    public function ver(): void
+    {
         $id = (int) ($_GET['id'] ?? 0);
 
         if ($id <= 0) {
-            flash_set('error', 'Publicación no válida');
+            flash_set('error', t('comunidad.error.publicacion_no_valida'));
             $this->redirigir('/comunidad');
         }
 
         $publicacion = RepositorioPublicaciones::obtener_por_id($id);
 
         if (!$publicacion) {
-            flash_set('error', 'La publicación no existe');
+            flash_set('error', t('comunidad.error.publicacion_no_existe'));
             $this->redirigir('/comunidad');
         }
 
@@ -140,8 +143,9 @@ class ComunidadControlador extends ControladorBase {
         ]);
     }
 
-// guarda una respuesta a un comentario principal
-    public function responder_comentario(): void {
+    // guarda una respuesta a un comentario principal
+    public function responder_comentario(): void
+    {
         csrf_verificar();
 
         $publicacion_id = (int) ($_POST['publicacion_id'] ?? 0);
@@ -149,7 +153,7 @@ class ComunidadControlador extends ControladorBase {
         $contenido = trim($_POST['contenido'] ?? '');
 
         if ($publicacion_id <= 0 || $respuesta_a_id <= 0) {
-            flash_set('error', 'Datos de respuesta no válidos');
+            flash_set('error', t('comunidad.error.datos_respuesta_no_validos'));
             $this->redirigir('/comunidad');
         }
 
@@ -166,12 +170,12 @@ class ComunidadControlador extends ControladorBase {
         );
 
         if (!$comentario_padre) {
-            flash_set('error', 'El comentario al que intentas responder no es válido');
+            flash_set('error', t('comunidad.error.comentario_responder_no_valido'));
             $this->redirigir('/comunidad/ver?id=' . $publicacion_id);
         }
 
         if ($contenido === '') {
-            flash_set('error', 'La respuesta no puede estar vacía');
+            flash_set('error', t('comunidad.error.respuesta_vacia'));
             $this->redirigir('/comunidad/ver?id=' . $publicacion_id);
         }
 
@@ -185,16 +189,17 @@ class ComunidadControlador extends ControladorBase {
                 $respuesta_a_id
             );
         } catch (PDOException $e) {
-            flash_set('error', 'No se pudo guardar la respuesta');
+            flash_set('error', t('comunidad.error.guardar_respuesta'));
             $this->redirigir('/comunidad/ver?id=' . $publicacion_id);
         }
 
-        flash_set('ok', 'Respuesta publicada correctamente');
+        flash_set('ok', t('comunidad.ok.respuesta_publicada'));
         $this->redirigir('/comunidad/ver?id=' . $publicacion_id);
     }
 
-// guarda un comentario en una publicación
-    public function comentar(): void{
+    // guarda un comentario en una publicación
+    public function comentar(): void
+    {
         csrf_verificar();
 
         $publicacion_id = (int) ($_POST['publicacion_id'] ?? 0);
@@ -213,7 +218,7 @@ class ComunidadControlador extends ControladorBase {
         }
 
         if ($contenido === '') {
-            flash_set('error', 'El comentario no puede estar vacío');
+            flash_set('error', t('comunidad.error.comentario_vacio'));
             $this->redirigir('/comunidad/ver?id=' . $publicacion_id);
         }
 
@@ -222,17 +227,18 @@ class ComunidadControlador extends ControladorBase {
         try {
             RepositorioComentariosPublicaciones::crear($publicacion_id, $usuario_id, $contenido);
         } catch (PDOException $e) {
-            flash_set('error', 'No se pudo guardar el comentario');
+            flash_set('error', t('comunidad.error.guardar_comentario'));
             $this->redirigir('/comunidad/ver?id=' . $publicacion_id);
         }
 
-        flash_set('ok', 'Comentario publicado correctamente');
+        flash_set('ok', t('comunidad.ok.comentario_publicado'));
         $this->redirigir('/comunidad/ver?id=' . $publicacion_id);
     }
 
 
-// procesa el toggle de like de una publicación
-    public function toggle_like(): void {
+    // procesa el toggle de like de una publicación
+    public function toggle_like(): void
+    {
         csrf_verificar();
 
         $publicacion_id = (int) ($_POST['publicacion_id'] ?? 0);
@@ -257,15 +263,16 @@ class ComunidadControlador extends ControladorBase {
                 // flash_set('ok', 'Like añadido');
             }
         } catch (PDOException $e) {
-            flash_set('error', 'No se pudo actualizar el like');
+            flash_set('error', t('comunidad.error.like_actualizar'));
         }
 
         $this->redirigir('/comunidad/ver?id=' . $publicacion_id);
     }
 
-    
-// muestra el formulario para editar una publicación propia
-    public function editar(): void {
+
+    // muestra el formulario para editar una publicación propia
+    public function editar(): void
+    {
         $id = (int) ($_GET['id'] ?? 0);
 
         if ($id <= 0) {
@@ -283,7 +290,7 @@ class ComunidadControlador extends ControladorBase {
         $usuario_id = (int) $_SESSION['usuario']['id'];
 
         if ((int) $publicacion['usuario_id'] !== $usuario_id) {
-            flash_set('error', 'No tienes permiso para editar esta publicación');
+            flash_set('error', t('comunidad.error.sin_permiso_editar_publicacion'));
             $this->redirigir('/comunidad');
         }
 
@@ -293,8 +300,9 @@ class ComunidadControlador extends ControladorBase {
     }
 
 
-// procesa la edición de una publicación propia
-    public function editar_post(): void {
+    // procesa la edición de una publicación propia
+    public function editar_post(): void
+    {
         csrf_verificar();
 
         $id = (int) ($_POST['id'] ?? 0);
@@ -372,8 +380,9 @@ class ComunidadControlador extends ControladorBase {
     }
 
 
-// elimina una publicación propia
-    public function eliminar(): void {
+    // elimina una publicación propia
+    public function eliminar(): void
+    {
         csrf_verificar();
 
         $id = (int) ($_POST['id'] ?? 0);
@@ -393,14 +402,14 @@ class ComunidadControlador extends ControladorBase {
         $usuario_id = (int) $_SESSION['usuario']['id'];
 
         if ((int) $publicacion['usuario_id'] !== $usuario_id) {
-            flash_set('error', 'No tienes permiso para eliminar esta publicación');
+            flash_set('error', t('comunidad.error.sin_permiso_eliminar_publicacion'));
             $this->redirigir('/comunidad');
         }
 
         try {
             RepositorioPublicaciones::eliminar($id);
         } catch (PDOException $e) {
-            flash_set('error', 'No se pudo eliminar la publicación');
+            flash_set('error', t('comunidad.error.eliminar_publicacion'));
             $this->redirigir('/comunidad/ver?id=' . $id);
         }
 
@@ -412,13 +421,14 @@ class ComunidadControlador extends ControladorBase {
             }
         }
 
-        flash_set('ok', 'Publicación eliminada correctamente');
+        flash_set('ok', t('comunidad.ok.publicacion_eliminada'));
         $this->redirigir('/comunidad');
     }
 
 
-// muestra el formulario para editar un comentario propio
-    public function editar_comentario(): void {
+    // muestra el formulario para editar un comentario propio
+    public function editar_comentario(): void
+    {
         $id = (int) ($_GET['id'] ?? 0);
 
         if ($id <= 0) {
@@ -445,8 +455,9 @@ class ComunidadControlador extends ControladorBase {
         ]);
     }
 
-// procesa la edición de un comentario propio
-    public function editar_comentario_post(): void {
+    // procesa la edición de un comentario propio
+    public function editar_comentario_post(): void
+    {
         csrf_verificar();
 
         $id = (int) ($_POST['id'] ?? 0);
@@ -487,8 +498,9 @@ class ComunidadControlador extends ControladorBase {
         $this->redirigir('/comunidad/ver?id=' . $comentario['publicacion_id']);
     }
 
-// elimina un comentario propio
-    public function eliminar_comentario(): void {
+    // elimina un comentario propio
+    public function eliminar_comentario(): void
+    {
         csrf_verificar();
 
         $id = (int) ($_POST['id'] ?? 0);
@@ -522,8 +534,8 @@ class ComunidadControlador extends ControladorBase {
         flash_set('ok', 'Comentario eliminado correctamente');
         $this->redirigir('/comunidad/ver?id=' . $comentario['publicacion_id']);
     }
-    
-        // devuelve por ajax las respuestas de un comentario principal
+
+    // devuelve por ajax las respuestas de un comentario principal
     public function respuestas_comentario(): void
     {
         $publicacion_id = (int) ($_GET['publicacion_id'] ?? 0);
@@ -535,7 +547,7 @@ class ComunidadControlador extends ControladorBase {
             http_response_code(400);
             echo json_encode([
                 'ok' => false,
-                'mensaje' => 'Datos no válidos',
+                'mensaje' => t('comunidad.error.datos_no_validos'),
             ]);
             exit;
         }
@@ -546,7 +558,7 @@ class ComunidadControlador extends ControladorBase {
             http_response_code(404);
             echo json_encode([
                 'ok' => false,
-                'mensaje' => 'La publicación no existe',
+                'mensaje' => t('comunidad.error.publicacion_no_existe'),
             ]);
             exit;
         }
@@ -560,7 +572,7 @@ class ComunidadControlador extends ControladorBase {
             http_response_code(404);
             echo json_encode([
                 'ok' => false,
-                'mensaje' => 'El comentario no es válido',
+                'mensaje' => t('comunidad.error.comentario_no_valido'),
             ]);
             exit;
         }
@@ -587,8 +599,9 @@ class ComunidadControlador extends ControladorBase {
     }
 
 
-// procesa likes por ajax en una publicación
-    public function toggle_like_ajax(): void {
+    // procesa likes por ajax en una publicación
+    public function toggle_like_ajax(): void
+    {
         csrf_verificar();
 
         header('Content-Type: application/json; charset=utf-8');
@@ -600,7 +613,7 @@ class ComunidadControlador extends ControladorBase {
             http_response_code(400);
             echo json_encode([
                 'ok' => false,
-                'mensaje' => 'Datos no válidos',
+                'mensaje' => t('comunidad.error.datos_no_validos'),
             ]);
             exit;
         }
@@ -611,7 +624,7 @@ class ComunidadControlador extends ControladorBase {
             http_response_code(404);
             echo json_encode([
                 'ok' => false,
-                'mensaje' => 'La publicación no existe',
+                'mensaje' => t('comunidad.error.publicacion_no_existe'),
             ]);
             exit;
         }
@@ -625,11 +638,11 @@ class ComunidadControlador extends ControladorBase {
             if ($ya_dio_like) {
                 RepositorioLikesPublicaciones::quitar_like($publicacion_id, $usuario_id);
                 $accion = 'quitado';
-                $texto_boton = 'Dar like';
+                $texto_boton = t('comunidad.index.dar_like');
             } else {
                 RepositorioLikesPublicaciones::dar_like($publicacion_id, $usuario_id);
                 $accion = 'añadido';
-                $texto_boton = 'Quitar like';
+                $texto_boton = t('comunidad.index.dar_like');
             }
 
             $total_likes = RepositorioLikesPublicaciones::contar_likes($publicacion_id);
@@ -645,7 +658,7 @@ class ComunidadControlador extends ControladorBase {
             http_response_code(500);
             echo json_encode([
                 'ok' => false,
-                'mensaje' => 'No se pudo actualizar el like',
+                'mensaje' => t('comunidad.error.like_actualizar'),
             ]);
             exit;
         }

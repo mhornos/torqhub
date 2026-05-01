@@ -644,19 +644,19 @@ class GarajeControlador extends ControladorBase {
         ];
 
         if ($vehiculo_id <= 0) {
-            flash_set('error', 'Vehículo no válido');
+            flash_set('error', t('garaje.mantenimiento.error.vehiculo_no_valido'));
             $this->redirigir('/garaje');
         }
 
         $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
 
         if (!$vehiculo) {
-            flash_set('error', 'Vehículo no encontrado o sin permisos');
+            flash_set('error', t('garaje.mantenimiento.error.vehiculo_no_encontrado'));
             $this->redirigir('/garaje');
         }
 
         if ($fecha === '' || $tipo === '') {
-            flash_set('error', 'La fecha y el tipo son obligatorios');
+            flash_set('error', t('garaje.mantenimiento.error.fecha_tipo_obligatorios'));
             $this->redirigir('/garaje/mantenimientos/nuevo?vehiculo_id=' . $vehiculo_id);
         }
 
@@ -664,12 +664,12 @@ class GarajeControlador extends ControladorBase {
         $fecha_valida = $fecha_objeto && $fecha_objeto->format('Y-m-d') === $fecha;
 
         if (!$fecha_valida) {
-            flash_set('error', 'La fecha no es válida');
+            flash_set('error', t('garaje.mantenimiento.error.fecha_no_valida'));
             $this->redirigir('/garaje/mantenimientos/nuevo?vehiculo_id=' . $vehiculo_id);
         }
 
         if (mb_strlen($tipo) > 100) {
-            flash_set('error', 'El tipo no puede superar los 100 caracteres');
+            flash_set('error', t('garaje.mantenimiento.error.tipo_maximo'));
             $this->redirigir('/garaje/mantenimientos/nuevo?vehiculo_id=' . $vehiculo_id);
         }
 
@@ -680,7 +680,7 @@ class GarajeControlador extends ControladorBase {
         } elseif (ctype_digit($kilometros_txt)) {
             $kilometros = (int) $kilometros_txt;
         } else {
-            flash_set('error', 'Los kilometros deben ser un número entero positivo');
+            flash_set('error', t('garaje.mantenimiento.error.kilometros_entero'));
             $this->redirigir('/garaje/mantenimientos/nuevo?vehiculo_id=' . $vehiculo_id);
         }
 
@@ -690,7 +690,7 @@ class GarajeControlador extends ControladorBase {
             $coste_normalizado = str_replace(',', '.', $coste_txt);
 
             if (!is_numeric($coste_normalizado) || (float) $coste_normalizado < 0) {
-                flash_set('error', 'El coste debe ser un número válido mayor o igual que cero');
+                flash_set('error', t('garaje.mantenimiento.error.coste_valido'));
                 $this->redirigir('/garaje/mantenimientos/nuevo?vehiculo_id=' . $vehiculo_id);
             }
 
@@ -707,13 +707,13 @@ class GarajeControlador extends ControladorBase {
                 $coste
             );
         } catch (PDOException $e) {
-            flash_set('error', 'No se pudo guardar el mantenimiento');
+            flash_set('error', t('garaje.mantenimiento.error.guardar'));
             $this->redirigir('/garaje/mantenimientos/nuevo?vehiculo_id=' . $vehiculo_id);
         }
 
         unset($_SESSION['mantenimiento_form']);
         
-        flash_set('ok', 'Mantenimiento añadido correctamente');
+        flash_set('ok', t('garaje.mantenimiento.ok.guardar'));
         $this->redirigir('/garaje/ver?id=' . $vehiculo_id);
     }
 
@@ -724,14 +724,14 @@ class GarajeControlador extends ControladorBase {
         $vehiculo_id = (int) ($_GET['vehiculo_id'] ?? 0);
 
         if ($vehiculo_id <= 0) {
-            flash_set('error', 'vehiculo no valido');
+            flash_set('error', t('garaje.mantenimiento.error.vehiculo_no_valido'));
             $this->redirigir('/garaje');
         }
 
         $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
 
         if (!$vehiculo) {
-            flash_set('error', 'Vehículo no encontrado o sin permisos');
+            flash_set('error', t('garaje.mantenimiento.error.vehiculo_no_encontrado'));
             $this->redirigir('/garaje');
         }
 
@@ -751,21 +751,21 @@ class GarajeControlador extends ControladorBase {
         $mantenimiento_id = (int) ($_GET['id'] ?? 0);
 
         if ($mantenimiento_id <= 0) {
-            flash_set('error', 'Mantenimiento no válido');
+            flash_set('error', t('garaje.mantenimiento.error.mantenimiento_no_valido'));
             $this->redirigir('/garaje');
         }
 
         $mantenimiento = RepositorioMantenimientos::buscar_por_id_y_usuario($mantenimiento_id, $usuario_id);
 
         if (!$mantenimiento) {
-            flash_set('error', 'Mantenimiento no encontrado o sin permisos');
+            flash_set('error', t('garaje.mantenimiento.error.mantenimiento_no_encontrado'));
             $this->redirigir('/garaje');
         }
 
         $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario((int) $mantenimiento['vehiculo_id'], $usuario_id);
 
         if (!$vehiculo) {
-            flash_set('error', 'Vehículo no encontrado o sin permisos');
+            flash_set('error', t('garaje.mantenimiento.error.vehiculo_no_encontrado'));
             $this->redirigir('/garaje');
         }
 
@@ -788,14 +788,14 @@ class GarajeControlador extends ControladorBase {
         $mantenimiento_id = (int) ($_POST['mantenimiento_id'] ?? 0);
 
         if ($mantenimiento_id <= 0) {
-            flash_set('error', 'Mantenimiento no válido');
+            flash_set('error', t('garaje.mantenimiento.error.mantenimiento_no_valido'));
             $this->redirigir('/garaje');
         }
 
         $mantenimiento = RepositorioMantenimientos::buscar_por_id_y_usuario($mantenimiento_id, $usuario_id);
 
         if (!$mantenimiento) {
-            flash_set('error', 'Mantenimiento no encontrado o sin permisos');
+            flash_set('error', t('garaje.mantenimiento.error.mantenimiento_no_encontrado'));
             $this->redirigir('/garaje');
         }
 
@@ -816,7 +816,7 @@ class GarajeControlador extends ControladorBase {
         ];
 
         if ($fecha === '' || $tipo === '') {
-            flash_set('error', 'La fecha y el tipo son obligatorios');
+            flash_set('error', t('garaje.mantenimiento.error.fecha_tipo_obligatorios'));
             $this->redirigir('/garaje/mantenimientos/editar?id=' . $mantenimiento_id);
         }
 
@@ -824,12 +824,12 @@ class GarajeControlador extends ControladorBase {
         $fecha_valida = $fecha_objeto && $fecha_objeto->format('Y-m-d') === $fecha;
 
         if (!$fecha_valida) {
-            flash_set('error', 'La fecha no es válida');
+            flash_set('error', t('garaje.mantenimiento.error.fecha_no_valida'));
             $this->redirigir('/garaje/mantenimientos/editar?id=' . $mantenimiento_id);
         }
 
         if (mb_strlen($tipo) > 100) {
-            flash_set('error', 'El tipo no puede superar los 100 caracteres');
+            flash_set('error', t('garaje.mantenimiento.error.tipo_maximo'));
             $this->redirigir('/garaje/mantenimientos/editar?id=' . $mantenimiento_id);
         }
 
@@ -840,7 +840,7 @@ class GarajeControlador extends ControladorBase {
         } elseif (ctype_digit($kilometros_txt)) {
             $kilometros = (int) $kilometros_txt;
         } else {
-            flash_set('error', 'Los kilometros deben ser un número entero positivo');
+            flash_set('error', t('garaje.mantenimiento.error.kilometros_entero'));
             $this->redirigir('/garaje/mantenimientos/editar?id=' . $mantenimiento_id);
         }
 
@@ -850,7 +850,7 @@ class GarajeControlador extends ControladorBase {
             $coste_normalizado = str_replace(',', '.', $coste_txt);
 
             if (!is_numeric($coste_normalizado) || (float) $coste_normalizado < 0) {
-                flash_set('error', 'El coste debe ser un número válido mayor o igual que cero');
+                flash_set('error', t('garaje.mantenimiento.error.coste_valido'));
                 $this->redirigir('/garaje/mantenimientos/editar?id=' . $mantenimiento_id);
             }
 
@@ -868,13 +868,13 @@ class GarajeControlador extends ControladorBase {
                 $coste
             );
         } catch (PDOException $e) {
-            flash_set('error', 'No se pudo actualizar el mantenimiento');
+            flash_set('error', t('garaje.mantenimiento.error.actualizar'));
             $this->redirigir('/garaje/mantenimientos/editar?id=' . $mantenimiento_id);
         }
 
         unset($_SESSION['mantenimiento_editar_form']);
 
-        flash_set('ok', 'Mantenimiento actualizado correctamente');
+        flash_set('ok', t('garaje.mantenimiento.ok.actualizar'));
         $this->redirigir('/garaje/ver?id=' . $vehiculo_id);
     }
 
@@ -887,14 +887,14 @@ class GarajeControlador extends ControladorBase {
         $mantenimiento_id = (int) ($_POST['mantenimiento_id'] ?? 0);
 
         if ($mantenimiento_id <= 0) {
-            flash_set('error', 'Mantenimiento no válido');
+            flash_set('error', t('garaje.mantenimiento.error.mantenimiento_no_valido'));
             $this->redirigir('/garaje');
         }
 
         $mantenimiento = RepositorioMantenimientos::buscar_por_id_y_usuario($mantenimiento_id, $usuario_id);
 
         if (!$mantenimiento) {
-            flash_set('error', 'Mantenimiento no encontrado o sin permisos');
+            flash_set('error', t('garaje.mantenimiento.error.mantenimiento_no_encontrado'));
             $this->redirigir('/garaje');
         }
 
@@ -903,11 +903,11 @@ class GarajeControlador extends ControladorBase {
         try {
             RepositorioMantenimientos::eliminar($mantenimiento_id, $vehiculo_id);
         } catch (PDOException $e) {
-            flash_set('error', 'No se pudo eliminar el mantenimiento');
+            flash_set('error', t('garaje.mantenimiento.error.eliminar'));
             $this->redirigir('/garaje/ver?id=' . $vehiculo_id);
         }
 
-        flash_set('ok', 'Mantenimiento eliminado correctamente');
+        flash_set('ok', t('garaje.mantenimiento.ok.eliminar'));
         $this->redirigir('/garaje/ver?id=' . $vehiculo_id);
     }
 

@@ -10,6 +10,8 @@ nav {
     align-content: center;
     height: 60px;
     width: 100%;
+    align-items: center;
+    display: flex;
 }
 
 .formulario-idioma {
@@ -17,6 +19,8 @@ nav {
     gap: 6px;
     padding-left: 0;
     margin-left: 20px;
+    position: relative;
+    top: 9px;
 }
 
 .boton-idioma {
@@ -26,6 +30,7 @@ nav {
     padding: 4px 8px;
     cursor: pointer;
     font-weight: 600;
+    
 }
 
 .boton-idioma.activo {
