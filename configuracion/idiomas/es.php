@@ -76,4 +76,55 @@ return [
     'auth.error.campos_obligatorios' => 'Todos los campos son obligatorios',
     'auth.error.password_minimos' => 'La contraseña no cumple los requisitos mínimos',
     'auth.ok.password_restablecida' => 'Contraseña restablecida correctamente',
+
+    // inici
+    'inicio.titulo_pagina' => 'Inici',
+    'inicio.titulo' => 'Inici',
+    'inicio.saludo' => 'Hola',
+    'inicio.bienvenida' => 'Benvingut a TorqHub',
+
+    // garatge - llistat
+    'garaje.index.titulo_pagina' => 'El meu garatge',
+    'garaje.index.titulo' => 'El meu garatge',
+    'garaje.index.anadir_vehiculo' => 'Afegir vehicle',
+    'garaje.index.sin_vehiculos' => 'Encara no tens vehicles',
+    'garaje.index.ver' => 'Veure',
+    'garaje.index.editar' => 'Editar',
+    'garaje.index.eliminar' => 'Eliminar',
+
+    // garaje - formulario vehículo
+    'garaje.form.nuevo.titulo_pagina' => 'Añadir vehículo',
+    'garaje.form.nuevo.titulo' => 'Añadir vehículo',
+    'garaje.form.editar.titulo_pagina' => 'Editar vehículo',
+    'garaje.form.editar.titulo' => 'Editar vehículo',
+
+    'garaje.form.error.cargar_editar' => 'No se ha podido cargar el vehículo para editar',
+
+    'garaje.form.marca' => 'Marca',
+    'garaje.form.modelo' => 'Modelo',
+    'garaje.form.any' => 'Año',
+    'garaje.form.vin_opcional' => 'VIN',
+    'garaje.form.vin' => 'VIN',
+    'garaje.form.consultar_vin' => 'Consultar VIN',
+    'garaje.form.vin_ayuda_nuevo' => 'Introduce un VIN real de 17 caracteres para autocompletar datos del vehículo',
+    'garaje.form.vin_ayuda_editar' => 'Si consultas el VIN, se intentarán autocompletar los datos disponibles',
+
+    'garaje.form.carroceria' => 'Carrocería',
+    'garaje.form.tipo_combustible' => 'Tipo de combustible',
+    'garaje.form.tipo_cambio' => 'Tipo de cambio',
+    'garaje.form.selecciona_opcion' => 'Selecciona una opción',
+
+    'garaje.form.potencia_cv' => 'Potencia (CV)',
+    'garaje.form.cilindrada_cm3' => 'Cilindrada (cm³)',
+
+    'garaje.form.imagen' => 'Imagen del vehículo',
+    'garaje.form.imagen_ayuda_nuevo' => 'Formatos permitidos: JPG, PNG o WEBP. Máximo 3 MB',
+    'garaje.form.cambiar_imagen' => 'Cambiar imagen del vehículo',
+    'garaje.form.cambiar_imagen_ayuda' => 'Si subes una nueva imagen, reemplazará la actual. Máximo 3 MB',
+    'garaje.form.imagen_actual' => 'Imagen actual',
+    'garaje.form.alt_imagen_actual' => 'Imagen actual del vehículo',
+
+    'garaje.form.cancelar' => 'Cancelar',
+    'garaje.form.guardar_vehiculo' => 'Guardar vehículo',
+    'garaje.form.guardar_cambios' => 'Guardar cambios',
 ];

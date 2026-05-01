@@ -1,18 +1,20 @@
 <?php
-    $vehiculos = isset($vehiculos) && is_array($vehiculos) ? $vehiculos : [];
+$vehiculos = isset($vehiculos) && is_array($vehiculos) ? $vehiculos : [];
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= htmlspecialchars(idioma_actual()) ?>">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TorqHub</title>
+    <title><?= htmlspecialchars(t('garaje.index.titulo_pagina')) ?> - TorqHub</title>
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 </head>
+
 <body>
-    <h1>Mi garaje</h1>
- 
+    <h1><?= htmlspecialchars(t('garaje.index.titulo')) ?></h1>
+
     <?php if ($m = flash_get('ok')): ?>
         <p><?= htmlspecialchars($m) ?></p>
     <?php endif; ?>
@@ -21,10 +23,14 @@
         <p><?= htmlspecialchars($m) ?></p>
     <?php endif; ?>
 
-    <p><a href="<?= url('/garaje/nuevo') ?>">Añadir vehículo</a></p>
+    <p>
+        <a href="<?= url('/garaje/nuevo') ?>">
+            <?= htmlspecialchars(t('garaje.index.anadir_vehiculo')) ?>
+        </a>
+    </p>
 
     <?php if (count($vehiculos) === 0): ?>
-        <p>No tienes vehículos aún</p>
+        <p><?= htmlspecialchars(t('garaje.index.sin_vehiculos')) ?></p>
     <?php else: ?>
         <ul>
             <?php foreach ($vehiculos as $v): ?>
@@ -33,15 +39,24 @@
                     <?php if (!empty($v['any'])): ?>
                         (<?= (int) $v['any'] ?>)
                     <?php endif; ?>
-                    
-                    <button type="button" onclick="location.href='<?= url('/garaje/ver?id=' . (int) $v['id']) ?>'">Ver</button>
-                    <button type="button" onclick="location.href='<?= url('/garaje/editar?id=' . (int) $v['id']) ?>'">Editar</button>
-                    <button type="button" onclick="location.href='<?= url('/garaje/eliminar?id=' . (int) $v['id']) ?>'">Eliminar</button>
-                    
+
+                    <button type="button" onclick="location.href='<?= url('/garaje/ver?id=' . (int) $v['id']) ?>'">
+                        <?= htmlspecialchars(t('garaje.index.ver')) ?>
+                    </button>
+
+                    <button type="button" onclick="location.href='<?= url('/garaje/editar?id=' . (int) $v['id']) ?>'">
+                        <?= htmlspecialchars(t('garaje.index.editar')) ?>
+                    </button>
+
+                    <button type="button" onclick="location.href='<?= url('/garaje/eliminar?id=' . (int) $v['id']) ?>'">
+                        <?= htmlspecialchars(t('garaje.index.eliminar')) ?>
+                    </button>
+
                 </li>
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
 
 </body>
+
 </html>

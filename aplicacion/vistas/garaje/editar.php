@@ -1,23 +1,23 @@
 <?php
-    if (!isset($vehiculo) || !is_array($vehiculo)) {
-        flash_set('error', 'No se ha podido cargar el vehículo para editar');
-        header('Location: ' . url('/garaje'));
-        exit;
-    }
+if (!isset($vehiculo) || !is_array($vehiculo)) {
+    flash_set('error', t('garaje.form.error.cargar_editar'));
+    header('Location: ' . url('/garaje'));
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= htmlspecialchars(idioma_actual()) ?>">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TorqHub</title>
+    <title><?= htmlspecialchars(t('garaje.form.editar.titulo_pagina')) ?> - TorqHub</title>
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 </head>
 
 <body>
-    <h1>Editar vehículo</h1>
+    <h1><?= htmlspecialchars(t('garaje.form.editar.titulo')) ?></h1>
 
     <?php if ($m = flash_get('error')): ?>
         <p><?= htmlspecialchars($m) ?></p>
@@ -35,42 +35,39 @@
         <input type="hidden" name="id" value="<?= (int) $vehiculo['id'] ?>">
 
         <div>
-            <label>Marca: *</label>
+            <label><?= htmlspecialchars(t('garaje.form.marca')) ?>: *</label>
             <input type="text" name="marca" value="<?= htmlspecialchars($vehiculo['marca']) ?>" required>
         </div>
 
         <div>
-            <label>Modelo: *</label>
+            <label><?= htmlspecialchars(t('garaje.form.modelo')) ?>: *</label>
             <input type="text" name="modelo" value="<?= htmlspecialchars($vehiculo['modelo']) ?>" required>
         </div>
 
         <div>
-            <label>Año:</label>
+            <label><?= htmlspecialchars(t('garaje.form.any')) ?>:</label>
             <input type="number" name="any" min="1900" max="2100" value="<?= htmlspecialchars((string) ($vehiculo['any'] ?? '')) ?>" required>
         </div>
+        <label for="vin"><?= htmlspecialchars(t('garaje.form.vin')) ?>:</label>
+        <input
+            type="text"
+            name="vin"
+            id="vin"
+            maxlength="17"
+            autocomplete="off"
+            value="<?= htmlspecialchars((string) ($vehiculo['vin'] ?? '')) ?>"> <br>
 
-        <div class="campo-vin">
-            <label for="vin">VIN:</label>
-            <input
-                type="text"
-                name="vin"
-                id="vin"
-                maxlength="17"
-                autocomplete="off"
-                value="<?= htmlspecialchars((string) ($vehiculo['vin'] ?? '')) ?>">
+        <button type="button" class="boton-consultar-vin">
+            <?= htmlspecialchars(t('garaje.form.consultar_vin')) ?>
+        </button> <br>
 
-            <button type="button" class="boton-consultar-vin">
-                Consultar VIN
-            </button>
-
-            <small>Si consultas el VIN, se intentarán autocompletar los datos disponibles.</small>
-            <p class="mensaje-vin" aria-live="polite"></p>
-        </div>
+        <small><?= htmlspecialchars(t('garaje.form.vin_ayuda_editar')) ?>.</small>
+        <p class="mensaje-vin" aria-live="polite"></p>
 
         <div>
-            <label for="carroceria">Carroceria:</label>
+            <label for="carroceria"><?= htmlspecialchars(t('garaje.form.carroceria')) ?>:</label>
             <select name="carroceria" id="carroceria">
-                <option value="">Selecciona una opción</option>
+                <option value=""><?= htmlspecialchars(t('garaje.form.selecciona_opcion')) ?></option>
                 <option value="coche pequeño" <?= ($vehiculo['carroceria'] ?? '') === 'coche pequeño' ? 'selected' : '' ?>>Coche pequeño</option>
                 <option value="sedán" <?= ($vehiculo['carroceria'] ?? '') === 'sedán' ? 'selected' : '' ?>>Sedán</option>
                 <option value="familiar" <?= ($vehiculo['carroceria'] ?? '') === 'familiar' ? 'selected' : '' ?>>Familiar</option>
@@ -84,9 +81,9 @@
         </div>
 
         <div>
-            <label for="tipo_combustible">Tipo de combustible:</label>
+            <label for="tipo_combustible"><?= htmlspecialchars(t('garaje.form.tipo_combustible')) ?>:</label>
             <select name="tipo_combustible" id="tipo_combustible">
-                <option value="">Selecciona una opción</option>
+                <option value=""><?= htmlspecialchars(t('garaje.form.selecciona_opcion')) ?></option>
                 <option value="gasolina" <?= ($vehiculo['tipo_combustible'] ?? '') === 'gasolina' ? 'selected' : '' ?>>Gasolina</option>
                 <option value="diesel" <?= ($vehiculo['tipo_combustible'] ?? '') === 'diesel' ? 'selected' : '' ?>>Diesel</option>
                 <option value="electrico" <?= ($vehiculo['tipo_combustible'] ?? '') === 'electrico' ? 'selected' : '' ?>>Eléctrico</option>
@@ -101,16 +98,16 @@
         </div>
 
         <div>
-            <label for="tipo_cambio">Tipo de cambio:</label>
+            <label for="tipo_cambio"><?= htmlspecialchars(t('garaje.form.tipo_cambio')) ?>:</label>
             <select name="tipo_cambio" id="tipo_cambio">
-                <option value="">Selecciona una opción</option>
+                <option value=""><?= htmlspecialchars(t('garaje.form.selecciona_opcion')) ?></option>
                 <option value="automatico" <?= ($vehiculo['tipo_cambio'] ?? '') === 'automatico' ? 'selected' : '' ?>>Automático</option>
                 <option value="manual" <?= ($vehiculo['tipo_cambio'] ?? '') === 'manual' ? 'selected' : '' ?>>Manual</option>
             </select>
         </div>
 
         <div>
-            <label for="potencia_cv">Potencia (cv):</label>
+            <label for="potencia_cv"><?= htmlspecialchars(t('garaje.form.potencia_cv')) ?>:</label>
             <input
                 type="number"
                 name="potencia_cv"
@@ -120,7 +117,7 @@
         </div>
 
         <div>
-            <label for="cilindrada_cm3">Cilindrada (cm³):</label>
+            <label for="cilindrada_cm3"><?= htmlspecialchars(t('garaje.form.cilindrada_cm3')) ?>:</label>
             <input
                 type="number"
                 name="cilindrada_cm3"
@@ -130,14 +127,14 @@
         </div> <br>
 
         <div>
-            <label for="imagen">Cambiar imagen del vehiculo:</label>
+            <label for="imagen"><?= htmlspecialchars(t('garaje.form.cambiar_imagen')) ?>:</label>
             <input type="file" name="imagen" id="imagen" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"> <br>
-            <small>Si subes una nueva imagen, reemplazará la actual. (Máximo 3 mb)</small>
+            <small><?= htmlspecialchars(t('garaje.form.cambiar_imagen_ayuda')) ?>.</small>
         </div>
 
         <?php if (!empty($vehiculo['imagen'])): ?>
             <p>
-                <strong>Imagen actual:</strong><br>
+                <strong><?= htmlspecialchars(t('garaje.form.imagen_actual')) ?>:</strong><br>
                 <img
                     src="<?= url('/public/uploads/vehiculos/' . rawurlencode($vehiculo['imagen'])) ?>"
                     alt="imagen actual del vehiculo"
@@ -146,8 +143,13 @@
         <?php endif; ?>
 
         <br>
-        <button type="button" onclick="history.back()">Cancelar</button>
-        <button type="submit">Guardar cambios</button>
+        <button type="button" onclick="history.back()">
+            <?= htmlspecialchars(t('garaje.form.cancelar')) ?>
+        </button>
+
+        <button type="submit">
+            <?= htmlspecialchars(t('garaje.form.guardar_cambios')) ?>
+        </button>
     </form>
 
     <script src="<?= url('/public/js/garaje/formulario.js') ?>"></script>
