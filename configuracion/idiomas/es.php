@@ -77,18 +77,18 @@ return [
     'auth.error.password_minimos' => 'La contraseña no cumple los requisitos mínimos',
     'auth.ok.password_restablecida' => 'Contraseña restablecida correctamente',
 
-    // inici
-    'inicio.titulo_pagina' => 'Inici',
-    'inicio.titulo' => 'Inici',
+    // inicio
+    'inicio.titulo_pagina' => 'Inicio',
+    'inicio.titulo' => 'Inicio',
     'inicio.saludo' => 'Hola',
-    'inicio.bienvenida' => 'Benvingut a TorqHub',
+    'inicio.bienvenida' => 'Bienvenido a TorqHub',
 
-    // garatge - llistat
-    'garaje.index.titulo_pagina' => 'El meu garatge',
-    'garaje.index.titulo' => 'El meu garatge',
-    'garaje.index.anadir_vehiculo' => 'Afegir vehicle',
-    'garaje.index.sin_vehiculos' => 'Encara no tens vehicles',
-    'garaje.index.ver' => 'Veure',
+    // garaje - listado
+    'garaje.index.titulo_pagina' => 'Mi garaje',
+    'garaje.index.titulo' => 'Mi garaje',
+    'garaje.index.anadir_vehiculo' => 'Añadir vehículo',
+    'garaje.index.sin_vehiculos' => 'Todavía no tienes vehículos',
+    'garaje.index.ver' => 'Ver',
     'garaje.index.editar' => 'Editar',
     'garaje.index.eliminar' => 'Eliminar',
 
@@ -313,6 +313,28 @@ return [
     'comunidad.detalle.error_cargar_respuestas' => 'No se pudieron cargar las respuestas',
     'comunidad.detalle.sin_respuestas' => 'No hay respuestas',
     'comunidad.detalle.volver' => 'Volver a comunidad',
+
+    // comunidad - formularios
+    'comunidad.form.nueva.titulo_pagina' => 'Crear publicación',
+    'comunidad.form.nueva.titulo' => 'Crear publicación',
+    'comunidad.form.contenido' => 'Contenido',
+    'comunidad.form.imagen_opcional' => 'Imagen opcional',
+    'comunidad.form.publicar' => 'Publicar',
+    'comunidad.form.volver_comunidad' => 'Volver a comunidad',
+
+    'comunidad.form.editar.titulo_pagina' => 'Editar publicación',
+    'comunidad.form.editar.titulo' => 'Editar publicación',
+    'comunidad.form.editar.error_cargar' => 'No se ha podido cargar la publicación',
+    'comunidad.form.imagen_actual' => 'Imagen actual',
+    'comunidad.form.alt_imagen_actual' => 'Imagen actual de la publicación',
+    'comunidad.form.nueva_imagen_opcional' => 'Nueva imagen opcional',
+    'comunidad.form.guardar_cambios' => 'Guardar cambios',
+    'comunidad.form.volver_publicacion' => 'Volver a la publicación',
+
+    'comunidad.form.editar_comentario.titulo_pagina' => 'Editar comentario',
+    'comunidad.form.editar_comentario.titulo' => 'Editar comentario',
+    'comunidad.form.editar_comentario.error_cargar' => 'No se ha podido cargar el comentario',
+    'comunidad.form.editar_comentario.comentario' => 'Comentario',
 
     // comunidad - mensajes backend/ajax
     'comunidad.error.contenido_obligatorio' => 'El contenido es obligatorio',

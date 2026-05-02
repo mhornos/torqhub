@@ -67,6 +67,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    document.addEventListener('submit', function (evento) {
+        const formulario = evento.target.closest('.form-eliminar-publicacion');
+
+        if (!formulario) {
+            return;
+        }
+
+        const mensaje = formulario.dataset.confirmacion || '¿Seguro que quieres eliminar esta publicación?';
+
+        if (!confirm(mensaje)) {
+            evento.preventDefault();
+        }
+    });
+
     function construirTextoLikes(totalLikes, formulario) {
         totalLikes = Number(totalLikes);
 

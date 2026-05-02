@@ -313,6 +313,28 @@ return [
     'comunidad.detalle.sin_respuestas' => 'No hi ha respostes',
     'comunidad.detalle.volver' => 'Tornar a comunitat',
 
+    // comunitat - formularis
+    'comunidad.form.nueva.titulo_pagina' => 'Crear publicació',
+    'comunidad.form.nueva.titulo' => 'Crear publicació',
+    'comunidad.form.contenido' => 'Contingut',
+    'comunidad.form.imagen_opcional' => 'Imatge opcional',
+    'comunidad.form.publicar' => 'Publicar',
+    'comunidad.form.volver_comunidad' => 'Tornar a comunitat',
+
+    'comunidad.form.editar.titulo_pagina' => 'Editar publicació',
+    'comunidad.form.editar.titulo' => 'Editar publicació',
+    'comunidad.form.editar.error_cargar' => 'No s’ha pogut carregar la publicació',
+    'comunidad.form.imagen_actual' => 'Imatge actual',
+    'comunidad.form.alt_imagen_actual' => 'Imatge actual de la publicació',
+    'comunidad.form.nueva_imagen_opcional' => 'Nova imatge opcional',
+    'comunidad.form.guardar_cambios' => 'Guardar canvis',
+    'comunidad.form.volver_publicacion' => 'Tornar a la publicació',
+
+    'comunidad.form.editar_comentario.titulo_pagina' => 'Editar comentari',
+    'comunidad.form.editar_comentario.titulo' => 'Editar comentari',
+    'comunidad.form.editar_comentario.error_cargar' => 'No s’ha pogut carregar el comentari',
+    'comunidad.form.editar_comentario.comentario' => 'Comentari',
+
     // comunitat - missatges backend/ajax
     'comunidad.error.contenido_obligatorio' => 'El contingut és obligatori',
     'comunidad.error.imagen_formato' => 'Format d’imatge no permès',

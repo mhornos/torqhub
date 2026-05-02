@@ -1,21 +1,21 @@
 <?php
     if (!isset($publicacion) || !is_array($publicacion)) {
-        flash_set('error', 'No se ha podido cargar la publicación');
+        flash_set('error', t('comunidad.form.editar.error_cargar'));
         header('Location: ' . url('/comunidad'));
         exit;
     }
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= htmlspecialchars(idioma_actual()) ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TorqHub</title>
+    <title><?= htmlspecialchars(t('comunidad.form.editar.titulo_pagina')) ?> - TorqHub</title>
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 </head>
 <body>
-    <h1>Editar publicación</h1>
+    <h1><?= htmlspecialchars(t('comunidad.form.editar.titulo')) ?></h1>
 
     <?php if ($m = flash_get('error')): ?>
         <p><?= htmlspecialchars($m) ?></p>
@@ -31,31 +31,31 @@
         <input type="hidden" name="id" value="<?= (int) $publicacion['id'] ?>">
 
         <div>
-            <label for="contenido">Contenido: </label>
+            <label for="contenido"><?= htmlspecialchars(t('comunidad.form.contenido')) ?>:</label>
             <textarea name="contenido" id="contenido" rows="8" required><?= htmlspecialchars($publicacion['contenido']) ?></textarea>
         </div>
 
         <?php if (!empty($publicacion['imagen'])): ?>
             <div>
-                <p>Imagen actual:</p>
+                <p><?= htmlspecialchars(t('comunidad.form.imagen_actual')) ?>:</p>
                 <img 
                     src="<?= url('/public/' . $publicacion['imagen']) ?>"
-                    alt="Imagen actual de la publicación"
+                    alt="<?= htmlspecialchars(t('comunidad.form.alt_imagen_actual')) ?>"
                     style="max-width: 400px; display:block; margin-bottom:10px;"
                 >
             </div>
         <?php endif; ?>
 
         <div>
-            <label for="imagen">Nueva imagen opcional</label>
+            <label for="imagen"><?= htmlspecialchars(t('comunidad.form.nueva_imagen_opcional')) ?></label>
             <input type="file" name="imagen" id="imagen" accept=".jpg,.jpeg,.png,.webp">
         </div>
 
-        <button type="submit">Guardar cambios</button>
+        <button type="submit"><?= htmlspecialchars(t('comunidad.form.guardar_cambios')) ?></button>
     </form>
 
     <p>
-        <a href="<?= url('/comunidad/ver?id=' . $publicacion['id']) ?>">Volver a la publicación</a>
+        <a href="<?= url('/comunidad/ver?id=' . $publicacion['id']) ?>"><?= htmlspecialchars(t('comunidad.form.volver_publicacion')) ?></a>
     </p>
 </body>
 </html>

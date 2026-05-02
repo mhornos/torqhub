@@ -642,7 +642,7 @@ class ComunidadControlador extends ControladorBase
             } else {
                 RepositorioLikesPublicaciones::dar_like($publicacion_id, $usuario_id);
                 $accion = 'añadido';
-                $texto_boton = t('comunidad.index.dar_like');
+                $texto_boton = t('comunidad.index.quitar_like');
             }
 
             $total_likes = RepositorioLikesPublicaciones::contar_likes($publicacion_id);

@@ -58,7 +58,7 @@ $publicaciones = $publicaciones ?? [];
                     data-url="<?= url('/comunidad/like-ajax') ?>"
                     data-like-singular="<?= htmlspecialchars(t('comunidad.index.like_singular')) ?>"
                     data-like-plural="<?= htmlspecialchars(t('comunidad.index.like_plural')) ?>"
-                    data-error-like="<?= htmlspecialchars(t('comunidad.error.like_actualizar')) ?>"
+                    data-error-like="<?= htmlspecialchars(t('comunidad.error.like_actualizar')) ?>">
                     <?= csrf_campo() ?>
 
                     <input type="hidden" name="publicacion_id" value="<?= (int) $publicacion['id'] ?>">
