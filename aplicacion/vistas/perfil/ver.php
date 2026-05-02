@@ -1,6 +1,6 @@
 <?php
     if (!isset($usuario) || !is_array($usuario)) {
-        flash_set('error', 'No se ha podido cargar el perfil');
+        flash_set('error', t('perfil.error.cargar'));
         header('Location: ' . url('/comunidad'));
         exit;
     }
@@ -10,21 +10,25 @@
     $publicaciones = isset($publicaciones) && is_array($publicaciones)
         ? $publicaciones
         : [];
+
+    $vehiculos = isset($vehiculos) && is_array($vehiculos)
+        ? $vehiculos
+        : [];
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= htmlspecialchars(idioma_actual()) ?>">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>perfil - torqhub</title>
+    <title><?= htmlspecialchars(t('perfil.ver.titulo_pagina')) ?> - TorqHub</title>
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 </head>
 
 <body>
 
-    <h1>Perfil de @<?= htmlspecialchars($usuario['nombre']) ?></h1>
+    <h1><?= htmlspecialchars(t('perfil.ver.titulo_de')) ?> @<?= htmlspecialchars($usuario['nombre']) ?></h1>
 
     <?php if ($m = flash_get('ok')): ?>
         <p><?= htmlspecialchars($m) ?></p>
@@ -40,10 +44,10 @@
                 <?php if (!empty($usuario['foto_perfil'])): ?>
                     <img
                         src="<?= url('/public/uploads/perfiles/' . rawurlencode($usuario['foto_perfil'])) ?>"
-                        alt="Foto de perfil de <?= htmlspecialchars($usuario['nombre']) ?>">
+                        alt="<?= htmlspecialchars(t('perfil.ver.alt_foto') . ' ' . $usuario['nombre']) ?>">
                 <?php else: ?>
                     <div class="perfil-foto-vacia">
-                        Sin foto
+                        <?= htmlspecialchars(t('perfil.ver.sin_foto')) ?>
                     </div>
                 <?php endif; ?>
             </div>
@@ -55,13 +59,13 @@
 
         <?php if ($es_mi_perfil): ?>
             <div class="perfil-bloque">
-                <h3>Cambiar foto de perfil</h3>
+                <h3><?= htmlspecialchars(t('perfil.ver.cambiar_foto')) ?></h3>
 
                 <form action="<?= url('/perfil/foto') ?>" method="POST" enctype="multipart/form-data">
                     <?= csrf_campo() ?>
 
                     <div>
-                        <label for="foto_perfil">Nueva foto:</label>
+                        <label for="foto_perfil"><?= htmlspecialchars(t('perfil.ver.nueva_foto')) ?>:</label>
                         <input
                             type="file"
                             name="foto_perfil"
@@ -70,18 +74,18 @@
                             required>
                     </div>
 
-                    <button type="submit">Actualizar foto</button>
+                    <button type="submit"><?= htmlspecialchars(t('perfil.ver.actualizar_foto')) ?></button>
                 </form>
             </div>
 
             <div class="perfil-bloque">
-                <h3>Editar datos del perfil</h3>
+                <h3><?= htmlspecialchars(t('perfil.ver.editar_datos')) ?></h3>
 
                 <form action="<?= url('/perfil/actualizar') ?>" method="POST">
                     <?= csrf_campo() ?>
 
                     <div>
-                        <label for="nombre">Nombre de usuario:</label>
+                        <label for="nombre"><?= htmlspecialchars(t('perfil.ver.nombre_usuario')) ?>:</label>
                         <input
                             type="text"
                             name="nombre"
@@ -91,7 +95,7 @@
                     </div>
 
                     <div>
-                        <label for="email">Correo electrónico:</label>
+                        <label for="email"><?= htmlspecialchars(t('perfil.ver.email')) ?>:</label>
                         <input
                             type="email"
                             name="email"
@@ -100,18 +104,18 @@
                             required>
                     </div>
 
-                    <button type="submit">Guardar cambios</button>
+                    <button type="submit"><?= htmlspecialchars(t('perfil.ver.guardar_cambios')) ?></button>
                 </form>
             </div>
 
             <div class="perfil-bloque">
-                <h3>Cambiar contraseña</h3>
+                <h3><?= htmlspecialchars(t('perfil.ver.cambiar_password')) ?></h3>
 
                 <form action="<?= url('/perfil/cambiar-password') ?>" method="POST">
                     <?= csrf_campo() ?>
 
                     <div>
-                        <label for="password_actual">Contraseña actual:</label>
+                        <label for="password_actual"><?= htmlspecialchars(t('perfil.ver.password_actual')) ?>:</label>
                         <input
                             type="password"
                             name="password_actual"
@@ -120,7 +124,7 @@
                     </div>
 
                     <div>
-                        <label for="password_nueva">Nueva contraseña:</label>
+                        <label for="password_nueva"><?= htmlspecialchars(t('perfil.ver.password_nueva')) ?>:</label>
                         <input
                             type="password"
                             name="password_nueva"
@@ -129,7 +133,7 @@
                     </div>
 
                     <div>
-                        <label for="password_nueva_repetida">Repetir nueva contraseña:</label>
+                        <label for="password_nueva_repetida"><?= htmlspecialchars(t('perfil.ver.password_nueva_repetida')) ?>:</label>
                         <input
                             type="password"
                             name="password_nueva_repetida"
@@ -137,7 +141,7 @@
                             required>
                     </div>
 
-                    <button type="submit">Cambiar contraseña</button>
+                    <button type="submit"><?= htmlspecialchars(t('perfil.ver.cambiar_password')) ?></button>
                 </form>
             </div>
         <?php endif; ?>
@@ -146,10 +150,10 @@
     <hr>
 
     <section class="perfil-bloque">
-        <h3>Garaje público</h3>
+        <h3><?= htmlspecialchars(t('perfil.ver.garaje_publico')) ?></h3>
 
         <?php if (empty($vehiculos)): ?>
-            <p>Este usuario todavía no tiene vehículos en su garaje.</p>
+            <p><?= htmlspecialchars(t('perfil.ver.sin_vehiculos')) ?>.</p>
         <?php else: ?>
             <div class="perfil-garaje">
                 <?php foreach ($vehiculos as $vehiculo): ?>
@@ -157,10 +161,10 @@
                         <?php if (!empty($vehiculo['imagen'])): ?>
                             <img
                                 src="<?= url('/public/uploads/vehiculos/' . rawurlencode($vehiculo['imagen'])) ?>"
-                                alt="Imagen de <?= htmlspecialchars($vehiculo['marca'] . ' ' . $vehiculo['modelo']) ?>">
+                                alt="<?= htmlspecialchars(t('perfil.ver.alt_vehiculo') . ' ' . $vehiculo['marca'] . ' ' . $vehiculo['modelo']) ?>">
                         <?php else: ?>
                             <div class="perfil-vehiculo-sin-imagen">
-                                sin imagen
+                                <?= htmlspecialchars(t('perfil.ver.sin_imagen')) ?>
                             </div>
                         <?php endif; ?>
 
@@ -177,7 +181,7 @@
                         </p>
 
                         <a href="<?= url('/perfil/vehiculo?id=' . (int) $vehiculo['id']) ?>">
-                            Ver detalles
+                            <?= htmlspecialchars(t('perfil.ver.ver_detalles')) ?>
                         </a>
                     </article>
                 <?php endforeach; ?>
@@ -187,10 +191,10 @@
 
     <hr>
 
-    <h2>Publicaciones</h2>
+    <h2><?= htmlspecialchars(t('perfil.ver.publicaciones')) ?></h2>
 
     <?php if (count($publicaciones) === 0): ?>
-        <p>Este usuario todavía no tiene publicaciones.</p>
+        <p><?= htmlspecialchars(t('perfil.ver.sin_publicaciones')) ?>.</p>
     <?php else: ?>
         <?php foreach ($publicaciones as $publicacion): ?>
             <article>
@@ -201,19 +205,34 @@
                 <?php if (!empty($publicacion['imagen'])): ?>
                     <img
                         src="<?= url('/public/' . $publicacion['imagen']) ?>"
-                        alt="Imagen publicación"
+                        alt="<?= htmlspecialchars(t('perfil.ver.alt_publicacion')) ?>"
                         style="max-width:400px;display:block;margin-bottom:10px;">
                 <?php endif; ?>
 
                 <p><?= nl2br(htmlspecialchars($publicacion['contenido'])) ?></p>
 
                 <p>
-                    <?= (int) $publicacion['total_comentarios'] ?> comentarios ·
-                    <?= (int) $publicacion['total_likes'] ?> likes
+                    <?php
+                        $total_comentarios = (int) $publicacion['total_comentarios'];
+                        $total_likes = (int) $publicacion['total_likes'];
+
+                        $texto_comentarios = $total_comentarios === 1
+                            ? t('perfil.ver.comentario_singular')
+                            : t('perfil.ver.comentario_plural');
+
+                        $texto_likes = $total_likes === 1
+                            ? t('perfil.ver.like_singular')
+                            : t('perfil.ver.like_plural');
+                    ?>
+
+                    <?= $total_comentarios ?> <?= htmlspecialchars($texto_comentarios) ?> ·
+                    <?= $total_likes ?> <?= htmlspecialchars($texto_likes) ?>
                 </p>
 
                 <p>
-                    <a href="<?= url('/comunidad/ver?id=' . $publicacion['id']) ?>">Ver publicación</a>
+                    <a href="<?= url('/comunidad/ver?id=' . $publicacion['id']) ?>">
+                        <?= htmlspecialchars(t('perfil.ver.ver_publicacion')) ?>
+                    </a>
                 </p>
 
                 <hr>

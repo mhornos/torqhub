@@ -7,14 +7,14 @@ class PerfilControlador extends ControladorBase {
         $nombre = trim($_GET['usuario'] ?? '');
 
         if ($nombre === '') {
-            flash_set('error', 'Perfil no válido');
+            flash_set('error', t('perfil.error.no_valido'));
             $this->redirigir('/comunidad');
         }
 
         $usuario = RepositorioUsuarios::buscar_por_nombre($nombre);
 
         if (!$usuario) {
-            flash_set('error', 'El perfil no existe');
+            flash_set('error', t('perfil.error.no_existe'));
             $this->redirigir('/comunidad');
         }
 
@@ -41,14 +41,14 @@ class PerfilControlador extends ControladorBase {
         $usuario = RepositorioUsuarios::buscar_por_nombre($nombre_usuario);
 
         if (!$usuario) {
-            flash_set('error', 'Usuario no encontrado');
+            flash_set('error', t('perfil.error.usuario_no_encontrado'));
             $this->redirigir('/comunidad');
         }
 
         $archivo_imagen = $_FILES['foto_perfil'] ?? null;
 
         if (!$archivo_imagen || ($archivo_imagen['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
-            flash_set('error', 'Debes seleccionar una imagen');
+            flash_set('error', t('perfil.error.imagen_obligatoria'));
             $this->redirigir('/perfil?usuario=' . urlencode($nombre_usuario));
         }
 
@@ -65,7 +65,7 @@ class PerfilControlador extends ControladorBase {
             $this->eliminar_foto_perfil($usuario['foto_perfil']);
         }
 
-        flash_set('ok', 'Foto de perfil actualizada');
+        flash_set('ok', t('perfil.ok.foto_actualizada'));
         $this->redirigir('/perfil?usuario=' . urlencode($nombre_usuario));
     }
 
@@ -73,17 +73,17 @@ class PerfilControlador extends ControladorBase {
 // guarda una foto de perfil validada en public/uploads/perfiles
     private function guardar_foto_perfil(array $archivo): string {
         if (($archivo['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
-            throw new RuntimeException('No se pudo subir la foto de perfil');
+            throw new RuntimeException(t('perfil.error.subir_foto'));
         }
 
         if (!isset($archivo['tmp_name']) || !is_uploaded_file($archivo['tmp_name'])) {
-            throw new RuntimeException('El archivo subido no es válido');
+            throw new RuntimeException(t('perfil.error.archivo_no_valido'));
         }
 
         $tamanyo_maximo = 3 * 1024 * 1024;
 
         if (($archivo['size'] ?? 0) > $tamanyo_maximo) {
-            throw new RuntimeException('La imagen no puede superar los 3 MB');
+            throw new RuntimeException(t('perfil.error.imagen_tamanyo'));
         }
 
         $finfo = new finfo(FILEINFO_MIME_TYPE);
@@ -96,20 +96,20 @@ class PerfilControlador extends ControladorBase {
         ];
 
         if (!isset($extensiones_permitidas[$mime_type])) {
-            throw new RuntimeException('Solo se permiten imágenes jpg, png o webp');
+            throw new RuntimeException(t('perfil.error.imagen_formato'));
         }
 
         $directorio = dirname(__DIR__, 2) . '/public/uploads/perfiles';
 
         if (!is_dir($directorio) && !mkdir($directorio, 0775, true)) {
-            throw new RuntimeException('No se pudo crear el directorio de fotos de perfil');
+            throw new RuntimeException(t('perfil.error.crear_directorio'));
         }
 
         $nombre_archivo = 'perfil_' . bin2hex(random_bytes(16)) . '.' . $extensiones_permitidas[$mime_type];
         $ruta_destino = $directorio . '/' . $nombre_archivo;
 
         if (!move_uploaded_file($archivo['tmp_name'], $ruta_destino)) {
-            throw new RuntimeException('No se pudo guardar la foto de perfil');
+            throw new RuntimeException(t('perfil.error.guardar_foto'));
         }
 
         return $nombre_archivo;
@@ -140,27 +140,27 @@ class PerfilControlador extends ControladorBase {
         $email = strtolower(trim($_POST['email'] ?? ''));
 
         if ($nombre === '' || $email === '') {
-            flash_set('error', 'Todos los campos son obligatorios');
+            flash_set('error', t('perfil.error.campos_obligatorios'));
             $this->redirigir('/perfil?usuario=' . urlencode($nombre_actual));
         }
 
         if (!$this->nombre_usuario_valido($nombre)) {
-            flash_set('error', 'El nombre de usuario no cumple las reglas permitidas');
+            flash_set('error', t('perfil.error.nombre_reglas'));
             $this->redirigir('/perfil?usuario=' . urlencode($nombre_actual));
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            flash_set('error', 'El correo electrónico no es válido');
+            flash_set('error', t('perfil.error.email_no_valido'));
             $this->redirigir('/perfil?usuario=' . urlencode($nombre_actual));
         }
 
         if (RepositorioUsuarios::existe_nombre_en_otro_usuario($nombre, $usuario_id)) {
-            flash_set('error', 'El nombre de usuario ya está en uso');
+            flash_set('error', t('perfil.error.nombre_en_uso'));
             $this->redirigir('/perfil?usuario=' . urlencode($nombre_actual));
         }
 
         if (RepositorioUsuarios::existe_email_en_otro_usuario($email, $usuario_id)) {
-            flash_set('error', 'El correo electrónico ya está en uso');
+            flash_set('error', t('perfil.error.email_en_uso'));
             $this->redirigir('/perfil?usuario=' . urlencode($nombre_actual));
         }
 
@@ -169,7 +169,7 @@ class PerfilControlador extends ControladorBase {
         $_SESSION['usuario']['nombre'] = $nombre;
         $_SESSION['usuario']['email'] = $email;
 
-        flash_set('ok', 'Perfil actualizado correctamente');
+        flash_set('ok', t('perfil.ok.actualizado'));
         $this->redirigir('/perfil?usuario=' . urlencode($nombre));
     }
 
@@ -202,34 +202,34 @@ class PerfilControlador extends ControladorBase {
         $password_nueva_repetida = $_POST['password_nueva_repetida'] ?? '';
 
         if ($password_actual === '' || $password_nueva === '' || $password_nueva_repetida === '') {
-            flash_set('error', 'Todos los campos de contraseña son obligatorios');
+            flash_set('error', t('perfil.error.password_obligatoria'));
             $this->redirigir('/perfil?usuario=' . urlencode($nombre_usuario));
         }
 
         $usuario = RepositorioUsuarios::buscar_por_id_con_password($usuario_id);
 
         if (!$usuario) {
-            flash_set('error', 'Usuario no encontrado');
+            flash_set('error', t('perfil.error.usuario_no_encontrado'));
             $this->redirigir('/comunidad');
         }
 
         if (!password_verify($password_actual, $usuario['password_hash'])) {
-            flash_set('error', 'La contraseña actual no es correcta');
+            flash_set('error', t('perfil.error.password_actual'));
             $this->redirigir('/perfil?usuario=' . urlencode($nombre_usuario));
         }
 
         if ($password_nueva !== $password_nueva_repetida) {
-            flash_set('error', 'Las nuevas contraseñas no coinciden');
+            flash_set('error', t('perfil.error.password_no_coincide'));
             $this->redirigir('/perfil?usuario=' . urlencode($nombre_usuario));
         }
 
         if (!$this->password_segura($password_nueva)) {
-            flash_set('error', 'La nueva contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula y un número');
+            flash_set('error', t('perfil.error.password_requisitos'));
             $this->redirigir('/perfil?usuario=' . urlencode($nombre_usuario));
         }
 
         if (password_verify($password_nueva, $usuario['password_hash'])) {
-            flash_set('error', 'La nueva contraseña no puede ser igual a la actual');
+            flash_set('error', t('perfil.error.password_igual'));
             $this->redirigir('/perfil?usuario=' . urlencode($nombre_usuario));
         }
 
@@ -237,7 +237,7 @@ class PerfilControlador extends ControladorBase {
 
         RepositorioUsuarios::actualizar_password($usuario_id, $password_hash);
 
-        flash_set('ok', 'Contraseña actualizada correctamente');
+        flash_set('ok', t('perfil.ok.password_actualizada'));
         $this->redirigir('/perfil?usuario=' . urlencode($nombre_usuario));
     }
 
@@ -267,14 +267,14 @@ class PerfilControlador extends ControladorBase {
         $vehiculo_id = (int) ($_GET['id'] ?? 0);
 
         if ($vehiculo_id <= 0) {
-            flash_set('error', 'Vehículo no válido');
+            flash_set('error', t('perfil.vehiculo.error.no_valido'));
             $this->redirigir('/comunidad');
         }
 
         $vehiculo = RepositorioVehiculos::obtener_publico_por_id($vehiculo_id);
 
         if (!$vehiculo) {
-            flash_set('error', 'El vehículo no existe');
+            flash_set('error', t('perfil.vehiculo.error.no_existe'));
             $this->redirigir('/comunidad');
         }
 
