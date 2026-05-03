@@ -468,4 +468,17 @@ return [
     'diagnostico.causa.embrague.recomendacion' => 'Revisar desgaste del embrague y sistema hidráulico.',
     'diagnostico.causa.neumaticos.titulo' => 'Neumáticos o alineación incorrecta',
     'diagnostico.causa.neumaticos.recomendacion' => 'Comprobar presión, equilibrado, alineación y estado de los neumáticos.',
+
+    // garaje - eliminar vehículo
+    'garaje.eliminar.titulo_pagina' => 'Eliminar vehículo',
+    'garaje.eliminar.titulo' => 'Eliminar vehículo',
+    'garaje.eliminar.error.cargar' => 'No se ha podido cargar el vehículo para eliminar',
+    'garaje.eliminar.confirmacion' => '¿Seguro que quieres eliminar este vehículo?',
+    'garaje.eliminar.cancelar' => 'Cancelar',
+    'garaje.eliminar.eliminar' => 'Eliminar',
+
+    // admin
+    'admin.titulo_pagina' => 'Panel de administración',
+    'admin.titulo' => 'Panel de administración',
+    'admin.descripcion' => 'Solo accesible para administradores',
 ];

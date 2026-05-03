@@ -467,4 +467,17 @@ return [
     'diagnostico.causa.embrague.recomendacion' => 'Revisar el desgast de l’embragatge i el sistema hidràulic.',
     'diagnostico.causa.neumaticos.titulo' => 'Pneumàtics o alineació incorrecta',
     'diagnostico.causa.neumaticos.recomendacion' => 'Comprovar pressió, equilibratge, alineació i estat dels pneumàtics.',
+
+    // garatge - eliminar vehicle
+    'garaje.eliminar.titulo_pagina' => 'Eliminar vehicle',
+    'garaje.eliminar.titulo' => 'Eliminar vehicle',
+    'garaje.eliminar.error.cargar' => 'No s’ha pogut carregar el vehicle per eliminar',
+    'garaje.eliminar.confirmacion' => 'Segur que vols eliminar aquest vehicle?',
+    'garaje.eliminar.cancelar' => 'Cancel·lar',
+    'garaje.eliminar.eliminar' => 'Eliminar',
+
+    // admin
+    'admin.titulo_pagina' => 'Panell d’administració',
+    'admin.titulo' => 'Panell d’administració',
+    'admin.descripcion' => 'Només accessible per a administradors',
 ];

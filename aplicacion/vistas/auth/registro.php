@@ -54,7 +54,7 @@
         </div>
 
         <div>
-            <label for="password_repetida">Repetir contraseña:</label>
+            <label for="password_repetida"><?= htmlspecialchars(t('auth.registro.password_repetida')) ?>:</label>
             <input 
                 type="password" 
                 name="password_repetida" 
