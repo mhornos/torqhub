@@ -7,6 +7,21 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    const textos = {
+        usuario: formulario.dataset.textoUsuario || 'Tú',
+        ia: formulario.dataset.textoIa || 'TorqHub IA',
+        cargando: formulario.dataset.textoCargando || 'Analizando...',
+        analizando: formulario.dataset.textoAnalizando || 'Analizando...',
+        analizar: formulario.dataset.textoAnalizar || 'Analizar',
+        errorAnalisis: formulario.dataset.errorAnalisis || 'Ha ocurrido un error al analizar los síntomas',
+        errorConexion: formulario.dataset.errorConexion || 'No se ha podido conectar con el sistema de diagnóstico',
+        resultadosIntro: formulario.dataset.resultadosIntro || 'He encontrado estas posibles causas:',
+        sinResultados: formulario.dataset.sinResultados || 'No he encontrado una causa clara.',
+        confianza: formulario.dataset.confianza || 'Confianza aproximada',
+        coincidencias: formulario.dataset.coincidencias || 'Coincidencias detectadas',
+        recomendacion: formulario.dataset.recomendacion || 'Recomendación',
+    };
+
     const botonEnviar = formulario.querySelector('button[type="submit"]');
 
     const hayTextoValido = () => campoSintomas.value.trim().length > 0;
@@ -39,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mensaje.classList.add('diagnostico__mensaje', 'diagnostico__mensaje--usuario');
 
         const autor = document.createElement('strong');
-        autor.textContent = 'Tú';
+        autor.textContent = textos.usuario;
 
         const parrafo = document.createElement('p');
         parrafo.textContent = texto;
@@ -56,10 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
         mensaje.id = 'diagnostico-cargando';
 
         const autor = document.createElement('strong');
-        autor.textContent = 'TorqHub IA';
+        autor.textContent = textos.ia;
 
         const parrafo = document.createElement('p');
-        parrafo.textContent = 'analizando síntomas...';
+        parrafo.textContent = textos.cargando;
 
         mensaje.appendChild(autor);
         mensaje.appendChild(parrafo);
@@ -95,15 +110,21 @@ document.addEventListener('DOMContentLoaded', () => {
         titulo.textContent = '"' + resultado.titulo + '"';
 
         const confianza = document.createElement('p');
-        confianza.innerHTML = `Confianza aproximada: <strong>${parseInt(resultado.confianza)}%</strong>`;
+        const confianzaTexto = document.createTextNode(textos.confianza + ': ');
+
+        const confianzaValor = document.createElement('strong');
+        confianzaValor.textContent = parseInt(resultado.confianza) + '%';
+
+        confianza.appendChild(confianzaTexto);
+        confianza.appendChild(confianzaValor);
 
         const coincidencias = document.createElement('p');
-        coincidencias.textContent = `Coincidencias detectadas: ${parseInt(resultado.coincidencias)}`;
+        coincidencias.textContent = textos.coincidencias + ': ' + parseInt(resultado.coincidencias);
 
         const recomendacion = document.createElement('p');
 
         const recomendacionTitulo = document.createElement('strong');
-        recomendacionTitulo.textContent = 'Recomendación: ';
+        recomendacionTitulo.textContent = textos.recomendacion + ': ';
 
         const recomendacionTexto = document.createTextNode(resultado.recomendacion);
 
@@ -124,13 +145,13 @@ document.addEventListener('DOMContentLoaded', () => {
         mensaje.classList.add('diagnostico__mensaje', 'diagnostico__mensaje--ia');
 
         const autor = document.createElement('strong');
-        autor.textContent = 'TorqHub IA';
+        autor.textContent = textos.ia;
 
         mensaje.appendChild(autor);
 
         if (resultados.length > 0) {
             const intro = document.createElement('p');
-            intro.textContent = 'He encontrado estas posibles causas:';
+            intro.textContent = textos.resultadosIntro;
 
             const contenedorResultados = document.createElement('div');
             contenedorResultados.classList.add('diagnostico__resultados');
@@ -143,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mensaje.appendChild(contenedorResultados);
         } else {
             const parrafo = document.createElement('p');
-            parrafo.textContent = 'No he encontrado una causa clara. Prueba describiendo síntomas más concretos como ruido, temperatura, arranque, frenos, dirección o pérdida de potencia.';
+            parrafo.textContent = textos.sinResultados;
 
             mensaje.appendChild(parrafo);
         }
@@ -158,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mensaje.classList.add('diagnostico__mensaje', 'diagnostico__mensaje--ia');
 
         const autor = document.createElement('strong');
-        autor.textContent = 'TorqHub IA';
+        autor.textContent = textos.ia;
 
         const parrafo = document.createElement('p');
         parrafo.textContent = texto;
@@ -203,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (botonEnviar) {
             botonEnviar.disabled = true;
-            botonEnviar.textContent = 'analizando...';
+            botonEnviar.textContent = textos.analizando;
         }
 
         try {
@@ -220,17 +241,17 @@ document.addEventListener('DOMContentLoaded', () => {
             eliminarMensajeCargando();
 
             if (!respuesta.ok || !datos.ok) {
-                mostrarError(datos.mensaje || 'ha ocurrido un error al analizar los sintomas');
+                mostrarError(datos.mensaje || textos.errorAnalisis);
                 return;
             }
 
             crearMensajeIA(datos.resultados);
             bajarAlFinal();
         } catch (error) {
-            mostrarError('no se ha podido conectar con el sistema de diagnostico');
+            mostrarError(textos.errorConexion);
         } finally {
             if (botonEnviar) {
-                botonEnviar.textContent = 'analizar';
+                botonEnviar.textContent = textos.analizar;
             }
             
             actualizarBotonEnviar();

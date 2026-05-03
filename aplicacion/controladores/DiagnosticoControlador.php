@@ -21,7 +21,7 @@ class DiagnosticoControlador extends ControladorBase
         $sintomas = trim($_POST['sintomas'] ?? '');
 
         if ($sintomas === '') {
-            flash_set('error', 'debes escribir los sintomas del vehiculo');
+            flash_set('error', t('diagnostico.error.sintomas_obligatorios'));
             $this->redirigir('/diagnostico');
         }
 
@@ -67,7 +67,7 @@ class DiagnosticoControlador extends ControladorBase
 
         echo json_encode([
             'ok' => false,
-            'mensaje' => 'debes escribir los sintomas del vehiculo'
+            'mensaje' => t('diagnostico.error.sintomas_obligatorios')
         ], JSON_UNESCAPED_UNICODE);
 
         return;

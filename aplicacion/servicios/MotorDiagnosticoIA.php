@@ -8,6 +8,7 @@ class MotorDiagnosticoIA
 {
     private array $causas = [
         [
+            'clave' => 'bateria',
             'titulo' => 'bateria descargada o en mal estado',
             'keywords' => [
                 'bateria',
@@ -37,6 +38,7 @@ class MotorDiagnosticoIA
             'recomendacion' => 'revisar la carga de la bateria, bornes y alternador antes de sustituirla.'
         ],
         [
+            'clave' => 'arranque',
             'titulo' => 'fallo en el motor de arranque',
             'keywords' => [
                 'motor de arranque',
@@ -59,6 +61,7 @@ class MotorDiagnosticoIA
             'recomendacion' => 'comprobar motor de arranque, relé y conexiones electricas.'
         ],
         [
+            'clave' => 'encendido',
             'titulo' => 'problema de bujias o encendido',
             'keywords' => [
                 'bujias',
@@ -89,6 +92,7 @@ class MotorDiagnosticoIA
             'recomendacion' => 'revisar bujias, bobinas y sistema de encendido.'
         ],
         [
+            'clave' => 'filtros',
             'titulo' => 'filtro de aire o combustible obstruido',
             'keywords' => [
                 'filtro',
@@ -117,6 +121,7 @@ class MotorDiagnosticoIA
             'recomendacion' => 'revisar filtros y sustituirlos si estan sucios.'
         ],
         [
+            'clave' => 'sobrecalentamiento',
             'titulo' => 'sobrecalentamiento del motor',
             'keywords' => [
                 'temperatura alta',
@@ -152,6 +157,7 @@ class MotorDiagnosticoIA
             'recomendacion' => 'parar el vehiculo y revisar refrigerante, radiador, termostato y ventilador.'
         ],
         [
+            'clave' => 'frenos',
             'titulo' => 'fallo en frenos',
             'keywords' => [
                 'frenos',
@@ -182,6 +188,7 @@ class MotorDiagnosticoIA
             'recomendacion' => 'revisar pastillas, discos, liquido de frenos y posibles fugas.'
         ],
         [
+            'clave' => 'embrague',
             'titulo' => 'problema de embrague',
             'keywords' => [
                 'embrague',
@@ -208,6 +215,7 @@ class MotorDiagnosticoIA
             'recomendacion' => 'revisar desgaste del embrague y sistema hidraulico.'
         ],
         [
+            'clave' => 'neumaticos',
             'titulo' => 'neumaticos o alineacion incorrecta',
             'keywords' => [
                 'neumaticos',
@@ -257,10 +265,10 @@ class MotorDiagnosticoIA
                 $confianza = min(100, (int) round(($coincidencias / 4) * 100));
 
                 $resultados[] = [
-                    'titulo' => $causa['titulo'],
+                    'titulo' => t('diagnostico.causa.' . $causa['clave'] . '.titulo'),
                     'coincidencias' => $coincidencias,
                     'confianza' => $confianza,
-                    'recomendacion' => $causa['recomendacion'],
+                    'recomendacion' => t('diagnostico.causa.' . $causa['clave'] . '.recomendacion'),
                 ];
             }
         }
