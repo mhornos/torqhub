@@ -58,11 +58,9 @@
 
                             <input type="hidden" name="mantenimiento_id" value="<?= (int) $mantenimiento['id'] ?>">
 
-                            <button
-                                type="button"
-                                onclick="location.href='<?= url('/garaje/mantenimientos/editar?id=' . (int) $mantenimiento['id']) ?>'">
+                            <a href="<?= url('/garaje/mantenimientos/editar?id=' . (int) $mantenimiento['id']) ?>">
                                 <?= htmlspecialchars(t('garaje.historial.editar')) ?>
-                            </button>
+                            </a>
 
                             <button type="submit"><?= htmlspecialchars(t('garaje.historial.eliminar')) ?></button>
                         </form>

@@ -358,6 +358,19 @@ return [
     'comunidad.error.datos_no_validos' => 'Dades no vàlides',
     'comunidad.error.comentario_no_valido' => 'El comentari no és vàlid',
 
+    'comunidad.error.subir_imagen' => 'No se pudo subir la imagen',
+    'comunidad.error.actualizar_publicacion' => 'No se pudo actualizar la publicación',
+    'comunidad.ok.publicacion_actualizada' => 'Publicación actualizada correctamente',
+
+    'comunidad.error.comentario_no_existe' => 'El comentario no existe',
+    'comunidad.error.sin_permiso_editar_comentario' => 'No tienes permiso para editar este comentario',
+    'comunidad.error.comentario_contenido_obligatorio' => 'El contenido del comentario es obligatorio',
+    'comunidad.error.actualizar_comentario' => 'No se pudo actualizar el comentario',
+    'comunidad.ok.comentario_actualizado' => 'Comentario actualizado correctamente',
+    'comunidad.error.sin_permiso_eliminar_comentario' => 'No tienes permiso para eliminar este comentario',
+    'comunidad.error.eliminar_comentario' => 'No se pudo eliminar el comentario',
+    'comunidad.ok.comentario_eliminado' => 'Comentario eliminado correctamente',
+
     // perfil
     'perfil.error.cargar' => 'No s’ha pogut carregar el perfil',
     'perfil.error.no_valido' => 'Perfil no vàlid',
@@ -480,4 +493,74 @@ return [
     'admin.titulo_pagina' => 'Panell d’administració',
     'admin.titulo' => 'Panell d’administració',
     'admin.descripcion' => 'Només accessible per a administradors',
+
+        // garatge - missatges de vehicle
+    'garaje.vehiculo.error.carroceria_no_valida' => 'La carrosseria no és vàlida',
+    'garaje.vehiculo.error.combustible_no_valido' => 'El tipus de combustible no és vàlid',
+    'garaje.vehiculo.error.cambio_no_valido' => 'El tipus de canvi no és vàlid',
+    'garaje.vehiculo.error.potencia_entero' => 'La potència en CV ha de ser un número enter positiu',
+    'garaje.vehiculo.error.cilindrada_entero' => 'La cilindrada ha de ser un número enter positiu',
+    'garaje.vehiculo.error.marca_modelo_any_obligatorios' => 'Marca, model i any són obligatoris',
+    'garaje.vehiculo.error.marca_modelo_obligatorios' => 'Marca i model són obligatoris',
+    'garaje.vehiculo.error.no_valido' => 'Vehicle no vàlid',
+    'garaje.vehiculo.error.no_encontrado' => 'Vehicle no trobat',
+    'garaje.vehiculo.error.no_encontrado_permisos' => 'Vehicle no trobat o sense permisos',
+    'garaje.vehiculo.error.guardar' => 'No s’ha pogut guardar el vehicle',
+    'garaje.vehiculo.error.actualizar' => 'No s’ha pogut actualitzar el vehicle',
+    'garaje.vehiculo.error.eliminar' => 'No s’ha pogut eliminar el vehicle',
+    'garaje.vehiculo.ok.creado' => 'Vehicle afegit correctament',
+    'garaje.vehiculo.ok.actualizado' => 'Vehicle actualitzat correctament',
+    'garaje.vehiculo.ok.eliminado' => 'Vehicle eliminat correctament',
+
+    // garatge - imatge de vehicle
+    'garaje.vehiculo.imagen.error.subir' => 'No s’ha pogut pujar la imatge del vehicle',
+    'garaje.vehiculo.imagen.error.archivo_no_valido' => 'El fitxer pujat no és vàlid',
+    'garaje.vehiculo.imagen.error.tamanyo' => 'La imatge no pot superar els 3 MB',
+    'garaje.vehiculo.imagen.error.formato' => 'Només es permeten imatges JPG, PNG o WEBP',
+    'garaje.vehiculo.imagen.error.crear_directorio' => 'No s’ha pogut crear el directori d’imatges de vehicles',
+    'garaje.vehiculo.imagen.error.guardar' => 'No s’ha pogut guardar la imatge del vehicle',
+
+    // garatge - vin backend
+    'garaje.vin.error.obligatorio' => 'Has d’introduir un VIN',
+    'garaje.vin.ok.cache' => 'VIN trobat a la memòria cau',
+    'garaje.vin.ok.api' => 'VIN consultat a l’API externa',
+    'garaje.vin.error.cache' => 'No s’ha pogut guardar la memòria cau del VIN',
+
+    // garatge - filtres backend
+    'garaje.filtros.error.fecha_desde_no_valida' => 'La data des de no és vàlida',
+    'garaje.filtros.error.fecha_hasta_no_valida' => 'La data fins no és vàlida',
+    'garaje.filtros.error.fecha_desde_mayor' => 'La data des de no pot ser més gran que la data fins',
+    'garaje.filtros.error.km_minimos' => 'Els quilòmetres mínims han de ser un número enter positiu',
+    'garaje.filtros.error.km_maximos' => 'Els quilòmetres màxims han de ser un número enter positiu',
+    'garaje.filtros.error.km_minimos_mayores' => 'Els quilòmetres mínims no poden ser més grans que els màxims',
+    'garaje.filtros.error.coste_minimo' => 'El cost mínim no és vàlid',
+    'garaje.filtros.error.coste_maximo' => 'El cost màxim no és vàlid',
+    'garaje.filtros.error.coste_minimo_mayor' => 'El cost mínim no pot ser més gran que el cost màxim',
+    'garaje.filtros.error.orden_campo' => 'El camp d’ordenació no és vàlid',
+    'garaje.filtros.error.orden_direccion' => 'La direcció d’ordenació no és vàlida',
+
+    // garatge - opcions de selects
+    'garaje.opcion.carroceria.coche_pequeno' => 'Cotxe petit',
+    'garaje.opcion.carroceria.sedan' => 'Sedan',
+    'garaje.opcion.carroceria.familiar' => 'Familiar',
+    'garaje.opcion.carroceria.cabrio' => 'Cabrio',
+    'garaje.opcion.carroceria.coupe' => 'Cupè',
+    'garaje.opcion.carroceria.suv_4x4' => 'SUV/4x4',
+    'garaje.opcion.carroceria.monovolumen' => 'Monovolum',
+    'garaje.opcion.carroceria.furgoneta' => 'Furgoneta',
+    'garaje.opcion.carroceria.otros' => 'Altres',
+
+    'garaje.opcion.combustible.gasolina' => 'Gasolina',
+    'garaje.opcion.combustible.diesel' => 'Dièsel',
+    'garaje.opcion.combustible.electrico' => 'Elèctric',
+    'garaje.opcion.combustible.electro_gasolina' => 'Elèctric/gasolina',
+    'garaje.opcion.combustible.electro_diesel' => 'Elèctric/dièsel',
+    'garaje.opcion.combustible.gas_natural' => 'Gas natural (CNG)',
+    'garaje.opcion.combustible.etanol' => 'Etanol',
+    'garaje.opcion.combustible.hidrogeno' => 'Hidrogen',
+    'garaje.opcion.combustible.glp' => 'Gas liquat (GLP)',
+    'garaje.opcion.combustible.otros' => 'Altres',
+
+    'garaje.opcion.cambio.automatico' => 'Automàtic',
+    'garaje.opcion.cambio.manual' => 'Manual',
 ];

@@ -68,17 +68,17 @@ if (!isset($vehiculo) || !is_array($vehiculo)) {
                 </p>
 
                 <div class="detalle-vehiculo-acciones">
-                    <button type="button" onclick="location.href='<?= url('/garaje') ?>'">
+                    <a href="<?= url('/garaje') ?>">
                         <?= htmlspecialchars(t('garaje.detalle.volver_garaje')) ?>
-                    </button>
+                    </a>
 
-                    <button type="button" onclick="location.href='<?= url('/garaje/editar?id=' . (int) $vehiculo['id']) ?>'">
+                    <a href="<?= url('/garaje/editar?id=' . (int) $vehiculo['id']) ?>">
                         <?= htmlspecialchars(t('garaje.detalle.editar')) ?>
-                    </button>
+                    </a>
 
-                    <button type="button" onclick="location.href='<?= url('/garaje/eliminar?id=' . (int) $vehiculo['id']) ?>'">
+                    <a href="<?= url('/garaje/eliminar?id=' . (int) $vehiculo['id']) ?>">
                         <?= htmlspecialchars(t('garaje.detalle.eliminar')) ?>
-                    </button>
+                    </a>
                 </div>
             </div>
 

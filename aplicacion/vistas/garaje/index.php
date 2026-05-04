@@ -40,17 +40,17 @@ $vehiculos = isset($vehiculos) && is_array($vehiculos) ? $vehiculos : [];
                         (<?= (int) $v['any'] ?>)
                     <?php endif; ?>
 
-                    <button type="button" onclick="location.href='<?= url('/garaje/ver?id=' . (int) $v['id']) ?>'">
+                    <a href="<?= url('/garaje/ver?id=' . (int) $v['id']) ?>">
                         <?= htmlspecialchars(t('garaje.index.ver')) ?>
-                    </button>
+                    </a>
 
-                    <button type="button" onclick="location.href='<?= url('/garaje/editar?id=' . (int) $v['id']) ?>'">
+                    <a href="<?= url('/garaje/editar?id=' . (int) $v['id']) ?>">
                         <?= htmlspecialchars(t('garaje.index.editar')) ?>
-                    </button>
+                    </a>
 
-                    <button type="button" onclick="location.href='<?= url('/garaje/eliminar?id=' . (int) $v['id']) ?>'">
+                    <a href="<?= url('/garaje/eliminar?id=' . (int) $v['id']) ?>">
                         <?= htmlspecialchars(t('garaje.index.eliminar')) ?>
-                    </button>
+                    </a>
 
                 </li>
             <?php endforeach; ?>

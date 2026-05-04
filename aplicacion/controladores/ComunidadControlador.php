@@ -160,7 +160,7 @@ class ComunidadControlador extends ControladorBase
         $publicacion = RepositorioPublicaciones::obtener_por_id($publicacion_id);
 
         if (!$publicacion) {
-            flash_set('error', 'La publicación no existe');
+            flash_set('error', t('comunidad.error.publicacion_no_existe'));
             $this->redirigir('/comunidad');
         }
 
@@ -206,14 +206,14 @@ class ComunidadControlador extends ControladorBase
         $contenido = trim($_POST['contenido'] ?? '');
 
         if ($publicacion_id <= 0) {
-            flash_set('error', 'Publicación no válida');
+            flash_set('error', t('comunidad.error.publicacion_no_valida'));
             $this->redirigir('/comunidad');
         }
 
         $publicacion = RepositorioPublicaciones::obtener_por_id($publicacion_id);
 
         if (!$publicacion) {
-            flash_set('error', 'La publicación no existe');
+            flash_set('error', t('comunidad.error.publicacion_no_existe'));
             $this->redirigir('/comunidad');
         }
 
@@ -245,7 +245,7 @@ class ComunidadControlador extends ControladorBase
         $usuario_id = (int) $_SESSION['usuario']['id'];
 
         if ($publicacion_id <= 0) {
-            flash_set('error', 'Publicación no válida');
+            flash_set('error', t('comunidad.error.publicacion_no_valida'));
             $this->redirigir('/comunidad');
         }
 
@@ -276,14 +276,14 @@ class ComunidadControlador extends ControladorBase
         $id = (int) ($_GET['id'] ?? 0);
 
         if ($id <= 0) {
-            flash_set('error', 'Publicación no válida');
+            flash_set('error', t('comunidad.error.publicacion_no_valida'));
             $this->redirigir('/comunidad');
         }
 
         $publicacion = RepositorioPublicaciones::obtener_por_id($id);
 
         if (!$publicacion) {
-            flash_set('error', 'La publicación no existe');
+            flash_set('error', t('comunidad.error.publicacion_no_existe'));
             $this->redirigir('/comunidad');
         }
 
@@ -309,26 +309,26 @@ class ComunidadControlador extends ControladorBase
         $contenido = trim($_POST['contenido'] ?? '');
 
         if ($id <= 0) {
-            flash_set('error', 'Publicación no válida');
+            flash_set('error', t('comunidad.error.publicacion_no_valida'));
             $this->redirigir('/comunidad');
         }
 
         $publicacion = RepositorioPublicaciones::obtener_por_id($id);
 
         if (!$publicacion) {
-            flash_set('error', 'La publicación no existe');
+            flash_set('error', t('comunidad.error.publicacion_no_existe'));
             $this->redirigir('/comunidad');
         }
 
         $usuario_id = (int) $_SESSION['usuario']['id'];
 
         if ((int) $publicacion['usuario_id'] !== $usuario_id) {
-            flash_set('error', 'No tienes permiso para editar esta publicación');
+            flash_set('error', t('comunidad.error.sin_permiso_editar_publicacion'));
             $this->redirigir('/comunidad');
         }
 
         if ($contenido === '') {
-            flash_set('error', 'El contenido es obligatorio');
+            flash_set('error', t('comunidad.error.contenido_obligatorio'));
             $this->redirigir('/comunidad/editar?id=' . $id);
         }
 
@@ -345,7 +345,7 @@ class ComunidadControlador extends ControladorBase
             $permitidas = ['jpg', 'jpeg', 'png', 'webp'];
 
             if (!in_array($extension, $permitidas, true)) {
-                flash_set('error', 'Formato de imagen no permitido');
+                flash_set('error', t('comunidad.error.imagen_formato'));
                 $this->redirigir('/comunidad/editar?id=' . $id);
             }
 
@@ -353,7 +353,7 @@ class ComunidadControlador extends ControladorBase
             $ruta_destino = $carpeta . $nombre_archivo;
 
             if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $ruta_destino)) {
-                flash_set('error', 'No se pudo subir la imagen');
+                flash_set('error', t('comunidad.error.subir_imagen'));
                 $this->redirigir('/comunidad/editar?id=' . $id);
             }
 
@@ -371,11 +371,11 @@ class ComunidadControlador extends ControladorBase
         try {
             RepositorioPublicaciones::actualizar($id, $contenido, $imagen);
         } catch (PDOException $e) {
-            flash_set('error', 'No se pudo actualizar la publicación');
+            flash_set('error', t('comunidad.error.actualizar_publicacion'));
             $this->redirigir('/comunidad/editar?id=' . $id);
         }
 
-        flash_set('ok', 'Publicación actualizada correctamente');
+        flash_set('ok', t('comunidad.ok.publicacion_actualizada'));
         $this->redirigir('/comunidad/ver?id=' . $id);
     }
 
@@ -388,14 +388,14 @@ class ComunidadControlador extends ControladorBase
         $id = (int) ($_POST['id'] ?? 0);
 
         if ($id <= 0) {
-            flash_set('error', 'Publicación no válida');
+            flash_set('error', t('comunidad.error.publicacion_no_valida'));
             $this->redirigir('/comunidad');
         }
 
         $publicacion = RepositorioPublicaciones::obtener_por_id($id);
 
         if (!$publicacion) {
-            flash_set('error', 'La publicación no existe');
+            flash_set('error', t('comunidad.error.publicacion_no_existe'));
             $this->redirigir('/comunidad');
         }
 
@@ -432,21 +432,21 @@ class ComunidadControlador extends ControladorBase
         $id = (int) ($_GET['id'] ?? 0);
 
         if ($id <= 0) {
-            flash_set('error', 'Comentario no válido');
+            flash_set('error', t('comunidad.error.comentario_no_valido'));
             $this->redirigir('/comunidad');
         }
 
         $comentario = RepositorioComentariosPublicaciones::obtener_por_id($id);
 
         if (!$comentario) {
-            flash_set('error', 'El comentario no existe');
+            flash_set('error', t('comunidad.error.comentario_no_existe'));
             $this->redirigir('/comunidad');
         }
 
         $usuario_id = (int) $_SESSION['usuario']['id'];
 
         if ((int) $comentario['usuario_id'] !== $usuario_id) {
-            flash_set('error', 'No tienes permiso para editar este comentario');
+            flash_set('error', t('comunidad.error.sin_permiso_editar_comentario'));
             $this->redirigir('/comunidad/ver?id=' . $comentario['publicacion_id']);
         }
 
@@ -471,30 +471,30 @@ class ComunidadControlador extends ControladorBase
         $comentario = RepositorioComentariosPublicaciones::obtener_por_id($id);
 
         if (!$comentario) {
-            flash_set('error', 'El comentario no existe');
+            flash_set('error', t('comunidad.error.comentario_no_existe'));
             $this->redirigir('/comunidad');
         }
 
         $usuario_id = (int) $_SESSION['usuario']['id'];
 
         if ((int) $comentario['usuario_id'] !== $usuario_id) {
-            flash_set('error', 'No tienes permiso para editar este comentario');
+            flash_set('error', t('comunidad.error.sin_permiso_editar_comentario'));
             $this->redirigir('/comunidad/ver?id=' . $comentario['publicacion_id']);
         }
 
         if ($contenido === '') {
-            flash_set('error', 'El contenido del comentario es obligatorio');
+            flash_set('error', t('comunidad.error.comentario_contenido_obligatorio'));
             $this->redirigir('/comunidad/editar-comentario?id=' . $id);
         }
 
         try {
             RepositorioComentariosPublicaciones::actualizar($id, $contenido);
         } catch (PDOException $e) {
-            flash_set('error', 'No se pudo actualizar el comentario');
+            flash_set('error', t('comunidad.error.actualizar_comentario'));
             $this->redirigir('/comunidad/editar-comentario?id=' . $id);
         }
 
-        flash_set('ok', 'Comentario actualizado correctamente');
+        flash_set('ok', t('comunidad.ok.comentario_actualizado'));
         $this->redirigir('/comunidad/ver?id=' . $comentario['publicacion_id']);
     }
 
@@ -513,25 +513,25 @@ class ComunidadControlador extends ControladorBase
         $comentario = RepositorioComentariosPublicaciones::obtener_por_id($id);
 
         if (!$comentario) {
-            flash_set('error', 'El comentario no existe');
+            flash_set('error', t('comunidad.error.comentario_no_existe'));
             $this->redirigir('/comunidad');
         }
 
         $usuario_id = (int) $_SESSION['usuario']['id'];
 
         if ((int) $comentario['usuario_id'] !== $usuario_id) {
-            flash_set('error', 'No tienes permiso para eliminar este comentario');
+            flash_set('error', t('comunidad.error.sin_permiso_eliminar_comentario'));
             $this->redirigir('/comunidad/ver?id=' . $comentario['publicacion_id']);
         }
 
         try {
             RepositorioComentariosPublicaciones::eliminar($id);
         } catch (PDOException $e) {
-            flash_set('error', 'No se pudo eliminar el comentario');
+            flash_set('error', t('comunidad.error.eliminar_comentario'));
             $this->redirigir('/comunidad/ver?id=' . $comentario['publicacion_id']);
         }
 
-        flash_set('ok', 'Comentario eliminado correctamente');
+        flash_set('ok', t('comunidad.ok.comentario_eliminado'));
         $this->redirigir('/comunidad/ver?id=' . $comentario['publicacion_id']);
     }
 

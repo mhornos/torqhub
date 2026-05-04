@@ -91,15 +91,15 @@
             <label for="carroceria"><?= htmlspecialchars(t('garaje.form.carroceria')) ?>:</label>
             <select name="carroceria" id="carroceria">
                 <option value=""><?= htmlspecialchars(t('garaje.form.selecciona_opcion')) ?></option>
-                <option value="coche pequeño">Coche pequeño</option>
-                <option value="sedán">Sedán</option>
-                <option value="familiar">Familiar</option>
-                <option value="cabrio">Cabrio</option>
-                <option value="coupé">Coupé</option>
-                <option value="suv/4x4">SUV/4x4</option>
-                <option value="monovolumen">Monovolumen</option>
-                <option value="furgoneta">Furgoneta</option>
-                <option value="otros">Otros</option>
+                <option value="coche pequeño"><?= htmlspecialchars(t('garaje.opcion.carroceria.coche_pequeno')) ?></option>
+                <option value="sedán"><?= htmlspecialchars(t('garaje.opcion.carroceria.sedan')) ?></option>
+                <option value="familiar"><?= htmlspecialchars(t('garaje.opcion.carroceria.familiar')) ?></option>
+                <option value="cabrio"><?= htmlspecialchars(t('garaje.opcion.carroceria.cabrio')) ?></option>
+                <option value="coupé"><?= htmlspecialchars(t('garaje.opcion.carroceria.coupe')) ?></option>
+                <option value="suv/4x4"><?= htmlspecialchars(t('garaje.opcion.carroceria.suv_4x4')) ?></option>
+                <option value="monovolumen"><?= htmlspecialchars(t('garaje.opcion.carroceria.monovolumen')) ?></option>
+                <option value="furgoneta"><?= htmlspecialchars(t('garaje.opcion.carroceria.furgoneta')) ?></option>
+                <option value="otros"><?= htmlspecialchars(t('garaje.opcion.carroceria.otros')) ?></option>
             </select>
         </div>
 
@@ -107,16 +107,16 @@
             <label for="tipo_combustible"><?= htmlspecialchars(t('garaje.form.tipo_combustible')) ?>:</label>
             <select name="tipo_combustible" id="tipo_combustible">
                 <option value=""><?= htmlspecialchars(t('garaje.form.selecciona_opcion')) ?></option>
-                <option value="gasolina">Gasolina</option>
-                <option value="diesel">Diesel</option>
-                <option value="electrico">Eléctrico</option>
-                <option value="electro/gasolina">Electro/gasolina</option>
-                <option value="electro/diesel">Electro/diesel</option>
-                <option value="gas natural (CNG)">Gas natural (CNG)</option>
-                <option value="etanol">Etanol</option>
-                <option value="hidrogeno">Hidrógeno</option>
-                <option value="gas licuado (GLP)">Gas licuado (GLP)</option>
-                <option value="otros">Otros</option>
+                <option value="gasolina"><?= htmlspecialchars(t('garaje.opcion.combustible.gasolina')) ?></option>
+                <option value="diesel"><?= htmlspecialchars(t('garaje.opcion.combustible.diesel')) ?></option>
+                <option value="electrico"><?= htmlspecialchars(t('garaje.opcion.combustible.electrico')) ?></option>
+                <option value="electro/gasolina"><?= htmlspecialchars(t('garaje.opcion.combustible.electro_gasolina')) ?></option>
+                <option value="electro/diesel"><?= htmlspecialchars(t('garaje.opcion.combustible.electro_diesel')) ?></option>
+                <option value="gas natural (CNG)"><?= htmlspecialchars(t('garaje.opcion.combustible.gas_natural')) ?></option>
+                <option value="etanol"><?= htmlspecialchars(t('garaje.opcion.combustible.etanol')) ?></option>
+                <option value="hidrogeno"><?= htmlspecialchars(t('garaje.opcion.combustible.hidrogeno')) ?></option>
+                <option value="gas licuado (GLP)"><?= htmlspecialchars(t('garaje.opcion.combustible.glp')) ?></option>
+                <option value="otros"><?= htmlspecialchars(t('garaje.opcion.combustible.otros')) ?></option>
             </select>
         </div>
 
@@ -124,8 +124,8 @@
             <label for="tipo_cambio"><?= htmlspecialchars(t('garaje.form.tipo_cambio')) ?>:</label>
             <select name="tipo_cambio" id="tipo_cambio">
                 <option value=""><?= htmlspecialchars(t('garaje.form.selecciona_opcion')) ?></option>
-                <option value="automatico">Automático</option>
-                <option value="manual">Manual</option>
+                <option value="automatico"><?= htmlspecialchars(t('garaje.opcion.cambio.automatico')) ?></option>
+                <option value="manual"><?= htmlspecialchars(t('garaje.opcion.cambio.manual')) ?></option>
             </select>
         </div>
 
@@ -145,9 +145,9 @@
             <small><?= htmlspecialchars(t('garaje.form.imagen_ayuda_nuevo')) ?>.</small>
         </div>
         <br>
-        <button type="button" onclick="location.href='<?= url('/garaje') ?>'">
+        <a href="<?= url('/garaje') ?>">
             <?= htmlspecialchars(t('garaje.form.cancelar')) ?>
-        </button>
+        </a>
 
         <button type="submit">
             <?= htmlspecialchars(t('garaje.form.guardar_vehiculo')) ?>

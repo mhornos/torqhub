@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="<?= htmlspecialchars(idioma_actual()) ?>">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars(t('garaje.mantenimiento.nuevo.titulo_pagina')) ?> - TorqHub</title>
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 </head>
+
 <body>
     <h1><?= htmlspecialchars(t('garaje.mantenimiento.nuevo.titulo')) ?></h1>
-    
+
     <?php
-        $datos_formulario = $datos_formulario ?? [];
-        $vehiculo = $vehiculo ?? [];
+    $datos_formulario = $datos_formulario ?? [];
+    $vehiculo = $vehiculo ?? [];
     ?>
 
     <?php if ($m = flash_get('error')): ?>
@@ -19,17 +21,17 @@
     <?php endif; ?>
 
     <p>
-        <ul>
-            <li>
-                <strong><?= htmlspecialchars(t('garaje.mantenimiento.vehiculo')) ?>:</strong>
-                <?= htmlspecialchars($vehiculo['marca'] ?? '') ?>
-                <?= htmlspecialchars($vehiculo['modelo'] ?? '') ?>
+    <ul>
+        <li>
+            <strong><?= htmlspecialchars(t('garaje.mantenimiento.vehiculo')) ?>:</strong>
+            <?= htmlspecialchars($vehiculo['marca'] ?? '') ?>
+            <?= htmlspecialchars($vehiculo['modelo'] ?? '') ?>
 
-                <?php if (!empty($vehiculo['any'])): ?>
-                    (<?= (int) $vehiculo['any'] ?>)
-                <?php endif; ?>
-            </li>
-        </ul>
+            <?php if (!empty($vehiculo['any'])): ?>
+                (<?= (int) $vehiculo['any'] ?>)
+            <?php endif; ?>
+        </li>
+    </ul>
     </p>
 
     <form action="<?= url('/garaje/mantenimientos/nuevo') ?>" method="POST">
@@ -44,8 +46,7 @@
                 id="fecha"
                 name="fecha"
                 value="<?= htmlspecialchars($datos_formulario['fecha'] ?? '') ?>"
-                required
-            >
+                required>
         </div>
 
         <div>
@@ -56,8 +57,7 @@
                 name="tipo"
                 maxlength="100"
                 value="<?= htmlspecialchars($datos_formulario['tipo'] ?? '') ?>"
-                required
-            >
+                required>
         </div>
 
         <div>
@@ -73,8 +73,7 @@
                 name="kilometros"
                 min="0"
                 step="1"
-                value="<?= htmlspecialchars($datos_formulario['kilometros'] ?? '') ?>"
-            >
+                value="<?= htmlspecialchars($datos_formulario['kilometros'] ?? '') ?>">
         </div>
 
         <div>
@@ -85,19 +84,19 @@
                 name="coste"
                 min="0"
                 step="0.01"
-                value="<?= htmlspecialchars($datos_formulario['coste'] ?? '') ?>"
-            >
+                value="<?= htmlspecialchars($datos_formulario['coste'] ?? '') ?>">
         </div>
 
         <br>
 
-        <button type="button" onclick="location.href='<?= url('/garaje/ver?id=' . (int) ($vehiculo['id'] ?? 0)) ?>'">
+        <a href="<?= url('/garaje/ver?id=' . (int) ($vehiculo['id'] ?? 0)) ?>">
             <?= htmlspecialchars(t('garaje.mantenimiento.volver')) ?>
-        </button>
+        </a>
 
         <button type="submit">
             <?= htmlspecialchars(t('garaje.mantenimiento.guardar')) ?>
         </button>
     </form>
 </body>
+
 </html>

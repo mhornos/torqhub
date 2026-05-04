@@ -359,6 +359,19 @@ return [
     'comunidad.error.datos_no_validos' => 'Datos no válidos',
     'comunidad.error.comentario_no_valido' => 'El comentario no es válido',
 
+    'comunidad.error.subir_imagen' => 'No se pudo subir la imagen',
+    'comunidad.error.actualizar_publicacion' => 'No se pudo actualizar la publicación',
+    'comunidad.ok.publicacion_actualizada' => 'Publicación actualizada correctamente',
+
+    'comunidad.error.comentario_no_existe' => 'El comentario no existe',
+    'comunidad.error.sin_permiso_editar_comentario' => 'No tienes permiso para editar este comentario',
+    'comunidad.error.comentario_contenido_obligatorio' => 'El contenido del comentario es obligatorio',
+    'comunidad.error.actualizar_comentario' => 'No se pudo actualizar el comentario',
+    'comunidad.ok.comentario_actualizado' => 'Comentario actualizado correctamente',
+    'comunidad.error.sin_permiso_eliminar_comentario' => 'No tienes permiso para eliminar este comentario',
+    'comunidad.error.eliminar_comentario' => 'No se pudo eliminar el comentario',
+    'comunidad.ok.comentario_eliminado' => 'Comentario eliminado correctamente',
+
     // perfil
     'perfil.error.cargar' => 'No se ha podido cargar el perfil',
     'perfil.error.no_valido' => 'Perfil no válido',
@@ -481,4 +494,74 @@ return [
     'admin.titulo_pagina' => 'Panel de administración',
     'admin.titulo' => 'Panel de administración',
     'admin.descripcion' => 'Solo accesible para administradores',
+
+        // garaje - mensajes de vehículo
+    'garaje.vehiculo.error.carroceria_no_valida' => 'La carrocería no es válida',
+    'garaje.vehiculo.error.combustible_no_valido' => 'El tipo de combustible no es válido',
+    'garaje.vehiculo.error.cambio_no_valido' => 'El tipo de cambio no es válido',
+    'garaje.vehiculo.error.potencia_entero' => 'La potencia en CV debe ser un número entero positivo',
+    'garaje.vehiculo.error.cilindrada_entero' => 'La cilindrada debe ser un número entero positivo',
+    'garaje.vehiculo.error.marca_modelo_any_obligatorios' => 'Marca, modelo y año son obligatorios',
+    'garaje.vehiculo.error.marca_modelo_obligatorios' => 'Marca y modelo son obligatorios',
+    'garaje.vehiculo.error.no_valido' => 'Vehículo no válido',
+    'garaje.vehiculo.error.no_encontrado' => 'Vehículo no encontrado',
+    'garaje.vehiculo.error.no_encontrado_permisos' => 'Vehículo no encontrado o sin permisos',
+    'garaje.vehiculo.error.guardar' => 'No se pudo guardar el vehículo',
+    'garaje.vehiculo.error.actualizar' => 'No se pudo actualizar el vehículo',
+    'garaje.vehiculo.error.eliminar' => 'No se pudo eliminar el vehículo',
+    'garaje.vehiculo.ok.creado' => 'Vehículo añadido correctamente',
+    'garaje.vehiculo.ok.actualizado' => 'Vehículo actualizado correctamente',
+    'garaje.vehiculo.ok.eliminado' => 'Vehículo eliminado correctamente',
+
+    // garaje - imagen de vehículo
+    'garaje.vehiculo.imagen.error.subir' => 'No se pudo subir la imagen del vehículo',
+    'garaje.vehiculo.imagen.error.archivo_no_valido' => 'El archivo subido no es válido',
+    'garaje.vehiculo.imagen.error.tamanyo' => 'La imagen no puede superar los 3 MB',
+    'garaje.vehiculo.imagen.error.formato' => 'Solo se permiten imágenes JPG, PNG o WEBP',
+    'garaje.vehiculo.imagen.error.crear_directorio' => 'No se pudo crear el directorio de imágenes de vehículos',
+    'garaje.vehiculo.imagen.error.guardar' => 'No se pudo guardar la imagen del vehículo',
+
+    // garaje - vin backend
+    'garaje.vin.error.obligatorio' => 'Debes introducir un VIN',
+    'garaje.vin.ok.cache' => 'VIN encontrado en caché',
+    'garaje.vin.ok.api' => 'VIN consultado en la API externa',
+    'garaje.vin.error.cache' => 'No se pudo guardar la caché del VIN',
+
+    // garaje - filtros backend
+    'garaje.filtros.error.fecha_desde_no_valida' => 'La fecha desde no es válida',
+    'garaje.filtros.error.fecha_hasta_no_valida' => 'La fecha hasta no es válida',
+    'garaje.filtros.error.fecha_desde_mayor' => 'La fecha desde no puede ser mayor que la fecha hasta',
+    'garaje.filtros.error.km_minimos' => 'Los kilómetros mínimos deben ser un número entero positivo',
+    'garaje.filtros.error.km_maximos' => 'Los kilómetros máximos deben ser un número entero positivo',
+    'garaje.filtros.error.km_minimos_mayores' => 'Los kilómetros mínimos no pueden ser mayores que los máximos',
+    'garaje.filtros.error.coste_minimo' => 'El coste mínimo no es válido',
+    'garaje.filtros.error.coste_maximo' => 'El coste máximo no es válido',
+    'garaje.filtros.error.coste_minimo_mayor' => 'El coste mínimo no puede ser mayor que el coste máximo',
+    'garaje.filtros.error.orden_campo' => 'El campo de ordenación no es válido',
+    'garaje.filtros.error.orden_direccion' => 'La dirección de ordenación no es válida',
+
+    // garaje - opciones de selects
+    'garaje.opcion.carroceria.coche_pequeno' => 'Coche pequeño',
+    'garaje.opcion.carroceria.sedan' => 'Sedán',
+    'garaje.opcion.carroceria.familiar' => 'Familiar',
+    'garaje.opcion.carroceria.cabrio' => 'Cabrio',
+    'garaje.opcion.carroceria.coupe' => 'Coupé',
+    'garaje.opcion.carroceria.suv_4x4' => 'SUV/4x4',
+    'garaje.opcion.carroceria.monovolumen' => 'Monovolumen',
+    'garaje.opcion.carroceria.furgoneta' => 'Furgoneta',
+    'garaje.opcion.carroceria.otros' => 'Otros',
+
+    'garaje.opcion.combustible.gasolina' => 'Gasolina',
+    'garaje.opcion.combustible.diesel' => 'Diésel',
+    'garaje.opcion.combustible.electrico' => 'Eléctrico',
+    'garaje.opcion.combustible.electro_gasolina' => 'Eléctrico/gasolina',
+    'garaje.opcion.combustible.electro_diesel' => 'Eléctrico/diésel',
+    'garaje.opcion.combustible.gas_natural' => 'Gas natural (CNG)',
+    'garaje.opcion.combustible.etanol' => 'Etanol',
+    'garaje.opcion.combustible.hidrogeno' => 'Hidrógeno',
+    'garaje.opcion.combustible.glp' => 'Gas licuado (GLP)',
+    'garaje.opcion.combustible.otros' => 'Otros',
+
+    'garaje.opcion.cambio.automatico' => 'Automático',
+    'garaje.opcion.cambio.manual' => 'Manual',
 ];
