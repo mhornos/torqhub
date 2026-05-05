@@ -772,3 +772,163 @@ button:hover {
 .mensaje-vin--info {
     color: #333333;
 }
+
+/* panel de administración */
+.admin-panel {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 18px;
+}
+
+.admin-panel__cabecera {
+    margin-bottom: 25px;
+}
+
+.admin-panel__cabecera h1 {
+    padding-left: 0;
+    margin-bottom: 8px;
+}
+
+.admin-panel__cabecera p {
+    padding-left: 0;
+    max-width: 720px;
+}
+
+.admin-panel__tarjetas {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.admin-tarjeta {
+    display: block;
+    padding: 20px;
+    border: 1px solid #00000023;
+    background-color: #ffffff45;
+    color: inherit;
+    text-decoration: none;
+}
+
+.admin-tarjeta:hover {
+    color: inherit;
+    background-color: #ffffff70;
+}
+
+.admin-tarjeta__etiqueta {
+    display: inline-block;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    opacity: 0.7;
+}
+
+.admin-tarjeta h2 {
+    padding-left: 0;
+    margin: 0 0 10px;
+}
+
+.admin-tarjeta p {
+    padding-left: 0;
+    margin: 0;
+}
+
+@media (max-width: 850px) {
+    .admin-panel__tarjetas {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* gestión de usuarios admin */
+.admin-enlace-volver {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.admin-tabla-contenedor {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.tabla-admin {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff45;
+}
+
+.tabla-admin th,
+.tabla-admin td {
+    padding: 10px;
+    border: 1px solid #00000023;
+    text-align: left;
+    vertical-align: top;
+}
+
+.tabla-admin th {
+    background-color: #00000010;
+}
+
+.fila-inactiva {
+    opacity: 0.65;
+}
+
+.admin-estado {
+    display: inline-block;
+    padding: 4px 8px;
+    font-weight: 700;
+    border: 1px solid #00000023;
+}
+
+.admin-estado--activo {
+    background-color: #d9f5df;
+}
+
+.admin-estado--inactivo {
+    background-color: #ffdede;
+}
+
+.admin-acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.admin-formulario-accion {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin: 0;
+    padding-left: 0;
+}
+
+.admin-formulario-accion select {
+    padding: 6px;
+}
+
+.admin-boton {
+    padding: 7px 10px;
+    border: 1px solid #00000023;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.admin-boton--secundario {
+    background-color: #ffffff60;
+}
+
+.admin-accion-bloqueada {
+    display: inline-block;
+    font-weight: 600;
+    opacity: 0.7;
+}
+
+.mensaje-ok {
+    color: #1b5e20;
+    font-weight: 700;
+}
+
+.mensaje-error {
+    color: #b00020;
+    font-weight: 700;
+}

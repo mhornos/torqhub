@@ -42,6 +42,11 @@ class AuthControlador extends ControladorBase {
             $this->redirigir('/login');
         }
 
+        if ((int) ($usuario['activo'] ?? 1) !== 1) {
+            flash_set('error', t('auth.error.usuario_desactivado'));
+            $this->redirigir('/login');
+        }
+
         // regenerar id de sesión para evitar session fixation
         session_regenerate_id(true);
 
@@ -53,6 +58,7 @@ class AuthControlador extends ControladorBase {
             'nombre' => $usuario['nombre'],
             'email' => $usuario['email'],
             'rol' => $usuario['rol'],
+            'activo' => (int) ($usuario['activo'] ?? 1),
         ];
 
         flash_set('ok', t('auth.ok.sesion_iniciada'));

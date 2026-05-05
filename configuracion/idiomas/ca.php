@@ -82,6 +82,7 @@ return [
     'auth.error.campos_obligatorios' => 'Tots els camps són obligatoris',
     'auth.error.password_minimos' => 'La contrasenya no compleix els requisits mínims',
     'auth.ok.password_restablecida' => 'Contrasenya restablerta correctament',
+    'auth.error.usuario_desactivado' => 'El teu compte està desactivat',
 
     // inici
     'inicio.titulo_pagina' => 'Inici',
@@ -499,9 +500,58 @@ return [
     // admin
     'admin.titulo_pagina' => 'Panell d’administració',
     'admin.titulo' => 'Panell d’administració',
-    'admin.descripcion' => 'Només accessible per a administradors',
+    'admin.descripcion' => 'Zona privada per gestionar les parts principals de TorqHub des d’un únic panell.',
+    'admin.secciones' => 'Seccions del panell d’administració',
 
-        // garatge - missatges de vehicle
+    'admin.tarjeta.usuarios.etiqueta' => 'Usuaris',
+    'admin.tarjeta.usuarios.titulo' => 'Gestió d’usuaris',
+    'admin.tarjeta.usuarios.descripcion' => 'Consultar usuaris registrats, revisar rols i preparar accions d’administració.',
+
+    'admin.tarjeta.publicaciones.etiqueta' => 'Comunitat',
+    'admin.tarjeta.publicaciones.titulo' => 'Gestió de publicacions',
+    'admin.tarjeta.publicaciones.descripcion' => 'Revisar contingut publicat per la comunitat i moderar publicacions si cal.',
+
+    'admin.tarjeta.ia.etiqueta' => 'Diagnòstic',
+    'admin.tarjeta.ia.titulo' => 'Base de coneixement IA',
+    'admin.tarjeta.ia.descripcion' => 'Consultar l’estat del sistema expert i preparar-ne la futura gestió des de base de dades.',
+
+    'admin.usuarios.titulo_pagina' => 'Gestió d’usuaris',
+    'admin.usuarios.titulo' => 'Gestió d’usuaris',
+    'admin.usuarios.descripcion' => 'Des d’aquí pots revisar usuaris registrats, canviar rols i activar o desactivar comptes sense eliminar dades relacionades.',
+    'admin.usuarios.volver' => 'Tornar al panell d’administració',
+    'admin.usuarios.sin_usuarios' => 'No hi ha usuaris registrats',
+
+    'admin.usuarios.id' => 'ID',
+    'admin.usuarios.nombre' => 'Nom',
+    'admin.usuarios.email' => 'Correu electrònic',
+    'admin.usuarios.rol' => 'Rol',
+    'admin.usuarios.estado' => 'Estat',
+    'admin.usuarios.fecha_creacion' => 'Data de creació',
+    'admin.usuarios.acciones' => 'Accions',
+
+    'admin.usuarios.rol.usuario' => 'Usuari',
+    'admin.usuarios.rol.admin' => 'Administrador',
+    'admin.usuarios.activo' => 'Actiu',
+    'admin.usuarios.inactivo' => 'Inactiu',
+    'admin.usuarios.cambiar_rol' => 'Canviar rol',
+    'admin.usuarios.guardar_rol' => 'Desar rol',
+    'admin.usuarios.activar' => 'Activar',
+    'admin.usuarios.desactivar' => 'Desactivar',
+    'admin.usuarios.accion_propia' => 'No pots modificar el teu propi compte des d’aquí',
+
+    'admin.usuarios.ok.rol_actualizado' => 'Rol actualitzat correctament',
+    'admin.usuarios.ok.usuario_activado' => 'Usuari activat correctament',
+    'admin.usuarios.ok.usuario_desactivado' => 'Usuari desactivat correctament',
+
+    'admin.usuarios.error.listar' => 'No s’han pogut carregar els usuaris',
+    'admin.usuarios.error.datos_invalidos' => 'Les dades enviades no són vàlides',
+    'admin.usuarios.error.rol_invalido' => 'El rol seleccionat no és vàlid',
+    'admin.usuarios.error.autorol' => 'No pots treure’t a tu mateix el rol d’administrador',
+    'admin.usuarios.error.autodesactivar' => 'No pots desactivar el teu propi compte',
+    'admin.usuarios.error.actualizar_rol' => 'No s’ha pogut actualitzar el rol',
+    'admin.usuarios.error.actualizar_estado' => 'No s’ha pogut actualitzar l’estat de l’usuari',
+
+    // garatge - missatges de vehicle
     'garaje.vehiculo.error.carroceria_no_valida' => 'La carrosseria no és vàlida',
     'garaje.vehiculo.error.combustible_no_valido' => 'El tipus de combustible no és vàlid',
     'garaje.vehiculo.error.cambio_no_valido' => 'El tipus de canvi no és vàlid',

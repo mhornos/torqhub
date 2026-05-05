@@ -82,6 +82,7 @@ return [
     'auth.error.campos_obligatorios' => 'Todos los campos son obligatorios',
     'auth.error.password_minimos' => 'La contraseña no cumple los requisitos mínimos',
     'auth.ok.password_restablecida' => 'Contraseña restablecida correctamente',
+    'auth.error.usuario_desactivado' => 'Tu cuenta está desactivada',
 
     // inicio
     'inicio.titulo_pagina' => 'Inicio',
@@ -499,9 +500,58 @@ return [
     // admin
     'admin.titulo_pagina' => 'Panel de administración',
     'admin.titulo' => 'Panel de administración',
-    'admin.descripcion' => 'Solo accesible para administradores',
+    'admin.descripcion' => 'Zona privada para gestionar las partes principales de TorqHub desde un único panel.',
+    'admin.secciones' => 'Secciones del panel de administración',
 
-        // garaje - mensajes de vehículo
+    'admin.tarjeta.usuarios.etiqueta' => 'Usuarios',
+    'admin.tarjeta.usuarios.titulo' => 'Gestión de usuarios',
+    'admin.tarjeta.usuarios.descripcion' => 'Consultar usuarios registrados, revisar roles y preparar acciones de administración.',
+
+    'admin.tarjeta.publicaciones.etiqueta' => 'Comunidad',
+    'admin.tarjeta.publicaciones.titulo' => 'Gestión de publicaciones',
+    'admin.tarjeta.publicaciones.descripcion' => 'Revisar contenido publicado por la comunidad y moderar publicaciones si es necesario.',
+
+    'admin.tarjeta.ia.etiqueta' => 'Diagnóstico',
+    'admin.tarjeta.ia.titulo' => 'Base de conocimiento IA',
+    'admin.tarjeta.ia.descripcion' => 'Consultar el estado del sistema experto y preparar su futura gestión desde base de datos.',
+
+    'admin.usuarios.titulo_pagina' => 'Gestión de usuarios',
+    'admin.usuarios.titulo' => 'Gestión de usuarios',
+    'admin.usuarios.descripcion' => 'Desde aquí puedes revisar usuarios registrados, cambiar roles y activar o desactivar cuentas sin eliminar datos relacionados.',
+    'admin.usuarios.volver' => 'Volver al panel de administración',
+    'admin.usuarios.sin_usuarios' => 'No hay usuarios registrados',
+
+    'admin.usuarios.id' => 'ID',
+    'admin.usuarios.nombre' => 'Nombre',
+    'admin.usuarios.email' => 'Correo electrónico',
+    'admin.usuarios.rol' => 'Rol',
+    'admin.usuarios.estado' => 'Estado',
+    'admin.usuarios.fecha_creacion' => 'Fecha de creación',
+    'admin.usuarios.acciones' => 'Acciones',
+
+    'admin.usuarios.rol.usuario' => 'Usuario',
+    'admin.usuarios.rol.admin' => 'Administrador',
+    'admin.usuarios.activo' => 'Activo',
+    'admin.usuarios.inactivo' => 'Inactivo',
+    'admin.usuarios.cambiar_rol' => 'Cambiar rol',
+    'admin.usuarios.guardar_rol' => 'Guardar rol',
+    'admin.usuarios.activar' => 'Activar',
+    'admin.usuarios.desactivar' => 'Desactivar',
+    'admin.usuarios.accion_propia' => 'No puedes modificar tu propia cuenta desde aquí',
+
+    'admin.usuarios.ok.rol_actualizado' => 'Rol actualizado correctamente',
+    'admin.usuarios.ok.usuario_activado' => 'Usuario activado correctamente',
+    'admin.usuarios.ok.usuario_desactivado' => 'Usuario desactivado correctamente',
+
+    'admin.usuarios.error.listar' => 'No se han podido cargar los usuarios',
+    'admin.usuarios.error.datos_invalidos' => 'Los datos enviados no son válidos',
+    'admin.usuarios.error.rol_invalido' => 'El rol seleccionado no es válido',
+    'admin.usuarios.error.autorol' => 'No puedes quitarte a ti mismo el rol de administrador',
+    'admin.usuarios.error.autodesactivar' => 'No puedes desactivar tu propia cuenta',
+    'admin.usuarios.error.actualizar_rol' => 'No se ha podido actualizar el rol',
+    'admin.usuarios.error.actualizar_estado' => 'No se ha podido actualizar el estado del usuario',
+
+    // garaje - mensajes de vehículo
     'garaje.vehiculo.error.carroceria_no_valida' => 'La carrocería no es válida',
     'garaje.vehiculo.error.combustible_no_valido' => 'El tipo de combustible no es válido',
     'garaje.vehiculo.error.cambio_no_valido' => 'El tipo de cambio no es válido',

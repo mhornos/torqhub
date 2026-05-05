@@ -12,6 +12,7 @@ CREATE TABLE usuarios (
   email VARCHAR(120) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
   rol ENUM('usuario','admin') NOT NULL DEFAULT 'usuario',
+  activo TINYINT(1) NOT NULL DEFAULT 1,
   fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

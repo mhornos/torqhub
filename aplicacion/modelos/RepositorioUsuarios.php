@@ -43,11 +43,16 @@ class RepositorioUsuarios {
     public static function buscar_por_email(string $email): ?array {
         $pdo = ConexionBBDD::obtener();
 
-        $sql = "SELECT id, nombre, email, password_hash, rol FROM usuarios WHERE email = :email LIMIT 1";
+        $sql = "SELECT id, nombre, email, password_hash, rol, activo
+            FROM usuarios
+            WHERE email = :email
+            LIMIT 1";
+
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['email' => $email]);
 
         $usuario = $stmt->fetch();
+
         return $usuario ?: null;
     }
 
@@ -179,5 +184,24 @@ class RepositorioUsuarios {
             'password' => $password_hash,
             'usuario_id' => $usuario_id,
         ]);
+    }
+
+// busca el estado de acceso de un usuario
+    public static function buscar_estado_acceso(int $usuario_id): ?array {
+        $pdo = ConexionBBDD::obtener();
+
+        $sql = "SELECT id, rol, activo
+            FROM usuarios
+            WHERE id = :usuario_id
+            LIMIT 1";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'usuario_id' => $usuario_id,
+        ]);
+
+        $usuario = $stmt->fetch();
+
+        return $usuario ?: null;
     }
 }
