@@ -20,7 +20,8 @@ return [
 
     // seguridad
     'seguridad.error.csrf' => 'La sesión de seguridad ha caducado. Recarga la página e inténtalo de nuevo',
-
+    'seguridad.error.servidor' => 'Se ha producido un error interno. Inténtalo de nuevo más tarde',
+    'seguridad.error.ruta_no_encontrada' => 'Página no encontrada',
 
     // auth - login
     'auth.login.titulo_pagina' => 'Iniciar sesión',

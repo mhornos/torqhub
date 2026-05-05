@@ -20,6 +20,8 @@ return [
 
     // seguretat
     'seguridad.error.csrf' => 'La sessió de seguretat ha caducat. Recarrega la pàgina i torna-ho a intentar',
+    'seguridad.error.servidor' => 'S’ha produït un error intern. Torna-ho a intentar més tard',
+    'seguridad.error.ruta_no_encontrada' => 'Pàgina no trobada',
 
     // auth - login
     'auth.login.titulo_pagina' => 'Iniciar sessió',

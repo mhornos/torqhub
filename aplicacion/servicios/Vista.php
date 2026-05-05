@@ -7,10 +7,12 @@ class Vista {
         $ruta_vista = __DIR__ . '/../vistas/' . $vista . '.php';
         $ruta_navbar = __DIR__ . '/../vistas/plantillas/navbar.php';
 
-        // verifica que la vista existe, si no mostrar error
+        // verifica que la vista existe, si no mostrar error limpio
         if (!file_exists($ruta_vista)) {
+            error_log('Vista no encontrada: ' . $ruta_vista);
+
             http_response_code(500);
-            echo "vista no encontrada: " . $vista;
+            echo escapar(t('seguridad.error.servidor'));
             return;
         }
 

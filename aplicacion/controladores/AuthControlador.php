@@ -42,8 +42,11 @@ class AuthControlador extends ControladorBase {
             $this->redirigir('/login');
         }
 
-        // regenerar id de sesion para evitar session fixation
+        // regenerar id de sesión para evitar session fixation
         session_regenerate_id(true);
+
+        // forzar un nuevo token csrf para la sesión autenticada
+        unset($_SESSION['csrf_token']);
 
         $_SESSION['usuario'] = [
             'id' => (int) $usuario['id'],
@@ -128,7 +131,30 @@ class AuthControlador extends ControladorBase {
 
 // procesa el logout
     public function logout(): void {
-        unset($_SESSION['usuario']);
+        $idioma = $_SESSION['idioma'] ?? 'es';
+
+        $_SESSION = [];
+
+        if (ini_get('session.use_cookies')) {
+            $parametros = session_get_cookie_params();
+
+            setcookie(session_name(), '', [
+                'expires' => time() - 42000,
+                'path' => $parametros['path'],
+                'domain' => $parametros['domain'],
+                'secure' => $parametros['secure'],
+                'httponly' => $parametros['httponly'],
+                'samesite' => $parametros['samesite'] ?? 'Lax',
+            ]);
+        }
+
+        session_destroy();
+
+        session_start();
+        session_regenerate_id(true);
+
+        $_SESSION['idioma'] = $idioma;
+
         flash_set('ok', t('auth.ok.sesion_cerrada'));
         $this->redirigir('/');
     }
