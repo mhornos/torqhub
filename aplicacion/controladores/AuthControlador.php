@@ -131,6 +131,8 @@ class AuthControlador extends ControladorBase {
 
 // procesa el logout
     public function logout(): void {
+        csrf_verificar();
+
         $idioma = $_SESSION['idioma'] ?? 'es';
 
         $_SESSION = [];

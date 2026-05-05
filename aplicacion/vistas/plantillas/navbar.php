@@ -13,39 +13,41 @@
         <?php if (($_SESSION['usuario']['rol'] ?? '') === 'admin'): ?>
             <a href="<?= url('/admin') ?>"><?= htmlspecialchars(t('navbar.admin')) ?></a>
         <?php endif; ?>
-        
-        <a href="<?= url('/logout') ?>"><?= htmlspecialchars(t('navbar.logout')) ?></a>
+
+        <form method="POST" action="<?= escapar(url('/logout')) ?>" class="formulario-logout">
+            <?= csrf_campo() ?>
+
+            <button type="submit" class="boton-logout">
+                <?= htmlspecialchars(t('navbar.logout')) ?>
+            </button>
+        </form>
     <?php endif; ?>
 
-    <form 
-        method="post" 
-        action="<?= url('/idioma') ?>" 
-        class="formulario-idioma" 
-        aria-label="<?= htmlspecialchars(t('navbar.cambiar_idioma')) ?>"
-    >
+    <form
+        method="post"
+        action="<?= url('/idioma') ?>"
+        class="formulario-idioma"
+        aria-label="<?= htmlspecialchars(t('navbar.cambiar_idioma')) ?>">
         <?= csrf_campo() ?>
 
-        <input 
-            type="hidden" 
-            name="volver" 
-            value="<?= htmlspecialchars($_SERVER['REQUEST_URI'] ?? url('/')) ?>"
-        >
+        <input
+            type="hidden"
+            name="volver"
+            value="<?= htmlspecialchars($_SERVER['REQUEST_URI'] ?? url('/')) ?>">
 
-        <button 
-            type="submit" 
-            name="idioma" 
-            value="es" 
-            class="boton-idioma <?= idioma_actual() === 'es' ? 'activo' : '' ?>"
-        >
+        <button
+            type="submit"
+            name="idioma"
+            value="es"
+            class="boton-idioma <?= idioma_actual() === 'es' ? 'activo' : '' ?>">
             <?= htmlspecialchars(t('navbar.idioma_es')) ?>
         </button>
 
-        <button 
-            type="submit" 
-            name="idioma" 
-            value="ca" 
-            class="boton-idioma <?= idioma_actual() === 'ca' ? 'activo' : '' ?>"
-        >
+        <button
+            type="submit"
+            name="idioma"
+            value="ca"
+            class="boton-idioma <?= idioma_actual() === 'ca' ? 'activo' : '' ?>">
             <?= htmlspecialchars(t('navbar.idioma_ca')) ?>
         </button>
     </form>

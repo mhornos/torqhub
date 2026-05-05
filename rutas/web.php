@@ -13,10 +13,6 @@ return [
         '/registro' => [
             'accion' => 'AuthControlador@registro',
         ],
-        '/logout' => [
-            'accion' => 'AuthControlador@logout',
-            'middleware' => 'AuthMiddleware',
-        ],
         '/garaje' => [
             'accion' => 'GarajeControlador@index',
             'middleware' => 'AuthMiddleware',
@@ -103,6 +99,10 @@ return [
     'POST' => [
         '/login' => [
             'accion' => 'AuthControlador@login_post',
+        ],
+        '/logout' => [
+            'accion' => 'AuthControlador@logout',
+            'middleware' => 'AuthMiddleware',
         ],
         '/idioma' => [
             'accion' => 'IdiomaControlador@cambiar',

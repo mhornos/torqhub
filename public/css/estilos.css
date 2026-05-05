@@ -50,6 +50,29 @@ nav a {
     font-weight: 600;
 }
 
+.formulario-logout {
+    padding-left: 0;
+    margin-left: 20px;
+    font-weight: 600;
+}
+
+.boton-logout {
+    top: 8px;
+    position: relative;
+    background: transparent;
+    border: 0;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    font: inherit;
+    padding: 0;
+}
+
+.boton-logout:hover {
+    color: #888888;
+    background-color: transparent;
+}
+
 h1, h2, h3 {
     padding-left: 12px;
 }
