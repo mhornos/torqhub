@@ -17,11 +17,16 @@ class AuthControlador extends ControladorBase {
     public function login_post(): void {
         csrf_verificar();
 
-        $email = trim($_POST['email'] ?? '');
+        $email = strtolower(trim($_POST['email'] ?? ''));
         $password = $_POST['password'] ?? '';
 
         if ($email === '' || $password === '') {
             flash_set('error', t('auth.error.rellena_login'));
+            $this->redirigir('/login');
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            flash_set('error', t('auth.error.email_no_valido'));
             $this->redirigir('/login');
         }
 
@@ -61,13 +66,18 @@ class AuthControlador extends ControladorBase {
     public function registro_post(): void {
         csrf_verificar();
 
-        $nombre = trim($_POST['nombre'] ?? '');
-        $email = trim($_POST['email'] ?? '');
+        $nombre = strtolower(trim($_POST['nombre'] ?? ''));
+        $email = strtolower(trim($_POST['email'] ?? ''));
         $password = $_POST['password'] ?? '';
         $password_repetida = $_POST['password_repetida'] ?? '';
 
-        if ($nombre === '' || $email === '' || $password === '') {
+        if ($nombre === '' || $email === '' || $password === '' || $password_repetida === '') {
             flash_set('error', t('auth.error.registro_obligatorios'));
+            $this->redirigir('/registro');
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            flash_set('error', t('auth.error.email_no_valido'));
             $this->redirigir('/registro');
         }
 
@@ -162,22 +172,29 @@ class AuthControlador extends ControladorBase {
             $this->redirigir('/password/olvidada');
         }
 
-        $usuario = RepositorioUsuarios::buscar_por_email($email);
+        try {
+            $usuario = RepositorioUsuarios::buscar_por_email($email);
 
-        if ($usuario) {
-            $token = bin2hex(random_bytes(32));
-            $token_hash = hash('sha256', $token);
-            $fecha_expiracion = date('Y-m-d H:i:s', time() + 3600);
+            if ($usuario) {
+                $token = bin2hex(random_bytes(32));
+                $token_hash = hash('sha256', $token);
+                $fecha_expiracion = date('Y-m-d H:i:s', time() + 3600);
 
-            RepositorioRecuperacionesPassword::invalidar_anteriores((int) $usuario['id']);
-            RepositorioRecuperacionesPassword::crear((int) $usuario['id'], $token_hash, $fecha_expiracion);
+                RepositorioRecuperacionesPassword::invalidar_anteriores((int) $usuario['id']);
+                RepositorioRecuperacionesPassword::crear((int) $usuario['id'], $token_hash, $fecha_expiracion);
 
-            $protocolo = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-            $dominio = $_SERVER['HTTP_HOST'];
-            
-            $enlace = $protocolo . '://' . $dominio . url('/password/restablecer?token=' . urlencode($token));
+                $protocolo = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+                $dominio = $_SERVER['HTTP_HOST'];
 
-            $this->enviar_email_recuperacion($usuario['email'], $usuario['nombre'], $enlace);
+                $enlace = $protocolo . '://' . $dominio . url('/password/restablecer?token=' . urlencode($token));
+
+                $this->enviar_email_recuperacion($usuario['email'], $usuario['nombre'], $enlace);
+            }
+        } catch (PDOException $e) {
+            error_log('Error en recuperación de contraseña: ' . $e->getMessage());
+
+            flash_set('error', t('auth.error.servidor'));
+            $this->redirigir('/password/olvidada');
         }
 
         flash_set('ok', t('auth.ok.recuperacion_enviada'));
@@ -247,7 +264,7 @@ class AuthControlador extends ControladorBase {
         ]);
     }
 
-    // guarda nueva contraseña desde token
+// guarda nueva contraseña desde token
     public function guardar_password_restablecida(): void {
         csrf_verificar();
 
@@ -255,43 +272,55 @@ class AuthControlador extends ControladorBase {
         $password = $_POST['password'] ?? '';
         $password_repetida = $_POST['password_repetida'] ?? '';
 
-        if ($token === '' || $password === '' || $password_repetida === '') {
-            flash_set('error', t('auth.error.campos_obligatorios'));
+        if ($token === '') {
+            flash_set('error', t('auth.error.token_no_valido'));
             $this->redirigir('/login');
         }
 
+        if ($password === '' || $password_repetida === '') {
+            flash_set('error', t('auth.error.campos_obligatorios'));
+            $this->redirigir('/password/restablecer?token=' . urlencode($token));
+        }
+
         if ($password !== $password_repetida) {
-            flash_set('error', 'Las contraseñas no coinciden');
-            $this->redirigir('/login');
+            flash_set('error', t('auth.error.password_no_coincide'));
+            $this->redirigir('/password/restablecer?token=' . urlencode($token));
         }
 
         if (!$this->password_segura($password)) {
             flash_set('error', t('auth.error.password_minimos'));
-            $this->redirigir('/login');
+            $this->redirigir('/password/restablecer?token=' . urlencode($token));
         }
 
         $token_hash = hash('sha256', $token);
 
-        $recuperacion = RepositorioRecuperacionesPassword::buscar_token_valido($token_hash);
+        try {
+            $recuperacion = RepositorioRecuperacionesPassword::buscar_token_valido($token_hash);
 
-        if (!$recuperacion) {
-            flash_set('error', 'El enlace ya no es válido o ha expirado');
+            if (!$recuperacion) {
+                flash_set('error', t('auth.error.enlace_expirado'));
+                $this->redirigir('/login');
+            }
+
+            $password_hash = password_hash($password, PASSWORD_DEFAULT);
+
+            RepositorioUsuarios::actualizar_password(
+                (int) $recuperacion['usuario_id'],
+                $password_hash
+            );
+
+            RepositorioRecuperacionesPassword::marcar_como_usado(
+                (int) $recuperacion['id']
+            );
+
+            flash_set('ok', t('auth.ok.password_restablecida'));
+            $this->redirigir('/login');
+        } catch (PDOException $e) {
+            error_log('Error restableciendo contraseña: ' . $e->getMessage());
+
+            flash_set('error', t('auth.error.servidor'));
             $this->redirigir('/login');
         }
-
-        $password_hash = password_hash($password, PASSWORD_DEFAULT);
-
-        RepositorioUsuarios::actualizar_password(
-            (int) $recuperacion['usuario_id'],
-            $password_hash
-        );
-
-        RepositorioRecuperacionesPassword::marcar_como_usado(
-            (int) $recuperacion['id']
-        );
-
-        flash_set('ok', t('auth.ok.password_restablecida'));
-        $this->redirigir('/login');
     }
 
 // valida requisitos mínimos de contraseña

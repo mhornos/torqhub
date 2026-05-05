@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="<?= htmlspecialchars(idioma_actual()) ?>">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars(t('auth.password_olvidada.titulo_pagina')) ?> - TorqHub</title>
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 </head>
+
 <body>
 
     <h1><?= htmlspecialchars(t('auth.password_olvidada.titulo')) ?></h1>
@@ -23,12 +25,13 @@
 
         <div>
             <label for="email"><?= htmlspecialchars(t('auth.password_olvidada.email')) ?></label>
-            <input 
-                type="email" 
-                name="email" 
-                id="email" 
+            <input
+                type="email"
+                name="email"
+                id="email"
                 required
-            >
+                maxlength="120"
+                autocomplete="email">
         </div>
 
         <br>
@@ -41,4 +44,5 @@
     </p>
 
 </body>
+
 </html>
