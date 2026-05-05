@@ -39,7 +39,7 @@
             <div>
                 <p><?= htmlspecialchars(t('comunidad.form.imagen_actual')) ?>:</p>
                 <img 
-                    src="<?= url('/public/' . $publicacion['imagen']) ?>"
+                    src="<?= escapar(url_publica_segura($publicacion['imagen'])) ?>"
                     alt="<?= htmlspecialchars(t('comunidad.form.alt_imagen_actual')) ?>"
                     style="max-width: 400px; display:block; margin-bottom:10px;"
                 >

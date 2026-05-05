@@ -33,7 +33,7 @@ $comentarios = isset($comentarios) && is_array($comentarios)
 
     <article>
         <p>
-            <?= htmlspecialchars(t('comunidad.index.por')) ?>: <a href="<?= url('/perfil?usuario=' . urlencode($publicacion['autor_nombre'])) ?>">
+            <?= htmlspecialchars(t('comunidad.index.por')) ?>: <a href="<?= escapar(url('/perfil?usuario=' . urlencode($publicacion['autor_nombre']))) ?>">
                 @<?= htmlspecialchars($publicacion['autor_nombre']) ?>
             </a>
             · <?= formatear_fecha($publicacion['fecha_creacion']) ?>
@@ -41,7 +41,7 @@ $comentarios = isset($comentarios) && is_array($comentarios)
 
         <?php if (!empty($publicacion['imagen'])): ?>
             <img
-                src="<?= url('/public/' . $publicacion['imagen']) ?>"
+                src="<?= escapar(url_publica_segura($publicacion['imagen'])) ?>"
                 alt="<?= htmlspecialchars(t('comunidad.index.alt_imagen_publicacion')) ?>"
                 style="max-width: 600px; display:block; margin-bottom:15px; margin-left:20px; box-shadow: 0 2px 5px rgba(0,0,0,0.5);">
         <?php endif; ?>
@@ -74,7 +74,7 @@ $comentarios = isset($comentarios) && is_array($comentarios)
         action="<?= url('/comunidad/like-ajax') ?>"
         method="POST"
         id="formulario-like-publicacion"
-        data-url="<?= url('/comunidad/like-ajax') ?>"
+        data-url="<?= escapar(url('/comunidad/like-ajax')) ?>"
         data-like-singular="<?= htmlspecialchars(t('comunidad.index.like_singular')) ?>"
         data-like-plural="<?= htmlspecialchars(t('comunidad.index.like_plural')) ?>"
         data-error-like="<?= htmlspecialchars(t('comunidad.error.like_actualizar')) ?>">
@@ -91,7 +91,7 @@ $comentarios = isset($comentarios) && is_array($comentarios)
 
     <?php if ((int) $publicacion['usuario_id'] === (int) $_SESSION['usuario']['id']): ?>
         <p>
-            <a href="<?= url('/comunidad/editar?id=' . $publicacion['id']) ?>">
+            <a href="<?= escapar(url('/comunidad/editar?id=' . (int) $publicacion['id'])) ?>">
                 <?= htmlspecialchars(t('comunidad.index.editar_publicacion')) ?>
             </a>
         </p>
@@ -135,7 +135,7 @@ $comentarios = isset($comentarios) && is_array($comentarios)
             <?php foreach ($comentarios as $comentario): ?>
                 <article>
                     <p>
-                        <strong><a href="<?= url('/perfil?usuario=' . urlencode($comentario['autor_nombre'])) ?>">
+                        <strong><a href="<?= escapar(url('/perfil?usuario=' . urlencode($comentario['autor_nombre']))) ?>">
                                 @<?= htmlspecialchars($comentario['autor_nombre']) ?>
                             </a></strong>
                         · <?= formatear_fecha($comentario['fecha_creacion']) ?>
@@ -145,7 +145,7 @@ $comentarios = isset($comentarios) && is_array($comentarios)
 
                     <?php if ((int) $comentario['usuario_id'] === (int) $_SESSION['usuario']['id']): ?>
                         <p>
-                            <a href="<?= url('/comunidad/editar-comentario?id=' . $comentario['id']) ?>">
+                            <a href="<?= escapar(url('/comunidad/editar-comentario?id=' . (int) $comentario['id'])) ?>">
                                 <?= htmlspecialchars(t('comunidad.detalle.editar_comentario')) ?>
                             </a>
                         </p>
@@ -205,7 +205,8 @@ $comentarios = isset($comentarios) && is_array($comentarios)
                                 data-publicacion-id="<?= (int) $publicacion['id'] ?>"
                                 data-comentario-id="<?= (int) $comentario['id'] ?>"
                                 data-total-respuestas="<?= $total_respuestas ?>"
-                                data-url="<?= url('/comunidad/respuestas-comentario') ?>"
+                                data-url="<?= escapar(url('/comunidad/respuestas-comentario')) ?>"
+                                data-url-perfil="<?= escapar(url('/perfil')) ?>"
                                 data-texto-ver-una="<?= htmlspecialchars(t('comunidad.detalle.ver_una_respuesta')) ?>"
                                 data-texto-ver-varias="<?= htmlspecialchars(t('comunidad.detalle.ver_respuestas')) ?>"
                                 data-texto-ocultar="<?= htmlspecialchars(t('comunidad.detalle.ocultar_respuestas')) ?>"

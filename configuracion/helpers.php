@@ -40,6 +40,31 @@ function respuesta_json(array $datos, int $codigo_http = 200): void {
     exit;
 }
 
+// escapa texto para salida html segura
+function escapar(mixed $valor): string {
+    return htmlspecialchars((string) $valor, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+// genera una url segura para archivos dentro de /public
+function url_publica_segura(?string $ruta_relativa): string {
+    $ruta = trim((string) $ruta_relativa);
+    $ruta = str_replace('\\', '/', $ruta);
+    $ruta = str_replace("\0", '', $ruta);
+
+    $partes = explode('/', $ruta);
+
+    $partes_seguras = [];
+
+    foreach ($partes as $parte) {
+        if ($parte === '' || $parte === '.' || $parte === '..') {
+            continue;
+        }
+
+        $partes_seguras[] = rawurlencode($parte);
+    }
+
+    return url('/public/' . implode('/', $partes_seguras));
+}
 
 // genera un token csrf y lo almacena en la sesión si no existe
 function csrf_token(): string {

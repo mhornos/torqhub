@@ -41,7 +41,7 @@ if (!isset($vehiculo) || !is_array($vehiculo)) {
             <?php if (!empty($vehiculo['imagen'])): ?>
                 <img
                     class="detalle-vehiculo-imagen-real"
-                    src="<?= url('/public/uploads/vehiculos/' . rawurlencode($vehiculo['imagen'])) ?>"
+                    src="<?= escapar(url_publica_segura('uploads/vehiculos/' . $vehiculo['imagen'])) ?>"
                     alt="<?= htmlspecialchars(t('garaje.detalle.alt_imagen') . ' ' . $vehiculo['marca'] . ' ' . $vehiculo['modelo']) ?>">
             <?php else: ?>
                 <div class="detalle-vehiculo-placeholder-imagen">

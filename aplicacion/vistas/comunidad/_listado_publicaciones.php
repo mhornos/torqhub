@@ -9,7 +9,7 @@ $publicaciones = $publicaciones ?? [];
         <?php foreach ($publicaciones as $publicacion): ?>
             <article>
                 <p>
-                    <?= htmlspecialchars(t('comunidad.index.por')) ?>: <a href="<?= url('/perfil?usuario=' . urlencode($publicacion['autor_nombre'])) ?>">
+                    <?= htmlspecialchars(t('comunidad.index.por')) ?>: <a href="<?= escapar(url('/perfil?usuario=' . urlencode($publicacion['autor_nombre']))) ?>">
                         @<?= htmlspecialchars($publicacion['autor_nombre']) ?>
                     </a>
                     · <?= formatear_fecha($publicacion['fecha_creacion']) ?>
@@ -17,7 +17,7 @@ $publicaciones = $publicaciones ?? [];
 
                 <?php if (!empty($publicacion['imagen'])): ?>
                     <img
-                        src="<?= url('/public/' . $publicacion['imagen']) ?>"
+                        src="<?= escapar(url_publica_segura($publicacion['imagen'])) ?>"
                         alt="<?= htmlspecialchars(t('comunidad.index.alt_imagen_publicacion')) ?>"
                         style="max-width: 400px; display:block; margin-bottom:10px; margin-left:20px; box-shadow: 0 2px 5px rgba(0,0,0,0.5);">
                 <?php endif; ?>
@@ -55,7 +55,7 @@ $publicaciones = $publicaciones ?? [];
                     action="<?= url('/comunidad/like-ajax') ?>"
                     method="POST"
                     class="formulario-like-publicacion-listado"
-                    data-url="<?= url('/comunidad/like-ajax') ?>"
+                    data-url="<?= escapar(url('/comunidad/like-ajax')) ?>"
                     data-like-singular="<?= htmlspecialchars(t('comunidad.index.like_singular')) ?>"
                     data-like-plural="<?= htmlspecialchars(t('comunidad.index.like_plural')) ?>"
                     data-error-like="<?= htmlspecialchars(t('comunidad.error.like_actualizar')) ?>">
@@ -76,14 +76,14 @@ $publicaciones = $publicaciones ?? [];
                     style="display:none;"></p>
 
                 <p>
-                    <a href="<?= url('/comunidad/ver?id=' . $publicacion['id']) ?>">
+                    <a href="<?= escapar(url('/comunidad/ver?id=' . (int) $publicacion['id'])) ?>">
                         <?= htmlspecialchars(t('comunidad.index.ver_publicacion')) ?>
                     </a>
                 </p>
 
                 <?php if ((int) $publicacion['usuario_id'] === (int) $_SESSION['usuario']['id']): ?>
                     <p>
-                        <a href="<?= url('/comunidad/editar?id=' . $publicacion['id']) ?>">
+                        <a href="<?= escapar(url('/comunidad/editar?id=' . (int) $publicacion['id'])) ?>">
                             <?= htmlspecialchars(t('comunidad.index.editar_publicacion')) ?>
                         </a>
                     </p>

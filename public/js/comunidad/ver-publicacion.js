@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     inicializarConfirmacionesComunidad();
 });
 
+// función para manejar la visualización del formulario de respuesta a comentarios
 function inicializarBotonesResponder() {
     const botonesResponder = document.querySelectorAll('.boton-responder-comentario');
 
@@ -44,6 +45,7 @@ function inicializarBotonesResponder() {
     });
 }
 
+// función para manejar la visualización de respuestas a comentarios con carga mediante AJAX
 function inicializarBotonesRespuestas() {
     const botonesToggle = document.querySelectorAll('.boton-toggle-respuestas');
 
@@ -75,7 +77,7 @@ function inicializarBotonesRespuestas() {
             }
 
             contenedor.style.display = 'block';
-            contenedor.innerHTML = '<p>' + escaparHtml(boton.dataset.textoCargando || 'Cargando respuestas...') + '</p>';
+            reemplazarContenidoTexto(contenedor, boton.dataset.textoCargando || 'Cargando respuestas...');
 
             const url = urlBase
                 + '?publicacion_id=' + encodeURIComponent(publicacionId)
@@ -91,20 +93,21 @@ function inicializarBotonesRespuestas() {
                 const datos = await respuesta.json();
 
                 if (!respuesta.ok || !datos.ok) {
-                    contenedor.innerHTML = '<p>' + escaparHtml(datos.mensaje || boton.dataset.textoError || 'No se pudieron cargar las respuestas') + '</p>';
+                    reemplazarContenidoTexto(contenedor, datos.mensaje || boton.dataset.textoError || 'No se pudieron cargar las respuestas');
                     return;
                 }
 
-                contenedor.innerHTML = renderizarRespuestas(datos.respuestas, boton);
+                renderizarRespuestasEnContenedor(contenedor, datos.respuestas, boton);
                 contenedor.dataset.cargadas = '1';
                 boton.textContent = boton.dataset.textoOcultar || 'Ocultar respuestas';
             } catch (error) {
-                contenedor.innerHTML = '<p>' + escaparHtml(boton.dataset.textoError || 'No se pudieron cargar las respuestas') + '</p>';
+                reemplazarContenidoTexto(contenedor, boton.dataset.textoError || 'No se pudieron cargar las respuestas');
             }
         });
     });
 }
 
+// función para mostrar confirmaciones antes de eliminar publicaciones o comentarios
 function inicializarConfirmacionesComunidad() {
     document.addEventListener('submit', function (evento) {
         const formulario = evento.target.closest('.form-eliminar-publicacion, .form-eliminar-comentario');
@@ -121,6 +124,7 @@ function inicializarConfirmacionesComunidad() {
     });
 }
 
+// función para construir el texto del botón "Ver respuestas" dependiendo del número de respuestas
 function construirTextoVer(totalRespuestas, boton) {
     if (totalRespuestas === 1) {
         return boton.dataset.textoVerUna || 'Ver 1 respuesta';
@@ -131,30 +135,54 @@ function construirTextoVer(totalRespuestas, boton) {
     return texto.replace('{total}', totalRespuestas);
 }
 
-function renderizarRespuestas(respuestas, boton) {
+// función para reemplazar el contenido del contenedor con un mensaje de texto simple
+function reemplazarContenidoTexto(contenedor, texto) {
+    contenedor.replaceChildren();
+
+    const parrafo = document.createElement('p');
+    parrafo.textContent = texto;
+
+    contenedor.appendChild(parrafo);
+}
+
+// función para renderizar respuestas en el contenedor correspondiente
+function renderizarRespuestasEnContenedor(contenedor, respuestas, boton) {
+    contenedor.replaceChildren();
+
     if (!Array.isArray(respuestas) || respuestas.length === 0) {
-        return '<p>' + escaparHtml(boton.dataset.textoSinRespuestas || 'No hay respuestas') + '</p>';
+        reemplazarContenidoTexto(contenedor, boton.dataset.textoSinRespuestas || 'No hay respuestas');
+        return;
     }
 
-    let html = '';
-
     respuestas.forEach(function (respuesta) {
-        html += ''
-            + '<article style="margin-bottom: 15px; padding-left: 15px; border-left: 3px solid #b8b8b8;">'
-            + '    <p><strong><a href="/torqhub/perfil?usuario=' + encodeURIComponent(respuesta.autor_nombre) + '">@' + escaparHtml(respuesta.autor_nombre) + '</a></strong> · ' + escaparHtml(respuesta.fecha_creacion) + '</p>'
-            + '    <p>' + convertirSaltosLinea(escaparHtml(respuesta.contenido)) + '</p>'
-            + '</article>';
+        const articulo = document.createElement('article');
+        articulo.style.marginBottom = '15px';
+        articulo.style.paddingLeft = '15px';
+        articulo.style.borderLeft = '3px solid #b8b8b8';
+
+        const cabecera = document.createElement('p');
+
+        const fuerte = document.createElement('strong');
+        const enlace = document.createElement('a');
+
+        const autor = String(respuesta.autor_nombre || '');
+        const urlPerfil = boton.dataset.urlPerfil || '/perfil';
+
+        enlace.href = urlPerfil + '?usuario=' + encodeURIComponent(autor);
+        enlace.textContent = '@' + autor;
+
+        fuerte.appendChild(enlace);
+
+        cabecera.appendChild(fuerte);
+        cabecera.appendChild(document.createTextNode(' · ' + String(respuesta.fecha_creacion || '')));
+
+        const contenido = document.createElement('p');
+        contenido.textContent = String(respuesta.contenido || '');
+        contenido.style.whiteSpace = 'pre-line';
+
+        articulo.appendChild(cabecera);
+        articulo.appendChild(contenido);
+
+        contenedor.appendChild(articulo);
     });
-
-    return html;
-}
-
-function escaparHtml(texto) {
-    const div = document.createElement('div');
-    div.textContent = texto;
-    return div.innerHTML;
-}
-
-function convertirSaltosLinea(texto) {
-    return texto.replace(/\n/g, '<br>');
 }

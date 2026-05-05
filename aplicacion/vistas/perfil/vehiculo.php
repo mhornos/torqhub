@@ -23,14 +23,14 @@
 
     <p>
         <?= htmlspecialchars(t('perfil.vehiculo.propietario')) ?>:
-        <a href="<?= url('/perfil?usuario=' . urlencode($vehiculo['autor_nombre'])) ?>">
+        <a href="<?= escapar(url('/perfil?usuario=' . urlencode($vehiculo['autor_nombre']))) ?>">
             @<?= htmlspecialchars($vehiculo['autor_nombre']) ?>
         </a>
     </p>
 
     <?php if (!empty($vehiculo['imagen'])): ?>
         <img 
-            src="<?= url('/public/uploads/vehiculos/' . rawurlencode($vehiculo['imagen'])) ?>" 
+            src="<?= escapar(url_publica_segura('uploads/vehiculos/' . $vehiculo['imagen'])) ?>" 
             alt="<?= htmlspecialchars(t('perfil.vehiculo.alt_imagen')) ?>"
             style="max-width: 700px; width: 100%; display:block; margin-bottom:20px;"
         >
@@ -63,7 +63,7 @@
     </section>
 
     <p>
-        <a href="<?= url('/perfil?usuario=' . urlencode($vehiculo['autor_nombre'])) ?>">
+        <a href="<?= escapar(url('/perfil?usuario=' . urlencode($vehiculo['autor_nombre']))) ?>">
             <?= htmlspecialchars(t('perfil.vehiculo.volver_perfil')) ?>
         </a>
     </p>

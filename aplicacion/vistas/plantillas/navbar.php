@@ -8,7 +8,7 @@
         <a href="<?= url('/garaje') ?>"><?= htmlspecialchars(t('navbar.garaje')) ?></a>
         <a href="<?= url('/comunidad') ?>"><?= htmlspecialchars(t('navbar.comunidad')) ?></a>
         <a href="<?= url('/diagnostico') ?>"><?= htmlspecialchars(t('navbar.diagnostico')) ?></a>
-        <a href="<?= url('/perfil?usuario=' . $_SESSION['usuario']['nombre']) ?>"><?= htmlspecialchars(t('navbar.perfil')) ?></a>
+        <a href="<?= escapar(url('/perfil?usuario=' . urlencode($_SESSION['usuario']['nombre']))) ?>"><?= htmlspecialchars(t('navbar.perfil')) ?></a>
 
         <?php if (($_SESSION['usuario']['rol'] ?? '') === 'admin'): ?>
             <a href="<?= url('/admin') ?>"><?= htmlspecialchars(t('navbar.admin')) ?></a>

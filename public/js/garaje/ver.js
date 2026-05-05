@@ -25,7 +25,12 @@ document.addEventListener('DOMContentLoaded', function () {
             const html = await respuesta.text();
             contenedorHistorial.innerHTML = html;
         } catch (error) {
-            contenedorHistorial.innerHTML = '<p>no se pudo actualizar el historial.</p>';
+            contenedorHistorial.replaceChildren();
+
+            const parrafoError = document.createElement('p');
+            parrafoError.textContent = formulario.dataset.errorAjax || 'No se pudo actualizar el historial.';
+
+            contenedorHistorial.appendChild(parrafoError);
         }
     };
 

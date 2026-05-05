@@ -171,7 +171,7 @@ if (!isset($vehiculo) || !is_array($vehiculo)) {
             <p>
                 <strong><?= htmlspecialchars(t('garaje.form.imagen_actual')) ?>:</strong><br>
                 <img
-                    src="<?= url('/public/uploads/vehiculos/' . rawurlencode($vehiculo['imagen'])) ?>"
+                    src="<?= escapar(url_publica_segura('uploads/vehiculos/' . $vehiculo['imagen'])) ?>"
                     alt="<?= htmlspecialchars(t('garaje.form.alt_imagen_actual')) ?>"
                     style="max-width: 280px; height: auto; margin-top: 8px;">
             </p>

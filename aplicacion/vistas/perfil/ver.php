@@ -43,7 +43,7 @@
             <div class="perfil-foto">
                 <?php if (!empty($usuario['foto_perfil'])): ?>
                     <img
-                        src="<?= url('/public/uploads/perfiles/' . rawurlencode($usuario['foto_perfil'])) ?>"
+                        src="<?= escapar(url_publica_segura('uploads/perfiles/' . $usuario['foto_perfil'])) ?>"
                         alt="<?= htmlspecialchars(t('perfil.ver.alt_foto') . ' ' . $usuario['nombre']) ?>">
                 <?php else: ?>
                     <div class="perfil-foto-vacia">
@@ -90,7 +90,7 @@
                             type="text"
                             name="nombre"
                             id="nombre"
-                            value="<?= htmlspecialchars($usuario['nombre']) ?>"
+                            value="<?= escapar($usuario['nombre']) ?>"
                             required>
                     </div>
 
@@ -100,7 +100,7 @@
                             type="email"
                             name="email"
                             id="email"
-                            value="<?= htmlspecialchars($usuario['email']) ?>"
+                            value="<?= escapar($usuario['email']) ?>"
                             required>
                     </div>
 
@@ -160,7 +160,7 @@
                     <article class="perfil-vehiculo">
                         <?php if (!empty($vehiculo['imagen'])): ?>
                             <img
-                                src="<?= url('/public/uploads/vehiculos/' . rawurlencode($vehiculo['imagen'])) ?>"
+                                src="<?= escapar(url_publica_segura('uploads/vehiculos/' . $vehiculo['imagen'])) ?>"
                                 alt="<?= htmlspecialchars(t('perfil.ver.alt_vehiculo') . ' ' . $vehiculo['marca'] . ' ' . $vehiculo['modelo']) ?>">
                         <?php else: ?>
                             <div class="perfil-vehiculo-sin-imagen">
@@ -204,7 +204,7 @@
 
                 <?php if (!empty($publicacion['imagen'])): ?>
                     <img
-                        src="<?= url('/public/' . $publicacion['imagen']) ?>"
+                        src="<?= escapar(url_publica_segura($publicacion['imagen'])) ?>"
                         alt="<?= htmlspecialchars(t('perfil.ver.alt_publicacion')) ?>"
                         style="max-width:400px;display:block;margin-bottom:10px;">
                 <?php endif; ?>
@@ -230,7 +230,7 @@
                 </p>
 
                 <p>
-                    <a href="<?= url('/comunidad/ver?id=' . $publicacion['id']) ?>">
+                    <a href="<?= escapar(url('/comunidad/ver?id=' . (int) $publicacion['id'])) ?>">
                         <?= htmlspecialchars(t('perfil.ver.ver_publicacion')) ?>
                     </a>
                 </p>
