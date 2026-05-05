@@ -16,6 +16,11 @@ return [
     'navbar.idioma_ca' => 'CA',
     'navbar.cambiar_idioma' => 'Cambiar idioma',
 
+    'idioma.ok.cambiado' => 'Idioma actualizado correctamente',
+
+    // seguridad
+    'seguridad.error.csrf' => 'La sesión de seguridad ha caducado. Recarga la página e inténtalo de nuevo',
+
 
     // auth - login
     'auth.login.titulo_pagina' => 'Iniciar sesión',

@@ -56,44 +56,47 @@ class DiagnosticoControlador extends ControladorBase
 
 // versión ajax del método analizar para procesar los síntomas sin recargar la página
     public function ajaxAnalizar(): void {
-    header('Content-Type: application/json; charset=utf-8');
+        csrf_verificar();
 
-    csrf_verificar();
+        $sintomas = trim($_POST['sintomas'] ?? '');
 
-    $sintomas = trim($_POST['sintomas'] ?? '');
+        if ($sintomas === '') {
+            respuesta_json([
+                'ok' => false,
+                'mensaje' => t('diagnostico.error.sintomas_obligatorios'),
+            ], 422);
+        }
 
-    if ($sintomas === '') {
-        http_response_code(422);
+        try {
+            if (!isset($_SESSION['diagnostico_mensajes'])) {
+                $_SESSION['diagnostico_mensajes'] = [];
+            }
 
-        echo json_encode([
-            'ok' => false,
-            'mensaje' => t('diagnostico.error.sintomas_obligatorios')
-        ], JSON_UNESCAPED_UNICODE);
+            $motor = new MotorDiagnosticoIA();
+            $resultados = $motor->diagnosticar($sintomas);
 
-        return;
+            $_SESSION['diagnostico_mensajes'][] = [
+                'tipo' => 'usuario',
+                'texto' => $sintomas,
+            ];
+
+            $_SESSION['diagnostico_mensajes'][] = [
+                'tipo' => 'ia',
+                'resultados' => $resultados,
+            ];
+
+            respuesta_json([
+                'ok' => true,
+                'mensaje_usuario' => $sintomas,
+                'resultados' => $resultados,
+            ]);
+        } catch (Throwable $e) {
+            error_log('Error en diagnóstico ajax: ' . $e->getMessage());
+
+            respuesta_json([
+                'ok' => false,
+                'mensaje' => t('diagnostico.error.analisis'),
+            ], 500);
+        }
     }
-
-    if (!isset($_SESSION['diagnostico_mensajes'])) {
-        $_SESSION['diagnostico_mensajes'] = [];
-    }
-
-    $motor = new MotorDiagnosticoIA();
-    $resultados = $motor->diagnosticar($sintomas);
-
-    $_SESSION['diagnostico_mensajes'][] = [
-        'tipo' => 'usuario',
-        'texto' => $sintomas,
-    ];
-
-    $_SESSION['diagnostico_mensajes'][] = [
-        'tipo' => 'ia',
-        'resultados' => $resultados,
-    ];
-
-    echo json_encode([
-        'ok' => true,
-        'mensaje_usuario' => $sintomas,
-        'resultados' => $resultados
-    ], JSON_UNESCAPED_UNICODE);
-}
 }

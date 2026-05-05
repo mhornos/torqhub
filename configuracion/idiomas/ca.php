@@ -16,6 +16,11 @@ return [
     'navbar.idioma_ca' => 'CA',
     'navbar.cambiar_idioma' => 'Canviar idioma',
 
+    'idioma.ok.cambiado' => 'Idioma actualitzat correctament',
+
+    // seguretat
+    'seguridad.error.csrf' => 'La sessió de seguretat ha caducat. Recarrega la pàgina i torna-ho a intentar',
+
     // auth - login
     'auth.login.titulo_pagina' => 'Iniciar sessió',
     'auth.login.titulo' => 'Iniciar sessió',

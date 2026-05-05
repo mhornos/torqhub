@@ -450,63 +450,56 @@ class GarajeControlador extends ControladorBase {
 
 //consulta un vin mediante ajax y devuelve datos preparados para autocompletar el formulario
     public function consultar_vin(): void {
-        header('Content-Type: application/json; charset=utf-8');
-
         csrf_verificar();
 
         $vin = trim($_POST['vin'] ?? '');
 
         if ($vin === '') {
-            http_response_code(422);
-
-            echo json_encode([
+            respuesta_json([
                 'ok' => false,
-                'mensaje' => t('garaje.vin.error.obligatorio')
-            ], JSON_UNESCAPED_UNICODE);
-
-            return;
+                'mensaje' => t('garaje.vin.error.obligatorio'),
+            ], 422);
         }
 
         try {
             $servicio_vin = new ServicioVin();
             $resultado = $servicio_vin->consultar($vin);
 
-            echo json_encode([
+            respuesta_json([
                 'ok' => true,
                 'mensaje' => $resultado['origen'] === 'cache'
                     ? t('garaje.vin.ok.cache')
                     : t('garaje.vin.ok.api'),
                 'origen' => $resultado['origen'],
                 'vin' => $resultado['vin'],
-                'datos_api' => $resultado['datos_api'],
                 'campos_torqhub' => $resultado['campos_torqhub'],
-                'error_codigo' => $resultado['error_codigo'],
-                'error_texto' => $resultado['error_texto'],
-            ], JSON_UNESCAPED_UNICODE);
-
+            ]);
         } catch (InvalidArgumentException $e) {
-            http_response_code(422);
-
-            echo json_encode([
+            respuesta_json([
                 'ok' => false,
-                'mensaje' => $e->getMessage()
-            ], JSON_UNESCAPED_UNICODE);
-
+                'mensaje' => $e->getMessage(),
+            ], 422);
         } catch (RuntimeException $e) {
-            http_response_code(502);
+            error_log('Error consultando VIN: ' . $e->getMessage());
 
-            echo json_encode([
+            respuesta_json([
                 'ok' => false,
-                'mensaje' => $e->getMessage()
-            ], JSON_UNESCAPED_UNICODE);
-
+                'mensaje' => t('garaje.vin.error.consulta_api'),
+            ], 502);
         } catch (PDOException $e) {
-            http_response_code(500);
+            error_log('Error de caché VIN: ' . $e->getMessage());
 
-            echo json_encode([
+            respuesta_json([
                 'ok' => false,
-                'mensaje' => t('garaje.vin.error.cache')
-            ], JSON_UNESCAPED_UNICODE);
+                'mensaje' => t('garaje.vin.error.cache'),
+            ], 500);
+        } catch (Throwable $e) {
+            error_log('Error inesperado en consulta VIN: ' . $e->getMessage());
+
+            respuesta_json([
+                'ok' => false,
+                'mensaje' => t('garaje.vin.error.consulta_api'),
+            ], 500);
         }
     }
 

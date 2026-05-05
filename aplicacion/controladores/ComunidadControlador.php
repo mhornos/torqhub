@@ -599,34 +599,27 @@ class ComunidadControlador extends ControladorBase
     }
 
 
-    // procesa likes por ajax en una publicación
-    public function toggle_like_ajax(): void
-    {
+// procesa likes por ajax en una publicación
+    public function toggle_like_ajax(): void  {
         csrf_verificar();
-
-        header('Content-Type: application/json; charset=utf-8');
 
         $publicacion_id = (int) ($_POST['publicacion_id'] ?? 0);
         $usuario_id = (int) ($_SESSION['usuario']['id'] ?? 0);
 
         if ($publicacion_id <= 0 || $usuario_id <= 0) {
-            http_response_code(400);
-            echo json_encode([
+            respuesta_json([
                 'ok' => false,
                 'mensaje' => t('comunidad.error.datos_no_validos'),
-            ]);
-            exit;
+            ], 400);
         }
 
         $publicacion = RepositorioPublicaciones::obtener_por_id($publicacion_id);
 
         if (!$publicacion) {
-            http_response_code(404);
-            echo json_encode([
+            respuesta_json([
                 'ok' => false,
                 'mensaje' => t('comunidad.error.publicacion_no_existe'),
-            ]);
-            exit;
+            ], 404);
         }
 
         $ya_dio_like = RepositorioLikesPublicaciones::usuario_ya_dio_like(
@@ -647,20 +640,19 @@ class ComunidadControlador extends ControladorBase
 
             $total_likes = RepositorioLikesPublicaciones::contar_likes($publicacion_id);
 
-            echo json_encode([
+            respuesta_json([
                 'ok' => true,
                 'accion' => $accion,
                 'texto_boton' => $texto_boton,
                 'total_likes' => $total_likes,
             ]);
-            exit;
         } catch (PDOException $e) {
-            http_response_code(500);
-            echo json_encode([
+            error_log('Error actualizando like ajax: ' . $e->getMessage());
+
+            respuesta_json([
                 'ok' => false,
                 'mensaje' => t('comunidad.error.like_actualizar'),
-            ]);
-            exit;
+            ], 500);
         }
     }
 }

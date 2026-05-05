@@ -21,7 +21,25 @@ function flash_get(string $clave): ?string {
     return $mensaje;
 }
 
-// funciones para el token csrf
+// FUNCIONES TOKEN CSRF
+
+// detecta si la petición espera una respuesta ajax/json
+function peticion_ajax(): bool {
+    $cabecera_ajax = strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '');
+    $cabecera_accept = strtolower($_SERVER['HTTP_ACCEPT'] ?? '');
+
+    return $cabecera_ajax === 'xmlhttprequest' || str_contains($cabecera_accept, 'application/json');
+}
+
+// devuelve una respuesta json limpia y detiene la ejecución
+function respuesta_json(array $datos, int $codigo_http = 200): void {
+    http_response_code($codigo_http);
+    header('Content-Type: application/json; charset=utf-8');
+
+    echo json_encode($datos, JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
 
 // genera un token csrf y lo almacena en la sesión si no existe
 function csrf_token(): string {
@@ -42,9 +60,16 @@ function csrf_verificar(): void {
     $token_sesion = $_SESSION['csrf_token'] ?? '';
     $token_form = $_POST['csrf_token'] ?? '';
 
-    if ($token_sesion === '' || $token_form === '' || !hash_equals($token_sesion, $token_form)) { 
+    if ($token_sesion === '' || $token_form === '' || !hash_equals($token_sesion, $token_form)) {
+        if (peticion_ajax()) {
+            respuesta_json([
+                'ok' => false,
+                'mensaje' => t('seguridad.error.csrf'),
+            ], 403);
+        }
+
         http_response_code(403);
-        echo "403 - csrf invalido";
+        echo htmlspecialchars(t('seguridad.error.csrf'));
         exit;
     }
 }
@@ -60,6 +85,7 @@ function formatear_fecha(string $fecha): string{
     return date('d-m-Y H:i:s', $timestamp);
 }
 
+// FUNCIONES PARA IDIOMAS
 
 // devuelve los idiomas disponibles en la aplicación
 function idiomas_disponibles(): array{

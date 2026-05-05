@@ -15,6 +15,14 @@ class IdiomaControlador extends ControladorBase
 
         $_SESSION['idioma'] = $idioma;
 
+        if (peticion_ajax()) {
+            respuesta_json([
+                'ok' => true,
+                'idioma' => $idioma,
+                'mensaje' => t('idioma.ok.cambiado'),
+            ]);
+        }
+
         $this->redirigir($this->obtener_ruta_retorno());
     }
 
