@@ -6,14 +6,14 @@ class AdminMiddleware
     public static function verificar(): void
     {
         if (!isset($_SESSION['usuario'])) {
-            flash_set('error', 'Debes iniciar sesión');
+            flash_set('error', t('middleware.admin.error.login_requerido'));
             header('Location: ' . url('/login'));
             exit;
         }
 
         if (($_SESSION['usuario']['rol'] ?? 'usuario') !== 'admin') {
             http_response_code(403);
-            echo "403 - acceso denegado";
+            echo htmlspecialchars(t('middleware.admin.error.acceso_denegado'));
             exit;
         }
     }

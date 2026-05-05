@@ -563,4 +563,17 @@ return [
 
     'garaje.opcion.cambio.automatico' => 'Automàtic',
     'garaje.opcion.cambio.manual' => 'Manual',
+
+    // middlewares
+    'middleware.auth.error.login_requerido' => 'Has d’iniciar sessió per accedir a aquesta pàgina',
+    'middleware.admin.error.login_requerido' => 'Has d’iniciar sessió',
+    'middleware.admin.error.acceso_denegado' => '403 - Accés denegat',
+
+    // servei vin
+    'garaje.vin.error.formato' => 'El VIN ha de tenir 17 caràcters i no pot contenir I, O ni Q',
+    'garaje.vin.error.curl_no_disponible' => 'cURL no està disponible a PHP',
+    'garaje.vin.error.consulta_api' => 'No s’ha pogut consultar l’API VIN',
+    'garaje.vin.error.codigo_http' => 'L’API VIN ha respost amb el codi HTTP {codigo}',
+    'garaje.vin.error.json_no_valido' => 'La resposta de l’API VIN no és un JSON vàlid',
+    'garaje.vin.error.sin_resultados' => 'L’API VIN no ha retornat resultats vàlids',
 ];

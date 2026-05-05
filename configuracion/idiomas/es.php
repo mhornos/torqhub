@@ -564,4 +564,17 @@ return [
 
     'garaje.opcion.cambio.automatico' => 'Automático',
     'garaje.opcion.cambio.manual' => 'Manual',
+
+    // middlewares
+    'middleware.auth.error.login_requerido' => 'Debes iniciar sesión para acceder a esta página',
+    'middleware.admin.error.login_requerido' => 'Debes iniciar sesión',
+    'middleware.admin.error.acceso_denegado' => '403 - Acceso denegado',
+
+    // servicio vin
+    'garaje.vin.error.formato' => 'El VIN debe tener 17 caracteres y no puede contener I, O ni Q',
+    'garaje.vin.error.curl_no_disponible' => 'cURL no está disponible en PHP',
+    'garaje.vin.error.consulta_api' => 'No se pudo consultar la API VIN',
+    'garaje.vin.error.codigo_http' => 'La API VIN respondió con código HTTP {codigo}',
+    'garaje.vin.error.json_no_valido' => 'La respuesta de la API VIN no es un JSON válido',
+    'garaje.vin.error.sin_resultados' => 'La API VIN no devolvió resultados válidos',
 ];

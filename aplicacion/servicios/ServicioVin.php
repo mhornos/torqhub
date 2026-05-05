@@ -13,7 +13,7 @@ class ServicioVin
         $vin = $this->normalizar_vin($vin);
 
         if (!$this->vin_valido($vin)) {
-            throw new InvalidArgumentException('El VIN debe tener 17 carácteres y no puede contener "i", "o" ni "q"');
+            throw new InvalidArgumentException(t('garaje.vin.error.formato'));
         }
 
         $cache = RepositorioVinCache::buscar_por_vin($vin);
@@ -46,7 +46,7 @@ class ServicioVin
 // consulta la api para obtener los datos de un VIN, devuelve un array con la respuesta o lanza una excepción si hay error
     private function consultar_api(string $vin): array {
         if (!function_exists('curl_init')) {
-            throw new RuntimeException('Curl no está disponible en PHP');
+            throw new RuntimeException(t('garaje.vin.error.curl_no_disponible'));
         }
 
         $url = self::URL_API . rawurlencode($vin) . '?format=json';
@@ -69,17 +69,19 @@ class ServicioVin
         curl_close($curl);
 
         if ($respuesta === false) {
-            throw new RuntimeException('No se pudo consultar la api vin: ' . $error_curl);
+            throw new RuntimeException(t('garaje.vin.error.consulta_api'));
         }
 
         if ($codigo_http < 200 || $codigo_http >= 300) {
-            throw new RuntimeException('La api vin respondió con código http ' . $codigo_http);
+            throw new RuntimeException(
+                str_replace('{codigo}', (string) $codigo_http, t('garaje.vin.error.codigo_http'))
+            );
         }
 
         $json = json_decode($respuesta, true);
 
         if (!is_array($json)) {
-            throw new RuntimeException('La respuesta de la api vin no es un json válido');
+            throw new RuntimeException(t('garaje.vin.error.json_no_valido'));
         }
 
         return $json;
@@ -90,7 +92,7 @@ class ServicioVin
         $resultado = $respuesta_api['Results'][0] ?? [];
 
         if (!is_array($resultado)) {
-            throw new RuntimeException('La api vin no devolvió resultados válidos');
+            throw new RuntimeException(t('garaje.vin.error.sin_resultados'));
         }
 
         $marca = $this->limpiar_valor($resultado['Make'] ?? null);
