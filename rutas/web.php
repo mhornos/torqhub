@@ -15,6 +15,7 @@ return [
         ],
         '/logout' => [
             'accion' => 'AuthControlador@logout',
+            'middleware' => 'AuthMiddleware',
         ],
         '/garaje' => [
             'accion' => 'GarajeControlador@index',

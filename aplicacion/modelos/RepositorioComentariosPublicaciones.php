@@ -141,32 +141,39 @@ class RepositorioComentariosPublicaciones
         return $comentario ?: null;
     }
 
-// actualiza un comentario
-    public static function actualizar(int $id, string $contenido): void {
+// actualiza un comentario solo si pertenece al usuario indicado
+    public static function actualizar(int $id, int $usuario_id, string $contenido): bool {
         $pdo = ConexionBBDD::obtener();
 
         $sql = "UPDATE comentarios_publicaciones
                 SET contenido = :contenido
-                WHERE id = :id";
+                WHERE id = :id
+                AND usuario_id = :usuario_id";
 
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([
+
+        return $stmt->execute([
             'id' => $id,
+            'usuario_id' => $usuario_id,
             'contenido' => $contenido,
         ]);
     }
 
-// elimina un comentario
-    public static function eliminar(int $id): void  {
+// elimina un comentario solo si pertenece al usuario indicado
+    public static function eliminar(int $id, int $usuario_id): bool {
         $pdo = ConexionBBDD::obtener();
 
         $sql = "DELETE FROM comentarios_publicaciones
-                WHERE id = :id";
+                WHERE id = :id
+                AND usuario_id = :usuario_id";
 
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             'id' => $id,
+            'usuario_id' => $usuario_id,
         ]);
+
+        return $stmt->rowCount() > 0;
     }
     
 }

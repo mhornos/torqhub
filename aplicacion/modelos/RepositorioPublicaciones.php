@@ -72,34 +72,41 @@ class RepositorioPublicaciones
         return $publicacion ?: null;
     }
 
-// actualiza una publicación
-    public static function actualizar(int $id, string $contenido, ?string $imagen): void {
+// actualiza una publicación solo si pertenece al usuario indicado
+    public static function actualizar(int $id, int $usuario_id, string $contenido, ?string $imagen): bool {
         $pdo = ConexionBBDD::obtener();
 
         $sql = "UPDATE publicaciones
-                SET contenido = :contenido,
-                    imagen = :imagen
-                WHERE id = :id";
+            SET contenido = :contenido,
+                imagen = :imagen
+            WHERE id = :id
+              AND usuario_id = :usuario_id";
 
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([
+
+        return $stmt->execute([
             'id' => $id,
+            'usuario_id' => $usuario_id,
             'contenido' => $contenido,
             'imagen' => $imagen,
         ]);
     }
 
-// elimina una publicación
-    public static function eliminar(int $id): void {
+// elimina una publicación solo si pertenece al usuario indicado
+    public static function eliminar(int $id, int $usuario_id): bool {
         $pdo = ConexionBBDD::obtener();
 
         $sql = "DELETE FROM publicaciones
-                WHERE id = :id";
+            WHERE id = :id
+              AND usuario_id = :usuario_id";
 
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             'id' => $id,
+            'usuario_id' => $usuario_id,
         ]);
+
+        return $stmt->rowCount() > 0;
     }
 
 
