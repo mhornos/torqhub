@@ -2,6 +2,7 @@
 
 /almacenamiento/logs/*
 /almacenamiento/uploads/*
+/almacenamiento/sql/*
 /public/uploads/*
 
 /vendor/
