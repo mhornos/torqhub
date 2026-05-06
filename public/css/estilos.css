@@ -964,3 +964,39 @@ button:hover {
 .admin-boton--peligro:hover {
     background-color: #ffcaca;
 }
+
+/* panel informativo ia admin */
+.admin-bloque-info {
+    margin-top: 22px;
+    padding: 20px;
+    border: 1px solid #00000023;
+    background-color: #ffffff45;
+}
+
+.admin-bloque-info h2 {
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.admin-bloque-info p {
+    padding-left: 0;
+}
+
+.admin-bloque-info ul,
+.admin-bloque-info ol {
+    margin: 12px 0 0;
+    padding-left: 22px;
+}
+
+.admin-bloque-info li {
+    margin-bottom: 8px;
+}
+
+.admin-aviso-defensa {
+    margin-top: 14px;
+    padding: 14px;
+    border: 1px solid #00000023;
+    background-color: #d9f5df;
+    font-weight: 700;
+}

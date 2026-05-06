@@ -183,5 +183,10 @@ class AdminControlador extends ControladorBase {
             unlink($ruta_imagen);
         }
     }
-    
+
+// muestra la información administrativa del sistema experto de diagnóstico
+    public function ia(): void{
+        $this->render('admin/ia');
+    }
+
 }

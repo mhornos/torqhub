@@ -580,6 +580,39 @@ return [
     'admin.publicaciones.error.no_existe' => 'La publicación no existe',
     'admin.publicaciones.error.eliminar' => 'No se ha podido eliminar la publicación',
 
+    'admin.ia.titulo_pagina' => 'Base de conocimiento IA',
+    'admin.ia.titulo' => 'Base de conocimiento IA',
+    'admin.ia.descripcion' => 'Resumen técnico del sistema de diagnóstico asistido de TorqHub.',
+    'admin.ia.volver' => 'Volver al panel de administración',
+
+    'admin.ia.estado_actual.titulo' => 'Estado actual',
+    'admin.ia.estado_actual.texto' => 'El módulo de diagnóstico ya está implementado como un sistema experto propio basado en reglas, palabras clave y recomendaciones.',
+    'admin.ia.estado_actual.punto_1' => 'No usa servicios externos de pago',
+    'admin.ia.estado_actual.punto_2' => 'No envía síntomas de usuarios a terceros',
+    'admin.ia.estado_actual.punto_3' => 'Funciona mediante causas, keywords y ranking de coincidencias',
+    'admin.ia.estado_actual.punto_4' => 'Está integrado con una interfaz tipo chat mediante AJAX',
+
+    'admin.ia.funcionamiento.titulo' => 'Funcionamiento técnico',
+    'admin.ia.funcionamiento.paso_1' => 'El usuario escribe los síntomas del vehículo en el chat de diagnóstico.',
+    'admin.ia.funcionamiento.paso_2' => 'El backend normaliza el texto para comparar mejor las palabras introducidas.',
+    'admin.ia.funcionamiento.paso_3' => 'El motor busca coincidencias con las keywords definidas en la base de conocimiento interna.',
+    'admin.ia.funcionamiento.paso_4' => 'Cada causa recibe una puntuación según las coincidencias encontradas.',
+    'admin.ia.funcionamiento.paso_5' => 'El sistema devuelve las causas más probables con una recomendación orientativa.',
+
+    'admin.ia.decision.titulo' => 'Decisión de implementación',
+    'admin.ia.decision.texto' => 'Actualmente se mantiene el motor basado en arrays internos porque ya es funcional, estable y suficiente para la entrega del proyecto.',
+    'admin.ia.decision.defensa' => 'Decisión defendible: se prioriza estabilidad antes que migrar una funcionalidad ya terminada a base de datos en la fase final del proyecto.',
+
+    'admin.ia.futuro.titulo' => 'Mejora futura planteada',
+    'admin.ia.futuro.texto' => 'La arquitectura actual permite migrar la base de conocimiento a tablas de base de datos sin cambiar la interfaz del usuario.',
+    'admin.ia.futuro.tabla' => 'Tabla',
+    'admin.ia.futuro.descripcion' => 'Descripción',
+    'admin.ia.futuro.ia_causas' => 'Guardaría las causas mecánicas, su título, explicación, recomendación y estado activo.',
+    'admin.ia.futuro.ia_keywords' => 'Guardaría las palabras clave asociadas a cada causa, permitiendo editarlas desde el panel admin.',
+
+    'admin.ia.conclusion.titulo' => 'Conclusión',
+    'admin.ia.conclusion.texto' => 'Para esta versión, el sistema experto queda documentado como funcional y escalable. La gestión editable desde base de datos se plantea como mejora posterior.',
+
     // garaje - mensajes de vehículo
     'garaje.vehiculo.error.carroceria_no_valida' => 'La carrocería no es válida',
     'garaje.vehiculo.error.combustible_no_valido' => 'El tipo de combustible no es válido',

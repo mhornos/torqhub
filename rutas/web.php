@@ -33,6 +33,10 @@ return [
             'accion' => 'AdminControlador@publicaciones',
             'middleware' => 'AdminMiddleware',
         ],
+        '/admin/ia' => [
+            'accion' => 'AdminControlador@ia',
+            'middleware' => 'AdminMiddleware',
+        ],
         '/garaje/eliminar' => [
             'accion' => 'GarajeControlador@eliminar',
             'middleware' => 'AuthMiddleware',
