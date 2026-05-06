@@ -427,9 +427,46 @@ class MotorDiagnosticoIA
         ],
     ];
 
-    // diagnosticar posibles causas basandose en las palabras clave encontradas en el texto del usuario
-    public function diagnosticar(string $texto): array
-    {
+
+// al crear el motor, intenta cargar la base de conocimiento desde bd
+    public function __construct() {
+        $causas_bd = $this->obtener_causas_desde_bd();
+
+        if ($causas_bd !== null) {
+            $this->causas = $causas_bd;
+        }
+    }
+
+// carga causas desde bd y mantiene fallback si las tablas no existen, fallan o no hay seed
+    private function obtener_causas_desde_bd(): ?array {
+        try {
+            if (!RepositorioDiagnosticoIA::tiene_causas()) {
+                return null;
+            }
+
+            return RepositorioDiagnosticoIA::listar_causas_activas_con_keywords();
+        } catch (Throwable $e) {
+            error_log('Error cargando causas IA desde bd: ' . $e->getMessage());
+
+            return null;
+        }
+    }
+
+// mantiene el multilenguaje actual y usa el texto de bd solo si no existe traducción
+    private function texto_causa(string $clave, string $campo, string $valor_bd): string {
+        $clave_traduccion = 'diagnostico.causa.' . $clave . '.' . $campo;
+        $texto_traducido = t($clave_traduccion);
+
+        if ($texto_traducido !== $clave_traduccion) {
+            return $texto_traducido;
+        }
+
+        return $valor_bd;
+    }
+
+
+// diagnosticar posibles causas basandose en las palabras clave encontradas en el texto del usuario
+    public function diagnosticar(string $texto): array {
         $texto_normalizado = $this->normalizar($texto);
         $resultados = [];
 
@@ -446,10 +483,18 @@ class MotorDiagnosticoIA
                 $confianza = min(100, (int) round(($coincidencias / 4) * 100));
 
                 $resultados[] = [
-                    'titulo' => t('diagnostico.causa.' . $causa['clave'] . '.titulo'),
+                    'titulo' => $this->texto_causa(
+                        $causa['clave'],
+                        'titulo',
+                        $causa['titulo'] ?? ''
+                    ),
                     'coincidencias' => $coincidencias,
                     'confianza' => $confianza,
-                    'recomendacion' => t('diagnostico.causa.' . $causa['clave'] . '.recomendacion'),
+                    'recomendacion' => $this->texto_causa(
+                        $causa['clave'],
+                        'recomendacion',
+                        $causa['recomendacion'] ?? ''
+                    ),
                 ];
             }
         }
@@ -461,9 +506,8 @@ class MotorDiagnosticoIA
         return array_slice($resultados, 0, 3);
     }
 
-    // normaliza el texto convirtiendolo a minusculas, eliminando acentos y espacios innecesarios para facilitar la comparacion con las palabras clave    
-    private function normalizar(string $texto): string
-    {
+// normaliza el texto convirtiendolo a minusculas, eliminando acentos y espacios innecesarios para facilitar la comparacion con las palabras clave    
+    private function normalizar(string $texto): string {
         $texto = mb_strtolower($texto, 'UTF-8');
         $texto = trim($texto);
 
