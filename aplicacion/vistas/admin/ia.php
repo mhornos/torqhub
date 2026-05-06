@@ -1,3 +1,12 @@
+<?php
+$causas_ia = isset($causas_ia) && is_array($causas_ia) ? $causas_ia : [];
+$total_keywords = 0;
+
+foreach ($causas_ia as $causa) {
+    $total_keywords += count($causa['keywords'] ?? []);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="<?= escapar(idioma_actual()) ?>">
 
@@ -22,82 +31,122 @@
             </a>
         </section>
 
+        <?php if ($m = flash_get('ok')): ?>
+            <p class="mensaje-ok"><?= escapar($m) ?></p>
+        <?php endif; ?>
+
+        <?php if ($m = flash_get('error')): ?>
+            <p class="mensaje-error"><?= escapar($m) ?></p>
+        <?php endif; ?>
+
         <section class="admin-bloque-info">
-            <h2><?= escapar(t('admin.ia.estado_actual.titulo')) ?></h2>
+            <h2><?= escapar(t('admin.ia.resumen.titulo')) ?></h2>
 
             <p>
-                <?= escapar(t('admin.ia.estado_actual.texto')) ?>
+                <?= escapar(t('admin.ia.resumen.texto')) ?>
             </p>
 
-            <ul>
-                <li><?= escapar(t('admin.ia.estado_actual.punto_1')) ?></li>
-                <li><?= escapar(t('admin.ia.estado_actual.punto_2')) ?></li>
-                <li><?= escapar(t('admin.ia.estado_actual.punto_3')) ?></li>
-                <li><?= escapar(t('admin.ia.estado_actual.punto_4')) ?></li>
-            </ul>
-        </section>
+            <div class="admin-ia-resumen">
+                <article class="admin-ia-resumen__dato">
+                    <strong><?= count($causas_ia) ?></strong>
+                    <span><?= escapar(t('admin.ia.resumen.causas')) ?></span>
+                </article>
 
-        <section class="admin-bloque-info">
-            <h2><?= escapar(t('admin.ia.funcionamiento.titulo')) ?></h2>
-
-            <ol>
-                <li><?= escapar(t('admin.ia.funcionamiento.paso_1')) ?></li>
-                <li><?= escapar(t('admin.ia.funcionamiento.paso_2')) ?></li>
-                <li><?= escapar(t('admin.ia.funcionamiento.paso_3')) ?></li>
-                <li><?= escapar(t('admin.ia.funcionamiento.paso_4')) ?></li>
-                <li><?= escapar(t('admin.ia.funcionamiento.paso_5')) ?></li>
-            </ol>
-        </section>
-
-        <section class="admin-bloque-info">
-            <h2><?= escapar(t('admin.ia.decision.titulo')) ?></h2>
-
-            <p>
-                <?= escapar(t('admin.ia.decision.texto')) ?>
-            </p>
-
-            <div class="admin-aviso-defensa">
-                <?= escapar(t('admin.ia.decision.defensa')) ?>
+                <article class="admin-ia-resumen__dato">
+                    <strong><?= $total_keywords ?></strong>
+                    <span><?= escapar(t('admin.ia.resumen.keywords')) ?></span>
+                </article>
             </div>
         </section>
 
-        <section class="admin-bloque-info">
-            <h2><?= escapar(t('admin.ia.futuro.titulo')) ?></h2>
-
-            <p>
-                <?= escapar(t('admin.ia.futuro.texto')) ?>
-            </p>
-
+        <?php if (empty($causas_ia)): ?>
+            <section class="admin-bloque-info">
+                <p><?= escapar(t('admin.ia.sin_causas')) ?></p>
+            </section>
+        <?php else: ?>
             <div class="admin-tabla-contenedor">
                 <table class="tabla-admin">
                     <thead>
                         <tr>
-                            <th><?= escapar(t('admin.ia.futuro.tabla')) ?></th>
-                            <th><?= escapar(t('admin.ia.futuro.descripcion')) ?></th>
+                            <th><?= escapar(t('admin.ia.tabla.id')) ?></th>
+                            <th><?= escapar(t('admin.ia.tabla.causa')) ?></th>
+                            <th><?= escapar(t('admin.ia.tabla.recomendacion')) ?></th>
+                            <th><?= escapar(t('admin.ia.tabla.estado')) ?></th>
+                            <th><?= escapar(t('admin.ia.tabla.keywords')) ?></th>
+                            <th><?= escapar(t('admin.ia.tabla.fecha')) ?></th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td><code>ia_causas</code></td>
-                            <td><?= escapar(t('admin.ia.futuro.ia_causas')) ?></td>
-                        </tr>
+                        <?php foreach ($causas_ia as $causa): ?>
+                            <?php
+                            $activo = (int) ($causa['activo'] ?? 0);
+                            $keywords = $causa['keywords'] ?? [];
+                            ?>
 
-                        <tr>
-                            <td><code>ia_keywords</code></td>
-                            <td><?= escapar(t('admin.ia.futuro.ia_keywords')) ?></td>
-                        </tr>
+                            <tr class="<?= $activo === 1 ? '' : 'fila-inactiva' ?>">
+                                <td>
+                                    <?= (int) ($causa['id'] ?? 0) ?>
+                                </td>
+
+                                <td>
+                                    <strong><?= escapar($causa['titulo'] ?? '') ?></strong>
+
+                                    <span class="admin-ia-clave">
+                                        <?= escapar($causa['clave'] ?? '') ?>
+                                    </span>
+                                </td>
+
+                                <td class="admin-ia-texto-largo">
+                                    <?= escapar($causa['recomendacion'] ?? '') ?>
+                                </td>
+
+                                <td>
+                                    <span class="admin-estado <?= $activo === 1 ? 'admin-estado--activo' : 'admin-estado--inactivo' ?>">
+                                        <?= $activo === 1
+                                            ? escapar(t('admin.ia.estado.activa'))
+                                            : escapar(t('admin.ia.estado.inactiva')) ?>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <?php if (empty($keywords)): ?>
+                                        <span class="admin-accion-bloqueada">
+                                            <?= escapar(t('admin.ia.sin_keywords')) ?>
+                                        </span>
+                                    <?php else: ?>
+                                        <div class="admin-ia-keywords">
+                                            <?php foreach ($keywords as $keyword): ?>
+                                                <span class="admin-ia-keyword">
+                                                    <?= escapar($keyword) ?>
+                                                </span>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </td>
+
+                                <td>
+                                    <?= !empty($causa['fecha_creacion'])
+                                        ? escapar(formatear_fecha($causa['fecha_creacion']))
+                                        : '-' ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
-        </section>
+        <?php endif; ?>
 
         <section class="admin-bloque-info">
-            <h2><?= escapar(t('admin.ia.conclusion.titulo')) ?></h2>
+            <h2><?= escapar(t('admin.ia.defensa.titulo')) ?></h2>
 
             <p>
-                <?= escapar(t('admin.ia.conclusion.texto')) ?>
+                <?= escapar(t('admin.ia.defensa.texto')) ?>
             </p>
+
+            <div class="admin-aviso-defensa">
+                <?= escapar(t('admin.ia.defensa.aviso')) ?>
+            </div>
         </section>
     </main>
 </body>

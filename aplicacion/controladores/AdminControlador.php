@@ -184,9 +184,20 @@ class AdminControlador extends ControladorBase {
         }
     }
 
-// muestra la información administrativa del sistema experto de diagnóstico
-    public function ia(): void{
-        $this->render('admin/ia');
+// muestra la base de conocimiento del sistema experto de diagnóstico
+    public function ia(): void {
+        try {
+            $causas_ia = RepositorioDiagnosticoIA::listar_causas_con_keywords();
+        } catch (Throwable $e) {
+            error_log('Error listando causas IA en admin: ' . $e->getMessage());
+
+            flash_set('error', t('admin.ia.error.listar'));
+            $causas_ia = [];
+        }
+
+        $this->render('admin/ia', [
+            'causas_ia' => $causas_ia,
+        ]);
     }
 
 }

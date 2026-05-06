@@ -1000,3 +1000,56 @@ button:hover {
     background-color: #d9f5df;
     font-weight: 700;
 }
+
+/* listado real de base de conocimiento ia */
+.admin-ia-resumen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.admin-ia-resumen__dato {
+    min-width: 150px;
+    padding: 14px;
+    border: 1px solid #00000023;
+    background-color: #ffffff60;
+}
+
+.admin-ia-resumen__dato strong {
+    display: block;
+    font-size: 28px;
+    line-height: 1;
+}
+
+.admin-ia-resumen__dato span {
+    display: block;
+    margin-top: 6px;
+    font-weight: 600;
+}
+
+.admin-ia-clave {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    opacity: 0.75;
+}
+
+.admin-ia-texto-largo {
+    max-width: 320px;
+}
+
+.admin-ia-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    max-width: 360px;
+}
+
+.admin-ia-keyword {
+    display: inline-block;
+    padding: 4px 7px;
+    border: 1px solid #00000023;
+    background-color: #ffffff70;
+    font-size: 13px;
+}
