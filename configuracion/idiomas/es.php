@@ -609,6 +609,18 @@ return [
 
     'admin.ia.error.listar' => 'No se ha podido cargar la base de conocimiento IA',
 
+    'admin.ia.tabla.acciones' => 'Acciones',
+
+    'admin.ia.activar' => 'Activar',
+    'admin.ia.desactivar' => 'Desactivar',
+
+    'admin.ia.ok.causa_activada' => 'Causa IA activada correctamente',
+    'admin.ia.ok.causa_desactivada' => 'Causa IA desactivada correctamente',
+
+    'admin.ia.error.datos_invalidos' => 'Los datos enviados no son válidos',
+    'admin.ia.error.no_existe' => 'La causa IA indicada no existe',
+    'admin.ia.error.actualizar_estado' => 'No se ha podido actualizar el estado de la causa IA',
+
     // garaje - mensajes de vehículo
     'garaje.vehiculo.error.carroceria_no_valida' => 'La carrocería no es válida',
     'garaje.vehiculo.error.combustible_no_valido' => 'El tipo de combustible no es válido',

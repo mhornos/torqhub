@@ -128,6 +128,10 @@ return [
             'accion' => 'AdminControlador@publicaciones_eliminar',
             'middleware' => 'AdminMiddleware',
         ],
+        '/admin/ia/estado' => [
+            'accion' => 'AdminControlador@ia_cambiar_estado',
+            'middleware' => 'AdminMiddleware',
+        ],
         '/idioma' => [
             'accion' => 'IdiomaControlador@cambiar',
         ],

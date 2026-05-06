@@ -200,4 +200,40 @@ class AdminControlador extends ControladorBase {
         ]);
     }
 
+// activa o desactiva una causa del sistema experto ia
+    public function ia_cambiar_estado(): void {
+        csrf_verificar();
+
+        $causa_id = (int) ($_POST['causa_id'] ?? 0);
+        $activo = (int) ($_POST['activo'] ?? -1);
+
+        if ($causa_id <= 0 || !in_array($activo, [0, 1], true)) {
+            flash_set('error', t('admin.ia.error.datos_invalidos'));
+            $this->redirigir('/admin/ia');
+        }
+
+        try {
+            $causa = RepositorioDiagnosticoIA::obtener_causa_por_id($causa_id);
+
+            if (!$causa) {
+                flash_set('error', t('admin.ia.error.no_existe'));
+                $this->redirigir('/admin/ia');
+            }
+
+            RepositorioDiagnosticoIA::actualizar_estado_causa($causa_id, $activo);
+
+            $mensaje = $activo === 1
+                ? t('admin.ia.ok.causa_activada')
+                : t('admin.ia.ok.causa_desactivada');
+
+            flash_set('ok', $mensaje);
+        } catch (PDOException $e) {
+            error_log('Error cambiando estado de causa IA en admin: ' . $e->getMessage());
+
+            flash_set('error', t('admin.ia.error.actualizar_estado'));
+        }
+
+        $this->redirigir('/admin/ia');
+    }
+
 }

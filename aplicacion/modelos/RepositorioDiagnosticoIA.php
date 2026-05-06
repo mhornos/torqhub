@@ -106,5 +106,52 @@ class RepositorioDiagnosticoIA
 
         return array_values($causas);
     }
+
+// obtiene una causa concreta por id
+    public static function obtener_causa_por_id(int $causa_id): ?array {
+        if ($causa_id <= 0) {
+            return null;
+        }
+
+        $pdo = ConexionBBDD::obtener();
+
+        $sql = "
+        SELECT
+            id,
+            clave,
+            titulo,
+            activo
+        FROM ia_causas
+        WHERE id = :id
+        LIMIT 1
+    ";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':id', $causa_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $causa = $stmt->fetch();
+
+        return $causa ?: null;
+    }
+
+// activa o desactiva una causa de la base de conocimiento ia
+    public static function actualizar_estado_causa(int $causa_id, int $activo): bool {
+        $pdo = ConexionBBDD::obtener();
+
+        $sql = "
+        UPDATE ia_causas
+        SET activo = :activo
+        WHERE id = :id
+        LIMIT 1
+    ";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':activo', $activo, PDO::PARAM_INT);
+        $stmt->bindValue(':id', $causa_id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
     
+
 }

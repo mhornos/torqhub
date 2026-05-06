@@ -107,7 +107,7 @@ function formatear_fecha(string $fecha): string{
         return $fecha;
     }
 
-    return date('d-m-Y H:i:s', $timestamp);
+    return date('d/m/Y H:i:s', $timestamp);
 }
 
 // FUNCIONES PARA IDIOMAS

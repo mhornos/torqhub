@@ -74,6 +74,7 @@ foreach ($causas_ia as $causa) {
                             <th><?= escapar(t('admin.ia.tabla.estado')) ?></th>
                             <th><?= escapar(t('admin.ia.tabla.keywords')) ?></th>
                             <th><?= escapar(t('admin.ia.tabla.fecha')) ?></th>
+                            <th><?= escapar(t('admin.ia.tabla.acciones')) ?></th>
                         </tr>
                     </thead>
 
@@ -129,6 +130,21 @@ foreach ($causas_ia as $causa) {
                                     <?= !empty($causa['fecha_creacion'])
                                         ? escapar(formatear_fecha($causa['fecha_creacion']))
                                         : '-' ?>
+                                </td>
+
+                                <td>
+                                    <form method="POST" action="<?= escapar(url('/admin/ia/estado')) ?>" class="admin-formulario-accion">
+                                        <?= csrf_campo() ?>
+
+                                        <input type="hidden" name="causa_id" value="<?= (int) ($causa['id'] ?? 0) ?>">
+                                        <input type="hidden" name="activo" value="<?= $activo === 1 ? 0 : 1 ?>">
+
+                                        <button type="submit" class="admin-boton <?= $activo === 1 ? 'admin-boton--secundario' : '' ?>">
+                                            <?= $activo === 1
+                                                ? escapar(t('admin.ia.desactivar'))
+                                                : escapar(t('admin.ia.activar')) ?>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

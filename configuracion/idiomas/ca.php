@@ -609,6 +609,18 @@ return [
 
     'admin.ia.error.listar' => 'No s’ha pogut carregar la base de coneixement IA',
 
+    'admin.ia.tabla.acciones' => 'Accions',
+
+    'admin.ia.activar' => 'Activar',
+    'admin.ia.desactivar' => 'Desactivar',
+
+    'admin.ia.ok.causa_activada' => 'Causa IA activada correctament',
+    'admin.ia.ok.causa_desactivada' => 'Causa IA desactivada correctament',
+
+    'admin.ia.error.datos_invalidos' => 'Les dades enviades no són vàlides',
+    'admin.ia.error.no_existe' => 'La causa IA indicada no existeix',
+    'admin.ia.error.actualizar_estado' => 'No s’ha pogut actualitzar l’estat de la causa IA',
+
     // garatge - missatges de vehicle
     'garaje.vehiculo.error.carroceria_no_valida' => 'La carrosseria no és vàlida',
     'garaje.vehiculo.error.combustible_no_valido' => 'El tipus de combustible no és vàlid',
