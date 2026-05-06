@@ -29,6 +29,10 @@ return [
             'accion' => 'AdminControlador@usuarios',
             'middleware' => 'AdminMiddleware',
         ],
+        '/admin/publicaciones' => [
+            'accion' => 'AdminControlador@publicaciones',
+            'middleware' => 'AdminMiddleware',
+        ],
         '/garaje/eliminar' => [
             'accion' => 'GarajeControlador@eliminar',
             'middleware' => 'AuthMiddleware',
@@ -114,6 +118,10 @@ return [
         ],
         '/admin/usuarios/estado' => [
             'accion' => 'AdminControlador@usuarios_cambiar_estado',
+            'middleware' => 'AdminMiddleware',
+        ],
+        '/admin/publicaciones/eliminar' => [
+            'accion' => 'AdminControlador@publicaciones_eliminar',
             'middleware' => 'AdminMiddleware',
         ],
         '/idioma' => [

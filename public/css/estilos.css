@@ -932,3 +932,35 @@ button:hover {
     color: #b00020;
     font-weight: 700;
 }
+
+/* gestión de publicaciones admin */
+.admin-publicacion-contenido {
+    max-width: 320px;
+}
+
+.admin-publicacion-imagen {
+    width: 110px;
+    max-height: 80px;
+    object-fit: cover;
+    display: block;
+    border: 1px solid #00000023;
+}
+
+.admin-enlace-accion {
+    font-weight: 700;
+}
+
+.admin-confirmacion {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    font-size: 14px;
+}
+
+.admin-boton--peligro {
+    background-color: #ffdede;
+}
+
+.admin-boton--peligro:hover {
+    background-color: #ffcaca;
+}

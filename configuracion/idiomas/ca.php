@@ -551,6 +551,35 @@ return [
     'admin.usuarios.error.actualizar_rol' => 'No s’ha pogut actualitzar el rol',
     'admin.usuarios.error.actualizar_estado' => 'No s’ha pogut actualitzar l’estat de l’usuari',
 
+    'admin.publicaciones.titulo_pagina' => 'Gestió de publicacions',
+    'admin.publicaciones.titulo' => 'Gestió de publicacions',
+    'admin.publicaciones.descripcion' => 'Des d’aquí pots revisar publicacions de la comunitat i eliminar contingut si incompleix les normes.',
+    'admin.publicaciones.volver' => 'Tornar al panell d’administració',
+    'admin.publicaciones.sin_publicaciones' => 'No hi ha publicacions registrades',
+
+    'admin.publicaciones.id' => 'ID',
+    'admin.publicaciones.autor' => 'Autor',
+    'admin.publicaciones.contenido' => 'Contingut',
+    'admin.publicaciones.imagen' => 'Imatge',
+    'admin.publicaciones.estadisticas' => 'Estadístiques',
+    'admin.publicaciones.fecha' => 'Data',
+    'admin.publicaciones.acciones' => 'Accions',
+
+    'admin.publicaciones.comentarios' => 'comentaris',
+    'admin.publicaciones.likes' => 'likes',
+    'admin.publicaciones.ver' => 'Veure publicació',
+    'admin.publicaciones.eliminar' => 'Eliminar publicació',
+    'admin.publicaciones.confirmar_eliminar' => 'Confirmar eliminació',
+    'admin.publicaciones.alt_imagen' => 'Imatge de la publicació',
+
+    'admin.publicaciones.ok.eliminada' => 'Publicació eliminada correctament',
+
+    'admin.publicaciones.error.listar' => 'No s’han pogut carregar les publicacions',
+    'admin.publicaciones.error.datos_invalidos' => 'Les dades enviades no són vàlides',
+    'admin.publicaciones.error.confirmacion' => 'Has de confirmar l’eliminació',
+    'admin.publicaciones.error.no_existe' => 'La publicació no existeix',
+    'admin.publicaciones.error.eliminar' => 'No s’ha pogut eliminar la publicació',
+
     // garatge - missatges de vehicle
     'garaje.vehiculo.error.carroceria_no_valida' => 'La carrosseria no és vàlida',
     'garaje.vehiculo.error.combustible_no_valido' => 'El tipus de combustible no és vàlid',

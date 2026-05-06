@@ -551,6 +551,35 @@ return [
     'admin.usuarios.error.actualizar_rol' => 'No se ha podido actualizar el rol',
     'admin.usuarios.error.actualizar_estado' => 'No se ha podido actualizar el estado del usuario',
 
+    'admin.publicaciones.titulo_pagina' => 'Gestión de publicaciones',
+    'admin.publicaciones.titulo' => 'Gestión de publicaciones',
+    'admin.publicaciones.descripcion' => 'Desde aquí puedes revisar publicaciones de la comunidad y eliminar contenido si incumple las normas.',
+    'admin.publicaciones.volver' => 'Volver al panel de administración',
+    'admin.publicaciones.sin_publicaciones' => 'No hay publicaciones registradas',
+
+    'admin.publicaciones.id' => 'ID',
+    'admin.publicaciones.autor' => 'Autor',
+    'admin.publicaciones.contenido' => 'Contenido',
+    'admin.publicaciones.imagen' => 'Imagen',
+    'admin.publicaciones.estadisticas' => 'Estadísticas',
+    'admin.publicaciones.fecha' => 'Fecha',
+    'admin.publicaciones.acciones' => 'Acciones',
+
+    'admin.publicaciones.comentarios' => 'comentarios',
+    'admin.publicaciones.likes' => 'likes',
+    'admin.publicaciones.ver' => 'Ver publicación',
+    'admin.publicaciones.eliminar' => 'Eliminar publicación',
+    'admin.publicaciones.confirmar_eliminar' => 'Confirmar eliminación',
+    'admin.publicaciones.alt_imagen' => 'Imagen de la publicación',
+
+    'admin.publicaciones.ok.eliminada' => 'Publicación eliminada correctamente',
+
+    'admin.publicaciones.error.listar' => 'No se han podido cargar las publicaciones',
+    'admin.publicaciones.error.datos_invalidos' => 'Los datos enviados no son válidos',
+    'admin.publicaciones.error.confirmacion' => 'Debes confirmar la eliminación',
+    'admin.publicaciones.error.no_existe' => 'La publicación no existe',
+    'admin.publicaciones.error.eliminar' => 'No se ha podido eliminar la publicación',
+
     // garaje - mensajes de vehículo
     'garaje.vehiculo.error.carroceria_no_valida' => 'La carrocería no es válida',
     'garaje.vehiculo.error.combustible_no_valido' => 'El tipo de combustible no es válido',

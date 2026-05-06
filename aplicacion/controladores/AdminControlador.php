@@ -2,12 +2,12 @@
 
 class AdminControlador extends ControladorBase {
 
-    // muestra la página principal del panel de administración
+// muestra la página principal del panel de administración
     public function index(): void {
         $this->render('admin/index');
     }
 
-    // muestra la gestión de usuarios
+// muestra la gestión de usuarios
     public function usuarios(): void {
         try {
             $usuarios = RepositorioAdminUsuarios::listar();
@@ -23,7 +23,7 @@ class AdminControlador extends ControladorBase {
         ]);
     }
 
-    // cambia el rol de un usuario desde el panel admin
+// cambia el rol de un usuario desde el panel admin
     public function usuarios_cambiar_rol(): void {
         csrf_verificar();
 
@@ -59,7 +59,7 @@ class AdminControlador extends ControladorBase {
         $this->redirigir('/admin/usuarios');
     }
 
-    // activa o desactiva un usuario desde el panel admin
+// activa o desactiva un usuario desde el panel admin
     public function usuarios_cambiar_estado(): void {
         csrf_verificar();
 
@@ -93,4 +93,95 @@ class AdminControlador extends ControladorBase {
 
         $this->redirigir('/admin/usuarios');
     }
+
+// muestra la gestión de publicaciones
+    public function publicaciones(): void {
+        try {
+            $publicaciones = RepositorioAdminPublicaciones::listar();
+        } catch (PDOException $e) {
+            error_log('Error listando publicaciones en admin: ' . $e->getMessage());
+
+            flash_set('error', t('admin.publicaciones.error.listar'));
+            $publicaciones = [];
+        }
+
+        $this->render('admin/publicaciones', [
+            'publicaciones' => $publicaciones,
+        ]);
+    }
+
+// elimina una publicación desde el panel de administración
+    public function publicaciones_eliminar(): void {
+        csrf_verificar();
+
+        $publicacion_id = (int) ($_POST['publicacion_id'] ?? 0);
+        $confirmar = (string) ($_POST['confirmar'] ?? '');
+
+        if ($publicacion_id <= 0) {
+            flash_set('error', t('admin.publicaciones.error.datos_invalidos'));
+            $this->redirigir('/admin/publicaciones');
+        }
+
+        if ($confirmar !== '1') {
+            flash_set('error', t('admin.publicaciones.error.confirmacion'));
+            $this->redirigir('/admin/publicaciones');
+        }
+
+        try {
+            $publicacion = RepositorioAdminPublicaciones::obtener_por_id($publicacion_id);
+
+            if (!$publicacion) {
+                flash_set('error', t('admin.publicaciones.error.no_existe'));
+                $this->redirigir('/admin/publicaciones');
+            }
+
+            $eliminada = RepositorioAdminPublicaciones::eliminar($publicacion_id);
+
+            if (!$eliminada) {
+                flash_set('error', t('admin.publicaciones.error.eliminar'));
+                $this->redirigir('/admin/publicaciones');
+            }
+
+            $this->eliminar_imagen_publicacion_admin($publicacion['imagen'] ?? null);
+
+            flash_set('ok', t('admin.publicaciones.ok.eliminada'));
+        } catch (PDOException $e) {
+            error_log('Error eliminando publicación desde admin: ' . $e->getMessage());
+
+            flash_set('error', t('admin.publicaciones.error.eliminar'));
+        }
+
+        $this->redirigir('/admin/publicaciones');
+    }
+
+// elimina del disco la imagen asociada a una publicación
+    private function eliminar_imagen_publicacion_admin(?string $imagen): void {
+        $ruta_relativa = trim((string) $imagen);
+
+        if ($ruta_relativa === '') {
+            return;
+        }
+
+        $ruta_relativa = str_replace('\\', '/', $ruta_relativa);
+
+        if (!str_starts_with($ruta_relativa, 'uploads/publicaciones/')) {
+            return;
+        }
+
+        $directorio_base = realpath(__DIR__ . '/../../public/uploads/publicaciones');
+        $ruta_imagen = realpath(__DIR__ . '/../../public/' . $ruta_relativa);
+
+        if (!$directorio_base || !$ruta_imagen) {
+            return;
+        }
+
+        if (!str_starts_with($ruta_imagen, $directorio_base . DIRECTORY_SEPARATOR)) {
+            return;
+        }
+
+        if (is_file($ruta_imagen)) {
+            unlink($ruta_imagen);
+        }
+    }
+    
 }
