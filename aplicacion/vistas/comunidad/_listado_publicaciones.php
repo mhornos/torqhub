@@ -18,17 +18,41 @@ $publicaciones = $publicaciones ?? [];
             );
             ?>
 
-            <article class="comunidad-publicacion">
+            <?php
+            $url_foto_autor = !empty($publicacion['autor_foto_perfil'])
+                ? url_publica_segura('uploads/perfiles/' . $publicacion['autor_foto_perfil'])
+                : null;
+            ?>
+
+            <article
+                class="comunidad-publicacion tarjeta-clicable"
+                data-url-tarjeta="<?= escapar(url('/comunidad/ver?id=' . (int) $publicacion['id'])) ?>"
+                tabindex="0"
+                role="link">
                 <header class="comunidad-publicacion__cabecera">
-                    <p class="comunidad-publicacion__meta">
-                        <?= htmlspecialchars(t('comunidad.index.por')) ?>:
-                        <a href="<?= escapar(url('/perfil?usuario=' . urlencode($publicacion['autor_nombre']))) ?>">
-                            @<?= htmlspecialchars($publicacion['autor_nombre']) ?>
+                    <p class="comunidad-autor">
+                        <a
+                            class="comunidad-autor__enlace"
+                            href="<?= escapar(url('/perfil?usuario=' . urlencode($publicacion['autor_nombre']))) ?>">
+
+                            <?php if ($url_foto_autor): ?>
+                                <img
+                                    class="comunidad-autor__avatar"
+                                    src="<?= escapar($url_foto_autor) ?>"
+                                    alt="<?= htmlspecialchars($publicacion['autor_nombre']) ?>">
+                            <?php else: ?>
+                                <span class="comunidad-autor__avatar comunidad-autor__avatar--vacio">
+                                    <?= htmlspecialchars(strtoupper(substr($publicacion['autor_nombre'], 0, 1))) ?>
+                                </span>
+                            <?php endif; ?>
+
+                            <span class="comunidad-autor__nombre">
+                                @<?= htmlspecialchars($publicacion['autor_nombre']) ?>
+                            </span>
                         </a>
-                        <span>·</span>
-                        <time datetime="<?= htmlspecialchars($publicacion['fecha_creacion']) ?>">
-                            <?= htmlspecialchars(formatear_fecha($publicacion['fecha_creacion'])) ?>
-                        </time>
+
+                        <span class="comunidad-autor__separador">·</span>
+                        <span class="comunidad-autor__fecha"><?= formatear_fecha($publicacion['fecha_creacion']) ?></span>
                     </p>
                 </header>
 
@@ -84,12 +108,6 @@ $publicaciones = $publicaciones ?? [];
                                 <?= htmlspecialchars($ya_dio_like ? t('comunidad.index.quitar_like') : t('comunidad.index.dar_like')) ?>
                             </button>
                         </form>
-
-                        <a
-                            href="<?= escapar(url('/comunidad/ver?id=' . (int) $publicacion['id'])) ?>"
-                            class="boton-enlace-publicacion">
-                            <?= htmlspecialchars(t('comunidad.index.ver_publicacion')) ?>
-                        </a>
 
                         <?php if ((int) $publicacion['usuario_id'] === (int) $_SESSION['usuario']['id']): ?>
                             <a

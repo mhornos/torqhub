@@ -606,6 +606,9 @@ class ComunidadControlador extends ControladorBase
                 'publicacion_id' => (int) $respuesta['publicacion_id'],
                 'usuario_id' => (int) $respuesta['usuario_id'],
                 'autor_nombre' => $respuesta['autor_nombre'],
+                'autor_foto_perfil_url' => !empty($respuesta['autor_foto_perfil'])
+                    ? url_publica_segura('uploads/perfiles/' . $respuesta['autor_foto_perfil'])
+                    : null,
                 'contenido' => $respuesta['contenido'],
                 'fecha_creacion' => formatear_fecha($respuesta['fecha_creacion']),
             ];

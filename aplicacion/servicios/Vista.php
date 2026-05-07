@@ -17,7 +17,10 @@ class Vista
         }
 
         $scripts_pagina = array_merge(
-            ['/public/js/navbar.js'],
+            [
+                '/public/js/navbar.js',
+                '/public/js/tarjetas-clicables.js',
+            ],
             $datos['scripts'] ?? []
         );
 

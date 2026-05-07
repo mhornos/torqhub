@@ -221,7 +221,11 @@ $vehiculos = isset($vehiculos) && is_array($vehiculos)
             <?php else: ?>
                 <div class="perfil-garaje">
                     <?php foreach ($vehiculos as $vehiculo): ?>
-                        <article class="perfil-vehiculo">
+                        <article
+                            class="perfil-vehiculo tarjeta-clicable"
+                            data-url-tarjeta="<?= escapar(url('/perfil/vehiculo?id=' . (int) $vehiculo['id'])) ?>"
+                            tabindex="0"
+                            role="link">
                             <div class="perfil-vehiculo__imagen">
                                 <?php if (!empty($vehiculo['imagen'])): ?>
                                     <img
@@ -248,12 +252,6 @@ $vehiculos = isset($vehiculos) && is_array($vehiculos)
                                     <?php endif; ?>
                                 </p>
                             </div>
-
-                            <footer class="perfil-vehiculo__acciones">
-                                <a href="<?= escapar(url('/perfil/vehiculo?id=' . (int) $vehiculo['id'])) ?>" class="perfil-boton-enlace">
-                                    <?= htmlspecialchars(t('perfil.ver.ver_detalles')) ?>
-                                </a>
-                            </footer>
                         </article>
                     <?php endforeach; ?>
                 </div>

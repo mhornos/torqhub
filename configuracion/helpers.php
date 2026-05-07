@@ -160,4 +160,25 @@ function t(string $clave): string{
     return $traducciones[$clave] ?? $clave;
 }
 
+// genera una url de retorno segura basada en la cabecera Referer, evitando redirecciones abiertas
+function url_volver_segura(string $fallback): string {
+    $referer = $_SERVER['HTTP_REFERER'] ?? '';
+
+    if ($referer === '') {
+        return $fallback;
+    }
+
+    $host_actual = $_SERVER['HTTP_HOST'] ?? '';
+    $host_referer = parse_url($referer, PHP_URL_HOST);
+
+    if ($host_referer !== null && $host_referer !== $host_actual) {
+        return $fallback;
+    }
+
+    $ruta = parse_url($referer, PHP_URL_PATH) ?: $fallback;
+    $query = parse_url($referer, PHP_URL_QUERY);
+
+    return $ruta . ($query ? '?' . $query : '');
+}
+
 ?>

@@ -4,6 +4,8 @@ if (!isset($vehiculo) || !is_array($vehiculo)) {
     header('Location: ' . url('/garaje'));
     exit;
 }
+
+$url_cancelar = url_volver_segura(url('/garaje'));
 ?>
 
 <!DOCTYPE html>
@@ -198,7 +200,7 @@ if (!isset($vehiculo) || !is_array($vehiculo)) {
             <?php endif; ?>
 
             <div class="garaje-formulario-acciones">
-                <a href="<?= url('/garaje/ver?id=' . (int) $vehiculo['id']) ?>" class="garaje-boton-enlace">
+                <a href="<?= escapar($url_cancelar) ?>" class="garaje-boton-enlace">
                     <?= htmlspecialchars(t('garaje.form.cancelar')) ?>
                 </a>
 

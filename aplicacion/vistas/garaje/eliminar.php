@@ -4,6 +4,8 @@ if (!isset($vehiculo) || !is_array($vehiculo)) {
     header('Location: ' . url('/garaje'));
     exit;
 }
+
+$url_cancelar = url_volver_segura(url('/garaje'));
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +35,7 @@ if (!isset($vehiculo) || !is_array($vehiculo)) {
 
         <input type="hidden" name="id" value="<?= (int) $vehiculo['id'] ?>">
 
-        <a href="<?= url('/garaje/ver')?>">
+        <a href="<?= escapar($url_cancelar) ?>" class="garaje-boton-enlace">
             <?= htmlspecialchars(t('garaje.eliminar.cancelar')) ?>
         </a>
 

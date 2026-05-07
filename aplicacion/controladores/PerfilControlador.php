@@ -281,8 +281,14 @@ class PerfilControlador extends ControladorBase {
             $this->redirigir('/comunidad');
         }
 
+        $imagenes_vehiculo = RepositorioVehiculoImagenes::listar_por_vehiculo_y_usuario(
+            $vehiculo_id,
+            (int) $vehiculo['usuario_id']
+        );
+
         $this->render('perfil/vehiculo', [
             'vehiculo' => $vehiculo,
+            'imagenes_vehiculo' => $imagenes_vehiculo,
         ]);
     }
 }

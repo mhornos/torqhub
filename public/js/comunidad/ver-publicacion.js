@@ -145,6 +145,23 @@ function reemplazarContenidoTexto(contenedor, texto) {
     contenedor.appendChild(parrafo);
 }
 
+function crearAvatarAutor(urlFoto, nombreAutor) {
+    if (urlFoto) {
+        const imagen = document.createElement('img');
+        imagen.className = 'comunidad-autor__avatar';
+        imagen.src = urlFoto;
+        imagen.alt = nombreAutor || '';
+
+        return imagen;
+    }
+
+    const avatarVacio = document.createElement('span');
+    avatarVacio.className = 'comunidad-autor__avatar comunidad-autor__avatar--vacio';
+    avatarVacio.textContent = (nombreAutor || '?').charAt(0).toUpperCase();
+
+    return avatarVacio;
+}
+
 // función para renderizar respuestas en el contenedor correspondiente
 function renderizarRespuestasEnContenedor(contenedor, respuestas, boton) {
     contenedor.replaceChildren();
@@ -156,27 +173,46 @@ function renderizarRespuestasEnContenedor(contenedor, respuestas, boton) {
 
     respuestas.forEach(function (respuesta) {
         const articulo = document.createElement('article');
-        articulo.classList.add('comunidad-respuesta');
+        articulo.className = 'comunidad-respuesta';
 
         const cabecera = document.createElement('p');
+        cabecera.className = 'comunidad-autor comunidad-autor--mini';
 
-        const fuerte = document.createElement('strong');
         const enlace = document.createElement('a');
+        enlace.className = 'comunidad-autor__enlace';
 
         const autor = String(respuesta.autor_nombre || '');
         const urlPerfil = boton.dataset.urlPerfil || '/perfil';
 
         enlace.href = urlPerfil + '?usuario=' + encodeURIComponent(autor);
-        enlace.textContent = '@' + autor;
+        enlace.appendChild(
+            crearAvatarAutor(
+                String(respuesta.autor_foto_perfil_url || ''),
+                autor
+            )
+        );
 
-        fuerte.appendChild(enlace);
+        const nombre = document.createElement('span');
+        nombre.className = 'comunidad-autor__nombre';
+        nombre.textContent = '@' + autor;
 
-        cabecera.appendChild(fuerte);
-        cabecera.appendChild(document.createTextNode(' · ' + String(respuesta.fecha_creacion || '')));
+        enlace.appendChild(nombre);
+
+        const separador = document.createElement('span');
+        separador.className = 'comunidad-autor__separador';
+        separador.textContent = '·';
+
+        const fecha = document.createElement('span');
+        fecha.className = 'comunidad-autor__fecha';
+        fecha.textContent = String(respuesta.fecha_creacion || '');
+
+        cabecera.appendChild(enlace);
+        cabecera.appendChild(separador);
+        cabecera.appendChild(fecha);
 
         const contenido = document.createElement('p');
+        contenido.className = 'comunidad-respuesta__contenido';
         contenido.textContent = String(respuesta.contenido || '');
-        contenido.classList.add('comunidad-respuesta__contenido');
 
         articulo.appendChild(cabecera);
         articulo.appendChild(contenido);

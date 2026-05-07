@@ -49,7 +49,11 @@ $vehiculos = isset($vehiculos) && is_array($vehiculos) ? $vehiculos : [];
         <?php else: ?>
             <section class="garaje-listado" aria-label="<?= htmlspecialchars(t('garaje.index.titulo')) ?>">
                 <?php foreach ($vehiculos as $v): ?>
-                    <article class="garaje-tarjeta">
+                    <article
+                        class="garaje-tarjeta tarjeta-clicable"
+                        data-url-tarjeta="<?= escapar(url('/garaje/ver?id=' . (int) $v['id'])) ?>"
+                        tabindex="0"
+                        role="link">
                         <?php
                         $imagen_vehiculo = $v['imagen'] ?? null;
                         $alt_imagen_vehiculo = t('garaje.index.alt_imagen_vehiculo') . ' ' . $v['marca'] . ' ' . $v['modelo'];
@@ -80,10 +84,6 @@ $vehiculos = isset($vehiculos) && is_array($vehiculos) ? $vehiculos : [];
                         </header>
 
                         <footer class="garaje-tarjeta__acciones">
-                            <a href="<?= url('/garaje/ver?id=' . (int) $v['id']) ?>">
-                                <?= htmlspecialchars(t('garaje.index.ver')) ?>
-                            </a>
-
                             <a href="<?= url('/garaje/editar?id=' . (int) $v['id']) ?>">
                                 <?= htmlspecialchars(t('garaje.index.editar')) ?>
                             </a>

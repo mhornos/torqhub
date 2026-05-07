@@ -31,10 +31,6 @@ $nombre_usuario = $usuario_sesion['nombre'] ?? '';
                 class="navbar__menu"
                 data-navbar-menu>
                 <div class="navbar__grupo navbar__grupo--principal">
-                    <a href="<?= escapar(url('/')) ?>" class="navbar__enlace">
-                        <?= htmlspecialchars(t('navbar.inicio')) ?>
-                    </a>
-
                     <?php if (!$usuario_autenticado): ?>
                         <a href="<?= escapar(url('/login')) ?>" class="navbar__enlace">
                             <?= htmlspecialchars(t('navbar.login')) ?>
@@ -61,7 +57,7 @@ $nombre_usuario = $usuario_sesion['nombre'] ?? '';
                 <div class="navbar__grupo navbar__grupo--usuario">
                     <?php if ($usuario_autenticado): ?>
                         <?php if ($usuario_admin): ?>
-                            <a href="<?= escapar(url('/admin')) ?>" class="navbar__enlace navbar__enlace--admin">
+                            <a href="<?= escapar(url('/admin')) ?>" class="navbar__enlace">
                                 <?= htmlspecialchars(t('navbar.admin')) ?>
                             </a>
                         <?php endif; ?>

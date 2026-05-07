@@ -15,13 +15,14 @@ class RepositorioComentariosPublicaciones
                     c.fecha_creacion,
                     c.respuesta_a_id,
                     u.nombre AS autor_nombre,
+                    u.foto_perfil AS autor_foto_perfil,
                     COUNT(r.id) AS total_respuestas
                 FROM comentarios_publicaciones c
                 INNER JOIN usuarios u ON u.id = c.usuario_id
                 LEFT JOIN comentarios_publicaciones r ON r.respuesta_a_id = c.id
                 WHERE c.publicacion_id = :publicacion_id
                 AND c.respuesta_a_id IS NULL
-                GROUP BY c.id, c.publicacion_id, c.usuario_id, c.contenido, c.fecha_creacion, c.respuesta_a_id, u.nombre
+                GROUP BY c.id, c.publicacion_id, c.usuario_id, c.contenido, c.fecha_creacion, c.respuesta_a_id, u.nombre, u.foto_perfil
                 ORDER BY c.id ASC";
 
         $stmt = $pdo->prepare($sql);
@@ -43,7 +44,8 @@ class RepositorioComentariosPublicaciones
                     c.contenido,
                     c.fecha_creacion,
                     c.respuesta_a_id,
-                    u.nombre AS autor_nombre
+                    u.nombre AS autor_nombre,
+                    u.foto_perfil AS autor_foto_perfil
                 FROM comentarios_publicaciones c
                 INNER JOIN usuarios u ON u.id = c.usuario_id
                 WHERE c.respuesta_a_id = :comentario_id

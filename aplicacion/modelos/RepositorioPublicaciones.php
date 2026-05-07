@@ -51,16 +51,17 @@ class RepositorioPublicaciones
         $pdo = ConexionBBDD::obtener();
 
         $sql = "SELECT 
-                    p.id,
-                    p.usuario_id,
-                    p.contenido,
-                    p.imagen,
-                    p.fecha_creacion,
-                    u.nombre AS autor_nombre
-                FROM publicaciones p
-                INNER JOIN usuarios u ON u.id = p.usuario_id
-                WHERE p.id = :id
-                LIMIT 1";
+                p.id,
+                p.usuario_id,
+                p.contenido,
+                p.imagen,
+                p.fecha_creacion,
+                u.nombre AS autor_nombre,
+                u.foto_perfil AS autor_foto_perfil
+            FROM publicaciones p
+            INNER JOIN usuarios u ON u.id = p.usuario_id
+            WHERE p.id = :id
+            LIMIT 1";
 
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
@@ -168,6 +169,7 @@ class RepositorioPublicaciones
                     p.imagen,
                     p.fecha_creacion,
                     u.nombre AS autor_nombre,
+                    u.foto_perfil AS autor_foto_perfil,
                     COUNT(DISTINCT c.id) AS total_comentarios,
                     COUNT(DISTINCT l.id) AS total_likes
                 FROM publicaciones p
@@ -175,7 +177,7 @@ class RepositorioPublicaciones
                 LEFT JOIN comentarios_publicaciones c ON c.publicacion_id = p.id
                 LEFT JOIN publicaciones_likes l ON l.publicacion_id = p.id
                 $where
-                GROUP BY p.id, p.usuario_id, p.contenido, p.imagen, p.fecha_creacion, u.nombre
+                GROUP BY p.id, p.usuario_id, p.contenido, p.imagen, p.fecha_creacion, u.nombre, u.foto_perfil
                 ORDER BY $order_by
                 LIMIT $limite OFFSET $offset";
 

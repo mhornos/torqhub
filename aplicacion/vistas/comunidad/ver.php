@@ -53,17 +53,37 @@ $total_likes = RepositorioLikesPublicaciones::contar_likes(
             <p class="mensaje-error"><?= htmlspecialchars($m) ?></p>
         <?php endif; ?>
 
+        <?php
+        $url_foto_autor_publicacion = !empty($publicacion['autor_foto_perfil'])
+            ? url_publica_segura('uploads/perfiles/' . $publicacion['autor_foto_perfil'])
+            : null;
+        ?>
+
         <article class="comunidad-detalle-publicacion">
             <header class="comunidad-detalle-publicacion__cabecera">
-                <p class="comunidad-publicacion__meta">
-                    <?= htmlspecialchars(t('comunidad.index.por')) ?>:
-                    <a href="<?= escapar(url('/perfil?usuario=' . urlencode($publicacion['autor_nombre']))) ?>">
-                        @<?= htmlspecialchars($publicacion['autor_nombre']) ?>
+                <p class="comunidad-autor">
+                    <a
+                        class="comunidad-autor__enlace"
+                        href="<?= escapar(url('/perfil?usuario=' . urlencode($publicacion['autor_nombre']))) ?>">
+
+                        <?php if ($url_foto_autor_publicacion): ?>
+                            <img
+                                class="comunidad-autor__avatar"
+                                src="<?= escapar($url_foto_autor_publicacion) ?>"
+                                alt="<?= htmlspecialchars($publicacion['autor_nombre']) ?>">
+                        <?php else: ?>
+                            <span class="comunidad-autor__avatar comunidad-autor__avatar--vacio">
+                                <?= htmlspecialchars(strtoupper(substr($publicacion['autor_nombre'], 0, 1))) ?>
+                            </span>
+                        <?php endif; ?>
+
+                        <span class="comunidad-autor__nombre">
+                            @<?= htmlspecialchars($publicacion['autor_nombre']) ?>
+                        </span>
                     </a>
-                    <span>·</span>
-                    <time datetime="<?= htmlspecialchars($publicacion['fecha_creacion']) ?>">
-                        <?= htmlspecialchars(formatear_fecha($publicacion['fecha_creacion'])) ?>
-                    </time>
+
+                    <span class="comunidad-autor__separador">·</span>
+                    <span class="comunidad-autor__fecha"><?= formatear_fecha($publicacion['fecha_creacion']) ?></span>
                 </p>
             </header>
 
@@ -173,18 +193,38 @@ $total_likes = RepositorioLikesPublicaciones::contar_likes(
             <?php else: ?>
                 <div class="comunidad-comentarios__listado">
                     <?php foreach ($comentarios as $comentario): ?>
+
+                        <?php
+                        $url_foto_autor_comentario = !empty($comentario['autor_foto_perfil'])
+                            ? url_publica_segura('uploads/perfiles/' . $comentario['autor_foto_perfil'])
+                            : null;
+                        ?>
+
                         <article class="comunidad-comentario">
                             <header class="comunidad-comentario__cabecera">
-                                <p class="comunidad-publicacion__meta">
-                                    <strong>
-                                        <a href="<?= escapar(url('/perfil?usuario=' . urlencode($comentario['autor_nombre']))) ?>">
+                                <p class="comunidad-autor comunidad-autor--mini">
+                                    <a
+                                        class="comunidad-autor__enlace"
+                                        href="<?= escapar(url('/perfil?usuario=' . urlencode($comentario['autor_nombre']))) ?>">
+
+                                        <?php if ($url_foto_autor_comentario): ?>
+                                            <img
+                                                class="comunidad-autor__avatar"
+                                                src="<?= escapar($url_foto_autor_comentario) ?>"
+                                                alt="<?= htmlspecialchars($comentario['autor_nombre']) ?>">
+                                        <?php else: ?>
+                                            <span class="comunidad-autor__avatar comunidad-autor__avatar--vacio">
+                                                <?= htmlspecialchars(strtoupper(substr($comentario['autor_nombre'], 0, 1))) ?>
+                                            </span>
+                                        <?php endif; ?>
+
+                                        <span class="comunidad-autor__nombre">
                                             @<?= htmlspecialchars($comentario['autor_nombre']) ?>
-                                        </a>
-                                    </strong>
-                                    <span>·</span>
-                                    <time datetime="<?= htmlspecialchars($comentario['fecha_creacion']) ?>">
-                                        <?= htmlspecialchars(formatear_fecha($comentario['fecha_creacion'])) ?>
-                                    </time>
+                                        </span>
+                                    </a>
+
+                                    <span class="comunidad-autor__separador">·</span>
+                                    <span class="comunidad-autor__fecha"><?= formatear_fecha($comentario['fecha_creacion']) ?></span>
                                 </p>
                             </header>
 
