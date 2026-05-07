@@ -34,12 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
         botonEnviar.disabled = !hayTextoValido();
     };
 
-    actualizarBotonEnviar();
-
-    campoSintomas.addEventListener('input', () => {
-        actualizarBotonEnviar();
-    });
-
     const bajarAlFinal = () => {
         window.scrollTo({
             top: document.body.scrollHeight,
@@ -49,35 +43,48 @@ document.addEventListener('DOMContentLoaded', () => {
         chat.scrollTop = chat.scrollHeight;
     };
 
-    const crearMensajeUsuario = (texto) => {
-        const mensaje = document.createElement('div');
-        mensaje.classList.add('diagnostico__mensaje', 'diagnostico__mensaje--usuario');
+    const crearCabeceraMensaje = (autorTexto) => {
+        const cabecera = document.createElement('header');
+        cabecera.classList.add('diagnostico__mensaje-cabecera');
 
         const autor = document.createElement('strong');
-        autor.textContent = textos.usuario;
+        autor.classList.add('diagnostico__mensaje-autor');
+        autor.textContent = autorTexto;
+
+        cabecera.appendChild(autor);
+
+        return cabecera;
+    };
+
+    const crearParrafoMensaje = (texto) => {
+        const contenido = document.createElement('div');
+        contenido.classList.add('diagnostico__mensaje-contenido');
 
         const parrafo = document.createElement('p');
         parrafo.textContent = texto;
 
-        mensaje.appendChild(autor);
-        mensaje.appendChild(parrafo);
+        contenido.appendChild(parrafo);
+
+        return contenido;
+    };
+
+    const crearMensajeUsuario = (texto) => {
+        const mensaje = document.createElement('article');
+        mensaje.classList.add('diagnostico__mensaje', 'diagnostico__mensaje--usuario');
+
+        mensaje.appendChild(crearCabeceraMensaje(textos.usuario));
+        mensaje.appendChild(crearParrafoMensaje(texto));
 
         chat.appendChild(mensaje);
     };
 
     const crearMensajeCargando = () => {
-        const mensaje = document.createElement('div');
+        const mensaje = document.createElement('article');
         mensaje.classList.add('diagnostico__mensaje', 'diagnostico__mensaje--ia');
         mensaje.id = 'diagnostico-cargando';
 
-        const autor = document.createElement('strong');
-        autor.textContent = textos.ia;
-
-        const parrafo = document.createElement('p');
-        parrafo.textContent = textos.cargando;
-
-        mensaje.appendChild(autor);
-        mensaje.appendChild(parrafo);
+        mensaje.appendChild(crearCabeceraMensaje(textos.ia));
+        mensaje.appendChild(crearParrafoMensaje(textos.cargando));
 
         chat.appendChild(mensaje);
     };
@@ -90,64 +97,75 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const crearBarraConfianza = (confianza) => {
-        const barra = document.createElement('div');
-        barra.classList.add('diagnostico__barra');
+    const crearProgresoConfianza = (confianza) => {
+        const progreso = document.createElement('progress');
+        progreso.classList.add('diagnostico__progreso');
+        progreso.max = 100;
+        progreso.value = confianza;
+        progreso.textContent = `${confianza}%`;
 
-        const progreso = document.createElement('span');
-        progreso.style.width = `${confianza}%`;
-
-        barra.appendChild(progreso);
-
-        return barra;
+        return progreso;
     };
 
     const crearResultado = (resultado) => {
+        const confianzaNumero = Math.max(0, Math.min(100, parseInt(resultado.confianza) || 0));
+        const coincidenciasNumero = parseInt(resultado.coincidencias) || 0;
+
         const articulo = document.createElement('article');
         articulo.classList.add('diagnostico__resultado');
 
-        const titulo = document.createElement('h3');
-        titulo.textContent = '"' + resultado.titulo + '"';
+        const cabecera = document.createElement('header');
+        cabecera.classList.add('diagnostico__resultado-cabecera');
+
+        const titulo = document.createElement('h2');
+        titulo.textContent = resultado.titulo || '';
+
+        cabecera.appendChild(titulo);
+
+        const contenido = document.createElement('div');
+        contenido.classList.add('diagnostico__resultado-contenido');
 
         const confianza = document.createElement('p');
-        const confianzaTexto = document.createTextNode(textos.confianza + ': ');
+        const confianzaTexto = document.createTextNode(`${textos.confianza}: `);
 
         const confianzaValor = document.createElement('strong');
-        confianzaValor.textContent = parseInt(resultado.confianza) + '%';
+        confianzaValor.textContent = `${confianzaNumero}%`;
 
         confianza.appendChild(confianzaTexto);
         confianza.appendChild(confianzaValor);
 
         const coincidencias = document.createElement('p');
-        coincidencias.textContent = textos.coincidencias + ': ' + parseInt(resultado.coincidencias);
+        coincidencias.textContent = `${textos.coincidencias}: ${coincidenciasNumero}`;
 
         const recomendacion = document.createElement('p');
 
         const recomendacionTitulo = document.createElement('strong');
-        recomendacionTitulo.textContent = textos.recomendacion + ': ';
+        recomendacionTitulo.textContent = `${textos.recomendacion}: `;
 
-        const recomendacionTexto = document.createTextNode(resultado.recomendacion);
+        const recomendacionTexto = document.createTextNode(resultado.recomendacion || '');
 
         recomendacion.appendChild(recomendacionTitulo);
         recomendacion.appendChild(recomendacionTexto);
 
-        articulo.appendChild(titulo);
-        articulo.appendChild(confianza);
-        articulo.appendChild(crearBarraConfianza(parseInt(resultado.confianza)));
-        articulo.appendChild(coincidencias);
-        articulo.appendChild(recomendacion);
+        contenido.appendChild(confianza);
+        contenido.appendChild(crearProgresoConfianza(confianzaNumero));
+        contenido.appendChild(coincidencias);
+        contenido.appendChild(recomendacion);
+
+        articulo.appendChild(cabecera);
+        articulo.appendChild(contenido);
 
         return articulo;
     };
 
     const crearMensajeIA = (resultados) => {
-        const mensaje = document.createElement('div');
+        const mensaje = document.createElement('article');
         mensaje.classList.add('diagnostico__mensaje', 'diagnostico__mensaje--ia');
 
-        const autor = document.createElement('strong');
-        autor.textContent = textos.ia;
+        mensaje.appendChild(crearCabeceraMensaje(textos.ia));
 
-        mensaje.appendChild(autor);
+        const contenido = document.createElement('div');
+        contenido.classList.add('diagnostico__mensaje-contenido');
 
         if (resultados.length > 0) {
             const intro = document.createElement('p');
@@ -160,36 +178,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 contenedorResultados.appendChild(crearResultado(resultado));
             });
 
-            mensaje.appendChild(intro);
-            mensaje.appendChild(contenedorResultados);
+            contenido.appendChild(intro);
+            contenido.appendChild(contenedorResultados);
         } else {
             const parrafo = document.createElement('p');
             parrafo.textContent = textos.sinResultados;
 
-            mensaje.appendChild(parrafo);
+            contenido.appendChild(parrafo);
         }
 
+        mensaje.appendChild(contenido);
         chat.appendChild(mensaje);
     };
 
     const mostrarError = (texto) => {
         eliminarMensajeCargando();
 
-        const mensaje = document.createElement('div');
+        const mensaje = document.createElement('article');
         mensaje.classList.add('diagnostico__mensaje', 'diagnostico__mensaje--ia');
 
-        const autor = document.createElement('strong');
-        autor.textContent = textos.ia;
-
-        const parrafo = document.createElement('p');
-        parrafo.textContent = texto;
-
-        mensaje.appendChild(autor);
-        mensaje.appendChild(parrafo);
+        mensaje.appendChild(crearCabeceraMensaje(textos.ia));
+        mensaje.appendChild(crearParrafoMensaje(texto));
 
         chat.appendChild(mensaje);
         bajarAlFinal();
     };
+
+    actualizarBotonEnviar();
+
+    campoSintomas.addEventListener('input', () => {
+        actualizarBotonEnviar();
+    });
 
     campoSintomas.addEventListener('keydown', (evento) => {
         if (evento.key === 'Enter' && !evento.shiftKey) {
@@ -253,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (botonEnviar) {
                 botonEnviar.textContent = textos.analizar;
             }
-            
+
             actualizarBotonEnviar();
             campoSintomas.focus();
         }

@@ -1727,164 +1727,198 @@ input[type="reset"]:disabled {
     white-space: pre-line;
 }
 
-/* diagnostico asistido */
-.diagnostico {
-    max-width: 950px;
-    margin: 0 auto;
-    padding: 30px 15px;
+/* =========================================================
+   diagnóstico asistido
+   ========================================================= */
+
+.diagnostico-contenedor {
+    width: min(calc(100% - 32px), 950px);
+    margin: var(--espacio-6) auto;
 }
 
-.diagnostico__cabecera {
-    margin-bottom: 25px;
+.diagnostico-cabecera {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--espacio-5);
+    margin-bottom: var(--espacio-5);
+    padding: var(--espacio-5);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-lg);
+    background: var(--color-superficie);
 }
 
-.diagnostico__cabecera h1 {
-    margin-bottom: 8px;
+.diagnostico-cabecera__texto {
+    min-width: 0;
 }
 
-.diagnostico__cabecera p {
-    opacity: 0.85;
+.diagnostico-cabecera__texto h1 {
+    margin-bottom: var(--espacio-3);
 }
 
-.diagnostico__chat {
+.diagnostico-cabecera__texto p:last-child {
+    margin-bottom: 0;
+    color: var(--color-texto-suave);
+}
+
+.diagnostico-cabecera__etiqueta {
+    margin: 0 0 var(--espacio-2);
+    color: var(--color-texto-suave);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.diagnostico-cabecera__acciones {
+    flex: 0 0 auto;
+}
+
+.diagnostico-reiniciar {
+    margin: 0;
+    padding-left: 0;
+}
+
+.diagnostico-panel {
+    display: grid;
+    gap: var(--espacio-4);
+    padding: var(--espacio-5);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-lg);
+    background: var(--color-superficie);
+}
+
+.diagnostico-chat {
     display: flex;
     flex-direction: column;
-    gap: 18px;
-    margin-bottom: 22px;
+    gap: var(--espacio-4);
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: var(--espacio-4);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-lg);
+    background: var(--color-superficie-suave);
 }
 
 .diagnostico__mensaje {
-    max-width: 78%;
-    padding: 16px 18px;
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.diagnostico__mensaje strong {
-    display: block;
-    margin-bottom: 6px;
-    font-size: 0.9rem;
-    opacity: 0.9;
-}
-
-.diagnostico__mensaje p {
-    margin: 0 0 8px;
+    width: fit-content;
+    max-width: min(78%, 720px);
+    padding: var(--espacio-4);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-lg);
+    background: var(--color-superficie);
 }
 
 .diagnostico__mensaje--ia {
     align-self: flex-start;
-    background: rgba(255, 255, 255, 0.07);
 }
 
 .diagnostico__mensaje--usuario {
     align-self: flex-end;
-    background: rgba(255, 255, 255, 0.14);
+}
+
+.diagnostico__mensaje-cabecera {
+    margin-bottom: var(--espacio-2);
+}
+
+.diagnostico__mensaje-autor {
+    display: block;
+    color: var(--color-texto-suave);
+    font-size: 0.95rem;
+}
+
+.diagnostico__mensaje-contenido p {
+    margin: 0 0 var(--espacio-3);
+}
+
+.diagnostico__mensaje-contenido p:last-child {
+    margin-bottom: 0;
 }
 
 .diagnostico__resultados {
     display: grid;
-    gap: 14px;
-    margin-top: 14px;
+    gap: var(--espacio-3);
+    margin-top: var(--espacio-4);
 }
 
 .diagnostico__resultado {
-    padding: 15px;
-    border-radius: 14px;
-    background: rgba(0, 0, 0, 0.18);
+    padding: var(--espacio-4);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-md);
+    background: var(--color-superficie);
 }
 
-.diagnostico__resultado h3 {
-    margin-bottom: 8px;
+.diagnostico__resultado-cabecera h2 {
+    margin-bottom: var(--espacio-3);
+    font-size: 1.05rem;
 }
 
-.diagnostico__barra {
+.diagnostico__resultado-contenido {
+    display: grid;
+    gap: var(--espacio-3);
+}
+
+.diagnostico__resultado-contenido p {
+    margin: 0;
+}
+
+.diagnostico__progreso {
     width: 100%;
-    height: 9px;
-    margin: 8px 0 12px;
-    border-radius: 999px;
+    height: 10px;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.15);
-}
-
-.diagnostico__barra span {
-    display: block;
-    height: 100%;
+    border: 0;
     border-radius: 999px;
-    background: #7893ff;
+    background: var(--color-borde);
 }
 
-.diagnostico__formulario {
-    padding: 16px;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.07);
+.diagnostico__progreso::-webkit-progress-bar {
+    border-radius: 999px;
+    background: var(--color-borde);
 }
 
-.diagnostico__formulario label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
+.diagnostico__progreso::-webkit-progress-value {
+    border-radius: 999px;
+    background: var(--color-texto);
 }
 
-.diagnostico__entrada {
-    display: flex;
-    gap: 10px;
+.diagnostico__progreso::-moz-progress-bar {
+    border-radius: 999px;
+    background: var(--color-texto);
+}
+
+.diagnostico-formulario {
+    margin: 0;
+    padding: var(--espacio-4);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-lg);
+    background: var(--color-superficie-suave);
+}
+
+.diagnostico-formulario__campo {
+    display: grid;
+    gap: var(--espacio-3);
+}
+
+.diagnostico-formulario__entrada {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--espacio-3);
     align-items: stretch;
 }
 
-.diagnostico__entrada textarea {
-    flex: 1;
+.diagnostico-formulario__entrada textarea {
+    min-height: 72px;
     resize: vertical;
-    min-height: 70px;
-    padding: 12px;
-    border-radius: 12px;
 }
 
-.diagnostico__entrada button {
-    padding: 0 22px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: 700;
+.diagnostico-formulario__entrada button {
+    align-self: stretch;
 }
 
-.diagnostico__error {
-    margin-bottom: 15px;
-    color: #ff6b6b;
-    font-weight: 600;
-}
-
-@media (max-width: 700px) {
-    .diagnostico__mensaje {
-        max-width: 100%;
-    }
-
-    .diagnostico__entrada {
-        flex-direction: column;
-    }
-
-    .diagnostico__entrada button {
-        padding: 12px;
-    }
-}
-
-.diagnostico__reiniciar {
-    margin-bottom: 18px;
-    text-align: right;
-}
-
-.diagnostico__reiniciar button {
-    padding: 9px 14px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-
-
-.diagnostico__entrada button:disabled {
-    cursor: default;
+.diagnostico-formulario__entrada button:disabled {
     pointer-events: none;
+}
+
+.diagnostico-error {
+    margin-bottom: var(--espacio-4);
 }
 
 /* consulta vin en formularios de garaje */
@@ -2541,5 +2575,44 @@ input[type="reset"]:disabled {
     .perfil-datos-vehiculo div {
         grid-template-columns: 1fr;
         gap: var(--espacio-1);
+    }
+
+        .diagnostico-contenedor {
+        width: min(calc(100% - 24px), 950px);
+        margin-top: var(--espacio-5);
+    }
+
+    .diagnostico-cabecera {
+        flex-direction: column;
+        align-items: stretch;
+        padding: var(--espacio-4);
+    }
+
+    .diagnostico-cabecera__acciones,
+    .diagnostico-reiniciar,
+    .diagnostico-reiniciar button {
+        width: 100%;
+    }
+
+    .diagnostico-panel {
+        padding: var(--espacio-4);
+    }
+
+    .diagnostico-chat {
+        max-height: none;
+        padding: var(--espacio-3);
+    }
+
+    .diagnostico__mensaje {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .diagnostico-formulario__entrada {
+        grid-template-columns: 1fr;
+    }
+
+    .diagnostico-formulario__entrada button {
+        width: 100%;
     }
 }

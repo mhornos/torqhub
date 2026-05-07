@@ -11,6 +11,9 @@ class DiagnosticoControlador extends ControladorBase
 
         $this->render('diagnostico/index', [
             'mensajes' => $_SESSION['diagnostico_mensajes'],
+            'scripts' => [
+                '/public/js/diagnostico.js',
+            ],
         ]);
     }
 
