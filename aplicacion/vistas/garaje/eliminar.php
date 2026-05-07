@@ -33,7 +33,7 @@ if (!isset($vehiculo) || !is_array($vehiculo)) {
 
         <input type="hidden" name="id" value="<?= (int) $vehiculo['id'] ?>">
 
-        <a href="<?= url('/garaje/ver?id=' . (int) $vehiculo['id']) ?>">
+        <a href="<?= url('/garaje/ver')?>">
             <?= htmlspecialchars(t('garaje.eliminar.cancelar')) ?>
         </a>
 

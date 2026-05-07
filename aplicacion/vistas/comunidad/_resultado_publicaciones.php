@@ -6,15 +6,15 @@ $texto_resultado = $total_publicaciones === 1
     : t('comunidad.index.publicaciones_encontradas');
 ?>
 
-<div id="resultado-publicaciones-comunidad">
-    <section class="bloque-contador-publicaciones">
+<section id="resultado-publicaciones-comunidad" class="comunidad-resultados">
+    <header class="comunidad-resultados__cabecera">
         <p class="contador-publicaciones">
             <?= $total_publicaciones ?>
             <?= htmlspecialchars($texto_resultado) ?>
         </p>
-    </section>
+    </header>
 
     <?php require __DIR__ . '/_paginacion_publicaciones.php'; ?>
 
     <?php require __DIR__ . '/_listado_publicaciones.php'; ?>
-</div>
+</section>
