@@ -96,11 +96,13 @@ return [
     // garaje - listado
     'garaje.index.titulo_pagina' => 'Mi garaje',
     'garaje.index.titulo' => 'Mi garaje',
-    'garaje.index.anadir_vehiculo' => 'Añadir vehículo',
+    'garaje.index.anadir_vehiculo' => '+ Añadir vehículo',
     'garaje.index.sin_vehiculos' => 'Todavía no tienes vehículos',
     'garaje.index.ver' => 'Ver',
     'garaje.index.editar' => 'Editar',
     'garaje.index.eliminar' => 'Eliminar',
+    'garaje.index.alt_imagen_vehiculo' => 'Imagen del vehículo',
+    'garaje.index.imagen_no_disponible' => 'Sin imagen',
 
     // garaje - formulario vehículo
     'garaje.form.nuevo.titulo_pagina' => 'Añadir vehículo',

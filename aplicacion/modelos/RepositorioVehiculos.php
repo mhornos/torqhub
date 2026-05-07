@@ -3,12 +3,11 @@
 class RepositorioVehiculos
 {
 
-    //devuelve un array de vehículos asociados a un usuario
-    public static function listar_por_usuario(int $usuario_id): array
-    {
+//devuelve un array de vehículos asociados a un usuario
+    public static function listar_por_usuario(int $usuario_id): array {
         $pdo = ConexionBBDD::obtener();
 
-        $sql = "SELECT id, marca, modelo, any, vin, fecha_creacion
+        $sql = "SELECT id, marca, modelo, any, vin, imagen, fecha_creacion
                 FROM vehiculos
                 WHERE usuario_id = :usuario_id
                 ORDER BY id DESC";
@@ -19,9 +18,8 @@ class RepositorioVehiculos
         return $stmt->fetchAll();
     }
 
-    //añade un nuevo vehículo a la base de datos y devuelve su id
-    public static function crear(int $usuario_id, string $marca, string $modelo, ?int $any, ?string $vin, ?string $carroceria, ?string $tipo_combustible, ?string $tipo_cambio, ?int $potencia_cv, ?int $cilindrada_cm3, ?string $imagen): int
-    {
+//añade un nuevo vehículo a la base de datos y devuelve su id
+    public static function crear(int $usuario_id, string $marca, string $modelo, ?int $any, ?string $vin, ?string $carroceria, ?string $tipo_combustible, ?string $tipo_cambio, ?int $potencia_cv, ?int $cilindrada_cm3, ?string $imagen): int {
         $pdo = ConexionBBDD::obtener();
 
         $sql = "INSERT INTO vehiculos (
@@ -47,9 +45,8 @@ class RepositorioVehiculos
         return (int) $pdo->lastInsertId();
     }
 
-    //busca un vehículo por su id y el id del usuario propietario, devuelve un array con los datos o null si no se encuentra
-    public static function buscar_por_id_y_usuario(int $vehiculo_id, int $usuario_id): ?array
-    {
+//busca un vehículo por su id y el id del usuario propietario, devuelve un array con los datos o null si no se encuentra
+    public static function buscar_por_id_y_usuario(int $vehiculo_id, int $usuario_id): ?array{
         $pdo = ConexionBBDD::obtener();
 
         $sql = "SELECT id, usuario_id, marca, modelo, any, vin,
@@ -70,9 +67,8 @@ class RepositorioVehiculos
         return $vehiculo ?: null;
     }
 
-    //elimina un vehículo, devuelve true si se eliminó o false si no se encontró
-    public static function eliminar(int $vehiculo_id, int $usuario_id): bool
-    {
+//elimina un vehículo, devuelve true si se eliminó o false si no se encontró
+    public static function eliminar(int $vehiculo_id, int $usuario_id): bool {
         $pdo = ConexionBBDD::obtener();
 
         $sql = "DELETE FROM vehiculos
@@ -87,9 +83,8 @@ class RepositorioVehiculos
         return $stmt->rowCount() > 0;
     }
 
-    //edita los datos de un vehículo, devuelve true si se actualizó o false si no se encontró
-    public static function actualizar(int $vehiculo_id, int $usuario_id, string $marca, string $modelo, ?int $any, ?string $vin, ?string $carroceria, ?string $tipo_combustible, ?string $tipo_cambio, ?int $potencia_cv, ?int $cilindrada_cm3, ?string $imagen): bool
-    {
+//edita los datos de un vehículo, devuelve true si se actualizó o false si no se encontró
+    public static function actualizar(int $vehiculo_id, int $usuario_id, string $marca, string $modelo, ?int $any, ?string $vin, ?string $carroceria, ?string $tipo_combustible, ?string $tipo_cambio, ?int $potencia_cv, ?int $cilindrada_cm3, ?string $imagen): bool {
         $pdo = ConexionBBDD::obtener();
 
         $sql_comprobar = "SELECT id
@@ -143,9 +138,8 @@ class RepositorioVehiculos
         return true;
     }
 
-    // lista los vehiculos publicos de un usuario para su perfil
-    public static function listar_por_usuario_publico(int $usuario_id): array
-    {
+// lista los vehiculos publicos de un usuario para su perfil
+    public static function listar_por_usuario_publico(int $usuario_id): array {
         $pdo = ConexionBBDD::obtener();
 
         $sql = "SELECT id, marca, modelo, any, imagen, tipo_combustible, potencia_cv

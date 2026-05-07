@@ -96,11 +96,13 @@ return [
     // garatge - llistat
     'garaje.index.titulo_pagina' => 'El meu garatge',
     'garaje.index.titulo' => 'El meu garatge',
-    'garaje.index.anadir_vehiculo' => 'Afegir vehicle',
+    'garaje.index.anadir_vehiculo' => '+ Afegir vehicle',
     'garaje.index.sin_vehiculos' => 'Encara no tens vehicles',
     'garaje.index.ver' => 'Veure',
     'garaje.index.editar' => 'Editar',
     'garaje.index.eliminar' => 'Eliminar',
+    'garaje.index.alt_imagen_vehiculo' => 'Imatge del vehicle',
+    'garaje.index.imagen_no_disponible' => 'Sense imatge',
 
     // garatge - formulari vehicle
     'garaje.form.nuevo.titulo_pagina' => 'Afegir vehicle',

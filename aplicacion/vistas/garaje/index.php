@@ -13,50 +13,90 @@ $vehiculos = isset($vehiculos) && is_array($vehiculos) ? $vehiculos : [];
 </head>
 
 <body>
-    <h1><?= htmlspecialchars(t('garaje.index.titulo')) ?></h1>
+    <main class="garaje-contenedor">
+        <header class="garaje-cabecera">
+            <div>
+                <h1><?= htmlspecialchars(t('garaje.index.titulo')) ?></h1>
+            </div>
 
-    <?php if ($m = flash_get('ok')): ?>
-        <p><?= htmlspecialchars($m) ?></p>
-    <?php endif; ?>
+            <div class="garaje-cabecera__acciones">
+                <a href="<?= url('/garaje/nuevo') ?>" class="garaje-boton-enlace">
+                    <?= htmlspecialchars(t('garaje.index.anadir_vehiculo')) ?>
+                </a>
+            </div>
+        </header>
 
-    <?php if ($m = flash_get('error')): ?>
-        <p><?= htmlspecialchars($m) ?></p>
-    <?php endif; ?>
+        <?php if ($m = flash_get('ok')): ?>
+            <p class="mensaje-ok"><?= htmlspecialchars($m) ?></p>
+        <?php endif; ?>
 
-    <p>
-        <a href="<?= url('/garaje/nuevo') ?>">
-            <?= htmlspecialchars(t('garaje.index.anadir_vehiculo')) ?>
-        </a>
-    </p>
+        <?php if ($m = flash_get('error')): ?>
+            <p class="mensaje-error"><?= htmlspecialchars($m) ?></p>
+        <?php endif; ?>
 
-    <?php if (count($vehiculos) === 0): ?>
-        <p><?= htmlspecialchars(t('garaje.index.sin_vehiculos')) ?></p>
-    <?php else: ?>
-        <ul>
-            <?php foreach ($vehiculos as $v): ?>
-                <li>
-                    <?= htmlspecialchars($v['marca']) ?> <?= htmlspecialchars($v['modelo']) ?>
-                    <?php if (!empty($v['any'])): ?>
-                        (<?= (int) $v['any'] ?>)
-                    <?php endif; ?>
+        <?php if (count($vehiculos) === 0): ?>
+            <section class="garaje-estado-vacio">
+                <h2><?= htmlspecialchars(t('garaje.index.sin_vehiculos')) ?></h2>
 
-                    <a href="<?= url('/garaje/ver?id=' . (int) $v['id']) ?>">
-                        <?= htmlspecialchars(t('garaje.index.ver')) ?>
-                    </a>
+                <p>
+                    <?= htmlspecialchars(t('garaje.index.anadir_vehiculo')) ?>
+                </p>
 
-                    <a href="<?= url('/garaje/editar?id=' . (int) $v['id']) ?>">
-                        <?= htmlspecialchars(t('garaje.index.editar')) ?>
-                    </a>
+                <a href="<?= url('/garaje/nuevo') ?>" class="garaje-boton-enlace">
+                    <?= htmlspecialchars(t('garaje.index.anadir_vehiculo')) ?>
+                </a>
+            </section>
+        <?php else: ?>
+            <section class="garaje-listado" aria-label="<?= htmlspecialchars(t('garaje.index.titulo')) ?>">
+                <?php foreach ($vehiculos as $v): ?>
+                    <article class="garaje-tarjeta">
+                        <?php
+                        $imagen_vehiculo = $v['imagen'] ?? null;
+                        $alt_imagen_vehiculo = t('garaje.index.alt_imagen_vehiculo') . ' ' . $v['marca'] . ' ' . $v['modelo'];
+                        ?>
 
-                    <a href="<?= url('/garaje/eliminar?id=' . (int) $v['id']) ?>">
-                        <?= htmlspecialchars(t('garaje.index.eliminar')) ?>
-                    </a>
+                        <div class="garaje-tarjeta__imagen">
+                            <?php if (!empty($imagen_vehiculo)): ?>
+                                <img
+                                    src="<?= escapar(url_publica_segura('uploads/vehiculos/' . $imagen_vehiculo)) ?>"
+                                    alt="<?= escapar($alt_imagen_vehiculo) ?>">
+                            <?php else: ?>
+                                <div class="garaje-tarjeta__imagen-placeholder">
+                                    <span><?= htmlspecialchars(t('garaje.index.imagen_no_disponible')) ?></span>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <header class="garaje-tarjeta__cabecera">
+                            <h2>
+                                <?= htmlspecialchars($v['marca']) ?>
+                                <?= htmlspecialchars($v['modelo']) ?>
+                            </h2>
 
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    <?php endif; ?>
+                            <?php if (!empty($v['any'])): ?>
+                                <p class="garaje-tarjeta__meta">
+                                    <?= (int) $v['any'] ?>
+                                </p>
+                            <?php endif; ?>
+                        </header>
 
+                        <footer class="garaje-tarjeta__acciones">
+                            <a href="<?= url('/garaje/ver?id=' . (int) $v['id']) ?>">
+                                <?= htmlspecialchars(t('garaje.index.ver')) ?>
+                            </a>
+
+                            <a href="<?= url('/garaje/editar?id=' . (int) $v['id']) ?>">
+                                <?= htmlspecialchars(t('garaje.index.editar')) ?>
+                            </a>
+
+                            <a href="<?= url('/garaje/eliminar?id=' . (int) $v['id']) ?>">
+                                <?= htmlspecialchars(t('garaje.index.eliminar')) ?>
+                            </a>
+                        </footer>
+                    </article>
+                <?php endforeach; ?>
+            </section>
+        <?php endif; ?>
+    </main>
 </body>
 
 </html>
