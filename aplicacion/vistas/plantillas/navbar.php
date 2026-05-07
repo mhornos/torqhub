@@ -60,17 +60,17 @@ $nombre_usuario = $usuario_sesion['nombre'] ?? '';
 
                 <div class="navbar__grupo navbar__grupo--usuario">
                     <?php if ($usuario_autenticado): ?>
-                        <a
-                            href="<?= escapar(url('/perfil?usuario=' . urlencode($nombre_usuario))) ?>"
-                            class="navbar__enlace">
-                            <?= htmlspecialchars(t('navbar.perfil')) ?>
-                        </a>
-
                         <?php if ($usuario_admin): ?>
                             <a href="<?= escapar(url('/admin')) ?>" class="navbar__enlace navbar__enlace--admin">
                                 <?= htmlspecialchars(t('navbar.admin')) ?>
                             </a>
                         <?php endif; ?>
+
+                        <a
+                            href="<?= escapar(url('/perfil?usuario=' . urlencode($nombre_usuario))) ?>"
+                            class="navbar__enlace">
+                            <?= htmlspecialchars(t('navbar.perfil')) ?>
+                        </a>
 
                         <form method="POST" action="<?= escapar(url('/logout')) ?>" class="navbar__logout">
                             <?= csrf_campo() ?>

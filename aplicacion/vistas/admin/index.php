@@ -9,16 +9,22 @@
 </head>
 
 <body>
-    <main class="admin-panel">
-        <section class="admin-panel__cabecera">
-            <h1><?= escapar(t('admin.titulo')) ?></h1>
+    <main class="admin-contenedor">
+        <header class="admin-cabecera">
+            <div class="admin-cabecera__texto">
+                <p class="admin-cabecera__etiqueta">
+                    <?= escapar(t('admin.titulo_pagina')) ?>
+                </p>
 
-            <p>
-                <?= escapar(t('admin.descripcion')) ?>
-            </p>
-        </section>
+                <h1><?= escapar(t('admin.titulo')) ?></h1>
 
-        <section class="admin-panel__tarjetas" aria-label="<?= escapar(t('admin.secciones')) ?>">
+                <p>
+                    <?= escapar(t('admin.descripcion')) ?>
+                </p>
+            </div>
+        </header>
+
+        <section class="admin-tarjetas" aria-label="<?= escapar(t('admin.secciones')) ?>">
             <a href="<?= escapar(url('/admin/usuarios')) ?>" class="admin-tarjeta">
                 <span class="admin-tarjeta__etiqueta">
                     <?= escapar(t('admin.tarjeta.usuarios.etiqueta')) ?>

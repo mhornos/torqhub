@@ -18,18 +18,26 @@ foreach ($causas_ia as $causa) {
 </head>
 
 <body>
-    <main class="admin-panel">
-        <section class="admin-panel__cabecera">
-            <h1><?= escapar(t('admin.ia.titulo')) ?></h1>
+    <main class="admin-contenedor">
+        <header class="admin-cabecera">
+            <div class="admin-cabecera__texto">
+                <p class="admin-cabecera__etiqueta">
+                    <?= escapar(t('admin.titulo_pagina')) ?>
+                </p>
 
-            <p>
-                <?= escapar(t('admin.ia.descripcion')) ?>
-            </p>
+                <h1><?= escapar(t('admin.ia.titulo')) ?></h1>
 
-            <a href="<?= escapar(url('/admin')) ?>" class="admin-enlace-volver">
-                <?= escapar(t('admin.ia.volver')) ?>
-            </a>
-        </section>
+                <p>
+                    <?= escapar(t('admin.ia.descripcion')) ?>
+                </p>
+            </div>
+
+            <div class="admin-cabecera__acciones">
+                <a href="<?= escapar(url('/admin')) ?>" class="admin-boton-enlace">
+                    <?= escapar(t('admin.ia.volver')) ?>
+                </a>
+            </div>
+        </header>
 
         <?php if ($m = flash_get('ok')): ?>
             <p class="mensaje-ok"><?= escapar($m) ?></p>
@@ -40,11 +48,13 @@ foreach ($causas_ia as $causa) {
         <?php endif; ?>
 
         <section class="admin-bloque-info">
-            <h2><?= escapar(t('admin.ia.resumen.titulo')) ?></h2>
+            <div class="admin-bloque-info__texto">
+                <h2><?= escapar(t('admin.ia.resumen.titulo')) ?></h2>
 
-            <p>
-                <?= escapar(t('admin.ia.resumen.texto')) ?>
-            </p>
+                <p>
+                    <?= escapar(t('admin.ia.resumen.texto')) ?>
+                </p>
+            </div>
 
             <div class="admin-ia-resumen">
                 <article class="admin-ia-resumen__dato">
@@ -60,97 +70,99 @@ foreach ($causas_ia as $causa) {
         </section>
 
         <?php if (empty($causas_ia)): ?>
-            <section class="admin-bloque-info">
+            <section class="admin-estado-vacio">
                 <p><?= escapar(t('admin.ia.sin_causas')) ?></p>
             </section>
         <?php else: ?>
-            <div class="admin-tabla-contenedor">
-                <table class="tabla-admin">
-                    <thead>
-                        <tr>
-                            <th><?= escapar(t('admin.ia.tabla.id')) ?></th>
-                            <th><?= escapar(t('admin.ia.tabla.causa')) ?></th>
-                            <th><?= escapar(t('admin.ia.tabla.recomendacion')) ?></th>
-                            <th><?= escapar(t('admin.ia.tabla.estado')) ?></th>
-                            <th><?= escapar(t('admin.ia.tabla.keywords')) ?></th>
-                            <th><?= escapar(t('admin.ia.tabla.fecha')) ?></th>
-                            <th><?= escapar(t('admin.ia.tabla.acciones')) ?></th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <?php foreach ($causas_ia as $causa): ?>
-                            <?php
-                            $activo = (int) ($causa['activo'] ?? 0);
-                            $keywords = $causa['keywords'] ?? [];
-                            ?>
-
-                            <tr class="<?= $activo === 1 ? '' : 'fila-inactiva' ?>">
-                                <td>
-                                    <?= (int) ($causa['id'] ?? 0) ?>
-                                </td>
-
-                                <td>
-                                    <strong><?= escapar($causa['titulo'] ?? '') ?></strong>
-
-                                    <span class="admin-ia-clave">
-                                        <?= escapar($causa['clave'] ?? '') ?>
-                                    </span>
-                                </td>
-
-                                <td class="admin-ia-texto-largo">
-                                    <?= escapar($causa['recomendacion'] ?? '') ?>
-                                </td>
-
-                                <td>
-                                    <span class="admin-estado <?= $activo === 1 ? 'admin-estado--activo' : 'admin-estado--inactivo' ?>">
-                                        <?= $activo === 1
-                                            ? escapar(t('admin.ia.estado.activa'))
-                                            : escapar(t('admin.ia.estado.inactiva')) ?>
-                                    </span>
-                                </td>
-
-                                <td>
-                                    <?php if (empty($keywords)): ?>
-                                        <span class="admin-accion-bloqueada">
-                                            <?= escapar(t('admin.ia.sin_keywords')) ?>
-                                        </span>
-                                    <?php else: ?>
-                                        <div class="admin-ia-keywords">
-                                            <?php foreach ($keywords as $keyword): ?>
-                                                <span class="admin-ia-keyword">
-                                                    <?= escapar($keyword) ?>
-                                                </span>
-                                            <?php endforeach; ?>
-                                        </div>
-                                    <?php endif; ?>
-                                </td>
-
-                                <td>
-                                    <?= !empty($causa['fecha_creacion'])
-                                        ? escapar(formatear_fecha($causa['fecha_creacion']))
-                                        : '-' ?>
-                                </td>
-
-                                <td>
-                                    <form method="POST" action="<?= escapar(url('/admin/ia/estado')) ?>" class="admin-formulario-accion">
-                                        <?= csrf_campo() ?>
-
-                                        <input type="hidden" name="causa_id" value="<?= (int) ($causa['id'] ?? 0) ?>">
-                                        <input type="hidden" name="activo" value="<?= $activo === 1 ? 0 : 1 ?>">
-
-                                        <button type="submit" class="admin-boton <?= $activo === 1 ? 'admin-boton--secundario' : '' ?>">
-                                            <?= $activo === 1
-                                                ? escapar(t('admin.ia.desactivar'))
-                                                : escapar(t('admin.ia.activar')) ?>
-                                        </button>
-                                    </form>
-                                </td>
+            <section class="admin-tabla-panel">
+                <div class="admin-tabla-contenedor">
+                    <table class="tabla-admin tabla-admin--ia">
+                        <thead>
+                            <tr>
+                                <th><?= escapar(t('admin.ia.tabla.id')) ?></th>
+                                <th><?= escapar(t('admin.ia.tabla.causa')) ?></th>
+                                <th><?= escapar(t('admin.ia.tabla.recomendacion')) ?></th>
+                                <th><?= escapar(t('admin.ia.tabla.estado')) ?></th>
+                                <th><?= escapar(t('admin.ia.tabla.keywords')) ?></th>
+                                <th><?= escapar(t('admin.ia.tabla.fecha')) ?></th>
+                                <th><?= escapar(t('admin.ia.tabla.acciones')) ?></th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+
+                        <tbody>
+                            <?php foreach ($causas_ia as $causa): ?>
+                                <?php
+                                $activo = (int) ($causa['activo'] ?? 0);
+                                $keywords = $causa['keywords'] ?? [];
+                                ?>
+
+                                <tr class="<?= $activo === 1 ? '' : 'fila-inactiva' ?>">
+                                    <td>
+                                        <?= (int) ($causa['id'] ?? 0) ?>
+                                    </td>
+
+                                    <td>
+                                        <strong><?= escapar($causa['titulo'] ?? '') ?></strong>
+
+                                        <span class="admin-ia-clave">
+                                            <?= escapar($causa['clave'] ?? '') ?>
+                                        </span>
+                                    </td>
+
+                                    <td class="admin-ia-texto-largo">
+                                        <?= escapar($causa['recomendacion'] ?? '') ?>
+                                    </td>
+
+                                    <td>
+                                        <span class="admin-estado <?= $activo === 1 ? 'admin-estado--activo' : 'admin-estado--inactivo' ?>">
+                                            <?= $activo === 1
+                                                ? escapar(t('admin.ia.estado.activa'))
+                                                : escapar(t('admin.ia.estado.inactiva')) ?>
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <?php if (empty($keywords)): ?>
+                                            <span class="admin-accion-bloqueada">
+                                                <?= escapar(t('admin.ia.sin_keywords')) ?>
+                                            </span>
+                                        <?php else: ?>
+                                            <div class="admin-ia-keywords">
+                                                <?php foreach ($keywords as $keyword): ?>
+                                                    <span class="admin-ia-keyword">
+                                                        <?= escapar($keyword) ?>
+                                                    </span>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    </td>
+
+                                    <td>
+                                        <?= !empty($causa['fecha_creacion'])
+                                            ? escapar(formatear_fecha($causa['fecha_creacion']))
+                                            : '-' ?>
+                                    </td>
+
+                                    <td class="admin-tabla-celda-acciones">
+                                        <form method="POST" action="<?= escapar(url('/admin/ia/estado')) ?>" class="admin-formulario-accion">
+                                            <?= csrf_campo() ?>
+
+                                            <input type="hidden" name="causa_id" value="<?= (int) ($causa['id'] ?? 0) ?>">
+                                            <input type="hidden" name="activo" value="<?= $activo === 1 ? 0 : 1 ?>">
+
+                                            <button type="submit" class="admin-boton <?= $activo === 1 ? 'admin-boton--secundario' : '' ?>">
+                                                <?= $activo === 1
+                                                    ? escapar(t('admin.ia.desactivar'))
+                                                    : escapar(t('admin.ia.activar')) ?>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
         <?php endif; ?>
     </main>
 </body>
