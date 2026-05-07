@@ -114,5 +114,3 @@ $nombre_usuario = $usuario_sesion['nombre'] ?? '';
         </div>
     </nav>
 </header>
-
-<script defer src="<?= escapar(url('/public/js/navbar.js')) ?>"></script>

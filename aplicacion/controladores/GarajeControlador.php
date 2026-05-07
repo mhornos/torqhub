@@ -48,7 +48,12 @@ class GarajeControlador extends ControladorBase {
 
 //muestra el formulario para añadir un nuevo vehículo
     public function nuevo(): void {
-        $this->render('garaje/nuevo');
+        $this->render('garaje/nuevo', [
+            'scripts' => [
+                '/public/js/garaje/formulario.js',
+                '/public/js/garaje/vin.js',
+            ],
+        ]);
     }
 
 
@@ -230,6 +235,10 @@ class GarajeControlador extends ControladorBase {
 
         $this->render('garaje/editar', [
             'vehiculo' => $vehiculo,
+            'scripts' => [
+                '/public/js/garaje/formulario.js',
+                '/public/js/garaje/vin.js',
+            ],
         ]);
     }
 

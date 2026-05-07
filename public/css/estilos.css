@@ -630,6 +630,101 @@ input[type="reset"]:disabled {
     font-weight: 600;
 }
 
+/* =========================================================
+   garaje: formularios
+   ========================================================= */
+
+.garaje-formulario-contenedor {
+    width: min(calc(100% - 32px), var(--ancho-formulario));
+    margin: var(--espacio-6) auto;
+}
+
+.garaje-formulario-cabecera {
+    margin-bottom: var(--espacio-5);
+}
+
+.garaje-formulario-cabecera h1 {
+    margin-bottom: 0;
+}
+
+.garaje-formulario-panel {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--espacio-4);
+    margin: 0;
+    padding: var(--espacio-5);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-lg);
+    background: var(--color-superficie);
+}
+
+.garaje-formulario-panel>div,
+.garaje-formulario-panel>section {
+    min-width: 0;
+}
+
+.garaje-formulario-campo--ancho-completo,
+.garaje-formulario-acciones,
+.garaje-formulario-imagen-actual {
+    grid-column: 1 / -1;
+}
+
+.garaje-formulario-vin {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--espacio-3);
+    align-items: start;
+}
+
+.garaje-formulario-ayuda {
+    display: block;
+    margin-top: var(--espacio-2);
+}
+
+.garaje-formulario-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--espacio-3);
+    padding-top: var(--espacio-4);
+    border-top: 1px solid var(--color-borde);
+}
+
+.garaje-formulario-contexto {
+    display: grid;
+    gap: var(--espacio-1);
+    margin-bottom: var(--espacio-4);
+    padding: var(--espacio-4);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-md);
+    background: var(--color-superficie);
+}
+
+.garaje-formulario-contexto span {
+    color: var(--color-texto-suave);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.garaje-formulario-imagen-actual {
+    padding: var(--espacio-4);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-md);
+    background: var(--color-superficie-suave);
+}
+
+.garaje-formulario-imagen-actual h2 {
+    margin-bottom: var(--espacio-3);
+    font-size: 1rem;
+}
+
+.garaje-formulario-imagen-actual img {
+    display: block;
+    width: min(100%, 320px);
+    border-radius: var(--radio-md);
+    border: 1px solid var(--color-borde);
+}
+
 /* estilos para el formulario de filtros */
 .form-filtros-mantenimientos {
     margin: 20px;
@@ -1867,7 +1962,7 @@ input[type="reset"]:disabled {
     .navbar__idioma-boton {
         width: auto;
     }
-    
+
     .tabla-mantenimientos,
     .tabla-admin {
         min-width: 720px;
@@ -1884,6 +1979,29 @@ input[type="reset"]:disabled {
     .comunidad-publicacion__acciones form,
     .comunidad-publicacion__acciones button,
     .boton-enlace-publicacion {
+        width: 100%;
+    }
+
+    .garaje-formulario-contenedor {
+        width: min(calc(100% - 24px), var(--ancho-formulario));
+        margin-top: var(--espacio-5);
+    }
+
+    .garaje-formulario-panel {
+        grid-template-columns: 1fr;
+        padding: var(--espacio-4);
+    }
+
+    .garaje-formulario-vin {
+        grid-template-columns: 1fr;
+    }
+
+    .garaje-formulario-acciones {
+        justify-content: stretch;
+    }
+
+    .garaje-formulario-acciones a,
+    .garaje-formulario-acciones button {
         width: 100%;
     }
 }
