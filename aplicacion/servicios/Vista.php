@@ -1,7 +1,7 @@
 <?php
 
 class Vista {
-    
+
     // renderiza una vista, extrayendo variables del array de datos y mostrando navbar
     public static function render(string $vista, array $datos = []): void {
         $ruta_vista = __DIR__ . '/../vistas/' . $vista . '.php';
@@ -19,8 +19,30 @@ class Vista {
         // extrae variables del array como variables normales
         extract($datos);
 
+        ob_start();
         require $ruta_navbar;
+        $html_navbar = ob_get_clean();
+
+        ob_start();
         require $ruta_vista;
+        $html_vista = ob_get_clean();
+
+        // inserta el navbar justo después de abrir el body
+        if (preg_match('/<body[^>]*>/i', $html_vista)) {
+            $html_vista = preg_replace(
+                '/<body([^>]*)>/i',
+                '<body$1>' . PHP_EOL . $html_navbar,
+                $html_vista,
+                1
+            );
+
+            echo $html_vista;
+            return;
+        }
+
+        // fallback por si alguna vista futura no tuviera body
+        echo $html_navbar;
+        echo $html_vista;
     }
 }
 

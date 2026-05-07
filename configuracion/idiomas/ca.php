@@ -15,6 +15,9 @@ return [
     'navbar.idioma_es' => 'ES',
     'navbar.idioma_ca' => 'CA',
     'navbar.cambiar_idioma' => 'Canviar idioma',
+    'navbar.navegacion_principal' => 'Navegació principal',
+    'navbar.abrir_menu' => 'Obrir menú',
+    'navbar.cerrar_menu' => 'Tancar menú',
 
     'idioma.ok.cambiado' => 'Idioma actualitzat correctament',
 

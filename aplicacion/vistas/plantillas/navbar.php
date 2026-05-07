@@ -1,54 +1,118 @@
-<nav>
-    <a href="<?= url('/') ?>"><?= htmlspecialchars(t('navbar.inicio')) ?></a>
+<?php
+$usuario_sesion = $_SESSION['usuario'] ?? null;
+$usuario_autenticado = isset($usuario_sesion);
+$usuario_admin = $usuario_autenticado && (($usuario_sesion['rol'] ?? '') === 'admin');
+$nombre_usuario = $usuario_sesion['nombre'] ?? '';
+?>
 
-    <?php if (!isset($_SESSION['usuario'])): ?>
-        <a href="<?= url('/login') ?>"><?= htmlspecialchars(t('navbar.login')) ?></a>
-        <a href="<?= url('/registro') ?>"><?= htmlspecialchars(t('navbar.registro')) ?></a>
-    <?php else: ?>
-        <a href="<?= url('/garaje') ?>"><?= htmlspecialchars(t('navbar.garaje')) ?></a>
-        <a href="<?= url('/comunidad') ?>"><?= htmlspecialchars(t('navbar.comunidad')) ?></a>
-        <a href="<?= url('/diagnostico') ?>"><?= htmlspecialchars(t('navbar.diagnostico')) ?></a>
-        <a href="<?= escapar(url('/perfil?usuario=' . urlencode($_SESSION['usuario']['nombre']))) ?>"><?= htmlspecialchars(t('navbar.perfil')) ?></a>
+<header class="barra-superior">
+    <nav class="navbar" aria-label="<?= htmlspecialchars(t('navbar.navegacion_principal')) ?>">
+        <div class="navbar__contenedor">
+            <a href="<?= escapar(url('/')) ?>" class="navbar__marca">
+                TorqHub
+            </a>
 
-        <?php if (($_SESSION['usuario']['rol'] ?? '') === 'admin'): ?>
-            <a href="<?= url('/admin') ?>"><?= htmlspecialchars(t('navbar.admin')) ?></a>
-        <?php endif; ?>
-
-        <form method="POST" action="<?= escapar(url('/logout')) ?>" class="formulario-logout">
-            <?= csrf_campo() ?>
-
-            <button type="submit" class="boton-logout">
-                <?= htmlspecialchars(t('navbar.logout')) ?>
+            <button
+                type="button"
+                class="navbar__boton-menu"
+                aria-controls="navbar-menu-principal"
+                aria-expanded="false"
+                aria-label="<?= htmlspecialchars(t('navbar.abrir_menu')) ?>"
+                data-navbar-boton
+                data-texto-abrir="<?= htmlspecialchars(t('navbar.abrir_menu')) ?>"
+                data-texto-cerrar="<?= htmlspecialchars(t('navbar.cerrar_menu')) ?>">
+                <span class="navbar__boton-menu-linea"></span>
+                <span class="navbar__boton-menu-linea"></span>
+                <span class="navbar__boton-menu-linea"></span>
             </button>
-        </form>
-    <?php endif; ?>
 
-    <form
-        method="post"
-        action="<?= url('/idioma') ?>"
-        class="formulario-idioma"
-        aria-label="<?= htmlspecialchars(t('navbar.cambiar_idioma')) ?>">
-        <?= csrf_campo() ?>
+            <div
+                id="navbar-menu-principal"
+                class="navbar__menu"
+                data-navbar-menu>
+                <div class="navbar__grupo navbar__grupo--principal">
+                    <a href="<?= escapar(url('/')) ?>" class="navbar__enlace">
+                        <?= htmlspecialchars(t('navbar.inicio')) ?>
+                    </a>
 
-        <input
-            type="hidden"
-            name="volver"
-            value="<?= htmlspecialchars($_SERVER['REQUEST_URI'] ?? url('/')) ?>">
+                    <?php if (!$usuario_autenticado): ?>
+                        <a href="<?= escapar(url('/login')) ?>" class="navbar__enlace">
+                            <?= htmlspecialchars(t('navbar.login')) ?>
+                        </a>
 
-        <button
-            type="submit"
-            name="idioma"
-            value="es"
-            class="boton-idioma <?= idioma_actual() === 'es' ? 'activo' : '' ?>">
-            <?= htmlspecialchars(t('navbar.idioma_es')) ?>
-        </button>
+                        <a href="<?= escapar(url('/registro')) ?>" class="navbar__enlace">
+                            <?= htmlspecialchars(t('navbar.registro')) ?>
+                        </a>
+                    <?php else: ?>
+                        <a href="<?= escapar(url('/garaje')) ?>" class="navbar__enlace">
+                            <?= htmlspecialchars(t('navbar.garaje')) ?>
+                        </a>
 
-        <button
-            type="submit"
-            name="idioma"
-            value="ca"
-            class="boton-idioma <?= idioma_actual() === 'ca' ? 'activo' : '' ?>">
-            <?= htmlspecialchars(t('navbar.idioma_ca')) ?>
-        </button>
-    </form>
-</nav>
+                        <a href="<?= escapar(url('/comunidad')) ?>" class="navbar__enlace">
+                            <?= htmlspecialchars(t('navbar.comunidad')) ?>
+                        </a>
+
+                        <a href="<?= escapar(url('/diagnostico')) ?>" class="navbar__enlace">
+                            <?= htmlspecialchars(t('navbar.diagnostico')) ?>
+                        </a>
+                    <?php endif; ?>
+                </div>
+
+                <div class="navbar__grupo navbar__grupo--usuario">
+                    <?php if ($usuario_autenticado): ?>
+                        <a
+                            href="<?= escapar(url('/perfil?usuario=' . urlencode($nombre_usuario))) ?>"
+                            class="navbar__enlace">
+                            <?= htmlspecialchars(t('navbar.perfil')) ?>
+                        </a>
+
+                        <?php if ($usuario_admin): ?>
+                            <a href="<?= escapar(url('/admin')) ?>" class="navbar__enlace navbar__enlace--admin">
+                                <?= htmlspecialchars(t('navbar.admin')) ?>
+                            </a>
+                        <?php endif; ?>
+
+                        <form method="POST" action="<?= escapar(url('/logout')) ?>" class="navbar__logout">
+                            <?= csrf_campo() ?>
+
+                            <button type="submit" class="navbar__logout-boton">
+                                <?= htmlspecialchars(t('navbar.logout')) ?>
+                            </button>
+                        </form>
+                    <?php endif; ?>
+
+                    <form
+                        method="post"
+                        action="<?= escapar(url('/idioma')) ?>"
+                        class="navbar__idioma"
+                        aria-label="<?= htmlspecialchars(t('navbar.cambiar_idioma')) ?>">
+                        <?= csrf_campo() ?>
+
+                        <input
+                            type="hidden"
+                            name="volver"
+                            value="<?= htmlspecialchars($_SERVER['REQUEST_URI'] ?? url('/')) ?>">
+
+                        <button
+                            type="submit"
+                            name="idioma"
+                            value="es"
+                            class="navbar__idioma-boton <?= idioma_actual() === 'es' ? 'navbar__idioma-boton--activo' : '' ?>">
+                            <?= htmlspecialchars(t('navbar.idioma_es')) ?>
+                        </button>
+
+                        <button
+                            type="submit"
+                            name="idioma"
+                            value="ca"
+                            class="navbar__idioma-boton <?= idioma_actual() === 'ca' ? 'navbar__idioma-boton--activo' : '' ?>">
+                            <?= htmlspecialchars(t('navbar.idioma_ca')) ?>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<script defer src="<?= escapar(url('/public/js/navbar.js')) ?>"></script>
