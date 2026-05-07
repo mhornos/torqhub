@@ -211,5 +211,70 @@ class RepositorioPublicaciones
 
         return (int) $stmt->fetchColumn();
     }
-    
+
+// cuenta las publicaciones creadas por un usuario
+    public static function contar_por_usuario(int $usuario_id): int {
+        $pdo = ConexionBBDD::obtener();
+
+        $sql = "SELECT COUNT(*) AS total
+            FROM publicaciones
+            WHERE usuario_id = :usuario_id";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'usuario_id' => $usuario_id,
+        ]);
+
+        return (int) $stmt->fetchColumn();
+    }
+
+
+// cuenta los likes recibidos en publicaciones de un usuario
+    public static function contar_likes_recibidos_por_usuario(int $usuario_id): int {
+        $pdo = ConexionBBDD::obtener();
+
+        $sql = "SELECT COUNT(l.id) AS total
+            FROM publicaciones p
+            LEFT JOIN publicaciones_likes l ON l.publicacion_id = p.id
+            WHERE p.usuario_id = :usuario_id";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'usuario_id' => $usuario_id,
+        ]);
+
+        return (int) $stmt->fetchColumn();
+    }
+
+// lista las últimas publicaciones creadas por un usuario
+    public static function listar_ultimas_por_usuario(int $usuario_id, int $limite = 3): array {
+        $pdo = ConexionBBDD::obtener();
+
+        $limite = max(1, min(6, $limite));
+
+        $sql = "SELECT 
+                p.id,
+                p.usuario_id,
+                p.contenido,
+                p.imagen,
+                p.fecha_creacion,
+                u.nombre AS autor_nombre,
+                COUNT(DISTINCT c.id) AS total_comentarios,
+                COUNT(DISTINCT l.id) AS total_likes
+            FROM publicaciones p
+            INNER JOIN usuarios u ON u.id = p.usuario_id
+            LEFT JOIN comentarios_publicaciones c ON c.publicacion_id = p.id
+            LEFT JOIN publicaciones_likes l ON l.publicacion_id = p.id
+            WHERE p.usuario_id = :usuario_id
+            GROUP BY p.id, p.usuario_id, p.contenido, p.imagen, p.fecha_creacion, u.nombre
+            ORDER BY p.fecha_creacion DESC, p.id DESC
+            LIMIT {$limite}";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'usuario_id' => $usuario_id,
+        ]);
+
+        return $stmt->fetchAll();
+    }
 }

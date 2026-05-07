@@ -315,40 +315,89 @@ class RepositorioMantenimientos
 
 //devuelve estadísticas rápidas globales de un vehículo
     public static function obtener_estadisticas_rapidas_por_vehiculo(int $vehiculo_id): array {
-    $pdo = ConexionBBDD::obtener();
+        $pdo = ConexionBBDD::obtener();
 
-    $sql_resumen = "SELECT 
+        $sql_resumen = "SELECT 
                         COUNT(*) AS total_mantenimientos,
                         COALESCE(SUM(coste), 0) AS total_gastado
                     FROM mantenimientos
                     WHERE vehiculo_id = :vehiculo_id";
 
-    $stmt_resumen = $pdo->prepare($sql_resumen);
-    $stmt_resumen->execute([
-        'vehiculo_id' => $vehiculo_id,
-    ]);
+        $stmt_resumen = $pdo->prepare($sql_resumen);
+        $stmt_resumen->execute([
+            'vehiculo_id' => $vehiculo_id,
+        ]);
 
-    $resumen = $stmt_resumen->fetch();
+        $resumen = $stmt_resumen->fetch();
 
-    $sql_ultimo = "SELECT fecha, tipo
+        $sql_ultimo = "SELECT fecha, tipo
                    FROM mantenimientos
                    WHERE vehiculo_id = :vehiculo_id
                    ORDER BY fecha DESC, id DESC
                    LIMIT 1";
 
-    $stmt_ultimo = $pdo->prepare($sql_ultimo);
-    $stmt_ultimo->execute([
-        'vehiculo_id' => $vehiculo_id,
-    ]);
+        $stmt_ultimo = $pdo->prepare($sql_ultimo);
+        $stmt_ultimo->execute([
+            'vehiculo_id' => $vehiculo_id,
+        ]);
 
-    $ultimo_mantenimiento = $stmt_ultimo->fetch();
+        $ultimo_mantenimiento = $stmt_ultimo->fetch();
 
-    return [
-        'total_mantenimientos' => (int) ($resumen['total_mantenimientos'] ?? 0),
-        'total_gastado' => (float) ($resumen['total_gastado'] ?? 0),
-        'ultima_fecha' => $ultimo_mantenimiento['fecha'] ?? null,
-        'ultimo_tipo' => $ultimo_mantenimiento['tipo'] ?? null,
-    ];
-}
+        return [
+            'total_mantenimientos' => (int) ($resumen['total_mantenimientos'] ?? 0),
+            'total_gastado' => (float) ($resumen['total_gastado'] ?? 0),
+            'ultima_fecha' => $ultimo_mantenimiento['fecha'] ?? null,
+            'ultimo_tipo' => $ultimo_mantenimiento['tipo'] ?? null,
+        ];
+    }
 
+// cuenta los mantenimientos registrados en vehículos de un usuario
+    public static function contar_por_usuario(int $usuario_id): int {
+        $pdo = ConexionBBDD::obtener();
+
+        $sql = "SELECT COUNT(m.id) AS total
+            FROM mantenimientos m
+            INNER JOIN vehiculos v ON v.id = m.vehiculo_id
+            WHERE v.usuario_id = :usuario_id";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'usuario_id' => $usuario_id,
+        ]);
+
+        return (int) $stmt->fetchColumn();
+    }
+
+// lista los últimos mantenimientos registrados en vehículos de un usuario
+    public static function listar_ultimos_por_usuario(int $usuario_id, int $limite = 3): array {
+        $pdo = ConexionBBDD::obtener();
+
+        $limite = max(1, min(6, $limite));
+
+        $sql = "SELECT 
+                m.id,
+                m.vehiculo_id,
+                m.fecha,
+                m.tipo,
+                m.descripcion,
+                m.kilometros,
+                m.coste,
+                m.fecha_creacion,
+                v.marca,
+                v.modelo,
+                v.any
+            FROM mantenimientos m
+            INNER JOIN vehiculos v ON v.id = m.vehiculo_id
+            WHERE v.usuario_id = :usuario_id
+            ORDER BY m.fecha DESC, m.id DESC
+            LIMIT {$limite}";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'usuario_id' => $usuario_id,
+        ]);
+
+        return $stmt->fetchAll();
+    }
+    
 }

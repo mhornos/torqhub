@@ -186,4 +186,40 @@ class RepositorioVehiculos
 
         return $vehiculo ?: null;
     }
+
+// cuenta los vehículos de un usuario
+    public static function contar_por_usuario(int $usuario_id): int {
+        $pdo = ConexionBBDD::obtener();
+
+        $sql = "SELECT COUNT(*) AS total
+            FROM vehiculos
+            WHERE usuario_id = :usuario_id";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'usuario_id' => $usuario_id,
+        ]);
+
+        return (int) $stmt->fetchColumn();
+    }
+
+// lista los últimos vehículos añadidos por un usuario
+    public static function listar_ultimos_por_usuario(int $usuario_id, int $limite = 3): array {
+        $pdo = ConexionBBDD::obtener();
+
+        $limite = max(1, min(6, $limite));
+
+        $sql = "SELECT id, marca, modelo, any, imagen, fecha_creacion
+            FROM vehiculos
+            WHERE usuario_id = :usuario_id
+            ORDER BY fecha_creacion DESC, id DESC
+            LIMIT {$limite}";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            'usuario_id' => $usuario_id,
+        ]);
+
+        return $stmt->fetchAll();
+    }
 }

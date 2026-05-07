@@ -93,6 +93,104 @@ return [
     'inicio.saludo' => 'Hola',
     'inicio.bienvenida' => 'Benvingut a TorqHub',
 
+    'inicio.publico.etiqueta' => 'Projecte final de Desenvolupament d’Aplicacions Web',
+    'inicio.publico.titulo' => 'TorqHub',
+    'inicio.publico.descripcion' => 'Una plataforma web per a aficionats al motor amb garatge virtual, comunitat, perfils i diagnòstic mecànic assistit mitjançant un sistema expert propi.',
+    'inicio.publico.login' => 'Iniciar sessió',
+    'inicio.publico.registro' => 'Crear compte',
+
+    'inicio.publico.panel.etiqueta' => 'Base tècnica',
+    'inicio.publico.panel.titulo' => 'Projecte desenvolupat des de zero',
+    'inicio.publico.panel.descripcion' => 'TorqHub està construït amb PHP, MySQL i una arquitectura MVC pròpia, prioritzant seguretat, organització i funcionalitats defensables.',
+    'inicio.publico.panel.mvc' => 'Arquitectura MVC pròpia en PHP',
+    'inicio.publico.panel.seguridad' => 'Sessions, rols, CSRF i validacions',
+    'inicio.publico.panel.multilenguaje' => 'Interfície multillenguatge en espanyol i català',
+
+    'inicio.publico.funcionalidades' => 'Funcionalitats principals',
+    'inicio.publico.funcionalidades.descripcion' => 'L’aplicació reuneix mòduls connectats entre si per simular una plataforma social i tècnica centrada en vehicles.',
+
+    'inicio.publico.garaje.etiqueta' => 'Garatge',
+    'inicio.publico.garaje.titulo' => 'Garatge virtual',
+    'inicio.publico.garaje.descripcion' => 'Permet registrar vehicles, fotos, dades tècniques, historial de manteniments i consultes VIN.',
+
+    'inicio.publico.comunidad.etiqueta' => 'Social',
+    'inicio.publico.comunidad.titulo' => 'Comunitat',
+    'inicio.publico.comunidad.descripcion' => 'Els usuaris poden crear publicacions, comentar, respondre i donar likes mitjançant AJAX.',
+
+    'inicio.publico.diagnostico.etiqueta' => 'IA',
+    'inicio.publico.diagnostico.titulo' => 'Diagnòstic assistit',
+    'inicio.publico.diagnostico.descripcion' => 'Sistema expert basat en regles, causes i paraules clau administrables des del panell privat.',
+
+    'inicio.publico.perfiles.etiqueta' => 'Usuaris',
+    'inicio.publico.perfiles.titulo' => 'Perfils',
+    'inicio.publico.perfiles.descripcion' => 'Cada usuari disposa de perfil públic amb publicacions, foto, dades editables i vehicles visibles.',
+
+    'inicio.dashboard.etiqueta' => 'Panell privat',
+    'inicio.dashboard.titulo' => 'Hola',
+    'inicio.dashboard.descripcion' => 'Des d’aquí pots accedir ràpidament a les parts principals de TorqHub i continuar treballant amb el teu garatge, comunitat i diagnòstic.',
+    'inicio.dashboard.accion_garaje' => 'Veure el meu garatge',
+    'inicio.dashboard.accion_publicacion' => 'Crear publicació',
+
+    'inicio.dashboard.panel.etiqueta' => 'Resum del projecte',
+    'inicio.dashboard.panel.titulo' => 'Zona d’usuari',
+    'inicio.dashboard.panel.descripcion' => 'Aquest panell centralitza els mòduls principals sense duplicar funcionalitats ja existents.',
+    'inicio.dashboard.panel.garaje' => 'Gestiona els teus vehicles i manteniments',
+    'inicio.dashboard.panel.comunidad' => 'Participa en la comunitat',
+    'inicio.dashboard.panel.diagnostico' => 'Consulta el diagnòstic assistit',
+
+    'inicio.dashboard.resumen' => 'Resum ràpid',
+    'inicio.dashboard.resumen_descripcion' => 'Aquestes dades es calculen des de la base de dades i resumeixen la teva activitat principal dins de TorqHub.',
+    'inicio.dashboard.vehiculos.etiqueta' => 'Garatge',
+    'inicio.dashboard.vehiculos.titulo' => 'Vehicles',
+    'inicio.dashboard.vehiculos.descripcion' => 'Accedeix al llistat dels teus vehicles i consulta’n els detalls.',
+
+    'inicio.dashboard.mantenimientos.etiqueta' => 'Historial',
+    'inicio.dashboard.mantenimientos.titulo' => 'Manteniments',
+    'inicio.dashboard.mantenimientos.descripcion' => 'Revisa l’historial tècnic des del detall de cada vehicle.',
+
+    'inicio.dashboard.publicaciones.etiqueta' => 'Comunitat',
+    'inicio.dashboard.publicaciones.titulo' => 'Publicacions',
+    'inicio.dashboard.publicaciones.descripcion' => 'Consulta publicacions, comentaris, respostes i likes.',
+
+    'inicio.dashboard.diagnostico.etiqueta' => 'Assistent',
+    'inicio.dashboard.diagnostico.titulo' => 'Diagnòstic assistit',
+    'inicio.dashboard.diagnostico.descripcion' => 'Descriu símptomes del vehicle i rep possibles causes ordenades per coincidència.',
+
+    'inicio.dashboard.acciones' => 'Accions ràpides',
+    'inicio.dashboard.acciones_descripcion' => 'Dreceres directes a les accions més habituals dins de l’aplicació.',
+
+    'inicio.dashboard.accion.anadir_vehiculo' => 'Afegir vehicle',
+    'inicio.dashboard.accion.anadir_vehiculo.descripcion' => 'Registra un nou vehicle al teu garatge virtual.',
+
+    'inicio.dashboard.accion.crear_publicacion' => 'Crear publicació',
+    'inicio.dashboard.accion.crear_publicacion.descripcion' => 'Comparteix una actualització amb la comunitat.',
+
+    'inicio.dashboard.accion.hacer_diagnostico' => 'Fer diagnòstic',
+    'inicio.dashboard.accion.hacer_diagnostico.descripcion' => 'Obre l’assistent de diagnòstic mecànic.',
+
+    'inicio.dashboard.accion.ver_perfil' => 'Veure el meu perfil',
+    'inicio.dashboard.accion.ver_perfil.descripcion' => 'Consulta el teu perfil públic i les teves publicacions.',
+    'inicio.dashboard.likes.etiqueta' => 'Interacció',
+    'inicio.dashboard.likes.titulo' => 'Likes rebuts',
+    'inicio.dashboard.likes.descripcion' => 'Likes acumulats a les teves publicacions de la comunitat.',
+
+    'inicio.dashboard.actividad' => 'Activitat recent',
+    'inicio.dashboard.actividad.descripcion' => 'Últims elements registrats als teus mòduls principals per continuar ràpidament on ho vas deixar.',
+    'inicio.dashboard.actividad.ver_todo' => 'Veure-ho tot',
+    'inicio.dashboard.actividad.sin_fecha' => 'Sense data',
+
+    'inicio.dashboard.actividad.vehiculos' => 'Últims vehicles',
+    'inicio.dashboard.actividad.vehiculos.vacio' => 'Encara no has afegit vehicles.',
+
+    'inicio.dashboard.actividad.mantenimientos' => 'Últims manteniments',
+    'inicio.dashboard.actividad.mantenimientos.vacio' => 'Encara no has registrat manteniments.',
+
+    'inicio.dashboard.actividad.publicaciones' => 'Últimes publicacions',
+    'inicio.dashboard.actividad.publicaciones.vacio' => 'Encara no has creat publicacions.',
+
+    'inicio.dashboard.actividad.likes' => 'likes',
+    'inicio.dashboard.actividad.comentarios' => 'comentaris',
+
     // garatge - llistat
     'garaje.index.titulo_pagina' => 'El meu garatge',
     'garaje.index.titulo' => 'El meu garatge',

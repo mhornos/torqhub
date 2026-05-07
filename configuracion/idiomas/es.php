@@ -93,6 +93,104 @@ return [
     'inicio.saludo' => 'Hola',
     'inicio.bienvenida' => 'Bienvenido a TorqHub',
 
+    'inicio.publico.etiqueta' => 'Proyecto final de Desarrollo de Aplicaciones Web',
+    'inicio.publico.titulo' => 'TorqHub',
+    'inicio.publico.descripcion' => 'Una plataforma web para aficionados al motor con garaje virtual, comunidad, perfiles y diagnóstico mecánico asistido mediante un sistema experto propio.',
+    'inicio.publico.login' => 'Iniciar sesión',
+    'inicio.publico.registro' => 'Crear cuenta',
+
+    'inicio.publico.panel.etiqueta' => 'Base técnica',
+    'inicio.publico.panel.titulo' => 'Proyecto desarrollado desde cero',
+    'inicio.publico.panel.descripcion' => 'TorqHub está construido con PHP, MySQL y una arquitectura MVC propia, priorizando seguridad, organización y funcionalidades defendibles.',
+    'inicio.publico.panel.mvc' => 'Arquitectura MVC propia en PHP',
+    'inicio.publico.panel.seguridad' => 'Sesiones, roles, CSRF y validaciones',
+    'inicio.publico.panel.multilenguaje' => 'Interfaz multilenguaje en español y catalán',
+
+    'inicio.publico.funcionalidades' => 'Funcionalidades principales',
+    'inicio.publico.funcionalidades.descripcion' => 'La aplicación reúne módulos conectados entre sí para simular una plataforma social y técnica centrada en vehículos.',
+
+    'inicio.publico.garaje.etiqueta' => 'Garaje',
+    'inicio.publico.garaje.titulo' => 'Garaje virtual',
+    'inicio.publico.garaje.descripcion' => 'Permite registrar vehículos, fotos, datos técnicos, historial de mantenimientos y consultas VIN.',
+
+    'inicio.publico.comunidad.etiqueta' => 'Social',
+    'inicio.publico.comunidad.titulo' => 'Comunidad',
+    'inicio.publico.comunidad.descripcion' => 'Los usuarios pueden crear publicaciones, comentar, responder y dar likes mediante AJAX.',
+
+    'inicio.publico.diagnostico.etiqueta' => 'IA',
+    'inicio.publico.diagnostico.titulo' => 'Diagnóstico asistido',
+    'inicio.publico.diagnostico.descripcion' => 'Sistema experto basado en reglas, causas y palabras clave administrables desde panel privado.',
+
+    'inicio.publico.perfiles.etiqueta' => 'Usuarios',
+    'inicio.publico.perfiles.titulo' => 'Perfiles',
+    'inicio.publico.perfiles.descripcion' => 'Cada usuario dispone de perfil público con publicaciones, foto, datos editables y vehículos visibles.',
+
+    'inicio.dashboard.etiqueta' => 'Panel privado',
+    'inicio.dashboard.titulo' => 'Hola',
+    'inicio.dashboard.descripcion' => 'Desde aquí puedes acceder rápidamente a las partes principales de TorqHub y continuar trabajando con tu garaje, comunidad y diagnóstico.',
+    'inicio.dashboard.accion_garaje' => 'Ver mi garaje',
+    'inicio.dashboard.accion_publicacion' => 'Crear publicación',
+
+    'inicio.dashboard.panel.etiqueta' => 'Resumen del proyecto',
+    'inicio.dashboard.panel.titulo' => 'Zona de usuario',
+    'inicio.dashboard.panel.descripcion' => 'Este panel centraliza los módulos principales sin duplicar funcionalidades ya existentes.',
+    'inicio.dashboard.panel.garaje' => 'Gestiona tus vehículos y mantenimientos',
+    'inicio.dashboard.panel.comunidad' => 'Participa en la comunidad',
+    'inicio.dashboard.panel.diagnostico' => 'Consulta el diagnóstico asistido',
+
+    'inicio.dashboard.resumen' => 'Resumen rápido',
+    'inicio.dashboard.resumen_descripcion' => 'Estos datos se calculan desde la base de datos y resumen tu actividad principal dentro de TorqHub.',
+    'inicio.dashboard.vehiculos.etiqueta' => 'Garaje',
+    'inicio.dashboard.vehiculos.titulo' => 'Vehículos',
+    'inicio.dashboard.vehiculos.descripcion' => 'Accede al listado de tus vehículos y consulta sus detalles.',
+
+    'inicio.dashboard.mantenimientos.etiqueta' => 'Historial',
+    'inicio.dashboard.mantenimientos.titulo' => 'Mantenimientos',
+    'inicio.dashboard.mantenimientos.descripcion' => 'Revisa el historial técnico desde el detalle de cada vehículo.',
+
+    'inicio.dashboard.publicaciones.etiqueta' => 'Comunidad',
+    'inicio.dashboard.publicaciones.titulo' => 'Publicaciones',
+    'inicio.dashboard.publicaciones.descripcion' => 'Consulta publicaciones, comentarios, respuestas y likes.',
+
+    'inicio.dashboard.diagnostico.etiqueta' => 'Asistente',
+    'inicio.dashboard.diagnostico.titulo' => 'Diagnóstico asistido',
+    'inicio.dashboard.diagnostico.descripcion' => 'Describe síntomas del vehículo y recibe posibles causas ordenadas por coincidencia.',
+
+    'inicio.dashboard.acciones' => 'Acciones rápidas',
+    'inicio.dashboard.acciones_descripcion' => 'Atajos directos a las acciones más habituales dentro de la aplicación.',
+
+    'inicio.dashboard.accion.anadir_vehiculo' => 'Añadir vehículo',
+    'inicio.dashboard.accion.anadir_vehiculo.descripcion' => 'Registra un nuevo vehículo en tu garaje virtual.',
+
+    'inicio.dashboard.accion.crear_publicacion' => 'Crear publicación',
+    'inicio.dashboard.accion.crear_publicacion.descripcion' => 'Comparte una actualización con la comunidad.',
+
+    'inicio.dashboard.accion.hacer_diagnostico' => 'Hacer diagnóstico',
+    'inicio.dashboard.accion.hacer_diagnostico.descripcion' => 'Abre el asistente de diagnóstico mecánico.',
+
+    'inicio.dashboard.accion.ver_perfil' => 'Ver mi perfil',
+    'inicio.dashboard.accion.ver_perfil.descripcion' => 'Consulta tu perfil público y tus publicaciones.',
+    'inicio.dashboard.likes.etiqueta' => 'Interacción',
+    'inicio.dashboard.likes.titulo' => 'Likes recibidos',
+    'inicio.dashboard.likes.descripcion' => 'Likes acumulados en tus publicaciones de la comunidad.',
+
+    'inicio.dashboard.actividad' => 'Actividad reciente',
+    'inicio.dashboard.actividad.descripcion' => 'Últimos elementos registrados en tus módulos principales para continuar rápidamente donde lo dejaste.',
+    'inicio.dashboard.actividad.ver_todo' => 'Ver todo',
+    'inicio.dashboard.actividad.sin_fecha' => 'Sin fecha',
+
+    'inicio.dashboard.actividad.vehiculos' => 'Últimos vehículos',
+    'inicio.dashboard.actividad.vehiculos.vacio' => 'Todavía no has añadido vehículos.',
+
+    'inicio.dashboard.actividad.mantenimientos' => 'Últimos mantenimientos',
+    'inicio.dashboard.actividad.mantenimientos.vacio' => 'Todavía no has registrado mantenimientos.',
+
+    'inicio.dashboard.actividad.publicaciones' => 'Últimas publicaciones',
+    'inicio.dashboard.actividad.publicaciones.vacio' => 'Todavía no has creado publicaciones.',
+
+    'inicio.dashboard.actividad.likes' => 'likes',
+    'inicio.dashboard.actividad.comentarios' => 'comentarios',
+
     // garaje - listado
     'garaje.index.titulo_pagina' => 'Mi garaje',
     'garaje.index.titulo' => 'Mi garaje',

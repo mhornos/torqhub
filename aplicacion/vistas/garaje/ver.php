@@ -437,7 +437,11 @@ if (empty($imagenes_vehiculo) && !empty($vehiculo['imagen'])) {
                 <?php require __DIR__ . '/mantenimientos/tabla.php'; ?>
             </div>
         </section>
+
+        <div id="final"></div>
     </main>
+
+    
 
     <script src="<?= url('/public/js/garaje/ver.js') ?>"></script>
     <script src="<?= url('/public/js/garaje/carrusel-vehiculo.js') ?>"></script>
