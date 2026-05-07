@@ -43,6 +43,8 @@ if (!isset($vehiculo) || !is_array($vehiculo)) {
         'error_cilindrada_entero' => t('garaje.js.error.cilindrada_entero'),
         'error_imagen_tipo' => t('garaje.js.error.imagen_tipo'),
         'error_imagen_tamanyo' => t('garaje.js.error.imagen_tamanyo'),
+        'campo_imagenes' => t('garaje.js.campo.imagenes'),
+        'error_imagenes_limite' => t('garaje.js.error.imagenes_limite'),
 
         'vin_no_preparar' => t('garaje.js.vin.no_preparar'),
         'vin_introduce' => t('garaje.js.vin.introduce'),
@@ -162,8 +164,14 @@ if (!isset($vehiculo) || !is_array($vehiculo)) {
         </div> <br>
 
         <div>
-            <label for="imagen"><?= htmlspecialchars(t('garaje.form.cambiar_imagen')) ?>:</label>
-            <input type="file" name="imagen" id="imagen" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"> <br>
+            <label for="imagenes"><?= htmlspecialchars(t('garaje.form.cambiar_imagen')) ?>:</label>
+            <input
+                type="file"
+                name="imagenes[]"
+                id="imagenes"
+                accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                multiple>
+            <br>
             <small><?= htmlspecialchars(t('garaje.form.cambiar_imagen_ayuda')) ?>.</small>
         </div>
 

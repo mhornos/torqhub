@@ -152,18 +152,6 @@ foreach ($causas_ia as $causa) {
                 </table>
             </div>
         <?php endif; ?>
-
-        <section class="admin-bloque-info">
-            <h2><?= escapar(t('admin.ia.defensa.titulo')) ?></h2>
-
-            <p>
-                <?= escapar(t('admin.ia.defensa.texto')) ?>
-            </p>
-
-            <div class="admin-aviso-defensa">
-                <?= escapar(t('admin.ia.defensa.aviso')) ?>
-            </div>
-        </section>
     </main>
 </body>
 

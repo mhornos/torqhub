@@ -28,6 +28,7 @@
         'campo_potencia_cv' => t('garaje.js.campo.potencia_cv'),
         'campo_cilindrada_cm3' => t('garaje.js.campo.cilindrada_cm3'),
         'campo_imagen' => t('garaje.js.campo.imagen'),
+        'campo_imagenes' => t('garaje.js.campo.imagenes'),
         'campo_este_campo' => t('garaje.js.campo.este_campo'),
 
         'error_falta' => t('garaje.js.error.falta'),
@@ -36,6 +37,7 @@
         'error_cilindrada_entero' => t('garaje.js.error.cilindrada_entero'),
         'error_imagen_tipo' => t('garaje.js.error.imagen_tipo'),
         'error_imagen_tamanyo' => t('garaje.js.error.imagen_tamanyo'),
+        'error_imagenes_limite' => t('garaje.js.error.imagenes_limite'),
 
         'vin_no_preparar' => t('garaje.js.vin.no_preparar'),
         'vin_introduce' => t('garaje.js.vin.introduce'),
@@ -140,8 +142,14 @@
         </div>
         <br>
         <div>
-            <label for="imagen"><?= htmlspecialchars(t('garaje.form.imagen')) ?>:</label>
-            <input type="file" name="imagen" id="imagen" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"> <br>
+            <label for="imagenes"><?= htmlspecialchars(t('garaje.form.imagen')) ?>:</label>
+            <input
+                type="file"
+                name="imagenes[]"
+                id="imagenes"
+                accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                multiple>
+            <br>
             <small><?= htmlspecialchars(t('garaje.form.imagen_ayuda_nuevo')) ?>.</small>
         </div>
         <br>

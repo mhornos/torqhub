@@ -124,11 +124,11 @@ return [
     'garaje.form.potencia_cv' => 'Potencia (CV)',
     'garaje.form.cilindrada_cm3' => 'Cilindrada (cm³)',
 
-    'garaje.form.imagen' => 'Imagen del vehículo',
-    'garaje.form.imagen_ayuda_nuevo' => 'Formatos permitidos: JPG, PNG o WEBP. Máximo 3 MB',
-    'garaje.form.cambiar_imagen' => 'Cambiar imagen del vehículo',
-    'garaje.form.cambiar_imagen_ayuda' => 'Si subes una nueva imagen, reemplazará la actual. Máximo 3 MB',
-    'garaje.form.imagen_actual' => 'Imagen actual',
+    'garaje.form.imagen' => 'Fotos del vehículo',
+    'garaje.form.imagen_ayuda_nuevo' => 'Puedes subir hasta 8 fotos. Formatos permitidos: JPG, PNG o WEBP. Máximo 3 MB por foto',
+    'garaje.form.cambiar_imagen' => 'Añadir fotos del vehículo',
+    'garaje.form.cambiar_imagen_ayuda' => 'Las nuevas fotos se añadirán al álbum actual. Máximo 8 fotos por subida y 3 MB por foto',
+    'garaje.form.imagen_actual' => 'Fotos actuales',
     'garaje.form.alt_imagen_actual' => 'Imagen actual del vehículo',
 
     'garaje.form.cancelar' => 'Cancelar',
@@ -146,6 +146,7 @@ return [
     'garaje.js.campo.potencia_cv' => 'la potencia',
     'garaje.js.campo.cilindrada_cm3' => 'la cilindrada',
     'garaje.js.campo.imagen' => 'la imagen',
+    'garaje.js.campo.imagenes' => 'las fotos',
     'garaje.js.campo.este_campo' => 'este campo',
 
     'garaje.js.error.falta' => 'Falta {campo}',
@@ -154,6 +155,7 @@ return [
     'garaje.js.error.cilindrada_entero' => 'La cilindrada debe ser un número entero positivo',
     'garaje.js.error.imagen_tipo' => 'Solo se permiten imágenes JPG, PNG o WEBP',
     'garaje.js.error.imagen_tamanyo' => 'La imagen no puede superar los 3 MB',
+    'garaje.js.error.imagenes_limite' => 'Puedes subir un máximo de 8 fotos a la vez',
 
     'garaje.js.vin.no_preparar' => 'No se pudo preparar la consulta VIN',
     'garaje.js.vin.introduce' => 'Introduce un VIN antes de consultar',
@@ -173,6 +175,10 @@ return [
     'garaje.detalle.alt_imagen' => 'Imagen del vehículo',
     'garaje.detalle.imagen_no_disponible' => 'Imagen no disponible',
     'garaje.detalle.imagen_ayuda' => 'Todavía no se ha subido una foto para este vehículo',
+    'garaje.detalle.galeria' => 'Galería de fotos del vehículo',
+    'garaje.detalle.foto_anterior' => 'Ver foto anterior',
+    'garaje.detalle.foto_siguiente' => 'Ver foto siguiente',
+    'garaje.detalle.foto_contador' => 'Foto',
     'garaje.detalle.subtitulo' => 'Vehículo registrado en tu garaje',
     'garaje.detalle.volver_garaje' => 'Volver al garaje',
     'garaje.detalle.editar' => 'Editar',
@@ -646,6 +652,7 @@ return [
     'garaje.vehiculo.imagen.error.formato' => 'Solo se permiten imágenes JPG, PNG o WEBP',
     'garaje.vehiculo.imagen.error.crear_directorio' => 'No se pudo crear el directorio de imágenes de vehículos',
     'garaje.vehiculo.imagen.error.guardar' => 'No se pudo guardar la imagen del vehículo',
+    'garaje.vehiculo.imagen.error.limite' => 'Puedes subir un máximo de 8 fotos a la vez',
 
     // garaje - vin backend
     'garaje.vin.error.obligatorio' => 'Debes introducir un VIN',

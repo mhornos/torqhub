@@ -65,7 +65,7 @@ class GarajeControlador extends ControladorBase {
         $tipo_cambio = trim($_POST['tipo_cambio'] ?? '');
         $potencia_cv_txt = trim($_POST['potencia_cv'] ?? '');
         $cilindrada_cm3_txt = trim($_POST['cilindrada_cm3'] ?? '');
-        $archivo_imagen = $_FILES['imagen'] ?? null;
+        $archivos_imagenes = $this->normalizar_archivos_multiples_vehiculo($_FILES['imagenes'] ?? null);
 
         $any = ($any_txt === '') ? null : (int) $any_txt;
         $vin = ($vin === '') ? null : $vin;
@@ -115,20 +115,28 @@ class GarajeControlador extends ControladorBase {
 
         $usuario_id = (int) $_SESSION['usuario']['id'];
 
-        $imagen = null;
-
-        if ($archivo_imagen && ($archivo_imagen['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
-            try {
-                $imagen = $this->guardar_imagen_vehiculo($archivo_imagen);
-            } catch (RuntimeException $e) {
-                flash_set('error', $e->getMessage());
-                $this->redirigir('/garaje/nuevo');
-            }
-        }
+        $imagenes_guardadas = [];
 
         try {
-            RepositorioVehiculos::crear($usuario_id, $marca, $modelo, $any, $vin, $carroceria, $tipo_combustible, $tipo_cambio, $potencia_cv, $cilindrada_cm3, $imagen);
+            $imagenes_guardadas = $this->guardar_imagenes_vehiculo($archivos_imagenes);
+        } catch (RuntimeException $e) {
+            flash_set('error', $e->getMessage());
+            $this->redirigir('/garaje/nuevo');
+        }
+
+        $imagen = $imagenes_guardadas[0] ?? null;
+
+        try {
+            $vehiculo_id = RepositorioVehiculos::crear($usuario_id, $marca, $modelo, $any, $vin, $carroceria, $tipo_combustible, $tipo_cambio, $potencia_cv, $cilindrada_cm3, $imagen);
+
+            if (!empty($imagenes_guardadas)) {
+                RepositorioVehiculoImagenes::insertar_varias($vehiculo_id, $imagenes_guardadas);
+            }
         } catch (PDOException $e) {
+            foreach ($imagenes_guardadas as $imagen_guardada) {
+                $this->eliminar_archivo_imagen_vehiculo($imagen_guardada);
+            }
+
             flash_set('error', t('garaje.vehiculo.error.guardar'));
             $this->redirigir('/garaje/nuevo');
         }
@@ -167,6 +175,7 @@ class GarajeControlador extends ControladorBase {
         }
 
         $vehiculo = RepositorioVehiculos::buscar_por_id_y_usuario($vehiculo_id, $usuario_id);
+        $imagenes_vehiculo = RepositorioVehiculoImagenes::listar_por_vehiculo_y_usuario($vehiculo_id, $usuario_id);
 
         if (!$vehiculo) {
             flash_set('error', t('garaje.vehiculo.error.no_encontrado_permisos'));
@@ -180,8 +189,22 @@ class GarajeControlador extends ControladorBase {
             $this->redirigir('/garaje');
         }
 
-        if ($eliminado && !empty($vehiculo['imagen'])) {
-            $this->eliminar_archivo_imagen_vehiculo($vehiculo['imagen']);
+        if ($eliminado) {
+            $imagenes_a_eliminar = [];
+
+            if (!empty($vehiculo['imagen'])) {
+                $imagenes_a_eliminar[] = $vehiculo['imagen'];
+            }
+
+            foreach ($imagenes_vehiculo as $imagen_vehiculo) {
+                if (!empty($imagen_vehiculo['nombre_archivo'])) {
+                    $imagenes_a_eliminar[] = $imagen_vehiculo['nombre_archivo'];
+                }
+            }
+
+            foreach (array_unique($imagenes_a_eliminar) as $nombre_archivo) {
+                $this->eliminar_archivo_imagen_vehiculo($nombre_archivo);
+            }
         }
 
         if (!$eliminado) {
@@ -235,7 +258,7 @@ class GarajeControlador extends ControladorBase {
         $tipo_cambio = ($tipo_cambio === '') ? null : $tipo_cambio;
         $potencia_cv = ($potencia_cv_txt === '') ? null : (int) $potencia_cv_txt;
         $cilindrada_cm3 = ($cilindrada_cm3_txt === '') ? null : (int) $cilindrada_cm3_txt;
-        $archivo_imagen = $_FILES['imagen'] ?? null;
+        $archivos_imagenes = $this->normalizar_archivos_multiples_vehiculo($_FILES['imagenes'] ?? null);
 
         if ($vehiculo_id <= 0) {
             flash_set('error', t('garaje.vehiculo.error.no_valido'));
@@ -292,20 +315,17 @@ class GarajeControlador extends ControladorBase {
         }
 
         $imagen = $vehiculo_actual['imagen'] ?? null;
+        $imagenes_guardadas = [];
 
-        if ($archivo_imagen && ($archivo_imagen['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
-            try {
-                $nueva_imagen = $this->guardar_imagen_vehiculo($archivo_imagen);
+        try {
+            $imagenes_guardadas = $this->guardar_imagenes_vehiculo($archivos_imagenes);
+        } catch (RuntimeException $e) {
+            flash_set('error', $e->getMessage());
+            $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
+        }
 
-                if (!empty($vehiculo_actual['imagen'])) {
-                    $this->eliminar_archivo_imagen_vehiculo($vehiculo_actual['imagen']);
-                }
-
-                $imagen = $nueva_imagen;
-            } catch (RuntimeException $e) {
-                flash_set('error', $e->getMessage());
-                $this->redirigir('/garaje/editar?id=' . $vehiculo_id);
-            }
+        if (empty($imagen) && !empty($imagenes_guardadas)) {
+            $imagen = $imagenes_guardadas[0];
         }
 
         try {
@@ -318,6 +338,12 @@ class GarajeControlador extends ControladorBase {
         if (!$actualizado) {
             flash_set('error', t('garaje.vehiculo.error.no_encontrado_permisos'));
             $this->redirigir('/garaje');
+        }
+
+        try {
+            RepositorioVehiculoImagenes::insertar_varias($vehiculo_id, $imagenes_guardadas);
+        } catch (PDOException $e) {
+            error_log('Error guardando imágenes adicionales del vehículo: ' . $e->getMessage());
         }
 
         flash_set('ok', t('garaje.vehiculo.ok.actualizado'));
@@ -366,6 +392,21 @@ class GarajeControlador extends ControladorBase {
         $resumen_mantenimientos = RepositorioMantenimientos::obtener_resumen_filtrado_por_vehiculo($vehiculo_id, $filtros);
         $estadisticas_vehiculo = RepositorioMantenimientos::obtener_estadisticas_rapidas_por_vehiculo($vehiculo_id);
 
+        $imagenes_vehiculo = RepositorioVehiculoImagenes::listar_por_vehiculo_y_usuario($vehiculo_id, $usuario_id);
+
+        if (empty($imagenes_vehiculo) && !empty($vehiculo['imagen'])) {
+            $imagenes_vehiculo = [
+                [
+                    'id' => 0,
+                    'vehiculo_id' => $vehiculo_id,
+                    'nombre_archivo' => $vehiculo['imagen'],
+                    'texto_alt' => t('garaje.detalle.alt_imagen') . ' ' . $vehiculo['marca'] . ' ' . $vehiculo['modelo'],
+                    'principal' => 1,
+                    'orden' => 1,
+                ],
+            ];
+        }
+
         $this->render('garaje/ver', [
             'vehiculo' => $vehiculo,
             'mantenimientos' => $mantenimientos,
@@ -377,6 +418,7 @@ class GarajeControlador extends ControladorBase {
             'por_pagina' => $por_pagina,
             'total_paginas' => $total_paginas,
             'total_mantenimientos_filtrados' => $total_mantenimientos_filtrados,
+            'imagenes_vehiculo' => $imagenes_vehiculo,
         ]);
     }
 
@@ -966,10 +1008,68 @@ class GarajeControlador extends ControladorBase {
         require $ruta_tabla;
     }
 
+//convierte el input multiple de imagenes en un array normal de archivos
+    private function normalizar_archivos_multiples_vehiculo(?array $campo_archivos): array {
+        if (
+            empty($campo_archivos)
+            || !isset($campo_archivos['name'])
+            || !is_array($campo_archivos['name'])
+        ) {
+            return [];
+        }
+
+        $archivos = [];
+    
+        foreach ($campo_archivos['name'] as $indice => $nombre) {
+            $error = $campo_archivos['error'][$indice] ?? UPLOAD_ERR_NO_FILE;
+
+            if ($error === UPLOAD_ERR_NO_FILE) {
+                continue;
+            }
+
+            $archivos[] = [
+                'name' => $nombre,
+                'type' => $campo_archivos['type'][$indice] ?? '',
+                'tmp_name' => $campo_archivos['tmp_name'][$indice] ?? '',
+                'error' => $error,
+                'size' => $campo_archivos['size'][$indice] ?? 0,
+            ];
+        }
+
+        return $archivos;
+    }
+
+//guarda varias imágenes y limpia las ya subidas si una falla
+    private function guardar_imagenes_vehiculo(array $archivos): array {
+        if (empty($archivos)) {
+            return [];
+        }
+
+        $limite_imagenes = 8;
+
+        if (count($archivos) > $limite_imagenes) {
+            throw new RuntimeException(t('garaje.vehiculo.imagen.error.limite'));
+        }
+
+        $imagenes_guardadas = [];
+
+        try {
+            foreach ($archivos as $archivo) {
+                $imagenes_guardadas[] = $this->guardar_imagen_vehiculo($archivo);
+            }
+        } catch (RuntimeException $e) {
+            foreach ($imagenes_guardadas as $imagen_guardada) {
+                $this->eliminar_archivo_imagen_vehiculo($imagen_guardada);
+            }
+
+            throw $e;
+        }
+
+        return $imagenes_guardadas;
+    }
 
 //funciones auxiliares para guardar y eliminar imagenes de vehiculos
-    private function guardar_imagen_vehiculo(array $archivo): string
-    {
+    private function guardar_imagen_vehiculo(array $archivo): string {
         if (($archivo['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
             throw new RuntimeException(t('garaje.vehiculo.imagen.error.subir'));
         }
@@ -1013,8 +1113,8 @@ class GarajeControlador extends ControladorBase {
         return $nombre_archivo;
     }
 
-    private function eliminar_archivo_imagen_vehiculo(?string $nombre_archivo): void
-    {
+//elimina un archivo de imagen de vehículo del servidor
+    private function eliminar_archivo_imagen_vehiculo(?string $nombre_archivo): void {
         if (empty($nombre_archivo)) {
             return;
         }

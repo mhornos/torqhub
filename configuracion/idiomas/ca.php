@@ -124,11 +124,11 @@ return [
     'garaje.form.potencia_cv' => 'Potència (CV)',
     'garaje.form.cilindrada_cm3' => 'Cilindrada (cm³)',
 
-    'garaje.form.imagen' => 'Imatge del vehicle',
-    'garaje.form.imagen_ayuda_nuevo' => 'Formats permesos: JPG, PNG o WEBP. Màxim 3 MB',
-    'garaje.form.cambiar_imagen' => 'Canviar imatge del vehicle',
-    'garaje.form.cambiar_imagen_ayuda' => 'Si puges una imatge nova, substituirà l’actual. Màxim 3 MB',
-    'garaje.form.imagen_actual' => 'Imatge actual',
+    'garaje.form.imagen' => 'Fotos del vehicle',
+    'garaje.form.imagen_ayuda_nuevo' => 'Pots pujar fins a 8 fotos. Formats permesos: JPG, PNG o WEBP. Màxim 3 MB per foto',
+    'garaje.form.cambiar_imagen' => 'Afegir fotos del vehicle',
+    'garaje.form.cambiar_imagen_ayuda' => 'Les noves fotos s’afegiran a l’àlbum actual. Màxim 8 fotos per pujada i 3 MB per foto',
+    'garaje.form.imagen_actual' => 'Fotos actuals',
     'garaje.form.alt_imagen_actual' => 'Imatge actual del vehicle',
 
     'garaje.form.cancelar' => 'Cancel·lar',
@@ -146,6 +146,7 @@ return [
     'garaje.js.campo.potencia_cv' => 'la potència',
     'garaje.js.campo.cilindrada_cm3' => 'la cilindrada',
     'garaje.js.campo.imagen' => 'la imatge',
+    'garaje.js.campo.imagenes' => 'les fotos',
     'garaje.js.campo.este_campo' => 'aquest camp',
 
     'garaje.js.error.falta' => 'Falta {campo}',
@@ -154,6 +155,7 @@ return [
     'garaje.js.error.cilindrada_entero' => 'La cilindrada ha de ser un número enter positiu',
     'garaje.js.error.imagen_tipo' => 'Només es permeten imatges JPG, PNG o WEBP',
     'garaje.js.error.imagen_tamanyo' => 'La imatge no pot superar els 3 MB',
+    'garaje.js.error.imagenes_limite' => 'Pots pujar un màxim de 8 fotos alhora',
 
     'garaje.js.vin.no_preparar' => 'No s’ha pogut preparar la consulta VIN',
     'garaje.js.vin.introduce' => 'Introdueix un VIN abans de consultar',
@@ -173,6 +175,10 @@ return [
     'garaje.detalle.alt_imagen' => 'Imatge del vehicle',
     'garaje.detalle.imagen_no_disponible' => 'Imatge no disponible',
     'garaje.detalle.imagen_ayuda' => 'Encara no s’ha pujat cap foto per a aquest vehicle',
+    'garaje.detalle.galeria' => 'Galeria de fotos del vehicle',
+    'garaje.detalle.foto_anterior' => 'Veure foto anterior',
+    'garaje.detalle.foto_siguiente' => 'Veure foto següent',
+    'garaje.detalle.foto_contador' => 'Foto',
     'garaje.detalle.subtitulo' => 'Vehicle registrat al teu garatge',
     'garaje.detalle.volver_garaje' => 'Tornar al garatge',
     'garaje.detalle.editar' => 'Editar',
@@ -646,6 +652,7 @@ return [
     'garaje.vehiculo.imagen.error.formato' => 'Només es permeten imatges JPG, PNG o WEBP',
     'garaje.vehiculo.imagen.error.crear_directorio' => 'No s’ha pogut crear el directori d’imatges de vehicles',
     'garaje.vehiculo.imagen.error.guardar' => 'No s’ha pogut guardar la imatge del vehicle',
+    'garaje.vehiculo.imagen.error.limite' => 'Pots pujar un màxim de 8 fotos alhora',
 
     // garatge - vin backend
     'garaje.vin.error.obligatorio' => 'Has d’introduir un VIN',

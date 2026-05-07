@@ -3,6 +3,8 @@ if (!isset($vehiculo) || !is_array($vehiculo)) {
     flash_set('error', t('garaje.detalle.error.cargar'));
     header('Location: ' . url('/garaje'));
     exit;
+
+    $imagenes_vehiculo = isset($imagenes_vehiculo) && is_array($imagenes_vehiculo) ? $imagenes_vehiculo : [];
 }
 ?>
 
@@ -38,11 +40,64 @@ if (!isset($vehiculo) || !is_array($vehiculo)) {
 
     <section class="detalle-vehiculo-cabecera">
         <div class="detalle-vehiculo-bloque detalle-vehiculo-bloque-imagen">
-            <?php if (!empty($vehiculo['imagen'])): ?>
-                <img
-                    class="detalle-vehiculo-imagen-real"
-                    src="<?= escapar(url_publica_segura('uploads/vehiculos/' . $vehiculo['imagen'])) ?>"
-                    alt="<?= htmlspecialchars(t('garaje.detalle.alt_imagen') . ' ' . $vehiculo['marca'] . ' ' . $vehiculo['modelo']) ?>">
+            <?php if (!empty($imagenes_vehiculo)): ?>
+                <?php
+                $primera_imagen = $imagenes_vehiculo[0];
+                $src_primera_imagen = url_publica_segura('uploads/vehiculos/' . $primera_imagen['nombre_archivo']);
+                $alt_primera_imagen = $primera_imagen['texto_alt']
+                    ?: t('garaje.detalle.alt_imagen') . ' ' . $vehiculo['marca'] . ' ' . $vehiculo['modelo'];
+                ?>
+
+                <section class="carrusel-vehiculo" aria-label="<?= escapar(t('garaje.detalle.galeria')) ?>">
+                    <div class="carrusel-vehiculo__visor">
+                        <button
+                            type="button"
+                            class="carrusel-vehiculo__control carrusel-vehiculo__control--anterior"
+                            aria-label="<?= escapar(t('garaje.detalle.foto_anterior')) ?>">
+                            ‹
+                        </button>
+
+                        <img
+                            class="detalle-vehiculo-imagen-real carrusel-vehiculo__imagen"
+                            src="<?= escapar($src_primera_imagen) ?>"
+                            alt="<?= escapar($alt_primera_imagen) ?>">
+
+                        <button
+                            type="button"
+                            class="carrusel-vehiculo__control carrusel-vehiculo__control--siguiente"
+                            aria-label="<?= escapar(t('garaje.detalle.foto_siguiente')) ?>">
+                            ›
+                        </button>
+
+                        <span class="carrusel-vehiculo__contador">
+                            1 / <?= count($imagenes_vehiculo) ?>
+                        </span>
+                    </div>
+
+                    <?php if (count($imagenes_vehiculo) > 1): ?>
+                        <div class="carrusel-vehiculo__miniaturas">
+                            <?php foreach ($imagenes_vehiculo as $indice => $imagen_vehiculo): ?>
+                                <?php
+                                $src_miniatura = url_publica_segura('uploads/vehiculos/' . $imagen_vehiculo['nombre_archivo']);
+                                $alt_miniatura = $imagen_vehiculo['texto_alt']
+                                    ?: t('garaje.detalle.alt_imagen') . ' ' . $vehiculo['marca'] . ' ' . $vehiculo['modelo'];
+                                ?>
+
+                                <button
+                                    type="button"
+                                    class="carrusel-vehiculo__miniatura <?= $indice === 0 ? 'carrusel-vehiculo__miniatura--activa' : '' ?>"
+                                    data-indice="<?= (int) $indice ?>"
+                                    data-src="<?= escapar($src_miniatura) ?>"
+                                    data-alt="<?= escapar($alt_miniatura) ?>"
+                                    aria-label="<?= escapar(t('garaje.detalle.foto_contador') . ' ' . ($indice + 1)) ?>">
+                                    <img
+                                        src="<?= escapar($src_miniatura) ?>"
+                                        alt="<?= escapar($alt_miniatura) ?>">
+                                </button>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                </section>
             <?php else: ?>
                 <div class="detalle-vehiculo-placeholder-imagen">
                     <span class="detalle-vehiculo-placeholder-texto">
@@ -375,6 +430,7 @@ if (!isset($vehiculo) || !is_array($vehiculo)) {
     </div>
 
     <script src="<?= url('/public/js/garaje/ver.js') ?>"></script>
+    <script src="<?= url('/public/js/garaje/carrusel-vehiculo.js') ?>"></script>
 
 </body>
 

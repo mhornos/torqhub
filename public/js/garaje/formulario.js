@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
         potencia_cv: 'campo_potencia_cv',
         cilindrada_cm3: 'campo_cilindrada_cm3',
         imagen: 'campo_imagen',
+        imagenes: 'campo_imagenes',
+        'imagenes[]': 'campo_imagenes',
     };
 
     formularios.forEach(function (formulario) {
@@ -93,7 +95,8 @@ function validarCampo(campo, etiquetasCampos) {
 
     const contenedor = campo.parentElement;
     const nombreCampo = campo.name || 'campo';
-    const claveEtiqueta = etiquetasCampos[nombreCampo] || 'campo_este_campo';
+    const nombreCampoNormalizado = nombreCampo.replace('[]', '');
+    const claveEtiqueta = etiquetasCampos[nombreCampo] || etiquetasCampos[nombreCampoNormalizado] || 'campo_este_campo';
     const etiqueta = traducirGaraje(campo, claveEtiqueta);
     let mensajeError = '';
 
@@ -144,16 +147,22 @@ function validarArchivoImagen(campo) {
         return '';
     }
 
-    const archivo = campo.files[0];
     const tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp'];
     const tamanyoMaximo = 3 * 1024 * 1024;
+    const limiteImagenes = 8;
 
-    if (!tiposPermitidos.includes(archivo.type)) {
-        return traducirGaraje(campo, 'error_imagen_tipo');
+    if (campo.files.length > limiteImagenes) {
+        return traducirGaraje(campo, 'error_imagenes_limite');
     }
 
-    if (archivo.size > tamanyoMaximo) {
-        return traducirGaraje(campo, 'error_imagen_tamanyo');
+    for (const archivo of campo.files) {
+        if (!tiposPermitidos.includes(archivo.type)) {
+            return traducirGaraje(campo, 'error_imagen_tipo');
+        }
+
+        if (archivo.size > tamanyoMaximo) {
+            return traducirGaraje(campo, 'error_imagen_tamanyo');
+        }
     }
 
     return '';
