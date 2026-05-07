@@ -28,6 +28,9 @@ class PerfilControlador extends ControladorBase {
             'publicaciones' => $publicaciones,
             'vehiculos' => $vehiculos,
             'es_mi_perfil' => $es_mi_perfil,
+            'scripts' => [
+                '/public/js/perfil/perfil.js',
+            ],
         ]);
     }
 

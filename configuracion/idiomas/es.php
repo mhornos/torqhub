@@ -444,6 +444,10 @@ return [
     'perfil.ver.like_singular' => 'like',
     'perfil.ver.like_plural' => 'likes',
     'perfil.ver.ver_publicacion' => 'Ver publicación',
+    'perfil.ver.opciones_perfil' => 'Opciones del perfil',
+    'perfil.ver.boton_publicaciones' => 'Publicaciones',
+    'perfil.ver.boton_configuracion' => 'Configuración',
+    'perfil.ver.boton_atras' => 'Atrás',
 
     // perfil - vehículo público
     'perfil.vehiculo.error.cargar' => 'No se ha podido cargar el vehículo',

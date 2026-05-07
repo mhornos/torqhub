@@ -444,6 +444,10 @@ return [
     'perfil.ver.like_singular' => 'm’agrada',
     'perfil.ver.like_plural' => 'm’agrada',
     'perfil.ver.ver_publicacion' => 'Veure publicació',
+    'perfil.ver.opciones_perfil' => 'Opcions del perfil',
+    'perfil.ver.boton_publicaciones' => 'Publicacions',
+    'perfil.ver.boton_configuracion' => 'Configuració',
+    'perfil.ver.boton_atras' => 'Enrere',
 
     // perfil - vehicle públic
     'perfil.vehiculo.error.cargar' => 'No s’ha pogut carregar el vehicle',
