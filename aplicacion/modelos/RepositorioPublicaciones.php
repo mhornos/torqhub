@@ -148,8 +148,10 @@ class RepositorioPublicaciones
         $parametros = [];
 
         if ($busqueda !== '') {
-            $where = "WHERE p.contenido LIKE :busqueda OR u.nombre LIKE :busqueda";
-            $parametros['busqueda'] = '%' . $busqueda . '%';
+            $where = "WHERE p.contenido LIKE :busqueda_contenido OR u.nombre LIKE :busqueda_usuario";
+
+            $parametros['busqueda_contenido'] = '%' . $busqueda . '%';
+            $parametros['busqueda_usuario'] = '%' . $busqueda . '%';
         }
 
         $order_by = match ($orden) {
@@ -191,8 +193,10 @@ class RepositorioPublicaciones
         $parametros = [];
 
         if ($busqueda !== '') {
-            $where = "WHERE p.contenido LIKE :busqueda OR u.nombre LIKE :busqueda";
-            $parametros['busqueda'] = '%' . $busqueda . '%';
+            $where = "WHERE p.contenido LIKE :busqueda_contenido OR u.nombre LIKE :busqueda_usuario";
+
+            $parametros['busqueda_contenido'] = '%' . $busqueda . '%';
+            $parametros['busqueda_usuario'] = '%' . $busqueda . '%';
         }
 
         $sql = "SELECT COUNT(DISTINCT p.id) AS total

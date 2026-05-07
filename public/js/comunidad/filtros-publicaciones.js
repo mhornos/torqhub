@@ -1,14 +1,65 @@
-// manejar los filtros y la paginación de las publicaciones en la comunidad
+// manejar búsqueda, ordenación y paginación ajax de publicaciones
 
 document.addEventListener('DOMContentLoaded', () => {
     const formularioFiltros = document.querySelector('.formulario-filtros-comunidad');
-    const contenedorResultado = document.querySelector('#resultado-publicaciones-comunidad');
 
-    if (!formularioFiltros || !contenedorResultado) {
+    if (!formularioFiltros) {
         return;
     }
 
+    const campoBusqueda = formularioFiltros.querySelector('#busqueda');
+    const selectorOrden = formularioFiltros.querySelector('#orden');
+    const enlaceLimpiar = formularioFiltros.querySelector('.enlace-limpiar-filtros');
+
+    let temporizadorBusqueda = null;
+
+    const obtenerContenedorResultado = () => {
+        return document.querySelector('#resultado-publicaciones-comunidad');
+    };
+
+    const actualizarBotonLimpiar = () => {
+        if (!enlaceLimpiar) {
+            return;
+        }
+
+        const hayBusqueda = campoBusqueda && campoBusqueda.value.trim() !== '';
+        const hayOrdenDistinto = selectorOrden && selectorOrden.value !== 'recientes';
+
+        if (hayBusqueda || hayOrdenDistinto) {
+            enlaceLimpiar.classList.remove('enlace-limpiar-filtros--oculto');
+            return;
+        }
+
+        enlaceLimpiar.classList.add('enlace-limpiar-filtros--oculto');
+    };
+
+    const construirUrlFiltros = () => {
+        const parametros = new URLSearchParams();
+
+        const busqueda = campoBusqueda ? campoBusqueda.value.trim() : '';
+        const orden = selectorOrden ? selectorOrden.value : 'recientes';
+
+        if (busqueda !== '') {
+            parametros.set('busqueda', busqueda);
+        }
+
+        if (orden !== 'recientes') {
+            parametros.set('orden', orden);
+        }
+
+        parametros.set('pagina', '1');
+
+        return `${formularioFiltros.action}?${parametros.toString()}`;
+    };
+
     const cargarPublicaciones = async (url) => {
+        const contenedorResultado = obtenerContenedorResultado();
+
+        if (!contenedorResultado) {
+            window.location.href = url;
+            return;
+        }
+
         try {
             const respuesta = await fetch(url, {
                 headers: {
@@ -22,35 +73,59 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const html = await respuesta.text();
-            contenedorResultado.outerHTML = html;
 
+            contenedorResultado.outerHTML = html;
             window.history.pushState({}, '', url);
+            actualizarBotonLimpiar();
         } catch (error) {
             window.location.href = url;
         }
     };
 
+    const aplicarFiltros = () => {
+        cargarPublicaciones(construirUrlFiltros());
+    };
+
     formularioFiltros.addEventListener('submit', (evento) => {
         evento.preventDefault();
-
-        const datosFormulario = new FormData(formularioFiltros);
-        datosFormulario.set('pagina', '1');
-
-        const parametros = new URLSearchParams(datosFormulario);
-        const url = `${formularioFiltros.action}?${parametros.toString()}`;
-
-        cargarPublicaciones(url);
+        aplicarFiltros();
     });
 
-    document.addEventListener('click', (evento) => {
-        const enlaceLimpiar = evento.target.closest('.enlace-limpiar-filtros');
+    if (campoBusqueda) {
+        campoBusqueda.addEventListener('input', () => {
+            actualizarBotonLimpiar();
 
-        if (enlaceLimpiar) {
+            clearTimeout(temporizadorBusqueda);
+
+            temporizadorBusqueda = setTimeout(() => {
+                aplicarFiltros();
+            }, 350);
+        });
+    }
+
+    if (selectorOrden) {
+        selectorOrden.addEventListener('change', () => {
+            actualizarBotonLimpiar();
+            aplicarFiltros();
+        });
+    }
+
+    document.addEventListener('click', (evento) => {
+        const enlaceLimpiarPulsado = evento.target.closest('.enlace-limpiar-filtros');
+
+        if (enlaceLimpiarPulsado) {
             evento.preventDefault();
 
-            formularioFiltros.reset();
+            if (campoBusqueda) {
+                campoBusqueda.value = '';
+            }
 
-            cargarPublicaciones(enlaceLimpiar.href);
+            if (selectorOrden) {
+                selectorOrden.value = 'recientes';
+            }
+
+            actualizarBotonLimpiar();
+            cargarPublicaciones(enlaceLimpiarPulsado.href);
             return;
         }
 
@@ -68,4 +143,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('popstate', () => {
         cargarPublicaciones(window.location.href);
     });
+
+    actualizarBotonLimpiar();
 });

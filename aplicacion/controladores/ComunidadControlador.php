@@ -52,6 +52,10 @@ class ComunidadControlador extends ControladorBase
             'pagina_actual' => $pagina_actual,
             'total_paginas' => $total_paginas,
             'total_publicaciones' => $total_publicaciones,
+            'scripts' => [
+                '/public/js/comunidad/listado-publicaciones.js',
+                '/public/js/comunidad/filtros-publicaciones.js',
+            ],
         ]);
     }
 
@@ -119,8 +123,7 @@ class ComunidadControlador extends ControladorBase
 
 
 // muestra el detalle de una publicación
-    public function ver(): void
-    {
+    public function ver(): void {
         $id = (int) ($_GET['id'] ?? 0);
 
         if ($id <= 0) {
@@ -140,6 +143,10 @@ class ComunidadControlador extends ControladorBase
         $this->render('comunidad/ver', [
             'publicacion' => $publicacion,
             'comentarios' => $comentarios,
+            'scripts' => [
+                '/public/js/comunidad/ver-publicacion.js',
+                '/public/js/comunidad/like-publicacion.js',
+            ],
         ]);
     }
 

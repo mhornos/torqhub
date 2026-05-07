@@ -156,9 +156,7 @@ function renderizarRespuestasEnContenedor(contenedor, respuestas, boton) {
 
     respuestas.forEach(function (respuesta) {
         const articulo = document.createElement('article');
-        articulo.style.marginBottom = '15px';
-        articulo.style.paddingLeft = '15px';
-        articulo.style.borderLeft = '3px solid #b8b8b8';
+        articulo.classList.add('comunidad-respuesta');
 
         const cabecera = document.createElement('p');
 
@@ -178,7 +176,7 @@ function renderizarRespuestasEnContenedor(contenedor, respuestas, boton) {
 
         const contenido = document.createElement('p');
         contenido.textContent = String(respuesta.contenido || '');
-        contenido.style.whiteSpace = 'pre-line';
+        contenido.classList.add('comunidad-respuesta__contenido');
 
         articulo.appendChild(cabecera);
         articulo.appendChild(contenido);
