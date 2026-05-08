@@ -6785,3 +6785,679 @@ body>section:not([class])>p>a[href*="contraseña"]:hover {
         padding: var(--espacio-3);
     }
 }
+
+/* =========================================================
+   fase 4.9a - comunidad index: cabecera, filtros, paginación y listado base
+   ========================================================= */
+
+/* cabecera principal de comunidad con la misma identidad visual que garaje */
+.comunidad-cabecera {
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-xl);
+    background: var(--color-navbar-fondo);
+    box-shadow: var(--sombra-sm);
+}
+
+.comunidad-cabecera h1 {
+    color: var(--color-acento);
+    letter-spacing: -0.03em;
+}
+
+/* botón crear publicación dentro de cabecera */
+.comunidad-cabecera__acciones a,
+.comunidad-boton-enlace {
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-pill);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.14);
+    font-weight: 500;
+}
+
+.comunidad-cabecera__acciones a:hover,
+.comunidad-boton-enlace:hover {
+    color: var(--color-texto-inverso);
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    box-shadow: 0 6px 14px rgba(194, 65, 12, 0.2);
+}
+
+/* panel de filtros */
+.comunidad-filtros {
+    margin-bottom: var(--espacio-5);
+    padding: var(--espacio-5);
+    border: 2px solid rgb(212, 212, 212);
+    border-radius: var(--radio-xl);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-xs);
+}
+
+.formulario-filtros-comunidad {
+    grid-template-columns: minmax(220px, 1fr) minmax(170px, 240px) auto;
+    gap: var(--espacio-4);
+    align-items: end;
+}
+
+/* labels de buscador y ordenación */
+.campo-filtro-comunidad label {
+    margin-bottom: var(--espacio-1);
+    color: var(--color-acento);
+    font-weight: 600;
+}
+
+/* inputs y selects de comunidad */
+.campo-filtro-comunidad input,
+.campo-filtro-comunidad select {
+    min-height: 42px;
+    padding: 9px 12px;
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-md);
+    background: #fffdf8;
+    box-shadow: none;
+}
+
+.campo-filtro-comunidad input:hover,
+.campo-filtro-comunidad select:hover {
+    border-color: var(--color-acento-borde);
+}
+
+.campo-filtro-comunidad input:focus,
+.campo-filtro-comunidad select:focus {
+    border-color: var(--color-acento);
+    background: var(--color-superficie);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-acento) 14%, transparent);
+}
+
+/* resultados */
+.comunidad-resultados {
+    margin-top: var(--espacio-5);
+}
+
+.comunidad-resultados__cabecera {
+    margin-bottom: var(--espacio-3);
+}
+
+.contador-publicaciones {
+    color: var(--color-acento);
+    font-weight: 700;
+}
+
+/* paginación comunidad */
+.paginacion-comunidad {
+    margin: 0 0 var(--espacio-4);
+    padding: var(--espacio-3);
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-xl);
+    background: #fffdf8;
+    box-shadow: var(--sombra-xs);
+}
+
+.estado-paginacion {
+    margin-bottom: var(--espacio-3);
+    color: var(--color-texto-suave);
+    font-weight: 500;
+}
+
+.enlaces-paginacion {
+    gap: var(--espacio-2);
+}
+
+.enlaces-paginacion a,
+.pagina-activa {
+    min-height: 38px;
+    min-width: 38px;
+    padding: 8px 13px;
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-pill);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.1);
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.enlaces-paginacion a:hover,
+.pagina-activa,
+.pagina-activa:hover {
+    color: var(--color-texto-inverso);
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    box-shadow: 0 6px 14px rgba(194, 65, 12, 0.2);
+}
+
+.pagina-activa,
+.pagina-activa:hover {
+    cursor: default;
+    pointer-events: none;
+}
+
+/* listado de publicaciones */
+.comunidad-listado {
+    gap: var(--espacio-5);
+}
+
+/* tarjeta base de publicación */
+.comunidad-publicacion {
+    position: relative;
+    border: 2px solid rgb(212, 212, 212);
+    border-radius: var(--radio-xl);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-xs);
+    cursor: pointer;
+    transform: scale(1);
+    transition:
+        transform var(--transicion-media),
+        border-color var(--transicion-media),
+        background-color var(--transicion-media),
+        box-shadow var(--transicion-media);
+}
+
+.comunidad-publicacion:hover {
+    z-index: 2;
+    box-shadow: var(--sombra-hover);
+    transform: scale(1.015);
+    border-color: rgb(15, 153, 185);
+    background: rgb(237, 254, 255);
+}
+
+.comunidad-publicacion:focus-within {
+    border-color: var(--color-acento);
+    background: var(--color-navbar-fondo);
+    box-shadow: var(--sombra-hover);
+}
+
+/* autor: sigue siendo enlace normal de perfil, no botón */
+.comunidad-autor__enlace {
+    color: var(--color-texto);
+}
+
+.comunidad-autor__enlace:hover {
+    color: var(--color-acento);
+    text-decoration: underline;
+}
+
+/* avatar limpio */
+.comunidad-autor__avatar {
+    border: 2px solid var(--color-navbar-borde);
+    background: var(--color-acento-relleno);
+}
+
+/* imagen de publicación: sin borde propio innecesario */
+.comunidad-publicacion__imagen {
+    margin: var(--espacio-4) 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radio-lg);
+    background: transparent;
+    overflow: hidden;
+}
+
+.comunidad-publicacion__imagen img {
+    border: 0;
+    border-radius: var(--radio-lg);
+}
+
+/* texto de publicación */
+.comunidad-publicacion__contenido p {
+    color: var(--color-texto);
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+/* pie de tarjeta */
+.comunidad-publicacion__pie {
+    padding-top: var(--espacio-4);
+    border-top: 2px solid var(--color-navbar-borde);
+}
+
+.comunidad-publicacion__estadisticas p {
+    color: var(--color-texto-suave);
+    font-weight: 500;
+}
+
+/* estado vacío de comunidad */
+.comunidad-estado-vacio {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-xl);
+    background: #fffdf8;
+    box-shadow: var(--sombra-xs);
+}
+
+.comunidad-estado-vacio p {
+    color: var(--color-texto-suave);
+    font-weight: 500;
+}
+
+/* móvil */
+@media (max-width: 700px) {
+    .comunidad-cabecera,
+    .comunidad-filtros,
+    .paginacion-comunidad,
+    .comunidad-publicacion,
+    .comunidad-estado-vacio {
+        border-radius: var(--radio-lg);
+    }
+
+    .comunidad-filtros {
+        padding: var(--espacio-4);
+    }
+
+    .formulario-filtros-comunidad {
+        grid-template-columns: 1fr;
+        gap: var(--espacio-3);
+    }
+
+    .acciones-filtros-comunidad,
+    .acciones-filtros-comunidad a {
+        width: 100%;
+    }
+
+    .paginacion-comunidad {
+        padding: var(--espacio-3);
+    }
+
+    .enlaces-paginacion a,
+    .pagina-activa {
+        flex: 1 1 auto;
+    }
+
+    .comunidad-listado {
+        gap: var(--espacio-4);
+    }
+
+    .comunidad-publicacion {
+        padding: var(--espacio-4);
+    }
+
+    .comunidad-publicacion:hover {
+        transform: none;
+    }
+}
+
+/* =========================================================
+   fase 4.9a.1 - ajustes visuales comunidad
+   ========================================================= */
+
+/* bloque de búsqueda y ordenación con identidad torqhub */
+.comunidad-filtros {
+    border: 2px solid var(--color-acento);
+    background: var(--color-navbar-fondo);
+    box-shadow: var(--sombra-sm);
+}
+
+.formulario-filtros-comunidad {
+    align-items: end;
+}
+
+.campo-filtro-comunidad {
+    padding: var(--espacio-3);
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-lg);
+    background: var(--color-superficie);
+}
+
+.campo-filtro-comunidad label {
+    color: var(--color-acento);
+    font-weight: 700;
+}
+
+.campo-filtro-comunidad input,
+.campo-filtro-comunidad select {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-md);
+    background: #fffdf8;
+}
+
+.campo-filtro-comunidad input:hover,
+.campo-filtro-comunidad select:hover {
+    border-color: var(--color-acento-borde);
+}
+
+.campo-filtro-comunidad input:focus,
+.campo-filtro-comunidad select:focus {
+    border-color: var(--color-acento);
+    background: var(--color-superficie);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-acento) 14%, transparent);
+}
+
+/* formularios crear / editar publicación */
+.comunidad-formulario-cabecera h1 {
+    color: var(--color-acento);
+}
+
+.comunidad-formulario-panel {
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-xl);
+    background: var(--color-navbar-fondo);
+    box-shadow: var(--sombra-sm);
+}
+
+.comunidad-formulario-campo {
+    padding: var(--espacio-3);
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-lg);
+    background: var(--color-superficie);
+}
+
+.comunidad-formulario-campo label {
+    color: var(--color-acento);
+    font-weight: 700;
+}
+
+.comunidad-formulario-campo textarea,
+.comunidad-formulario-campo input[type="file"] {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-md);
+    background: #fffdf8;
+}
+
+.comunidad-formulario-campo textarea:hover,
+.comunidad-formulario-campo input[type="file"]:hover {
+    border-color: var(--color-acento-borde);
+}
+
+.comunidad-formulario-campo textarea:focus,
+.comunidad-formulario-campo input[type="file"]:focus {
+    border-color: var(--color-acento);
+    background: var(--color-superficie);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-acento) 14%, transparent);
+}
+
+.comunidad-formulario-acciones {
+    border-top: 2px solid var(--color-navbar-borde);
+}
+
+/* imagen actual en editar publicación */
+.comunidad-formulario-imagen-actual {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-lg);
+    background: var(--color-superficie);
+}
+
+.comunidad-formulario-imagen-actual h2 {
+    color: var(--color-acento);
+}
+
+.comunidad-formulario-imagen-actual img {
+    border: 0;
+    border-radius: var(--radio-md);
+}
+
+/* forzar enlaces de volver dentro de formularios como botones */
+.comunidad-formulario-acciones a,
+.comunidad-formulario-acciones .comunidad-boton-enlace {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espacio-2);
+    width: auto;
+    min-height: 40px;
+    padding: 9px 14px;
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-pill);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.14);
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+}
+
+.comunidad-formulario-acciones a:hover,
+.comunidad-formulario-acciones .comunidad-boton-enlace:hover {
+    color: var(--color-texto-inverso);
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    box-shadow: 0 6px 14px rgba(194, 65, 12, 0.2);
+}
+
+/* respuestas: eliminar la doble línea vertical */
+.contenedor-respuestas-comentario {
+    padding-left: var(--espacio-4);
+    border-left: 3px solid var(--color-acento-borde);
+}
+
+.comunidad-respuesta {
+    padding: var(--espacio-3) 0 var(--espacio-4) var(--espacio-3);
+    border-left: 0;
+    border-bottom: 2px solid var(--color-navbar-borde);
+}
+
+.comunidad-respuesta:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.comunidad-respuesta__contenido {
+    margin-top: var(--espacio-2);
+    color: var(--color-texto);
+    font-weight: 500;
+}
+
+/* móvil */
+@media (max-width: 700px) {
+    .campo-filtro-comunidad,
+    .comunidad-formulario-campo,
+    .comunidad-formulario-imagen-actual {
+        padding: var(--espacio-3);
+        border-radius: var(--radio-md);
+    }
+
+    .comunidad-formulario-panel {
+        padding: var(--espacio-4);
+        border-radius: var(--radio-lg);
+    }
+
+    .comunidad-formulario-acciones a,
+    .comunidad-formulario-acciones .comunidad-boton-enlace {
+        width: 100%;
+    }
+
+    .contenedor-respuestas-comentario {
+        padding-left: var(--espacio-3);
+    }
+
+    .comunidad-respuesta {
+        padding-left: var(--espacio-2);
+    }
+}
+
+/* =========================================================
+   fase 4.9a.2 - comunidad: filtros sin cajas internas
+   ========================================================= */
+
+.comunidad-filtros .campo-filtro-comunidad {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+@media (max-width: 700px) {
+    .comunidad-filtros .campo-filtro-comunidad {
+        padding: 0;
+        border-radius: 0;
+    }
+}
+
+/* =========================================================
+   fase 4.9a.3 - comunidad: filtros igual que mantenimientos
+   ========================================================= */
+
+/* panel general del filtro */
+.comunidad-filtros {
+    border: 2px solid var(--color-acento);
+    background: var(--color-navbar-fondo);
+    box-shadow: var(--sombra-sm);
+}
+
+/* los campos buscar/ordenar no son tarjetas internas */
+.comunidad-filtros .campo-filtro-comunidad {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+/* labels como en mantenimientos */
+.comunidad-filtros .campo-filtro-comunidad label {
+    color: var(--color-acento);
+    font-weight: 600;
+}
+
+/* input de buscar y select de ordenar */
+.comunidad-filtros .campo-filtro-comunidad input,
+.comunidad-filtros .campo-filtro-comunidad select {
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-md);
+    color: var(--color-acento);
+    background: #fffaf1;
+    font-weight: 500;
+}
+
+/* hover igual que mantenimientos */
+.comunidad-filtros .campo-filtro-comunidad input:hover,
+.comunidad-filtros .campo-filtro-comunidad select:hover {
+    border-color: var(--color-acento-hover);
+    background: #fffaf1;
+}
+
+/* focus igual que mantenimientos */
+.comunidad-filtros .campo-filtro-comunidad input:focus,
+.comunidad-filtros .campo-filtro-comunidad select:focus {
+    border-color: var(--color-acento-hover);
+    color: var(--color-principal);
+    background: var(--color-superficie);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-acento) 18%, transparent);
+}
+
+/* =========================================================
+   fase 4.9a.4 - comunidad: buscador igual que ordenación
+   ========================================================= */
+
+.comunidad-filtros input#busqueda,
+.comunidad-filtros input[name="busqueda"] {
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-md);
+    color: var(--color-acento);
+    background: #fffaf1;
+    font-weight: 500;
+}
+
+.comunidad-filtros input#busqueda::placeholder,
+.comunidad-filtros input[name="busqueda"]::placeholder {
+    color: color-mix(in srgb, var(--color-acento) 65%, white);
+    font-weight: 500;
+}
+
+.comunidad-filtros input#busqueda:hover,
+.comunidad-filtros input[name="busqueda"]:hover {
+    border-color: var(--color-acento-hover);
+    background: #fffaf1;
+}
+
+.comunidad-filtros input#busqueda:focus,
+.comunidad-filtros input[name="busqueda"]:focus {
+    border-color: var(--color-acento-hover);
+    color: var(--color-principal);
+    background: var(--color-superficie);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-acento) 18%, transparent);
+}
+
+/* =========================================================
+   fase 4.9a.5 - comunidad: formulario de comentario dentro de comentarios
+   ========================================================= */
+
+/* el formulario de añadir comentario ya no debe parecer una tarjeta exterior */
+.comunidad-formulario-panel--comentario {
+    margin: 0 0 var(--espacio-5);
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* se mantiene solo la caja real del campo */
+.comunidad-formulario-panel--comentario .comunidad-formulario-campo {
+    width: 100%;
+    margin-bottom: var(--espacio-3);
+    padding: var(--espacio-4);
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-lg);
+    background: var(--color-superficie);
+}
+
+/* label ancho completo y coherente */
+.comunidad-formulario-panel--comentario .comunidad-formulario-campo label {
+    display: block;
+    width: 100%;
+    margin-bottom: var(--espacio-2);
+    color: var(--color-acento);
+    font-weight: 700;
+}
+
+/* textarea ocupando todo el ancho */
+.comunidad-formulario-panel--comentario textarea {
+    width: 100%;
+    min-height: 130px;
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-md);
+    background: #fffdf8;
+}
+
+/* quitamos la línea separadora que venía del formulario general */
+.comunidad-formulario-panel--comentario .comunidad-formulario-acciones {
+    display: flex;
+    width: 100%;
+    padding-top: 0;
+    border-top: 0;
+}
+
+/* botón publicar comentario a ancho completo */
+.comunidad-formulario-panel--comentario .comunidad-formulario-acciones button {
+    width: 100%;
+    justify-content: center;
+}
+
+/* separación limpia entre formulario y listado de comentarios */
+.comunidad-comentarios__listado {
+    margin-top: var(--espacio-4);
+}
+
+@media (max-width: 700px) {
+    .comunidad-formulario-panel--comentario .comunidad-formulario-campo {
+        padding: var(--espacio-3);
+        border-radius: var(--radio-md);
+    }
+
+    .comunidad-formulario-panel--comentario textarea {
+        min-height: 120px;
+    }
+}
+
+/* =========================================================
+   fase 4.9a.6 - comunidad: limpiar filtros deshabilitado
+   ========================================================= */
+
+/* antes esta clase ocultaba el enlace; ahora lo deja visible pero deshabilitado */
+.comunidad-filtros .enlace-limpiar-filtros--oculto {
+    display: inline-flex;
+    color: var(--color-texto-suave);
+    border-color: var(--color-navbar-borde);
+    background: var(--color-superficie);
+    box-shadow: none;
+    opacity: 0.55;
+    cursor: default;
+    pointer-events: auto;
+}
+
+/* sin hover activo cuando no hay nada que limpiar */
+.comunidad-filtros .enlace-limpiar-filtros--oculto:hover {
+    color: var(--color-texto-suave);
+    border-color: var(--color-navbar-borde);
+    background: var(--color-superficie);
+    box-shadow: none;
+    transform: none;
+}

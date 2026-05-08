@@ -153,12 +153,15 @@ $total_likes = RepositorioLikesPublicaciones::contar_likes(
             </footer>
         </article>
 
-        <section class="comunidad-comentario-formulario">
+        <section class="comunidad-comentarios">
             <header class="comunidad-seccion-cabecera">
-                <h2><?= htmlspecialchars(t('comunidad.detalle.anadir_comentario')) ?></h2>
+                <h2><?= htmlspecialchars(t('comunidad.detalle.comentarios')) ?></h2>
             </header>
 
-            <form action="<?= url('/comunidad/comentar') ?>" method="POST" class="comunidad-formulario-panel">
+            <form
+                action="<?= url('/comunidad/comentar') ?>"
+                method="POST"
+                class="comunidad-formulario-panel comunidad-formulario-panel--comentario">
                 <?= csrf_campo() ?>
 
                 <input type="hidden" name="publicacion_id" value="<?= (int) $publicacion['id'] ?>">
@@ -179,12 +182,6 @@ $total_likes = RepositorioLikesPublicaciones::contar_likes(
                     </button>
                 </div>
             </form>
-        </section>
-
-        <section class="comunidad-comentarios">
-            <header class="comunidad-seccion-cabecera">
-                <h2><?= htmlspecialchars(t('comunidad.detalle.comentarios')) ?></h2>
-            </header>
 
             <?php if (count($comentarios) === 0): ?>
                 <div class="comunidad-estado-vacio">

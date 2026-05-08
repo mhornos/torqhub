@@ -377,7 +377,7 @@ return [
     // comunitat - llistat
     'comunidad.index.titulo_pagina' => 'Comunitat',
     'comunidad.index.titulo' => 'Comunitat',
-    'comunidad.index.crear_publicacion' => 'Crear publicació',
+    'comunidad.index.crear_publicacion' => '+ Crear publicació',
     'comunidad.index.buscar_publicaciones' => 'Cercar publicacions',
     'comunidad.index.placeholder_busqueda' => 'Contingut o autor',
     'comunidad.index.ordenar_por' => 'Ordenar per',

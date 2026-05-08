@@ -77,7 +77,7 @@ $publicaciones = $publicaciones ?? [];
                                 <?= (int) $publicacion['total_comentarios'] ?> <?= htmlspecialchars(t('comunidad.index.comentario_plural')) ?>
                             <?php endif; ?>
                         </p>
-
+                        <p>·</p>
                         <p
                             class="texto-total-likes-publicacion-listado"
                             data-publicacion-id="<?= (int) $publicacion['id'] ?>">

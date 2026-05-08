@@ -27,10 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (hayBusqueda || hayOrdenDistinto) {
             enlaceLimpiar.classList.remove('enlace-limpiar-filtros--oculto');
+            enlaceLimpiar.setAttribute('aria-disabled', 'false');
+            enlaceLimpiar.removeAttribute('tabindex');
             return;
         }
 
         enlaceLimpiar.classList.add('enlace-limpiar-filtros--oculto');
+        enlaceLimpiar.setAttribute('aria-disabled', 'true');
+        enlaceLimpiar.setAttribute('tabindex', '-1');
     };
 
     const construirUrlFiltros = () => {
@@ -115,6 +119,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (enlaceLimpiarPulsado) {
             evento.preventDefault();
+
+            if (enlaceLimpiarPulsado.classList.contains('enlace-limpiar-filtros--oculto')) {
+                return;
+            }
 
             if (campoBusqueda) {
                 campoBusqueda.value = '';

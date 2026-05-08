@@ -377,7 +377,7 @@ return [
     // comunidad - listado
     'comunidad.index.titulo_pagina' => 'Comunidad',
     'comunidad.index.titulo' => 'Comunidad',
-    'comunidad.index.crear_publicacion' => 'Crear publicación',
+    'comunidad.index.crear_publicacion' => '+ Crear publicación',
     'comunidad.index.buscar_publicaciones' => 'Buscar publicaciones',
     'comunidad.index.placeholder_busqueda' => 'Contenido o autor',
     'comunidad.index.ordenar_por' => 'Ordenar por',

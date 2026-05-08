@@ -23,7 +23,7 @@ class RepositorioComentariosPublicaciones
                 WHERE c.publicacion_id = :publicacion_id
                 AND c.respuesta_a_id IS NULL
                 GROUP BY c.id, c.publicacion_id, c.usuario_id, c.contenido, c.fecha_creacion, c.respuesta_a_id, u.nombre, u.foto_perfil
-                ORDER BY c.id ASC";
+                ORDER BY c.fecha_creacion DESC, c.id DESC";
 
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
