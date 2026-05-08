@@ -64,9 +64,6 @@ $errores = isset($errores) && is_array($errores) ? $errores : [];
                 title="<?= htmlspecialchars(t('auth.registro.password_ayuda')) ?>"
                 autocomplete="new-password">
         </div>
-
-        <br>
-
         <button type="submit"><?= htmlspecialchars(t('auth.password_restablecer.boton')) ?></button>
     </form>
 

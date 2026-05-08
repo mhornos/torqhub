@@ -46,7 +46,6 @@
                 maxlength="255"
                 autocomplete="current-password">
         </div>
-        <br>
         <button type="submit"><?= htmlspecialchars(t('auth.login.boton')) ?></button>
     </form>
 

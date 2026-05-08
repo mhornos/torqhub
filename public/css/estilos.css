@@ -49,6 +49,37 @@
     --ancho-contenido: 1120px;
     --ancho-formulario: 720px;
     --ancho-lectura: 760px;
+    --ancho-diagnostico: 950px;
+    --ancho-comunidad-detalle: 900px;
+    --ancho-perfil-vehiculo: 1000px;
+
+    /* layout */
+    --ancho-pagina: min(calc(100% - 32px), var(--ancho-contenido));
+    --ancho-pagina-formulario: min(calc(100% - 32px), var(--ancho-formulario));
+    --ancho-pagina-diagnostico: min(calc(100% - 32px), var(--ancho-diagnostico));
+    --ancho-pagina-comunidad-detalle: min(calc(100% - 32px), var(--ancho-comunidad-detalle));
+    --ancho-pagina-perfil-vehiculo: min(calc(100% - 32px), var(--ancho-perfil-vehiculo));
+    --ancho-pagina-movil: min(calc(100% - 24px), var(--ancho-contenido));
+    --ancho-pagina-formulario-movil: min(calc(100% - 24px), var(--ancho-formulario));
+    --ancho-pagina-diagnostico-movil: min(calc(100% - 24px), var(--ancho-diagnostico));
+    --ancho-pagina-comunidad-detalle-movil: min(calc(100% - 24px), var(--ancho-comunidad-detalle));
+    --ancho-pagina-perfil-vehiculo-movil: min(calc(100% - 24px), var(--ancho-perfil-vehiculo));
+    --margen-pagina-y: var(--espacio-6);
+    --margen-pagina-y-movil: var(--espacio-5);
+
+    /* cabeceras principales */
+    --padding-cabecera-modulo: var(--espacio-5);
+    --padding-cabecera-modulo-movil: var(--espacio-4);
+    --gap-cabecera-modulo: var(--espacio-5);
+    --margen-cabecera-modulo: var(--espacio-5);
+
+    /* secciones internas */
+    --margen-seccion-modulo: var(--espacio-6);
+    --margen-seccion-modulo-compacto: var(--espacio-5);
+    --margen-cabecera-seccion: var(--espacio-4);
+    --padding-panel-modulo: var(--espacio-5);
+    --padding-panel-modulo-movil: var(--espacio-4);
+    --gap-listado-modulo: var(--espacio-4);
 
     /* radios */
     --radio-sm: 6px;
@@ -87,20 +118,27 @@
 
 html {
     min-height: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
     scroll-behavior: smooth;
 }
 
 body {
+    width: 100%;
     min-height: 100%;
+    max-width: 100%;
     margin: 0;
     font-family: var(--fuente-texto);
     font-size: 16px;
     line-height: 1.5;
     color: var(--color-texto);
     background: var(--color-fondo);
+    overflow-x: hidden;
 }
 
 main {
+    width: 100%;
+    max-width: 100%;
     min-width: 0;
 }
 
@@ -239,7 +277,7 @@ body>ol,
 body>form,
 body>hr,
 body>section:not([class]) {
-    width: min(calc(100% - 32px), var(--ancho-contenido));
+    width: var(--ancho-pagina);
     margin-left: auto;
     margin-right: auto;
 }
@@ -281,9 +319,11 @@ a:focus-visible {
 }
 
 .navbar__contenedor {
-    width: min(calc(100% - 32px), var(--ancho-contenido));
+    width: 100%;
     min-height: 64px;
     margin: 0 auto;
+    padding-left: var(--espacio-5);
+    padding-right: var(--espacio-5);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -307,18 +347,26 @@ a:focus-visible {
     flex: 1 1 auto;
     min-width: 0;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: var(--espacio-4);
+    gap: var(--espacio-3) var(--espacio-4);
 }
 
 .navbar__grupo {
+    min-width: 0;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: var(--espacio-3);
 }
 
+.navbar__grupo--principal {
+    flex: 1 1 auto;
+}
+
 .navbar__grupo--usuario {
+    flex: 0 1 auto;
     justify-content: flex-end;
 }
 
@@ -420,7 +468,7 @@ a:focus-visible {
     .navbar__contenedor {
         min-height: 60px;
         flex-wrap: wrap;
-        padding: var(--espacio-3) 0;
+        padding: var(--espacio-3) var(--espacio-4);
     }
 
     .navbar__boton-menu {
@@ -487,8 +535,8 @@ a:focus-visible {
    ========================================================= */
 
 .inicio-contenedor {
-    width: min(calc(100% - 32px), var(--ancho-contenido));
-    margin: var(--espacio-6) auto;
+    width: var(--ancho-pagina);
+    margin: var(--margen-pagina-y) auto;
 }
 
 .inicio-hero {
@@ -600,7 +648,7 @@ a:focus-visible {
 
 @media (max-width: 700px) {
     .inicio-contenedor {
-        width: min(calc(100% - 24px), var(--ancho-contenido));
+        width: var(--ancho-pagina-movil);
         margin-top: var(--espacio-5);
     }
 
@@ -743,13 +791,13 @@ form {
 }
 
 .formulario,
-body > form,
-body > section:not([class]) > form {
+body>form,
+body>section:not([class])>form {
     width: 100%;
 }
 
-body > form,
-body > section:not([class]) > form,
+body>form,
+body>section:not([class])>form,
 .formulario--tarjeta {
     max-width: var(--ancho-formulario);
     margin-top: var(--espacio-4);
@@ -772,20 +820,20 @@ body > section:not([class]) > form,
 
 .formulario__campo,
 .campo,
-body > form > div,
-body > section:not([class]) form > div,
-.formulario-garaje-validado > div,
-.perfil-bloque form > div {
+body>form>div,
+body>section:not([class]) form>div,
+.formulario-garaje-validado>div,
+.perfil-bloque form>div {
     min-width: 0;
     margin-bottom: var(--espacio-4);
 }
 
 .formulario__campo:last-child,
 .campo:last-child,
-body > form > div:last-child,
-body > section:not([class]) form > div:last-child,
-.formulario-garaje-validado > div:last-child,
-.perfil-bloque form > div:last-child {
+body>form>div:last-child,
+body>section:not([class]) form>div:last-child,
+.formulario-garaje-validado>div:last-child,
+.perfil-bloque form>div:last-child {
     margin-bottom: 0;
 }
 
@@ -1389,7 +1437,7 @@ td form button {
 .mensaje-error,
 .mensaje-aviso,
 .mensaje-info {
-    width: min(calc(100%), var(--ancho-contenido));
+    width: var(--ancho-pagina);
     margin: var(--espacio-4) auto;
     padding: var(--espacio-4);
     border: 1px solid var(--color-borde);
@@ -1516,16 +1564,12 @@ td form button {
    ========================================================= */
 
 .garaje-contenedor {
-    width: min(calc(100% - 32px), var(--ancho-contenido));
-    margin: var(--espacio-6) auto;
+    width: var(--ancho-pagina);
+    margin: var(--margen-pagina-y) auto;
 }
 
 .garaje-cabecera {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: var(--espacio-4);
-    margin-bottom: var(--espacio-5);
+    /* estructura común definida en "cabeceras principales de módulos" */
 }
 
 .garaje-cabecera h1 {
@@ -1585,7 +1629,7 @@ td form button {
 
 @media (max-width: 700px) {
     .garaje-contenedor {
-        width: min(calc(100% - 24px), var(--ancho-contenido));
+        width: var(--ancho-pagina-movil);
         margin-top: var(--espacio-5);
     }
 
@@ -1642,8 +1686,8 @@ td form button {
    ========================================================= */
 
 .garaje-formulario-contenedor {
-    width: min(calc(100% - 32px), var(--ancho-formulario));
-    margin: var(--espacio-6) auto;
+    width: var(--ancho-pagina-formulario);
+    margin: var(--margen-pagina-y) auto;
 }
 
 .garaje-formulario-cabecera {
@@ -1663,8 +1707,8 @@ td form button {
 }
 
 .garaje-formulario-panel .garaje-formulario-campo,
-.garaje-formulario-panel > div,
-.garaje-formulario-panel > section {
+.garaje-formulario-panel>div,
+.garaje-formulario-panel>section {
     min-width: 0;
 }
 
@@ -1735,8 +1779,8 @@ td form button {
    ========================================================= */
 
 .form-filtros-mantenimientos {
-    margin: var(--espacio-5) 0;
-    padding: var(--espacio-5);
+    margin: var(--espacio-4) 0;
+    padding: var(--espacio-4);
     border: 1px solid var(--color-borde);
     border-radius: var(--radio-lg);
     background: var(--color-superficie);
@@ -1745,8 +1789,8 @@ td form button {
 .fila-filtros {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--espacio-4);
-    margin-bottom: var(--espacio-4);
+    gap: var(--espacio-3);
+    margin-bottom: var(--espacio-3);
 }
 
 .campo-filtro {
@@ -1765,7 +1809,7 @@ td form button {
     display: flex;
     flex-wrap: wrap;
     gap: var(--espacio-3);
-    margin-top: var(--espacio-4);
+    margin-top: var(--espacio-3);
 }
 
 .form-filtros-mantenimientos select {
@@ -1834,8 +1878,8 @@ td form button {
 /* detalle visual del vehículo */
 
 .garaje-detalle-contenedor {
-    width: min(calc(100% - 32px), var(--ancho-contenido));
-    margin: var(--espacio-6) auto;
+    width: var(--ancho-pagina);
+    margin: var(--margen-pagina-y) auto;
 }
 
 .garaje-detalle-encabezado {
@@ -1845,7 +1889,7 @@ td form button {
 .garaje-detalle-historial {
     margin-top: var(--espacio-6);
     display: grid;
-    gap: var(--espacio-4);
+    gap: var(--espacio--0);
 }
 
 .garaje-detalle-historial__cabecera {
@@ -1866,18 +1910,43 @@ td form button {
     gap: var(--espacio-3);
 }
 
+.garaje-detalle-historial__cabecera {
+    margin-bottom: 0;
+}
+
+.garaje-detalle-historial .form-filtros-mantenimientos {
+    margin: 0;
+}
+
+.garaje-detalle-historial .resumen-mantenimientos {
+    margin: var(--espacio-2) 0 var(--espacio-5);
+}
+
+.garaje-detalle-historial #contenedor-tabla-mantenimientos {
+    margin-top: 0;
+}
+
+.garaje-detalle-historial .paginacion-mantenimientos {
+    margin: var(--espacio-5) 0 0;
+    padding-bottom: var(--espacio-2);
+}
+
+.garaje-detalle-historial>p {
+    margin-bottom: 0;
+}
+
 .detalle-vehiculo-cabecera {
     display: grid;
-    grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
-    gap: var(--espacio-5);
+    grid-template-columns: minmax(0, 1.55fr) minmax(340px, 0.85fr);
+    gap: var(--espacio-4);
     align-items: start;
-    margin: var(--espacio-5) 0;
+    margin: var(--espacio-4) 0 var(--espacio-5);
 }
 
 .detalle-vehiculo-columna-principal {
     min-width: 0;
     display: grid;
-    gap: var(--espacio-5);
+    gap: var(--espacio-4);
 }
 
 .detalle-vehiculo-bloque-imagen {
@@ -1889,7 +1958,7 @@ td form button {
 }
 
 .detalle-vehiculo-bloque {
-    padding: var(--espacio-5);
+    padding: var(--espacio-4);
 }
 
 .detalle-vehiculo-bloque-principal {
@@ -1921,6 +1990,7 @@ td form button {
 
 .estadisticas-vehiculo-grid {
     display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: var(--espacio-3);
 }
 
@@ -2059,24 +2129,20 @@ td form button {
    ========================================================= */
 
 .perfil-contenedor {
-    width: min(calc(100% - 32px), var(--ancho-contenido));
-    margin: var(--espacio-6) auto;
+    width: var(--ancho-pagina);
+    margin: var(--margen-pagina-y) auto;
     display: flex;
     flex-direction: column;
 }
 
 .perfil-contenedor--vehiculo {
-    max-width: 1000px;
+    width: var(--ancho-pagina-perfil-vehiculo);
+    max-width: none;
 }
 
 .perfil-cabecera,
 .perfil-vehiculo-detalle-cabecera {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--espacio-5);
-    margin-bottom: var(--espacio-5);
-    padding: var(--espacio-5);
+    /* estructura común definida en "cabeceras principales de módulos" */
 }
 
 .perfil-cabecera__foto {
@@ -2408,12 +2474,13 @@ td form button {
    ========================================================= */
 
 .comunidad-contenedor {
-    width: min(calc(100% - 32px), var(--ancho-contenido));
-    margin: var(--espacio-6) auto;
+    width: var(--ancho-pagina);
+    margin: var(--margen-pagina-y) auto;
 }
 
 .comunidad-contenedor--detalle {
-    max-width: 900px;
+    width: var(--ancho-pagina-comunidad-detalle);
+    max-width: none;
 }
 
 .comunidad-cabecera {
@@ -2697,8 +2764,8 @@ td form button {
 /* formularios comunidad */
 
 .comunidad-formulario-contenedor {
-    width: min(calc(100% - 32px), var(--ancho-formulario));
-    margin: var(--espacio-6) auto;
+    width: var(--ancho-pagina-formulario);
+    margin: var(--margen-pagina-y) auto;
 }
 
 .comunidad-formulario-cabecera {
@@ -2823,17 +2890,12 @@ td form button {
    ========================================================= */
 
 .diagnostico-contenedor {
-    width: min(calc(100% - 32px), 950px);
-    margin: var(--espacio-6) auto;
+    width: var(--ancho-pagina-diagnostico);
+    margin: var(--margen-pagina-y) auto;
 }
 
 .diagnostico-cabecera {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: var(--espacio-5);
-    margin-bottom: var(--espacio-5);
-    padding: var(--espacio-5);
+    /* estructura común definida en "cabeceras principales de módulos" */
 }
 
 .diagnostico-cabecera__texto {
@@ -3041,17 +3103,12 @@ td form button {
    ========================================================= */
 
 .admin-contenedor {
-    width: min(calc(100% - 32px), var(--ancho-contenido));
-    margin: var(--espacio-6) auto;
+    width: var(--ancho-pagina);
+    margin: var(--margen-pagina-y) auto;
 }
 
 .admin-cabecera {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: var(--espacio-5);
-    margin-bottom: var(--espacio-5);
-    padding: var(--espacio-5);
+    /* estructura común definida en "cabeceras principales de módulos" */
 }
 
 .admin-cabecera__texto {
@@ -3470,7 +3527,7 @@ td form button {
    ========================================================= */
 
 .contenedor {
-    width: min(calc(100% - 32px), var(--ancho-contenido));
+    width: var(--ancho-pagina);
     margin-left: auto;
     margin-right: auto;
 }
@@ -3625,6 +3682,211 @@ td form button {
 }
 
 /* =========================================================
+   cabeceras principales de módulos
+   ========================================================= */
+
+.garaje-cabecera,
+.comunidad-cabecera,
+.perfil-cabecera,
+.perfil-vehiculo-detalle-cabecera,
+.diagnostico-cabecera,
+.admin-cabecera {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--gap-cabecera-modulo);
+    margin-bottom: var(--margen-cabecera-modulo);
+    padding: var(--padding-cabecera-modulo);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-lg);
+    background: var(--color-superficie);
+}
+
+.perfil-cabecera {
+    align-items: center;
+}
+
+.garaje-cabecera>div:first-child,
+.comunidad-cabecera>div:first-child,
+.perfil-cabecera__info,
+.diagnostico-cabecera__texto,
+.admin-cabecera__texto {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.garaje-cabecera h1,
+.comunidad-cabecera h1,
+.perfil-cabecera__info h1,
+.perfil-vehiculo-detalle-cabecera h1,
+.diagnostico-cabecera__texto h1,
+.admin-cabecera__texto h1 {
+    margin-bottom: var(--espacio-2);
+    overflow-wrap: anywhere;
+}
+
+.garaje-cabecera h1:last-child,
+.comunidad-cabecera h1:last-child {
+    margin-bottom: 0;
+}
+
+.perfil-cabecera__texto,
+.diagnostico-cabecera__texto p:last-child,
+.admin-cabecera__texto p:last-child {
+    margin-bottom: 0;
+    color: var(--color-texto-suave);
+}
+
+.garaje-cabecera__acciones,
+.comunidad-cabecera__acciones,
+.perfil-vehiculo-detalle-cabecera__acciones,
+.diagnostico-cabecera__acciones,
+.admin-cabecera__acciones {
+    flex: 0 0 auto;
+    min-width: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--espacio-3);
+}
+
+.perfil-cabecera__acciones {
+    flex: 0 0 auto;
+    min-width: 170px;
+}
+
+@media (max-width: 700px) {
+
+    .garaje-cabecera,
+    .comunidad-cabecera,
+    .perfil-cabecera,
+    .perfil-vehiculo-detalle-cabecera,
+    .diagnostico-cabecera,
+    .admin-cabecera {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--espacio-4);
+        padding: var(--padding-cabecera-modulo-movil);
+    }
+
+    .garaje-cabecera__acciones,
+    .comunidad-cabecera__acciones,
+    .perfil-cabecera__acciones,
+    .perfil-vehiculo-detalle-cabecera__acciones,
+    .diagnostico-cabecera__acciones,
+    .admin-cabecera__acciones {
+        width: 100%;
+    }
+
+    .garaje-cabecera__acciones a,
+    .comunidad-cabecera__acciones a,
+    .perfil-vehiculo-detalle-cabecera__acciones a,
+    .diagnostico-cabecera__acciones button,
+    .admin-cabecera__acciones a {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   secciones internas y separación vertical
+   ========================================================= */
+
+.inicio-seccion,
+.perfil-seccion,
+.garaje-detalle-historial,
+.comunidad-resultados {
+    margin-top: var(--margen-seccion-modulo);
+}
+
+.comunidad-filtros,
+.comunidad-detalle-publicacion,
+.comunidad-comentario-formulario,
+.admin-bloque-info {
+    margin-bottom: var(--margen-seccion-modulo-compacto);
+}
+
+.inicio-seccion__cabecera,
+.perfil-seccion__cabecera,
+.comunidad-seccion-cabecera,
+.comunidad-resultados__cabecera,
+.garaje-detalle-historial__cabecera {
+    margin-bottom: var(--margen-cabecera-seccion);
+}
+
+.inicio-seccion__cabecera h1,
+.inicio-seccion__cabecera h2,
+.inicio-seccion__cabecera h3,
+.perfil-seccion__cabecera h2,
+.comunidad-seccion-cabecera h2,
+.comunidad-resultados__cabecera h2,
+.garaje-detalle-historial__cabecera h2 {
+    margin-bottom: var(--espacio-2);
+}
+
+.perfil-seccion__cabecera h2:last-child,
+.comunidad-seccion-cabecera h2:last-child,
+.comunidad-resultados__cabecera h2:last-child,
+.garaje-detalle-historial__cabecera h2:last-child {
+    margin-bottom: 0;
+}
+
+.inicio-seccion__cabecera p,
+.perfil-seccion__cabecera p,
+.comunidad-seccion-cabecera p,
+.comunidad-resultados__cabecera p,
+.garaje-detalle-historial__cabecera p {
+    margin-bottom: 0;
+    color: var(--color-texto-suave);
+}
+
+.garaje-listado,
+.comunidad-comentarios__listado,
+.perfil-ajustes,
+.perfil-publicaciones,
+.perfil-garaje,
+.admin-tarjetas,
+.inicio-grid,
+.inicio-actividad-grid {
+    gap: var(--gap-listado-modulo);
+}
+
+.comunidad-filtros,
+.diagnostico-panel,
+.admin-tabla-panel,
+.admin-estado-vacio,
+.admin-bloque-info,
+.garaje-estado-vacio {
+    padding: var(--padding-panel-modulo);
+}
+
+@media (max-width: 700px) {
+
+    .inicio-seccion,
+    .perfil-seccion,
+    .garaje-detalle-historial,
+    .comunidad-resultados {
+        margin-top: var(--margen-seccion-modulo-compacto);
+    }
+
+    .comunidad-filtros,
+    .diagnostico-panel,
+    .admin-tabla-panel,
+    .admin-estado-vacio,
+    .admin-bloque-info,
+    .garaje-estado-vacio {
+        padding: var(--padding-panel-modulo-movil);
+    }
+
+    .inicio-seccion__cabecera,
+    .perfil-seccion__cabecera,
+    .comunidad-seccion-cabecera,
+    .comunidad-resultados__cabecera,
+    .garaje-detalle-historial__cabecera {
+        margin-bottom: var(--espacio-3);
+    }
+}
+
+/* =========================================================
    responsive base
    ========================================================= */
 
@@ -3638,7 +3900,7 @@ td form button {
 
 @media (max-width: 640px) {
     .garaje-detalle-contenedor {
-        width: min(calc(100% - 20px), var(--ancho-contenido));
+        width: var(--ancho-pagina-movil);
     }
 
     .carrusel-vehiculo__visor,
@@ -3677,7 +3939,7 @@ td form button {
 
 @media (max-width: 700px) {
     .contenedor {
-        width: min(calc(100% - 24px), var(--ancho-contenido));
+        width: var(--ancho-pagina-movil);
     }
 
     .grid--dos,
@@ -3707,12 +3969,42 @@ td form button {
     body>form,
     body>hr,
     body>section:not([class]) {
-        width: min(calc(100% - 24px), var(--ancho-contenido));
+        width: var(--ancho-pagina-movil);
     }
 
     body>form,
     body>section:not([class])>form {
         padding: var(--espacio-4);
+    }
+
+    .formulario--grid {
+        grid-template-columns: 1fr;
+    }
+
+    .formulario__acciones,
+    .campo__acciones {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .formulario__acciones a,
+    .formulario__acciones button,
+    .campo__acciones a,
+    .campo__acciones button {
+        width: 100%;
+    }
+
+    .estado-visual__acciones,
+    .estado-vacio__acciones {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .estado-visual__acciones a,
+    .estado-visual__acciones button,
+    .estado-vacio__acciones a,
+    .estado-vacio__acciones button {
+        width: 100%;
     }
 
     .fila-filtros,
@@ -3727,6 +4019,15 @@ td form button {
     .campo-filtro,
     .campo-filtro-comunidad {
         width: 100%;
+    }
+
+    .campo-filtro {
+        flex: 0 1 auto;
+    }
+
+    .form-filtros-mantenimientos .fila-filtros {
+        gap: var(--espacio-3);
+        margin-bottom: var(--espacio-3);
     }
 
     .campo-filtro-comunidad input,
@@ -3746,6 +4047,16 @@ td form button {
     .navbar__boton-menu,
     .navbar__idioma-boton {
         width: auto;
+    }
+
+    .carrusel-vehiculo__miniaturas {
+        max-width: 100%;
+    }
+
+    .carrusel-vehiculo__miniatura {
+        flex-basis: 76px;
+        width: 76px;
+        height: 60px;
     }
 
     .tabla-mantenimientos,
@@ -3768,7 +4079,7 @@ td form button {
     }
 
     .garaje-formulario-contenedor {
-        width: min(calc(100% - 24px), var(--ancho-formulario));
+        width: var(--ancho-pagina-formulario-movil);
         margin-top: var(--espacio-5);
     }
 
@@ -3790,9 +4101,17 @@ td form button {
         width: 100%;
     }
 
-    .comunidad-contenedor,
+    .comunidad-contenedor {
+        width: var(--ancho-pagina-movil);
+        margin-top: var(--espacio-5);
+    }
+
+    .comunidad-contenedor--detalle {
+        width: var(--ancho-pagina-comunidad-detalle-movil);
+    }
+
     .comunidad-formulario-contenedor {
-        width: min(calc(100% - 24px), var(--ancho-contenido));
+        width: var(--ancho-pagina-formulario-movil);
         margin-top: var(--espacio-5);
     }
 
@@ -3847,8 +4166,12 @@ td form button {
     }
 
     .perfil-contenedor {
-        width: min(calc(100% - 24px), var(--ancho-contenido));
+        width: var(--ancho-pagina-movil);
         margin-top: var(--espacio-5);
+    }
+
+    .perfil-contenedor--vehiculo {
+        width: var(--ancho-pagina-perfil-vehiculo-movil);
     }
 
     .perfil-cabecera,
@@ -3901,7 +4224,7 @@ td form button {
     }
 
     .diagnostico-contenedor {
-        width: min(calc(100% - 24px), 950px);
+        width: var(--ancho-pagina-diagnostico-movil);
         margin-top: var(--espacio-5);
     }
 
@@ -3940,7 +4263,7 @@ td form button {
     }
 
     .admin-contenedor {
-        width: min(calc(100% - 24px), var(--ancho-contenido));
+        width: var(--ancho-pagina-movil);
         margin-top: var(--espacio-5);
     }
 
@@ -3997,8 +4320,12 @@ td form button {
         font-size: 16px;
     }
 
+    .mensaje,
     .mensaje-ok,
-    .mensaje-error {
+    .mensaje-error,
+    .mensaje-aviso,
+    .mensaje-info {
+        width: var(--ancho-pagina-movil);
         padding: var(--espacio-3);
     }
 

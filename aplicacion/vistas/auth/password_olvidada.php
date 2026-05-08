@@ -34,8 +34,6 @@
                 autocomplete="email">
         </div>
 
-        <br>
-
         <button type="submit"><?= htmlspecialchars(t('auth.password_olvidada.boton')) ?></button>
     </form>
 

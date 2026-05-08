@@ -74,14 +74,13 @@
                 maxlength="255"
                 pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
                 title="<?= htmlspecialchars(t('auth.registro.password_ayuda')) ?>"
-                autocomplete="new-password"> <br>
+                autocomplete="new-password"> 
             <div id="error-password-repetida" class="mensaje-error-campo" style="display:none;">
                 <?= htmlspecialchars(t('auth.registro.error_password_repetida')) ?>
             </div>
             <small><?= htmlspecialchars(t('auth.registro.password_ayuda')) ?></small>
         </div>
 
-        <br>
         <button type="submit"><?= htmlspecialchars(t('auth.registro.boton')) ?></button>
     </form>
 
