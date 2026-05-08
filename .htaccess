@@ -1,5 +1,22 @@
+# desactivar listado de directorios
+Options -Indexes
+
+# activar reescritura de urls
 RewriteEngine On
 
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+# bloquear archivos sensibles de la raíz
+RewriteRule ^(env\.php|info\.txt|README\.md|torqhub\.sql|\.gitignore)$ - [F,L,NC]
+
+# bloquear archivos sql, zip, logs y backups si se suben por error
+RewriteRule \.(sql|zip|log|bak|backup|old)$ - [F,L,NC]
+
+# bloquear carpetas internas de la aplicación
+RewriteRule ^(aplicacion|configuracion|rutas|almacenamiento|lib)(/|$) - [F,L,NC]
+
+# permitir archivos y carpetas reales, como css, js, imágenes y uploads públicos
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# enviar el resto de rutas al front controller
 RewriteRule ^ index.php [L]

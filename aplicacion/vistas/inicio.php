@@ -181,10 +181,6 @@ $ultimas_publicaciones = isset($actividad_reciente['ultimas_publicaciones']) && 
                 </div>
 
                 <aside class="inicio-hero__panel" aria-label="<?= escapar(t('inicio.dashboard.panel.etiqueta')) ?>">
-                    <p class="inicio-etiqueta">
-                        <?= escapar(t('inicio.dashboard.panel.etiqueta')) ?>
-                    </p>
-
                     <h2><?= escapar(t('inicio.dashboard.panel.titulo')) ?></h2>
 
                     <p>
