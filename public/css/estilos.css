@@ -8289,7 +8289,7 @@ body>section:not([class])>p>a[href*="contraseña"]:hover {
 
 .inicio-seccion__cabecera {
     max-width: 820px;
-    margin-bottom: var(--espacio-4);
+    margin-bottom: var(--espacio-0);
 }
 
 .inicio-seccion__cabecera h2 {
@@ -8517,4 +8517,694 @@ body>section:not([class])>p>a[href*="contraseña"]:hover {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+/* =========================================================
+   fase 4.13a - perfil: cabecera, botones y tarjetas base
+   ========================================================= */
+
+/* cabecera principal del perfil */
+.perfil-cabecera {
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-xl);
+    background: var(--color-navbar-fondo);
+    box-shadow: var(--sombra-sm);
+}
+
+/* foto de perfil */
+.perfil-cabecera__foto img,
+.perfil-foto-vacia {
+    width: 132px;
+    height: 132px;
+    border: 2px solid var(--color-acento);
+    border-radius: 50%;
+    background: var(--color-acento-relleno);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.14);
+}
+
+.perfil-foto-vacia {
+    color: var(--color-acento);
+    font-weight: 700;
+}
+
+/* datos principales */
+.perfil-cabecera__info h1 {
+    color: var(--color-acento);
+    letter-spacing: -0.03em;
+}
+
+.perfil-cabecera__texto {
+    color: var(--color-texto-suave);
+    font-weight: 500;
+}
+
+/* etiqueta pequeña del perfil, por ahora la estilizamos */
+.perfil-cabecera__etiqueta {
+    display: inline-flex;
+    width: fit-content;
+    margin-bottom: var(--espacio-2);
+    padding: 5px 11px;
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-pill);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+/* bloque de botones de perfil */
+.perfil-cabecera__acciones {
+    padding: var(--espacio-3);
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-xl);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-xs);
+}
+
+/* botones publicaciones / configuración / atrás */
+.perfil-boton-control {
+    min-height: 40px;
+    padding: 9px 14px;
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-pill);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.1);
+    font-weight: 500;
+}
+
+.perfil-boton-control:hover {
+    color: var(--color-texto-inverso);
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    box-shadow: 0 6px 14px rgba(194, 65, 12, 0.2);
+}
+
+/* botón activo del panel de perfil */
+.perfil-boton-control--activo,
+.perfil-boton-control--activo:hover {
+    color: var(--color-texto-inverso);
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    box-shadow: 0 6px 14px rgba(194, 65, 12, 0.2);
+    cursor: default;
+}
+
+/* cabeceras internas del perfil */
+.perfil-seccion__cabecera h2 {
+    color: var(--color-acento);
+    letter-spacing: -0.03em;
+}
+
+/* estados vacíos */
+.perfil-estado-vacio {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-xl);
+    background: #fffdf8;
+    box-shadow: var(--sombra-xs);
+}
+
+.perfil-estado-vacio p {
+    color: var(--color-texto-suave);
+    font-weight: 500;
+}
+
+/* tarjetas del garaje público y publicaciones del perfil */
+.perfil-vehiculo,
+.perfil-publicacion {
+    position: relative;
+    border: 2px solid rgb(212, 212, 212);
+    border-radius: var(--radio-xl);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-xs);
+    transform: scale(1);
+    transition:
+        transform var(--transicion-media),
+        border-color var(--transicion-media),
+        background-color var(--transicion-media),
+        box-shadow var(--transicion-media);
+}
+
+.perfil-vehiculo:hover,
+.perfil-publicacion:hover {
+    z-index: 2;
+    border-color: rgb(15, 153, 185);
+    background: rgb(237, 254, 255);
+    box-shadow: var(--sombra-hover);
+    transform: scale(1.015);
+}
+
+/* imágenes: sin borde extra innecesario */
+.perfil-vehiculo__imagen,
+.perfil-vehiculo__imagen-vacia {
+    border: 0;
+    border-radius: var(--radio-lg);
+    background: #fffdf8;
+}
+
+.perfil-vehiculo__imagen img {
+    border: 0;
+    border-radius: var(--radio-lg);
+}
+
+/* textos de tarjetas */
+.perfil-vehiculo__contenido h3 {
+    color: var(--color-acento);
+    letter-spacing: -0.02em;
+}
+
+.perfil-vehiculo__contenido p,
+.perfil-publicacion__cabecera,
+.perfil-publicacion__pie p {
+    color: var(--color-texto-suave);
+    font-weight: 500;
+}
+
+.perfil-publicacion__contenido p {
+    color: var(--color-texto);
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+/* imagen de publicación en perfil */
+.perfil-publicacion__imagen img {
+    border: 0;
+    border-radius: var(--radio-lg);
+}
+
+/* pie de publicación */
+.perfil-publicacion__pie {
+    border-top: 2px solid var(--color-navbar-borde);
+}
+
+/* botón ver publicación */
+.perfil-boton-enlace {
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-pill);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.14);
+    font-weight: 500;
+}
+
+.perfil-boton-enlace:hover {
+    color: var(--color-texto-inverso);
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    box-shadow: 0 6px 14px rgba(194, 65, 12, 0.2);
+}
+
+/* móvil */
+@media (max-width: 700px) {
+    .perfil-cabecera,
+    .perfil-cabecera__acciones,
+    .perfil-estado-vacio,
+    .perfil-vehiculo,
+    .perfil-publicacion {
+        border-radius: var(--radio-lg);
+    }
+
+    .perfil-cabecera__foto {
+        align-self: center;
+    }
+
+    .perfil-cabecera__foto img,
+    .perfil-foto-vacia {
+        width: 112px;
+        height: 112px;
+    }
+
+    .perfil-cabecera__info {
+        text-align: center;
+    }
+
+    .perfil-cabecera__etiqueta {
+        margin-inline: auto;
+    }
+
+    .perfil-cabecera__acciones {
+        width: 100%;
+    }
+
+    .perfil-boton-control,
+    .perfil-boton-enlace {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .perfil-vehiculo:hover,
+    .perfil-publicacion:hover {
+        transform: none;
+    }
+}
+
+/* =========================================================
+   fase 4.13a.1 - perfil: quitar caja de acciones
+   ========================================================= */
+
+.perfil-cabecera__acciones {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* =========================================================
+   fase 4.13a.3 - perfil: desactivar hover de publicaciones
+   ========================================================= */
+
+.perfil-publicacion:hover {
+    z-index: auto;
+    border-color: rgb(212, 212, 212);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-xs);
+    transform: none;
+}
+/* =========================================================
+   fase 4.13a.4 - perfil: sombra foto principal
+   ========================================================= */
+
+.perfil-cabecera__foto img,
+.perfil-foto-vacia {
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* =========================================================
+   fase 4.13a.5 - perfil: foto más marcada y menos espacio inferior
+   ========================================================= */
+
+/* borde más grueso en la foto grande del perfil */
+.perfil-cabecera__foto img,
+.perfil-foto-vacia {
+    border-width: 4px;
+    border-color: var(--color-acento-hover)
+}
+
+/* menos espacio muerto debajo de la cabecera del perfil */
+.perfil-cabecera {
+    margin-bottom: var(--espacio-5);
+}
+
+/* =========================================================
+   fase 4.13a.6 - perfil: reducir separación bajo cabecera
+   ========================================================= */
+
+/* el hueco real lo genera la sección inferior, no la cabecera */
+.perfil-contenedor > .perfil-seccion {
+    margin-top: var(--espacio-4);
+}
+
+/* por si el margen anterior de cabecera seguía sumando espacio */
+.perfil-cabecera {
+    margin-bottom: 0;
+}
+
+/* =========================================================
+   fase 4.13b - perfil: configuración de perfil
+   ========================================================= */
+
+/* contenedor de paneles de configuración */
+.perfil-ajustes {
+    align-items: stretch;
+}
+
+/* paneles: cambiar foto, editar datos y contraseña */
+.perfil-panel {
+    border: 2px solid rgb(212, 212, 212);
+    border-radius: var(--radio-xl);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-xs);
+}
+
+.perfil-panel h3 {
+    margin-bottom: var(--espacio-4);
+    color: var(--color-acento);
+    letter-spacing: -0.02em;
+}
+
+/* formularios internos */
+.perfil-formulario {
+    gap: var(--espacio-4);
+}
+
+/* campos del formulario */
+.perfil-formulario__campo label {
+    display: block;
+    margin-bottom: var(--espacio-1);
+    color: var(--color-acento);
+    font-weight: 700;
+}
+
+/* inputs de configuración */
+.perfil-formulario__campo input[type="text"],
+.perfil-formulario__campo input[type="email"],
+.perfil-formulario__campo input[type="password"],
+.perfil-formulario__campo input[type="file"] {
+    width: 100%;
+    min-height: 42px;
+    padding: 9px 12px;
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-md);
+    color: var(--color-texto);
+    background: #fffaf1;
+    font-weight: 500;
+}
+
+.perfil-formulario__campo input[type="file"] {
+    cursor: pointer;
+}
+
+.perfil-formulario__campo input:hover {
+    border-color: var(--color-acento-hover);
+    background: #fffaf1;
+}
+
+.perfil-formulario__campo input:focus {
+    border-color: var(--color-acento-hover);
+    background: var(--color-superficie);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-acento) 18%, transparent);
+}
+
+/* separación de acciones del formulario */
+.perfil-formulario__acciones {
+    padding-top: var(--espacio-4);
+    border-top: 2px solid var(--color-navbar-borde);
+}
+
+/* botones de formularios de configuración */
+.perfil-formulario__acciones button {
+    min-height: 40px;
+    padding: 9px 14px;
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-pill);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.14);
+    font-weight: 500;
+}
+
+.perfil-formulario__acciones button:hover {
+    color: var(--color-texto-inverso);
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    box-shadow: 0 6px 14px rgba(194, 65, 12, 0.2);
+}
+
+/* panel de cambiar contraseña a ancho completo */
+.perfil-panel--ancho-completo {
+    border-color: var(--color-navbar-borde);
+    background: #fffdf8;
+}
+
+/* móvil */
+@media (max-width: 700px) {
+    .perfil-ajustes {
+        grid-template-columns: 1fr;
+        gap: var(--espacio-4);
+    }
+
+    .perfil-panel {
+        padding: var(--espacio-4);
+        border-radius: var(--radio-lg);
+    }
+
+    .perfil-formulario--grid {
+        grid-template-columns: 1fr;
+    }
+
+    .perfil-formulario__acciones {
+        justify-content: stretch;
+    }
+
+    .perfil-formulario__acciones button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* =========================================================
+   fase 4.13b.1 - perfil: colorear paneles de configuración
+   ========================================================= */
+
+/* cuadros principales de configuración */
+.perfil-ajustes .perfil-panel {
+    border: 2px solid var(--color-acento);
+    background: var(--color-navbar-fondo);
+    box-shadow: var(--sombra-sm);
+}
+
+/* el panel ancho de cambiar contraseña también mantiene identidad torqhub */
+.perfil-ajustes .perfil-panel--ancho-completo {
+    border-color: var(--color-acento);
+    background: var(--color-navbar-fondo);
+}
+
+/* campos internos dentro de cada cuadro */
+.perfil-ajustes .perfil-formulario__campo {
+    padding: var(--espacio-3);
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-lg);
+    background: var(--color-superficie);
+}
+
+/* inputs dentro de los cuadros */
+.perfil-ajustes .perfil-formulario__campo input[type="text"],
+.perfil-ajustes .perfil-formulario__campo input[type="email"],
+.perfil-ajustes .perfil-formulario__campo input[type="password"],
+.perfil-ajustes .perfil-formulario__campo input[type="file"] {
+    border-color: var(--color-acento);
+    background: #fffaf1;
+}
+
+/* separación de botones dentro del cuadro */
+.perfil-ajustes .perfil-formulario__acciones {
+    border-top: 2px solid var(--color-acento-borde);
+}
+
+/* =========================================================
+   fase 4.13b.2 - perfil: configuración sin cajas internas
+   ========================================================= */
+
+/* quitamos las cajas internas de cada campo */
+.perfil-ajustes .perfil-formulario__campo {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+/* mantenemos separación limpia entre campos */
+.perfil-ajustes .perfil-formulario {
+    gap: var(--espacio-4);
+}
+
+@media (max-width: 700px) {
+    .perfil-ajustes .perfil-formulario__campo {
+        padding: 0;
+        border-radius: 0;
+    }
+}
+
+/* =========================================================
+   fase 4.13c - perfil: detalle público de vehículo
+   ========================================================= */
+
+/* cabecera del vehículo público */
+.perfil-vehiculo-detalle-cabecera {
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-xl);
+    background: var(--color-navbar-fondo);
+    box-shadow: var(--sombra-sm);
+}
+
+.perfil-vehiculo-detalle-cabecera h1 {
+    color: var(--color-acento);
+    letter-spacing: -0.03em;
+}
+
+.perfil-vehiculo-detalle-cabecera p {
+    color: var(--color-texto-suave);
+    font-weight: 500;
+}
+
+/* subtítulo pequeño superior */
+.perfil-subtitulo {
+    color: var(--color-acento);
+    font-weight: 700;
+}
+
+/* enlace del propietario: sigue siendo enlace normal de perfil */
+.perfil-vehiculo-detalle-cabecera p a {
+    color: var(--color-acento);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.perfil-vehiculo-detalle-cabecera p a:hover {
+    color: var(--color-acento-hover);
+    text-decoration: underline;
+}
+
+/* botón volver al perfil: solo el enlace directo de la cabecera */
+.perfil-vehiculo-detalle-cabecera > a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 9px 14px;
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-pill);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.14);
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+}
+
+.perfil-vehiculo-detalle-cabecera > a:hover {
+    color: var(--color-texto-inverso);
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    box-shadow: 0 6px 14px rgba(194, 65, 12, 0.2);
+    text-decoration: none;
+}
+
+/* layout principal */
+.perfil-vehiculo-detalle {
+    gap: var(--espacio-5);
+    align-items: stretch;
+}
+
+/* panel de galería */
+.perfil-vehiculo-detalle__galeria {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-xl);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-xs);
+}
+
+/* carrusel dentro del detalle público */
+.perfil-vehiculo-detalle__galeria .carrusel-vehiculo__visor {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-lg);
+    background: #fffdf8;
+    box-shadow: var(--sombra-xs);
+}
+
+.perfil-vehiculo-detalle__galeria .carrusel-vehiculo__imagen {
+    border: 0;
+    border-radius: var(--radio-lg);
+}
+
+/* miniaturas del carrusel */
+.perfil-vehiculo-detalle__galeria .carrusel-vehiculo__miniatura {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-md);
+    background: var(--color-superficie);
+}
+
+.perfil-vehiculo-detalle__galeria .carrusel-vehiculo__miniatura:hover,
+.perfil-vehiculo-detalle__galeria .carrusel-vehiculo__miniatura--activa,
+.perfil-vehiculo-detalle__galeria .carrusel-vehiculo__miniatura--activa:hover {
+    border-color: var(--color-acento);
+    background: var(--color-acento-relleno);
+}
+
+/* bloque de datos públicos */
+.perfil-vehiculo-detalle__datos {
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-xl);
+    background: var(--color-navbar-fondo);
+    box-shadow: var(--sombra-sm);
+}
+
+.perfil-vehiculo-detalle__datos h2 {
+    color: var(--color-acento);
+    letter-spacing: -0.03em;
+}
+
+/* lista de datos */
+.perfil-datos-vehiculo {
+    gap: 0;
+}
+
+.perfil-datos-vehiculo div {
+    padding: var(--espacio-3) 0;
+    border-bottom: 2px solid var(--color-navbar-borde);
+}
+
+.perfil-datos-vehiculo div:first-child {
+    padding-top: 0;
+}
+
+.perfil-datos-vehiculo div:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.perfil-datos-vehiculo dt {
+    color: var(--color-acento);
+    font-weight: 700;
+}
+
+.perfil-datos-vehiculo dd {
+    color: var(--color-texto);
+    font-weight: 500;
+}
+
+/* placeholder si no hay imagen */
+.perfil-vehiculo-detalle__galeria .detalle-vehiculo-placeholder-imagen {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-lg);
+    background: #fffdf8;
+    box-shadow: var(--sombra-xs);
+}
+
+.perfil-vehiculo-detalle__galeria .detalle-vehiculo-placeholder-texto {
+    color: var(--color-acento);
+    font-weight: 700;
+}
+
+.perfil-vehiculo-detalle__galeria .detalle-vehiculo-placeholder-ayuda {
+    color: var(--color-texto-suave);
+    font-weight: 500;
+}
+
+/* móvil */
+@media (max-width: 800px) {
+    .perfil-vehiculo-detalle {
+        grid-template-columns: 1fr;
+        gap: var(--espacio-4);
+    }
+
+    .perfil-vehiculo-detalle-cabecera,
+    .perfil-vehiculo-detalle__galeria,
+    .perfil-vehiculo-detalle__datos {
+        border-radius: var(--radio-lg);
+    }
+
+    .perfil-vehiculo-detalle-cabecera > a {
+        width: 100%;
+    }
+
+    .perfil-datos-vehiculo div {
+        grid-template-columns: 1fr;
+        gap: var(--espacio-1);
+    }
+}
+
+.comunidad-comentario__contenido p {
+  font-weight: 500;
+}
+
+.comunidad-detalle-publicacion__contenido {
+  font-weight: 500;
+}
+
+.perfil-formulario__campo{
+  font-weight: 500;
 }
