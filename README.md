@@ -2,7 +2,7 @@
 
 [Documento](https://docs.google.com/document/d/1xBUbJVxpTcVCnY1csCN8iuvDQGqctCGAMUM9VGTCs7w/edit?usp=sharing)
 
-[Página web](torqhub.es.mialias.net)
+[Página web](http://torqhub.es.mialias.net/) o "torqhub.es.mialias.net"
 
 TorqHub es una plataforma web social para aficionados al motor desarrollada desde cero con PHP y arquitectura MVC propia.
 
