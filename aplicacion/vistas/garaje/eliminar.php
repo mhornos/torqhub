@@ -39,7 +39,7 @@ $url_cancelar = url_volver_segura(url('/garaje'));
             <?= htmlspecialchars(t('garaje.eliminar.cancelar')) ?>
         </a>
 
-        <button type="submit">
+        <button type="submit" class="boton--peligro boton-eliminar-vehiculo">
             <?= htmlspecialchars(t('garaje.eliminar.eliminar')) ?>
         </button>
     </form>

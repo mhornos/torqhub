@@ -9349,3 +9349,412 @@ body>section:not([class])>p>a[href*="contraseña"]:hover {
         width: 100%;
     }
 }
+
+/* =========================================================
+   fase 4.14b - auth: login, registro y recuperación
+   ========================================================= */
+
+/* páginas auth sin navbar */
+.auth-pagina {
+    min-height: 100vh;
+    padding-top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* contenedor centrado */
+.auth-contenedor {
+    width: var(--ancho-pagina-formulario);
+    margin: var(--espacio-6) auto;
+}
+
+/* panel principal */
+.auth-panel {
+    width: 100%;
+    padding: var(--espacio-6);
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-xl);
+    background: var(--color-navbar-fondo);
+    box-shadow: var(--sombra-sm);
+}
+
+/* cabecera */
+.auth-cabecera {
+    margin-bottom: var(--espacio-5);
+}
+
+.auth-cabecera h1 {
+    margin: 0;
+    color: var(--color-acento);
+    font-size: clamp(2rem, 5vw, 3rem);
+    letter-spacing: -0.04em;
+}
+
+/* formulario */
+.auth-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-4);
+}
+
+.auth-formulario__campo label {
+    display: block;
+    margin-bottom: var(--espacio-1);
+    color: var(--color-acento);
+    font-weight: 700;
+}
+
+.auth-formulario__campo input {
+    width: 100%;
+    min-height: 42px;
+    padding: 9px 12px;
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-md);
+    color: var(--color-texto);
+    background: #fffaf1;
+    font-weight: 500;
+}
+
+.auth-formulario__campo input:hover {
+    border-color: var(--color-acento-hover);
+    background: #fffaf1;
+}
+
+.auth-formulario__campo input:focus {
+    border-color: var(--color-acento-hover);
+    background: var(--color-superficie);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-acento) 18%, transparent);
+}
+
+.auth-formulario__campo small {
+    display: block;
+    margin-top: var(--espacio-2);
+    color: var(--color-texto-suave);
+    font-weight: 500;
+    line-height: 1.45;
+}
+
+/* error de campo del registro */
+.auth-formulario__campo .mensaje-error-campo {
+    margin-top: var(--espacio-2);
+    padding: 9px 12px;
+    border: 2px solid var(--color-error-borde);
+    border-radius: var(--radio-md);
+    color: var(--color-error-texto);
+    background: var(--color-error-fondo);
+    font-weight: 600;
+}
+
+/* campo marcado por js cuando las contraseñas no coinciden */
+.auth-formulario__campo input.campo-error {
+    border-color: var(--color-error-borde);
+    background: var(--color-error-fondo);
+}
+
+/* acciones */
+.auth-formulario__acciones {
+    display: flex;
+    width: 100%;
+    padding-top: var(--espacio-2);
+}
+
+.auth-formulario__acciones button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 42px;
+    padding: 10px 16px;
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-pill);
+    color: var(--color-texto-inverso);
+    background: var(--color-acento);
+    box-shadow: 0 6px 14px rgba(194, 65, 12, 0.2);
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: pointer;
+    transition:
+        background-color var(--transicion-rapida),
+        border-color var(--transicion-rapida),
+        color var(--transicion-rapida),
+        box-shadow var(--transicion-rapida),
+        transform var(--transicion-rapida);
+}
+
+.auth-formulario__acciones button:hover {
+    border-color: var(--color-acento-hover);
+    background: var(--color-acento-hover);
+    box-shadow: 0 8px 18px rgba(194, 65, 12, 0.24);
+    transform: translateY(-1px);
+}
+
+/* enlaces secundarios */
+.auth-enlaces {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--espacio-5);
+    padding-top: var(--espacio-4);
+    border-top: 2px solid var(--color-navbar-borde);
+}
+
+.auth-enlaces a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 9px 14px;
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-pill);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.14);
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+}
+
+.auth-enlaces a:hover {
+    color: var(--color-texto-inverso);
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    box-shadow: 0 6px 14px rgba(194, 65, 12, 0.2);
+    text-decoration: none;
+}
+
+/* mensajes dentro de auth */
+.auth-panel > .mensaje-error,
+.auth-panel > .mensaje-ok {
+    margin-bottom: var(--espacio-4);
+}
+
+/* móvil */
+@media (max-width: 700px) {
+    .auth-pagina {
+        align-items: flex-start;
+    }
+
+    .auth-contenedor {
+        width: var(--ancho-pagina-formulario-movil);
+        margin: var(--espacio-5) auto;
+    }
+
+    .auth-panel {
+        padding: var(--espacio-4);
+        border-radius: var(--radio-lg);
+    }
+
+    .auth-enlaces a {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   fase 4.14b.1 - auth: mensajes fuera del panel
+   ========================================================= */
+
+/* los mensajes flash quedan encima del panel y miden lo mismo */
+.auth-contenedor > .mensaje-error,
+.auth-contenedor > .mensaje-ok {
+    width: 100%;
+    margin: 0 0 var(--espacio-3);
+}
+
+/* ya no necesitamos margen especial para mensajes dentro del panel auth */
+.auth-panel > .mensaje-error,
+.auth-panel > .mensaje-ok {
+    margin-bottom: 0;
+}
+
+/* =========================================================
+   fase 4.14c - revisión responsive global final
+   ========================================================= */
+
+/* protección global contra desbordes visuales */
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* imágenes y medios siempre dentro de su contenedor */
+img,
+picture,
+video,
+canvas,
+svg {
+    max-width: 100%;
+}
+
+/* textos largos: evita que correos, vin, urls o palabras largas rompan tarjetas */
+.garaje-contenedor,
+.comunidad-contenedor,
+.perfil-contenedor,
+.diagnostico-contenedor,
+.admin-contenedor,
+.inicio-contenedor,
+.error-contenedor,
+.auth-contenedor {
+    overflow-wrap: anywhere;
+}
+
+/* tablas: protección responsive sin cambiar estructura */
+.admin-tabla-panel,
+.garaje-tabla-panel,
+.tabla-contenedor,
+.tabla-responsive {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* las tablas no se deforman en móvil */
+.admin-tabla-panel table,
+.garaje-tabla-panel table,
+.tabla-contenedor table,
+.tabla-responsive table {
+    min-width: 720px;
+}
+
+/* botones y enlaces tipo botón: evitar saltos feos en textos cortos */
+.admin-boton,
+.admin-boton-enlace,
+.garaje-boton-enlace,
+.comunidad-boton-enlace,
+.perfil-boton-enlace,
+.perfil-boton-control,
+.inicio-boton-enlace,
+.error-boton,
+.auth-enlaces a {
+    white-space: nowrap;
+}
+
+/* botones principales dentro de formularios: alineación consistente */
+button,
+input[type="submit"] {
+    font-family: inherit;
+}
+
+/* foco accesible coherente con la identidad visual */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--color-acento) 32%, transparent);
+    outline-offset: 3px;
+}
+
+/* evita que el foco quede exagerado dentro de inputs que ya tienen box-shadow propio */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: none;
+}
+
+/* móviles pequeños */
+@media (max-width: 480px) {
+    h1 {
+        font-size: clamp(1.8rem, 10vw, 2.4rem);
+    }
+
+    h2 {
+        font-size: clamp(1.35rem, 8vw, 1.8rem);
+    }
+
+    .garaje-boton-enlace,
+    .comunidad-boton-enlace,
+    .perfil-boton-enlace,
+    .perfil-boton-control,
+    .inicio-boton-enlace,
+    .error-boton,
+    .auth-enlaces a {
+        white-space: normal;
+    }
+}
+
+/* =========================================================
+   fase 4.14c.2 - comunidad: eliminar publicación con variables de borrar
+   ========================================================= */
+
+.form-eliminar-publicacion .boton-eliminar-publicacion {
+    border: 2px solid var(--color-borrar-borde);
+    border-radius: var(--radio-pill);
+    color: var(--color-borrar-texto);
+    background: var(--color-borrar-fondo);
+    box-shadow: 0 5px 12px rgba(204, 0, 0, 0.14);
+    font-weight: 500;
+}
+
+.form-eliminar-publicacion .boton-eliminar-publicacion:hover {
+    border-color: var(--color-borrar-borde-hover);
+    color: var(--color-borrar-texto-hover);
+    background: var(--color-borrar-fondo-hover);
+    box-shadow: 0 6px 14px rgba(142, 7, 7, 0.2);
+    transform: none;
+}
+
+/* =========================================================
+   fase 4.14c.3 - garaje: eliminar vehículo con variables de borrar
+   ========================================================= */
+
+.garaje-contenedor a[href*="garaje/eliminar?id"] {
+    border: 2px solid var(--color-borrar-borde);
+    border-radius: var(--radio-pill);
+    color: var(--color-borrar-texto);
+    background: var(--color-borrar-fondo);
+    box-shadow: 0 5px 12px rgba(204, 0, 0, 0.14);
+    font-weight: 500;
+}
+
+.garaje-contenedor a[href*="garaje/eliminar?id"]:hover {
+    border-color: var(--color-borrar-borde-hover);
+    color: var(--color-borrar-texto-hover);
+    background: var(--color-borrar-fondo-hover);
+    box-shadow: 0 6px 14px rgba(142, 7, 7, 0.2);
+    text-decoration: none;
+    transform: none;
+}
+
+/* =========================================================
+   fase 4.14c.4 - garaje: confirmar eliminación de vehículo
+   ========================================================= */
+
+.garaje-contenedor form[action*="garaje/eliminar"] button[type="submit"] {
+    border: 2px solid var(--color-borrar-borde);
+    border-radius: var(--radio-pill);
+    color: var(--color-borrar-texto);
+    background: var(--color-borrar-fondo);
+    box-shadow: 0 5px 12px rgba(204, 0, 0, 0.14);
+    font-weight: 500;
+}
+
+.garaje-contenedor form[action*="garaje/eliminar"] button[type="submit"]:hover {
+    border-color: var(--color-borrar-borde-hover);
+    color: var(--color-borrar-texto-hover);
+    background: var(--color-borrar-fondo-hover);
+    box-shadow: 0 6px 14px rgba(142, 7, 7, 0.2);
+    transform: none;
+}
+
+/* =========================================================
+   fase 4.14c.5 - garaje: botón confirmar eliminar vehículo
+   ========================================================= */
+
+.boton-eliminar-vehiculo {
+    border: 2px solid var(--color-borrar-borde);
+    border-radius: var(--radio-pill);
+    color: var(--color-borrar-texto);
+    background: var(--color-borrar-fondo);
+    box-shadow: 0 5px 12px rgba(204, 0, 0, 0.14);
+    font-weight: 500;
+}
+
+.boton-eliminar-vehiculo:hover {
+    border-color: var(--color-borrar-borde-hover);
+    color: var(--color-borrar-texto-hover);
+    background: var(--color-borrar-fondo-hover);
+    box-shadow: 0 6px 14px rgba(142, 7, 7, 0.2);
+    transform: none;
+}

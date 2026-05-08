@@ -9,49 +9,58 @@
 
 </head>
 
-<body>
-    <h1><?= htmlspecialchars(t('auth.login.titulo')) ?></h1>
+<body class="auth-pagina">
+    <main class="auth-contenedor">
+        <?php if ($mensaje = flash_get('error')): ?>
+            <p class="mensaje-error"><?= htmlspecialchars($mensaje) ?></p>
+        <?php endif; ?>
 
-    <!-- mensajes flash -->
-    <?php if ($mensaje = flash_get('error')): ?>
-        <p class="mensaje-error"><?= htmlspecialchars($mensaje) ?></p>
-    <?php endif; ?>
+        <?php if ($mensaje = flash_get('ok')): ?>
+            <p class="mensaje-ok"><?= htmlspecialchars($mensaje) ?></p>
+        <?php endif; ?>
 
-    <?php if ($mensaje = flash_get('ok')): ?>
-        <p class="mensaje-ok"><?= htmlspecialchars($mensaje) ?></p>
-    <?php endif; ?>
+        <section class="auth-panel">
+            <header class="auth-cabecera">
+                <h1><?= htmlspecialchars(t('auth.login.titulo')) ?></h1>
+            </header>
 
-    <!-- // formulario de login -->
-    <form method="post" action="<?= url('/login') ?>">
-        <?= csrf_campo() ?>
+            <form method="post" action="<?= url('/login') ?>" class="auth-formulario">
+                <?= csrf_campo() ?>
 
-        <div>
-            <label for="email"><?= htmlspecialchars(t('auth.login.email')) ?></label>
-            <input
-                type="email"
-                name="email"
-                id="email"
-                required
-                maxlength="120"
-                autocomplete="email">
-        </div>
+                <div class="auth-formulario__campo">
+                    <label for="email"><?= htmlspecialchars(t('auth.login.email')) ?></label>
+                    <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        required
+                        maxlength="120"
+                        autocomplete="email">
+                </div>
 
-        <div>
-            <label for="password"><?= htmlspecialchars(t('auth.login.password')) ?></label>
-            <input
-                type="password"
-                name="password"
-                id="password"
-                required
-                maxlength="255"
-                autocomplete="current-password">
-        </div>
-        <button type="submit"><?= htmlspecialchars(t('auth.login.boton')) ?></button>
-    </form>
+                <div class="auth-formulario__campo">
+                    <label for="password"><?= htmlspecialchars(t('auth.login.password')) ?></label>
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        required
+                        maxlength="255"
+                        autocomplete="current-password">
+                </div>
 
-    <p>
-        <a href="<?= url('/password/olvidada') ?>"><?= htmlspecialchars(t('auth.login.password_olvidada')) ?></a>
-    </p>
+                <div class="auth-formulario__acciones">
+                    <button type="submit"><?= htmlspecialchars(t('auth.login.boton')) ?></button>
+                </div>
+            </form>
+
+            <div class="auth-enlaces">
+                <a href="<?= url('/password/olvidada') ?>">
+                    <?= htmlspecialchars(t('auth.login.password_olvidada')) ?>
+                </a>
+            </div>
+        </section>
+    </main>
 
 </body>
 

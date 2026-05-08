@@ -142,7 +142,7 @@ $total_likes = RepositorioLikesPublicaciones::contar_likes(
 
                             <input type="hidden" name="id" value="<?= (int) $publicacion['id'] ?>">
 
-                            <button type="submit">
+                            <button type="submit" class="boton--peligro boton-eliminar-publicacion">
                                 <?= htmlspecialchars(t('comunidad.index.eliminar_publicacion')) ?>
                             </button>
                         </form>

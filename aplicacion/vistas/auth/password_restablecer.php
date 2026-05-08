@@ -20,52 +20,61 @@ $errores = isset($errores) && is_array($errores) ? $errores : [];
     <link rel="stylesheet" href="<?= url('/public/css/estilos.css') ?>">
 </head>
 
-<body>
+<body class="auth-pagina">
 
-    <h1><?= htmlspecialchars(t('auth.password_restablecer.titulo')) ?></h1>
+    <main class="auth-contenedor">
+        <?php if ($m = flash_get('error')): ?>
+            <p class="mensaje-error"><?= htmlspecialchars($m) ?></p>
+        <?php endif; ?>
 
-    <?php if ($m = flash_get('error')): ?>
-        <p class="mensaje-error"><?= htmlspecialchars($m) ?></p>
-    <?php endif; ?>
+        <?php if ($m = flash_get('ok')): ?>
+            <p class="mensaje-ok"><?= htmlspecialchars($m) ?></p>
+        <?php endif; ?>
 
-    <?php if ($m = flash_get('ok')): ?>
-        <p class="mensaje-ok"><?= htmlspecialchars($m) ?></p>
-    <?php endif; ?>
+        <section class="auth-panel">
+            <header class="auth-cabecera">
+                <h1><?= htmlspecialchars(t('auth.password_restablecer.titulo')) ?></h1>
+            </header>
 
-    <form action="<?= url('/password/restablecer') ?>" method="POST">
-        <?= csrf_campo() ?>
+            <form action="<?= url('/password/restablecer') ?>" method="POST" class="auth-formulario">
+                <?= csrf_campo() ?>
 
-        <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
+                <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
 
-        <div>
-            <label for="password"><?= htmlspecialchars(t('auth.password_restablecer.password')) ?></label>
-            <input
-                type="password"
-                name="password"
-                id="password"
-                required
-                minlength="8"
-                maxlength="255"
-                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
-                title="<?= htmlspecialchars(t('auth.registro.password_ayuda')) ?>"
-                autocomplete="new-password">
-        </div>
+                <div class="auth-formulario__campo">
+                    <label for="password"><?= htmlspecialchars(t('auth.password_restablecer.password')) ?></label>
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        required
+                        minlength="8"
+                        maxlength="255"
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
+                        title="<?= htmlspecialchars(t('auth.registro.password_ayuda')) ?>"
+                        autocomplete="new-password">
+                </div>
 
-        <div>
-            <label for="password_repetida"><?= htmlspecialchars(t('auth.password_restablecer.password_repetida')) ?></label>
-            <input
-                type="password"
-                name="password_repetida"
-                id="password_repetida"
-                required
-                minlength="8"
-                maxlength="255"
-                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
-                title="<?= htmlspecialchars(t('auth.registro.password_ayuda')) ?>"
-                autocomplete="new-password">
-        </div>
-        <button type="submit"><?= htmlspecialchars(t('auth.password_restablecer.boton')) ?></button>
-    </form>
+                <div class="auth-formulario__campo">
+                    <label for="password_repetida"><?= htmlspecialchars(t('auth.password_restablecer.password_repetida')) ?></label>
+                    <input
+                        type="password"
+                        name="password_repetida"
+                        id="password_repetida"
+                        required
+                        minlength="8"
+                        maxlength="255"
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
+                        title="<?= htmlspecialchars(t('auth.registro.password_ayuda')) ?>"
+                        autocomplete="new-password">
+                </div>
+
+                <div class="auth-formulario__acciones">
+                    <button type="submit"><?= htmlspecialchars(t('auth.password_restablecer.boton')) ?></button>
+                </div>
+            </form>
+        </section>
+    </main>
 
 </body>
 
