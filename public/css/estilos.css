@@ -1,35 +1,80 @@
 /* =========================================================
-   1. base global neutra
+   1. variables globales
    ========================================================= */
 
 :root {
+    /* tipografías */
+    --fuente-titulos: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --fuente-texto: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+    /* colores base provisionales */
     --color-fondo: #f4f4f5;
+    --color-fondo-secundario: #eeeeef;
     --color-superficie: #ffffff;
     --color-superficie-suave: #f9fafb;
+
+    /* identidad visual provisional */
+    --color-principal: #18181b;
+    --color-secundario: #52525b;
+    --color-hover: #e4e4e7;
+
+    /* texto */
     --color-texto: #18181b;
+    --color-texto-principal: var(--color-texto);
     --color-texto-suave: #52525b;
+    --color-texto-inverso: #ffffff;
+
+    /* bordes y sombras */
     --color-borde: #d4d4d8;
     --color-borde-fuerte: #a1a1aa;
+    --color-sombra: rgba(24, 24, 27, 0.08);
 
+    /* estados */
     --color-ok-fondo: #ecfdf3;
     --color-ok-texto: #166534;
     --color-error-fondo: #fef2f2;
     --color-error-texto: #991b1b;
+    --color-aviso-fondo: #fffbeb;
+    --color-aviso-texto: #92400e;
 
+    /* compatibilidad con nombres futuros */
+    --color-exito: var(--color-ok-texto);
+    --color-error: var(--color-error-texto);
+    --color-aviso: var(--color-aviso-texto);
+
+    /* anchos */
     --ancho-contenido: 1120px;
     --ancho-formulario: 720px;
+    --ancho-lectura: 760px;
 
+    /* radios */
     --radio-sm: 6px;
     --radio-md: 10px;
     --radio-lg: 14px;
+    --radio-xl: 20px;
+    --radio-pill: 999px;
 
+    /* espaciado */
     --espacio-1: 4px;
     --espacio-2: 8px;
     --espacio-3: 12px;
     --espacio-4: 16px;
     --espacio-5: 24px;
     --espacio-6: 32px;
+    --espacio-7: 48px;
+
+    /* sombras */
+    --sombra-sm: 0 6px 18px var(--color-sombra);
+    --sombra-md: 0 12px 34px var(--color-sombra);
+
+    /* transiciones */
+    --transicion-rapida: 0.15s ease;
+    --transicion-media: 0.22s ease;
 }
+
+/* =========================================================
+   2. reset y base técnica
+   ========================================================= */
 
 *,
 *::before,
@@ -39,55 +84,87 @@
 
 html {
     min-height: 100%;
+    scroll-behavior: smooth;
 }
 
 body {
     min-height: 100%;
     margin: 0;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: var(--fuente-texto);
     font-size: 16px;
     line-height: 1.5;
     color: var(--color-texto);
     background: var(--color-fondo);
 }
 
+main {
+    min-width: 0;
+}
+
+section,
+article,
+div,
+header,
+footer,
+form {
+    min-width: 0;
+}
+
+img,
+video,
+svg,
+iframe,
+object,
+embed {
+    max-width: 100%;
+}
+
 img,
 video,
 svg {
-    max-width: 100%;
     height: auto;
 }
 
-body>h1,
-body>h2,
-body>h3,
-body>p,
-body>ul,
-body>ol,
-body>form,
-body>hr,
-body>section:not([class]) {
-    width: min(calc(100% - 32px), var(--ancho-contenido));
-    margin-left: auto;
-    margin-right: auto;
+img {
+    display: block;
 }
 
-body>h1 {
-    margin-top: var(--espacio-6);
+[hidden] {
+    display: none !important;
 }
 
-/* ajuste del saludo de inicio */
-body>p:first-of-type {
-    margin-top: var(--espacio-5);
+table {
+    max-width: 100%;
 }
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* =========================================================
+   3. tipografía base
+   ========================================================= */
 
 h1,
 h2,
 h3 {
     margin: 0 0 var(--espacio-4);
     padding-left: 0;
+    font-family: var(--fuente-titulos);
     line-height: 1.2;
-    font-weight: 700;
+    font-weight: 800;
+    color: var(--color-texto-principal);
 }
 
 h1 {
@@ -132,8 +209,62 @@ hr {
     margin-bottom: var(--espacio-6);
 }
 
+h1,
+h2,
+h3,
+p,
+a,
+span,
+strong,
+td,
+th,
+label,
+button {
+    overflow-wrap: anywhere;
+}
+
 /* =========================================================
-   2. navbar
+   4. layout global de seguridad
+   ========================================================= */
+
+body > h1,
+body > h2,
+body > h3,
+body > p,
+body > ul,
+body > ol,
+body > form,
+body > hr,
+body > section:not([class]) {
+    width: min(calc(100% - 32px), var(--ancho-contenido));
+    margin-left: auto;
+    margin-right: auto;
+}
+
+body > h1 {
+    margin-top: var(--espacio-6);
+}
+
+/* ajuste del saludo de inicio */
+body > p:first-of-type {
+    margin-top: var(--espacio-5);
+}
+
+/* =========================================================
+   5. accesibilidad base
+   ========================================================= */
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--color-principal);
+    outline-offset: 2px;
+}
+
+/* =========================================================
+   6. navbar
    ========================================================= */
 
 .barra-superior {
@@ -1133,19 +1264,56 @@ input[type="reset"]:disabled {
 
 /* detalle visual del vehículo */
 
-.detalle-vehiculo-cabecera {
+.garaje-detalle-contenedor {
+    width: min(calc(100% - 32px), var(--ancho-contenido));
+    margin: var(--espacio-6) auto;
+}
+
+.garaje-detalle-encabezado {
+    margin-bottom: var(--espacio-5);
+}
+
+.garaje-detalle-historial {
+    margin-top: var(--espacio-6);
+    display: grid;
+    gap: var(--espacio-4);
+}
+
+.garaje-detalle-historial__cabecera {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--espacio-4);
+    flex-wrap: wrap;
+}
+
+.garaje-detalle-historial__cabecera h2 {
+    margin: 0;
+}
+
+.garaje-detalle-historial__acciones {
     display: flex;
     flex-wrap: wrap;
+    gap: var(--espacio-3);
+}
+
+.detalle-vehiculo-cabecera {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
     gap: var(--espacio-5);
+    align-items: start;
     margin: var(--espacio-5) 0;
 }
 
 .detalle-vehiculo-columna-principal {
-    flex: 1 1 340px;
     min-width: 0;
-    display: flex;
-    flex-direction: column;
+    display: grid;
     gap: var(--espacio-5);
+}
+
+.detalle-vehiculo-bloque-imagen {
+    display: block;
+    align-self: start;
 }
 
 .detalle-vehiculo-bloque {
@@ -1637,7 +1805,15 @@ input[type="reset"]:disabled {
     display: grid;
     grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
     gap: var(--espacio-5);
-    align-items: start;
+    align-items: stretch;
+}
+
+.perfil-vehiculo-detalle__galeria {
+    padding: var(--espacio-4);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-lg);
+    background: var(--color-superficie);
+    height: 100%;
 }
 
 .perfil-vehiculo-detalle__imagen,
@@ -1655,6 +1831,10 @@ input[type="reset"]:disabled {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.perfil-vehiculo-detalle__datos {
+    height: 100%;
 }
 
 .perfil-vehiculo-detalle__datos h2 {
@@ -1871,9 +2051,56 @@ input[type="reset"]:disabled {
     font-weight: 700;
 }
 
-.comunidad-publicacion__imagen,
-.comunidad-detalle-publicacion__imagen {
-    margin: var(--espacio-4) 0;
+.comunidad-autor {
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-2);
+    flex-wrap: wrap;
+    margin: 0;
+    color: var(--color-texto-suave);
+}
+
+.comunidad-autor__enlace {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espacio-2);
+    color: var(--color-texto);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.comunidad-autor__enlace:hover {
+    text-decoration: underline;
+}
+
+.comunidad-autor__avatar {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--color-borde);
+    background: var(--color-superficie-suave);
+}
+
+.comunidad-autor__avatar--vacio {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-texto-suave);
+}
+
+.comunidad-autor--mini .comunidad-autor__avatar {
+    width: 28px;
+    height: 28px;
+    flex-basis: 28px;
+}
+
+.comunidad-autor__fecha,
+.comunidad-autor__separador {
+    color: var(--color-texto-suave);
 }
 
 .comunidad-publicacion__imagen,
@@ -2064,8 +2291,9 @@ input[type="reset"]:disabled {
 }
 
 .comunidad-respuesta {
-    margin-bottom: var(--espacio-4);
-    padding-bottom: var(--espacio-4);
+    margin: var(--espacio-3) 0;
+    padding: 0 0 var(--espacio-4) var(--espacio-4);
+    border-left: 3px solid var(--color-borde);
     border-bottom: 1px solid var(--color-borde);
 }
 
@@ -2076,6 +2304,7 @@ input[type="reset"]:disabled {
 }
 
 .comunidad-respuesta__contenido {
+    margin: var(--espacio-2) 0 0;
     white-space: pre-line;
 }
 
@@ -2683,316 +2912,71 @@ input[type="reset"]:disabled {
 /* carrusel de fotos del vehículo */
 .carrusel-vehiculo {
     width: 100%;
+    display: grid;
+    gap: var(--espacio-3);
 }
 
 .carrusel-vehiculo__visor {
     position: relative;
     overflow: hidden;
+    min-height: 340px;
     border: 1px solid var(--color-borde);
     border-radius: var(--radio-lg);
     background: var(--color-superficie-suave);
 }
 
 .carrusel-vehiculo__imagen {
+    display: block;
     width: 100%;
     height: 360px;
     object-fit: cover;
-    display: block;
-}
-
-.carrusel-vehiculo__control {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 42px;
-    height: 42px;
-    border: 0;
-    border-radius: 999px;
-    background: rgba(0, 0, 0, 0.55);
-    color: #fff;
-    font-size: 30px;
-    line-height: 1;
-    cursor: pointer;
-    transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.carrusel-vehiculo__control:hover {
-    transform: translateY(-50%) scale(1.06);
-    background: rgba(0, 0, 0, 0.75);
-}
-
-.carrusel-vehiculo__control--anterior {
-    left: 14px;
-}
-
-.carrusel-vehiculo__control--siguiente {
-    right: 14px;
-}
-
-.carrusel-vehiculo__contador {
-    position: absolute;
-    right: 14px;
-    bottom: 14px;
-    padding: 5px 10px;
-    border-radius: 999px;
-    background: rgba(0, 0, 0, 0.58);
-    color: #fff;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-.carrusel-vehiculo__miniaturas {
-    display: flex;
-    gap: 10px;
-    margin-top: 12px;
-    overflow-x: auto;
-    padding-bottom: 4px;
-}
-
-.carrusel-vehiculo__miniatura {
-    flex: 0 0 auto;
-    width: 86px;
-    height: 62px;
-    padding: 0;
-    border: 2px solid transparent;
-    border-radius: 12px;
-    overflow: hidden;
-    background: transparent;
-    cursor: pointer;
-    opacity: 0.65;
-    transition: opacity 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
-}
-
-.carrusel-vehiculo__miniatura:hover,
-.carrusel-vehiculo__miniatura--activa {
-    opacity: 1;
-    transform: translateY(-2px);
-    border-color: #111;
-}
-
-.carrusel-vehiculo__miniatura img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-/* =========================================================
-   ajustes finales de base
-   ========================================================= */
-
-[hidden] {
-    display: none !important;
-}
-
-main {
-    min-width: 0;
-}
-
-section,
-article,
-div,
-header,
-footer,
-form {
-    min-width: 0;
-}
-
-h1,
-h2,
-h3,
-p,
-a,
-span,
-strong,
-td,
-th,
-label,
-button {
-    overflow-wrap: anywhere;
-}
-
-input[type="file"] {
-    max-width: 100%;
-}
-
-table {
-    max-width: 100%;
-}
-
-iframe,
-object,
-embed {
-    max-width: 100%;
-}
-
-textarea {
-    min-height: 120px;
-}
-
-button,
-a,
-input,
-select,
-textarea {
-    -webkit-tap-highlight-color: transparent;
-}
-
-button,
-input[type="submit"],
-input[type="button"],
-input[type="reset"],
-.garaje-boton-enlace,
-.comunidad-boton-enlace,
-.boton-enlace-publicacion,
-.perfil-boton-enlace,
-.admin-boton-enlace {
-    transition:
-        background-color 0.15s ease,
-        border-color 0.15s ease,
-        color 0.15s ease,
-        opacity 0.15s ease;
-}
-
-.mensaje-ok,
-.mensaje-error {
-    width: 100%;
-}
-
-.fila-inactiva {
     background: var(--color-superficie-suave);
-}
-
-.contenedor-scroll-horizontal {
-    width: 100%;
-    overflow-x: auto;
-}
-
-/* =========================================================
-   correcciones puntuales: garaje detalle, vehículo público y avatares comunidad
-   ========================================================= */
-
-.garaje-detalle-contenedor {
-    width: min(calc(100% - 32px), var(--ancho-contenido));
-    margin: var(--espacio-6) auto;
-}
-
-.garaje-detalle-encabezado {
-    margin-bottom: var(--espacio-5);
-}
-
-.garaje-detalle-historial {
-    margin-top: var(--espacio-6);
-    display: grid;
-    gap: var(--espacio-4);
-}
-
-.garaje-detalle-historial__cabecera {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: var(--espacio-4);
-    flex-wrap: wrap;
-}
-
-.garaje-detalle-historial__cabecera h2 {
-    margin: 0;
-}
-
-.garaje-detalle-historial__acciones,
-.detalle-vehiculo-acciones {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--espacio-3);
-}
-
-.detalle-vehiculo-cabecera {
-    display: grid;
-    grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
-    gap: var(--espacio-5);
-    align-items: start;
-}
-
-.detalle-vehiculo-bloque-imagen {
-    display: block;
-    align-self: start;
-}
-
-.detalle-vehiculo-columna-principal {
-    display: grid;
-    gap: var(--espacio-5);
-}
-
-.carrusel-vehiculo {
-    display: grid;
-    gap: var(--espacio-3);
-}
-
-.carrusel-vehiculo__visor {
-    position: relative;
-    overflow: hidden;
-    border: 1px solid var(--color-borde);
-    border-radius: var(--radio-lg);
-    background: var(--color-superficie-suave);
-    min-height: 340px;
 }
 
 .detalle-vehiculo-bloque-imagen .carrusel-vehiculo__imagen {
-    display: block;
     width: 100%;
     height: 100%;
     min-height: 340px;
     max-height: 440px;
     object-fit: contain;
-    background: var(--color-superficie-suave);
 }
 
-.carrusel-vehiculo__miniaturas {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    gap: var(--espacio-2);
+.perfil-vehiculo-detalle__galeria .carrusel-vehiculo__visor {
+    min-height: 320px;
+}
+
+.perfil-vehiculo-detalle__galeria .carrusel-vehiculo__imagen {
     width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding-bottom: var(--espacio-2);
-    scroll-snap-type: x proximity;
-}
-
-.carrusel-vehiculo__miniatura {
-    flex: 0 0 92px;
-    width: 92px;
-    padding: 0;
-    border: 1px solid var(--color-borde);
-    border-radius: var(--radio-md);
-    overflow: hidden;
-    background: var(--color-superficie);
-    cursor: pointer;
-    scroll-snap-align: start;
-}
-
-.carrusel-vehiculo__miniatura img {
-    display: block;
-    width: 100%;
-    height: 72px;
-    object-fit: cover;
-}
-
-.carrusel-vehiculo__miniatura--activa {
-    border-color: var(--color-texto);
+    height: 100%;
+    min-height: 320px;
+    max-height: 420px;
+    object-fit: contain;
 }
 
 .carrusel-vehiculo__control {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
     z-index: 2;
     width: 40px;
     height: 40px;
     border: 1px solid rgba(0, 0, 0, 0.12);
     border-radius: 999px;
+    color: var(--color-texto);
+    font-size: 1.8rem;
+    line-height: 1;
     background: rgba(255, 255, 255, 0.92);
     cursor: pointer;
+    transform: translateY(-50%);
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.carrusel-vehiculo__control:hover {
+    background: var(--color-superficie);
+    border-color: var(--color-texto-suave);
+    transform: translateY(-50%) scale(1.05);
 }
 
 .carrusel-vehiculo__control--anterior {
@@ -3010,103 +2994,105 @@ input[type="reset"],
     z-index: 2;
     padding: 4px 10px;
     border-radius: 999px;
-    background: rgba(17, 17, 17, 0.8);
     color: #ffffff;
     font-size: 0.85rem;
+    font-weight: 700;
+    background: rgba(17, 17, 17, 0.8);
 }
 
-.perfil-vehiculo-detalle {
-    align-items: stretch;
+.carrusel-vehiculo__miniaturas {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: var(--espacio-2);
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: var(--espacio-2);
+    scroll-snap-type: x proximity;
 }
 
-.perfil-vehiculo-detalle__galeria {
-    padding: var(--espacio-4);
+.carrusel-vehiculo__miniatura {
+    flex: 0 0 92px;
+    width: 92px;
+    height: 72px;
+    padding: 0;
     border: 1px solid var(--color-borde);
-    border-radius: var(--radio-lg);
+    border-radius: var(--radio-md);
+    overflow: hidden;
     background: var(--color-superficie);
-    height: 100%;
+    cursor: pointer;
+    opacity: 0.7;
+    scroll-snap-align: start;
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        border-color 0.2s ease;
 }
 
-.perfil-vehiculo-detalle__galeria .carrusel-vehiculo__visor {
-    min-height: 320px;
+.carrusel-vehiculo__miniatura:hover,
+.carrusel-vehiculo__miniatura--activa {
+    opacity: 1;
+    transform: translateY(-2px);
 }
 
-.perfil-vehiculo-detalle__galeria .carrusel-vehiculo__imagen {
+.carrusel-vehiculo__miniatura--activa {
+    border-color: var(--color-texto);
+}
+
+.carrusel-vehiculo__miniatura img {
     display: block;
     width: 100%;
     height: 100%;
-    min-height: 320px;
-    max-height: 420px;
-    object-fit: contain;
-    background: var(--color-superficie-suave);
-}
-
-.perfil-vehiculo-detalle__datos {
-    height: 100%;
-}
-
-.comunidad-autor {
-    display: flex;
-    align-items: center;
-    gap: var(--espacio-2);
-    flex-wrap: wrap;
-    margin: 0;
-    color: var(--color-texto-suave);
-}
-
-.comunidad-autor__enlace {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--espacio-2);
-    color: var(--color-texto);
-    text-decoration: none;
-    font-weight: 700;
-}
-
-.comunidad-autor__enlace:hover {
-    text-decoration: underline;
-}
-
-.comunidad-autor__avatar {
-    width: 32px;
-    height: 32px;
-    flex: 0 0 32px;
-    border-radius: 50%;
     object-fit: cover;
-    border: 1px solid var(--color-borde);
+}
+
+/* =========================================================
+   utilidades y ajustes técnicos globales
+   ========================================================= */
+
+input[type="file"] {
+    max-width: 100%;
+}
+
+textarea {
+    min-height: 120px;
+}
+
+button,
+input[type="submit"],
+input[type="button"],
+input[type="reset"],
+.garaje-boton-enlace,
+.comunidad-boton-enlace,
+.boton-enlace-publicacion,
+.perfil-boton-enlace,
+.admin-boton-enlace {
+    transition:
+        background-color var(--transicion-rapida),
+        border-color var(--transicion-rapida),
+        color var(--transicion-rapida),
+        opacity var(--transicion-rapida),
+        transform var(--transicion-rapida);
+}
+
+.mensaje-ok,
+.mensaje-error {
+    width: 100%;
+}
+
+.fila-inactiva {
     background: var(--color-superficie-suave);
 }
 
-.comunidad-autor__avatar--vacio {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--color-texto-suave);
+.contenedor-scroll-horizontal {
+    width: 100%;
+    overflow-x: auto;
 }
 
-.comunidad-autor--mini .comunidad-autor__avatar {
-    width: 28px;
-    height: 28px;
-    flex-basis: 28px;
-}
-
-.comunidad-autor__fecha,
-.comunidad-autor__separador {
-    color: var(--color-texto-suave);
-}
-
-.comunidad-respuesta {
-    padding-left: var(--espacio-4);
-    margin: var(--espacio-3) 0;
-    border-left: 3px solid var(--color-borde);
-}
-
-.comunidad-respuesta__contenido {
-    margin: var(--espacio-2) 0 0;
-    white-space: pre-line;
-}
+/* =========================================================
+   responsive base
+   ========================================================= */
 
 @media (max-width: 920px) {
 
@@ -3128,10 +3114,6 @@ input[type="reset"],
         max-height: none;
     }
 }
-
-/* =========================================================
-   responsive base
-   ========================================================= */
 
 @media (max-width: 900px) {
 
