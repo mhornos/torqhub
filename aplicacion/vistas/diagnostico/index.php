@@ -18,25 +18,11 @@ $mensajes = isset($mensajes) && is_array($mensajes)
     <main class="diagnostico-contenedor">
         <header class="diagnostico-cabecera">
             <div class="diagnostico-cabecera__texto">
-                <p class="diagnostico-cabecera__etiqueta">
-                    <?= htmlspecialchars(t('diagnostico.titulo_pagina')) ?>
-                </p>
-
                 <h1><?= htmlspecialchars(t('diagnostico.titulo')) ?></h1>
 
                 <p>
                     <?= htmlspecialchars(t('diagnostico.descripcion')) ?>
                 </p>
-            </div>
-
-            <div class="diagnostico-cabecera__acciones">
-                <form method="POST" action="<?= url('/diagnostico/reiniciar') ?>" class="diagnostico-reiniciar">
-                    <?= csrf_campo() ?>
-
-                    <button type="submit">
-                        <?= htmlspecialchars(t('diagnostico.reiniciar')) ?>
-                    </button>
-                </form>
             </div>
         </header>
 
@@ -167,6 +153,16 @@ $mensajes = isset($mensajes) && is_array($mensajes)
                     </div>
                 </div>
             </form>
+
+            <div class="diagnostico-panel__acciones">
+                <form method="POST" action="<?= url('/diagnostico/reiniciar') ?>" class="diagnostico-reiniciar">
+                    <?= csrf_campo() ?>
+
+                    <button type="submit">
+                        <?= htmlspecialchars(t('diagnostico.reiniciar')) ?>
+                    </button>
+                </form>
+            </div>
         </section>
     </main>
 </body>

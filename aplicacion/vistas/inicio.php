@@ -158,10 +158,6 @@ $ultimas_publicaciones = isset($actividad_reciente['ultimas_publicaciones']) && 
         <?php else: ?>
             <header class="inicio-hero inicio-hero--dashboard">
                 <div class="inicio-hero__contenido">
-                    <p class="inicio-etiqueta">
-                        <?= escapar(t('inicio.dashboard.etiqueta')) ?>
-                    </p>
-
                     <h1>
                         <?= escapar(t('inicio.dashboard.titulo')) ?>
                         <?php if ($usuario_nombre !== ''): ?>

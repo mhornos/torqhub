@@ -567,7 +567,7 @@ return [
     'diagnostico.titulo_pagina' => 'Diagnòstic assistit',
     'diagnostico.titulo' => 'Diagnòstic assistit',
     'diagnostico.descripcion' => 'Descriu els símptomes del vehicle i TorqHub analitzarà possibles causes mitjançant un sistema expert basat en regles.',
-    'diagnostico.reiniciar' => 'Reiniciar xat',
+    'diagnostico.reiniciar' => '↺ Reiniciar xat',
     'diagnostico.ia_nombre' => 'TorqHub IA',
     'diagnostico.usuario' => 'Tu',
     'diagnostico.mensaje_inicial' => 'Hola, digues-me què li passa al teu cotxe. Per exemple: “el cotxe no arrenca i fa clic”.',

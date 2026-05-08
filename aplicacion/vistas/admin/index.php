@@ -12,10 +12,6 @@
     <main class="admin-contenedor">
         <header class="admin-cabecera">
             <div class="admin-cabecera__texto">
-                <p class="admin-cabecera__etiqueta">
-                    <?= escapar(t('admin.titulo_pagina')) ?>
-                </p>
-
                 <h1><?= escapar(t('admin.titulo')) ?></h1>
 
                 <p>

@@ -567,7 +567,7 @@ return [
     'diagnostico.titulo_pagina' => 'Diagnóstico asistido',
     'diagnostico.titulo' => 'Diagnóstico asistido',
     'diagnostico.descripcion' => 'Describe los síntomas del vehículo y TorqHub analizará posibles causas mediante un sistema experto basado en reglas.',
-    'diagnostico.reiniciar' => 'Reiniciar chat',
+    'diagnostico.reiniciar' => '↺ Reiniciar chat',
     'diagnostico.ia_nombre' => 'TorqHub IA',
     'diagnostico.usuario' => 'Tú',
     'diagnostico.mensaje_inicial' => 'Hola, dime qué le ocurre a tu coche. Por ejemplo: “el coche no arranca y hace click”.',
