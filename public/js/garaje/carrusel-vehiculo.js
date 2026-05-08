@@ -10,6 +10,24 @@ document.addEventListener('DOMContentLoaded', function () {
         const botonSiguiente = carrusel.querySelector('.carrusel-vehiculo__control--siguiente');
         const miniaturas = Array.from(carrusel.querySelectorAll('.carrusel-vehiculo__miniatura'));
 
+        const visor = carrusel.querySelector('.carrusel-vehiculo__visor');
+
+        const prepararUrlCss = function (url) {
+            return 'url("' + String(url).replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '")';
+        };
+
+        const actualizarFondoVisor = function (urlImagen) {
+            if (!visor || !urlImagen) {
+                return;
+            }
+
+            visor.style.setProperty('--imagen-carrusel-fondo', prepararUrlCss(urlImagen));
+        };
+
+        if (imagenPrincipal) {
+            actualizarFondoVisor(imagenPrincipal.getAttribute('src'));
+        }
+
         if (!imagenPrincipal || miniaturas.length === 0) {
             if (botonAnterior) {
                 botonAnterior.style.display = 'none';
@@ -35,8 +53,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const miniaturaActiva = miniaturas[indiceActual];
 
-            imagenPrincipal.src = miniaturaActiva.dataset.src;
+            const nuevaImagen = miniaturaActiva.dataset.src;
+
+            imagenPrincipal.src = nuevaImagen;
             imagenPrincipal.alt = miniaturaActiva.dataset.alt || '';
+
+            actualizarFondoVisor(nuevaImagen);
 
             miniaturas.forEach(function (miniatura) {
                 miniatura.classList.remove('carrusel-vehiculo__miniatura--activa');

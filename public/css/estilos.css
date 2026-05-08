@@ -8,8 +8,8 @@
     --fuente-texto: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     /* colores base */
-    --color-fondo: #fff6e0;
-    --color-fondo-secundario: #eeeeea;
+    --color-fondo: #fffdf3;
+    --color-fondo-secundario: #fff6e0;
     --color-superficie: #ffffff;
     --color-superficie-suave: #fafaf8;
     --color-superficie-elevada: #ffffff;
@@ -27,6 +27,8 @@
     --color-navbar-fondo: #f3e7d6;
     --color-navbar-borde: #e7dcc2;
     --color-hover: #ededeb;
+
+    --alto-navbar: 76px;
 
     /* fondo técnico sutil */
     --color-fondo-punto: rgba(21, 21, 21, 0.035);
@@ -46,13 +48,24 @@
     --color-borde-fuerte: #bdbdb5;
     --color-sombra: rgba(21, 21, 21, 0.08);
 
+    /* botones borrar */
+    --color-borrar-fondo: #cc0000;
+    --color-borrar-texto: #e8e8e8;
+    --color-borrar-borde: #cc0000;
+
+    --color-borrar-fondo-hover: #8e0707;
+    --color-borrar-texto-hover: #ececec;
+    --color-borrar-borde-hover: #8e0707;
+
     /* estados */
-    --color-ok-fondo: #ecfdf3;
-    --color-ok-texto: #166534;
-    --color-ok-borde: #bbf7d0;
-    --color-error-fondo: #fff1f2;
-    --color-error-texto: #9f1239;
-    --color-error-borde: #fecdd3;
+    --color-ok-fondo: #c2ffdc30;
+    --color-ok-texto: #008f32;
+    --color-ok-borde: #008f32;
+
+    --color-error-fondo: #ffb1b133;
+    --color-error-texto: #aa0000;
+    --color-error-borde: #aa0000;
+
     --color-aviso-fondo: #fffbeb;
     --color-aviso-texto: #92400e;
     --color-aviso-borde: #fde68a;
@@ -149,6 +162,7 @@ body {
     min-height: 100%;
     max-width: 100%;
     margin: 0;
+    padding-top: var(--alto-navbar);
     font-family: var(--fuente-texto);
     font-size: 16px;
     line-height: 1.5;
@@ -179,6 +193,7 @@ body {
         calc(var(--tamano-checker) / 2) calc(var(--tamano-checker) / 2),
         0 0;
     overflow-x: hidden;
+
 }
 
 main {
@@ -1500,13 +1515,13 @@ td form button {
 }
 
 .mensaje-ok {
-    border-color: var(--color-ok-borde);
+    border: 2px solid var(--color-ok-borde);
     color: var(--color-ok-texto);
     background: var(--color-ok-fondo);
 }
 
 .mensaje-error {
-    border-color: var(--color-error-borde);
+    border: 2px solid var(--color-error-borde);
     color: var(--color-error-texto);
     background: var(--color-error-fondo);
 }
@@ -4532,8 +4547,16 @@ td form button {
 }
 
 .barra-superior {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.barra-superior {
     border-bottom: 4px solid var(--color-acento);
-    box-shadow: 0 8px 18px rgba(21, 21, 21, 0.12);
+    box-shadow: 0 5px 15px rgba(21, 21, 21, 0.3);
 }
 
 .navbar__contenedor {
@@ -4541,18 +4564,23 @@ td form button {
 }
 
 .navbar__marca {
+    display: inline-flex;
+    align-items: center;
     color: var(--color-acento);
     font-size: 1.9rem;
     font-weight: 900;
     letter-spacing: -0.03em;
     line-height: 1;
+    transition:
+        color var(--transicion-rapida),
+        transform var(--transicion-rapida);
 }
 
 .navbar__marca:hover {
     color: var(--color-acento-hover);
     background: transparent;
     box-shadow: none;
-    transform: none;
+    transform: translateY(-2px);
 }
 
 .navbar__menu {
@@ -4577,7 +4605,8 @@ td form button {
         background var(--transicion-rapida),
         color var(--transicion-rapida),
         border-color var(--transicion-rapida),
-        box-shadow var(--transicion-rapida);
+        box-shadow var(--transicion-rapida),
+        transform var(--transicion-rapida);
 }
 
 .navbar__enlace:hover,
@@ -4586,7 +4615,8 @@ td form button {
     color: var(--color-texto-inverso);
     background: var(--color-acento);
     border-color: var(--color-acento);
-    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.22);
+    box-shadow: 0 7px 16px rgba(194, 65, 12, 0.24);
+    transform: translateY(-2px);
 }
 
 .navbar__enlace:focus-visible,
@@ -4604,6 +4634,12 @@ td form button {
 
 .navbar__logout-boton:hover {
     background: var(--color-acento);
+}
+
+.navbar__logout-boton:hover,
+.navbar__idioma-boton:hover,
+.navbar__idioma-boton--activo:hover {
+    transform: translateY(-2px);
 }
 
 .navbar__idioma {
@@ -4633,12 +4669,13 @@ td form button {
     background: transparent;
     box-shadow: none;
     cursor: pointer;
+    transition: transform var(--transicion-rapida);
 }
 
 .navbar__boton-menu:hover {
     background: transparent;
     box-shadow: none;
-    transform: none;
+    transform: translateY(-2px);
 }
 
 .navbar__boton-menu-linea {
@@ -4655,6 +4692,10 @@ td form button {
 }
 
 @media (max-width: 760px) {
+    :root {
+        --alto-navbar: 74px;
+    }
+
     .navbar__contenedor {
         min-height: 66px;
         padding-top: var(--espacio-3);
@@ -4699,5 +4740,2048 @@ td form button {
 
     .navbar__idioma-boton {
         width: auto;
+    }
+}
+
+/* =========================================================
+   fase 4.4 - identidad visual base en botones, formularios y tarjetas
+   ========================================================= */
+
+/* formularios tipo panel */
+body>form,
+body>section:not([class])>form,
+.formulario--tarjeta,
+.garaje-formulario-panel,
+.comunidad-formulario-panel,
+.diagnostico-formulario,
+.form-filtros-mantenimientos,
+.comunidad-filtros {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-lg);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-xs);
+}
+
+/* campos de formulario */
+input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]),
+select,
+textarea,
+.formulario__control,
+.campo__control {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-md);
+    background: #fffdf8;
+}
+
+input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):hover,
+select:hover,
+textarea:hover,
+.formulario__control:hover,
+.campo__control:hover {
+    border-color: var(--color-acento-borde);
+}
+
+input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):focus,
+select:focus,
+textarea:focus,
+.formulario__control:focus,
+.campo__control:focus {
+    border-color: var(--color-acento);
+    background: var(--color-superficie);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-acento) 14%, transparent);
+}
+
+/* labels algo más finos, como los botones del navbar */
+label,
+.formulario__label,
+.campo__label {
+    color: var(--color-principal);
+    font-weight: 600;
+}
+
+/* botones generales con estética del navbar */
+.boton:not(.boton--peligro):not(.boton--principal):not(.boton--secundario):not(.boton--desactivado),
+button:not(.navbar__boton-menu):not(.navbar__logout-boton):not(.navbar__idioma-boton):not(.carrusel-vehiculo__control):not(.carrusel-vehiculo__miniatura):not(.boton--peligro):not(.boton--principal):not(.boton--secundario):not(:disabled),
+input[type="submit"]:not(:disabled),
+input[type="button"]:not(:disabled),
+input[type="reset"]:not(:disabled),
+.inicio-boton-enlace:not(.inicio-boton-enlace--principal),
+.garaje-boton-enlace,
+.garaje-tarjeta__acciones a,
+.comunidad-boton-enlace,
+.boton-enlace-publicacion,
+.perfil-boton-enlace,
+.admin-boton:not(.admin-boton--peligro):not(.admin-boton--secundario),
+.admin-boton-enlace {
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-pill);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.14);
+    font-weight: 500;
+    transform: none;
+}
+
+/* hover de botones sin efecto flotante */
+.boton:not(.boton--peligro):not(.boton--principal):not(.boton--secundario):not(.boton--desactivado):hover,
+button:not(.navbar__boton-menu):not(.navbar__logout-boton):not(.navbar__idioma-boton):not(.carrusel-vehiculo__control):not(.carrusel-vehiculo__miniatura):not(.boton--peligro):not(.boton--principal):not(.boton--secundario):not(:disabled):hover,
+input[type="submit"]:not(:disabled):hover,
+input[type="button"]:not(:disabled):hover,
+input[type="reset"]:not(:disabled):hover,
+.inicio-boton-enlace:not(.inicio-boton-enlace--principal):hover,
+.garaje-boton-enlace:hover,
+.garaje-tarjeta__acciones a:hover,
+.comunidad-boton-enlace:hover,
+.boton-enlace-publicacion:hover,
+.perfil-boton-enlace:hover,
+.admin-boton:not(.admin-boton--peligro):not(.admin-boton--secundario):hover,
+.admin-boton-enlace:hover {
+    border-color: var(--color-acento);
+    color: var(--color-texto-inverso);
+    background: var(--color-acento);
+    box-shadow: 0 6px 14px rgba(194, 65, 12, 0.2);
+    transform: none;
+}
+
+/* botones principales: se mantienen fuertes, pero también sin flotar */
+.boton--principal,
+.inicio-boton-enlace--principal {
+    border: 2px solid var(--color-principal);
+    border-radius: var(--radio-pill);
+    box-shadow: 0 5px 12px rgba(21, 21, 21, 0.14);
+    font-weight: 500;
+}
+
+.boton--principal:hover,
+.inicio-boton-enlace--principal:hover {
+    box-shadow: 0 6px 14px rgba(21, 21, 21, 0.18);
+    transform: none;
+}
+
+/* botones secundarios más suaves */
+.boton--secundario,
+.admin-boton--secundario {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-pill);
+    color: var(--color-principal);
+    background: #fffdf8;
+    font-weight: 500;
+    box-shadow: var(--sombra-boton);
+}
+
+.boton--secundario:hover,
+.admin-boton--secundario:hover {
+    border-color: var(--color-acento-borde);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    transform: none;
+}
+
+/* botones de peligro: no los volvemos naranjas */
+.boton--peligro,
+.admin-boton--peligro {
+    border-width: 2px;
+    border-radius: var(--radio-pill);
+    font-weight: 500;
+    transform: none;
+}
+
+.boton--peligro:hover,
+.admin-boton--peligro:hover {
+    transform: none;
+}
+
+/* tarjetas y paneles principales */
+.tarjeta,
+.inicio-hero__contenido,
+.inicio-hero__panel,
+.inicio-tarjeta,
+.inicio-actividad-bloque,
+.garaje-tarjeta,
+.garaje-estado-vacio,
+.garaje-formulario-panel,
+.detalle-vehiculo-bloque,
+.perfil-cabecera,
+.perfil-vehiculo-detalle-cabecera,
+.perfil-panel,
+.perfil-estado-vacio,
+.perfil-publicacion,
+.perfil-vehiculo,
+.perfil-vehiculo-detalle__datos,
+.comunidad-publicacion,
+.comunidad-detalle-publicacion,
+.comunidad-comentario,
+.comunidad-estado-vacio,
+.comunidad-formulario-panel,
+.diagnostico-cabecera,
+.diagnostico-panel,
+.diagnostico__mensaje,
+.admin-cabecera,
+.admin-tarjeta,
+.admin-tabla-panel,
+.admin-estado-vacio,
+.admin-bloque-info {
+    border: 2px solid var(--color-navbar-borde);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-xs);
+}
+
+/* hover de tarjetas clicables sin subir ni escalar */
+.tarjeta--clicable:hover,
+.inicio-tarjeta--enlace:hover,
+.admin-tarjeta:hover,
+.tarjeta-clicable:hover {
+    border-color: var(--color-acento-borde);
+    background: #fffdf8;
+    box-shadow: var(--sombra-sm);
+    transform: none;
+}
+
+/* separadores internos con el tono crema del navbar */
+.formulario__acciones,
+.campo__acciones,
+.garaje-tarjeta__acciones,
+.perfil-publicacion__pie,
+.comunidad-publicacion__pie,
+.comunidad-detalle-publicacion__pie,
+.comunidad-comentario__acciones,
+.inicio-actividad-bloque__cabecera {
+    border-color: var(--color-navbar-borde);
+}
+
+/* =========================================================
+   fase 4.5 - identidad visual suave garaje listado
+   ========================================================= */
+
+/* mensajes dentro de contenedores: evita que queden más estrechos */
+.inicio-contenedor>.mensaje,
+.inicio-contenedor>.mensaje-ok,
+.inicio-contenedor>.mensaje-error,
+.inicio-contenedor>.mensaje-aviso,
+.inicio-contenedor>.mensaje-info,
+.garaje-contenedor>.mensaje,
+.garaje-contenedor>.mensaje-ok,
+.garaje-contenedor>.mensaje-error,
+.garaje-contenedor>.mensaje-aviso,
+.garaje-contenedor>.mensaje-info,
+.garaje-detalle-contenedor>.mensaje,
+.garaje-detalle-contenedor>.mensaje-ok,
+.garaje-detalle-contenedor>.mensaje-error,
+.garaje-detalle-contenedor>.mensaje-aviso,
+.garaje-detalle-contenedor>.mensaje-info,
+.comunidad-contenedor>.mensaje,
+.comunidad-contenedor>.mensaje-ok,
+.comunidad-contenedor>.mensaje-error,
+.comunidad-contenedor>.mensaje-aviso,
+.comunidad-contenedor>.mensaje-info,
+.perfil-contenedor>.mensaje,
+.perfil-contenedor>.mensaje-ok,
+.perfil-contenedor>.mensaje-error,
+.perfil-contenedor>.mensaje-aviso,
+.perfil-contenedor>.mensaje-info,
+.diagnostico-contenedor>.mensaje,
+.diagnostico-contenedor>.mensaje-ok,
+.diagnostico-contenedor>.mensaje-error,
+.diagnostico-contenedor>.mensaje-aviso,
+.diagnostico-contenedor>.mensaje-info,
+.admin-contenedor>.mensaje,
+.admin-contenedor>.mensaje-ok,
+.admin-contenedor>.mensaje-error,
+.admin-contenedor>.mensaje-aviso,
+.admin-contenedor>.mensaje-info {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* cabecera del garaje */
+.garaje-cabecera {
+    border-color: var(--color-navbar-borde);
+    background: #fffdf8;
+    box-shadow: var(--sombra-xs);
+}
+
+.garaje-cabecera h1 {
+    color: var(--color-principal);
+}
+
+.garaje-cabecera p {
+    color: var(--color-texto-suave);
+}
+
+/* listado de vehículos */
+.garaje-listado {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr));
+    gap: var(--espacio-5);
+}
+
+/* tarjeta de vehículo */
+.garaje-tarjeta {
+    border: 2px solid rgb(212, 212, 212);
+    border-radius: var(--radio-xl);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-xs);
+    transition:
+        border-color var(--transicion-rapida),
+        background-color var(--transicion-rapida),
+        box-shadow var(--transicion-rapida);
+}
+
+.garaje-tarjeta:hover {
+    border-color: var(--color-acento-borde);
+    background: #fffdf8;
+    box-shadow: var(--sombra-sm);
+}
+
+.garaje-tarjeta__imagen {
+    border: 0;
+    border-radius: var(--radio-lg);
+    background: var(--color-acento-relleno);
+}
+
+.garaje-tarjeta__imagen img {
+    transition: filter var(--transicion-media);
+}
+
+.garaje-tarjeta:hover .garaje-tarjeta__imagen img {
+    filter: saturate(1.04) contrast(1.02);
+}
+
+/* placeholder cuando no hay imagen */
+.garaje-tarjeta__imagen-placeholder {
+    color: var(--color-acento);
+    background:
+        linear-gradient(135deg, var(--color-acento-relleno), var(--color-superficie));
+    font-weight: 600;
+}
+
+/* cabecera interna de la tarjeta */
+.garaje-tarjeta__cabecera h2 {
+    color: var(--color-principal);
+    letter-spacing: -0.02em;
+}
+
+.garaje-tarjeta__meta {
+    color: var(--color-texto-suave);
+    font-weight: 500;
+}
+
+/* acciones de tarjeta */
+.garaje-tarjeta__acciones {
+    padding-top: var(--espacio-4);
+    border-top: 2px solid var(--color-navbar-borde);
+}
+
+/* estado vacío del garaje */
+.garaje-estado-vacio {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-xl);
+    background: #fffdf8;
+    box-shadow: var(--sombra-xs);
+}
+
+.garaje-estado-vacio h2 {
+    color: var(--color-principal);
+}
+
+.garaje-estado-vacio p {
+    color: var(--color-texto-suave);
+}
+
+/* móvil */
+@media (max-width: 700px) {
+    .garaje-listado {
+        gap: var(--espacio-4);
+    }
+
+    .garaje-tarjeta {
+        border-radius: var(--radio-lg);
+    }
+
+    .garaje-tarjeta__acciones {
+        gap: var(--espacio-3);
+    }
+}
+
+/* =========================================================
+   fase 4.5b - ajuste visual garaje cabecera y hover tarjetas
+   ========================================================= */
+
+/* bloque del título del garaje */
+.garaje-cabecera {
+    border: 2px solid var(--color-acento);
+    background: var(--color-navbar-fondo);
+    box-shadow: var(--sombra-sm);
+}
+
+.garaje-cabecera h1 {
+    color: var(--color-acento);
+}
+
+/* tarjetas del garaje más claramente clicables */
+.garaje-tarjeta {
+    position: relative;
+    cursor: pointer;
+    transform: scale(1);
+    transition:
+        transform var(--transicion-media),
+        border-color var(--transicion-media),
+        background-color var(--transicion-media),
+        box-shadow var(--transicion-media);
+}
+
+.garaje-tarjeta:hover {
+    z-index: 2;
+    border-color: rgb(15, 153, 185);
+    background: rgb(237, 254, 255);
+    box-shadow: var(--sombra-hover);
+    transform: scale(1.025);
+}
+
+/* la imagen nunca muestra borde: el borde visual lo tiene solo la tarjeta */
+.garaje-tarjeta:hover .garaje-tarjeta__imagen {
+    border: 0;
+}
+
+.garaje-tarjeta__imagen img {
+    border: 0;
+}
+
+/* la separación de acciones se mantiene suave en hover */
+.garaje-tarjeta:hover .garaje-tarjeta__acciones {
+    border-top-color: rgba(0, 0, 0, 0.2);
+}
+
+.garaje-tarjeta__acciones {
+    transition: border-top-color 0.2s ease;
+}
+
+/* accesibilidad: si alguien navega con teclado */
+.garaje-tarjeta:focus-within {
+    border-color: var(--color-acento);
+    background: var(--color-navbar-fondo);
+    box-shadow: var(--sombra-hover);
+}
+
+/* =========================================================
+   fase 4.6 - identidad visual detalle vehículo
+   ========================================================= */
+
+/* contenedor general del detalle */
+.garaje-detalle-contenedor {
+    width: var(--ancho-pagina);
+}
+
+/* pequeño arreglo de seguridad: evita una variable mal escrita */
+.garaje-detalle-historial {
+    gap: 0;
+}
+
+/* cabecera visual del detalle */
+.detalle-vehiculo-cabecera {
+    gap: var(--espacio-5);
+}
+
+/* bloques principales del detalle */
+.detalle-vehiculo-bloque {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-xl);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-xs);
+}
+
+/* bloque principal con datos del vehículo */
+.detalle-vehiculo-bloque-principal {
+    border-color: var(--color-acento);
+    background: var(--color-navbar-fondo);
+    box-shadow: var(--sombra-sm);
+}
+
+.detalle-vehiculo-bloque-principal h2 {
+    color: var(--color-acento);
+    letter-spacing: -0.03em;
+}
+
+.detalle-vehiculo-subtitulo {
+    color: var(--color-texto-suave);
+    font-weight: 500;
+}
+
+/* acciones del vehículo */
+.detalle-vehiculo-acciones {
+    padding-top: var(--espacio-4);
+    border-top: 2px solid rgba(0, 0, 0, 0.08);
+}
+
+/* bloque de estadísticas */
+.detalle-vehiculo-bloque-estadisticas {
+    background: #fffdf8;
+}
+
+.detalle-vehiculo-bloque-estadisticas h3 {
+    color: var(--color-principal);
+}
+
+/* tarjetas de estadísticas */
+.estadisticas-vehiculo-grid {
+    gap: var(--espacio-3);
+}
+
+.estadistica-vehiculo-card {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-lg);
+    background: var(--color-acento-relleno);
+    box-shadow: var(--sombra-boton);
+}
+
+.estadistica-vehiculo-label {
+    color: var(--color-acento);
+    font-weight: 600;
+}
+
+.estadistica-vehiculo-extra {
+    color: var(--color-texto-suave);
+}
+
+/* ficha técnica */
+.detalle-vehiculo-ficha {
+    gap: var(--espacio-4);
+}
+
+.detalle-vehiculo-dato {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-lg);
+    background: #fffdf8;
+    box-shadow: var(--sombra-xs);
+}
+
+.detalle-vehiculo-label {
+    color: var(--color-acento);
+    font-weight: 600;
+}
+
+/* bloque visual de imagen/carrusel */
+.detalle-vehiculo-bloque-imagen {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-xl);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-xs);
+}
+
+/* carrusel: el borde pertenece al bloque, no a la imagen */
+.carrusel-vehiculo__visor {
+    border: 0;
+    border-radius: var(--radio-lg);
+    background: var(--color-acento-relleno);
+}
+
+.carrusel-vehiculo__imagen,
+.detalle-vehiculo-imagen-real {
+    border: 0;
+    border-radius: var(--radio-lg);
+}
+
+/* placeholder de imagen */
+.detalle-vehiculo-placeholder-imagen {
+    border: 0;
+    border-radius: var(--radio-lg);
+    color: var(--color-acento);
+    background:
+        linear-gradient(135deg, var(--color-acento-relleno), var(--color-superficie));
+}
+
+.detalle-vehiculo-placeholder-texto {
+    color: var(--color-acento);
+}
+
+.detalle-vehiculo-placeholder-ayuda {
+    color: var(--color-texto-suave);
+}
+
+/* controles del carrusel */
+.carrusel-vehiculo__control {
+    border: 2px solid var(--color-acento);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.18);
+    transition:
+        background-color var(--transicion-rapida),
+        color var(--transicion-rapida),
+        border-color var(--transicion-rapida),
+        box-shadow var(--transicion-rapida),
+        transform var(--transicion-rapida);
+}
+
+.carrusel-vehiculo__control:hover {
+    color: var(--color-texto-inverso);
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    box-shadow: 0 7px 16px rgba(194, 65, 12, 0.24);
+    transform: translateY(-50%) scale(1.08);
+}
+
+/* contador del carrusel */
+.carrusel-vehiculo__contador {
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    border: 2px solid var(--color-acento);
+    box-shadow: var(--sombra-boton);
+}
+
+/* miniaturas */
+.carrusel-vehiculo__miniatura {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-md);
+    background: var(--color-superficie);
+    opacity: 0.72;
+    transition:
+        opacity var(--transicion-rapida),
+        transform var(--transicion-rapida),
+        border-color var(--transicion-rapida),
+        box-shadow var(--transicion-rapida);
+}
+
+.carrusel-vehiculo__miniatura img {
+    border: 0;
+}
+
+.carrusel-vehiculo__miniatura:hover {
+    opacity: 1;
+    border-color: var(--color-acento-borde);
+    box-shadow: var(--sombra-boton);
+    transform: translateY(-2px);
+}
+
+.carrusel-vehiculo__miniatura--activa {
+    opacity: 1;
+    border-color: var(--color-acento);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.18);
+}
+
+/* responsive detalle vehículo */
+@media (max-width: 920px) {
+    .detalle-vehiculo-cabecera {
+        gap: var(--espacio-4);
+    }
+
+    .detalle-vehiculo-bloque,
+    .detalle-vehiculo-bloque-imagen {
+        border-radius: var(--radio-lg);
+    }
+}
+
+@media (max-width: 700px) {
+    .detalle-vehiculo-acciones {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .detalle-vehiculo-acciones a,
+    .detalle-vehiculo-acciones button {
+        width: 100%;
+    }
+
+    .estadisticas-vehiculo-grid,
+    .detalle-vehiculo-ficha {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+   fase 4.6b - ajustes detalle vehículo
+   ========================================================= */
+
+/* centrar mejor las flechas del carrusel */
+.carrusel-vehiculo__control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0 2px;
+    line-height: 1;
+}
+
+/* mismo estilo visual para todos los bloques principales del detalle */
+.detalle-vehiculo-bloque,
+.detalle-vehiculo-bloque-imagen,
+.detalle-vehiculo-bloque-estadisticas,
+.detalle-vehiculo-dato,
+.estadistica-vehiculo-card {
+    border: 2px solid var(--color-acento);
+    background: var(--color-navbar-fondo);
+}
+
+/* textos destacados dentro de los bloques */
+.detalle-vehiculo-bloque h2,
+.detalle-vehiculo-bloque h3,
+.detalle-vehiculo-label,
+.estadistica-vehiculo-label {
+    color: var(--color-acento);
+}
+
+/* carrusel integrado dentro del bloque, pero sin parecer otro panel blanco */
+.carrusel-vehiculo__visor {
+    background: var(--color-acento-relleno);
+}
+
+/* miniaturas menos redondeadas */
+.carrusel-vehiculo__miniatura {
+    border-radius: var(--radio-sm);
+}
+
+.carrusel-vehiculo__miniatura img {
+    border-radius: 0;
+}
+
+/* =========================================================
+   fase 4.6c - corrección carrusel detalle vehículo
+   ========================================================= */
+
+/* botones del carrusel: no heredan padding ni alineación de botones globales */
+.carrusel-vehiculo button.carrusel-vehiculo__control {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+    font-size: 0;
+    line-height: 1;
+    text-align: center;
+}
+
+/* generamos el símbolo centrado con css */
+.carrusel-vehiculo__control::before {
+    display: block;
+    color: currentColor;
+    font-size: 2.15rem;
+    font-weight: 700;
+    line-height: 1;
+    transform: translateY(-1px);
+}
+
+.carrusel-vehiculo__control--anterior::before {
+    content: "‹";
+}
+
+.carrusel-vehiculo__control--siguiente::before {
+    content: "›";
+}
+
+/* mantenemos el centrado vertical absoluto del botón */
+.carrusel-vehiculo button.carrusel-vehiculo__control {
+    transform: translateY(-50%);
+}
+
+.carrusel-vehiculo button.carrusel-vehiculo__control:hover {
+    transform: translateY(-50%) scale(1.08);
+}
+
+/* miniaturas menos redondeadas */
+.carrusel-vehiculo .carrusel-vehiculo__miniaturas button.carrusel-vehiculo__miniatura {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.carrusel-vehiculo .carrusel-vehiculo__miniatura img {
+    border-radius: 0;
+}
+
+/* miniaturas en móvil: mantener el mismo radio */
+@media (max-width: 700px) {
+    .carrusel-vehiculo .carrusel-vehiculo__miniaturas button.carrusel-vehiculo__miniatura {
+        border-radius: 4px;
+    }
+}
+
+/* =========================================================
+   fase 4.6d - ajustes finos carrusel y bloques detalle vehículo
+   ========================================================= */
+
+/* evita que el borde superior de la miniatura activa se corte */
+.carrusel-vehiculo__miniaturas {
+    padding-top: 4px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+/* la miniatura activa no se desplaza hacia arriba para no cortarse */
+.carrusel-vehiculo .carrusel-vehiculo__miniatura--activa,
+.carrusel-vehiculo .carrusel-vehiculo__miniatura--activa:hover {
+    transform: none;
+}
+
+/* la miniatura activa se marca sin desplazarla */
+.carrusel-vehiculo .carrusel-vehiculo__miniatura--activa {
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-acento) 22%, transparent);
+}
+
+/* mismos rellenos, pero un poco más saturados, sin tocar bordes */
+.estadistica-vehiculo-card {
+    background: color-mix(in srgb, var(--color-acento-relleno) 100%, var(--color-acento) 25%);
+}
+
+.detalle-vehiculo-dato {
+    background: color-mix(in srgb, var(--color-acento-relleno) 100%, var(--color-acento) 25%);
+}
+
+/* labels algo más presentes, sin cambiar bordes */
+.estadistica-vehiculo-label,
+.detalle-vehiculo-label {
+    color: var(--color-acento-hover);
+}
+
+/* visor preparado para usar la imagen actual como fondo difuminado */
+.detalle-vehiculo-bloque-imagen .carrusel-vehiculo__visor {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--color-acento-relleno);
+}
+
+/* extensión borrosa de la propia foto */
+.detalle-vehiculo-bloque-imagen .carrusel-vehiculo__visor::before {
+    content: "";
+    position: absolute;
+    inset: -24px;
+    z-index: 0;
+    background-image: var(--imagen-carrusel-fondo);
+    background-size: cover;
+    background-position: center;
+    filter: blur(18px);
+    transform: scale(1.05);
+}
+
+/* la imagen real queda por encima del fondo borroso */
+.detalle-vehiculo-bloque-imagen .carrusel-vehiculo__imagen {
+    position: relative;
+    z-index: 1;
+    background: transparent;
+}
+
+/* controles y contador por encima de todo */
+.detalle-vehiculo-bloque-imagen .carrusel-vehiculo__control,
+.detalle-vehiculo-bloque-imagen .carrusel-vehiculo__contador {
+    z-index: 3;
+}
+
+/* =========================================================
+   fase 4.6e - color de títulos principales del garaje
+   ========================================================= */
+
+.garaje-cabecera h1,
+.garaje-detalle-encabezado h1,
+.garaje-formulario-cabecera h1 {
+    color: var(--color-acento);
+}
+
+/* =========================================================
+   fase 4.6f - carrusel detalle vehículo más neutro
+   ========================================================= */
+
+.detalle-vehiculo-bloque-imagen {
+    border: 2px solid rgb(212, 212, 212);
+    background: var(--color-superficie);
+}
+
+/* el visor mantiene la foto borrosa como fondo, pero parte desde una base neutra */
+.detalle-vehiculo-bloque-imagen .carrusel-vehiculo__visor {
+    background: var(--color-superficie);
+}
+
+/* =========================================================
+   fase 4.6g - enlaces de acción como botones
+   ========================================================= */
+
+/* enlaces accionables generales */
+.garaje-cabecera__acciones a,
+.garaje-formulario-acciones a,
+.detalle-vehiculo-acciones a,
+.garaje-detalle-historial__acciones a,
+.comunidad-cabecera__acciones a,
+.comunidad-formulario-acciones a,
+.comunidad-publicacion__acciones a,
+.comunidad-detalle-publicacion__acciones a,
+.comunidad-comentario__acciones a,
+.perfil-cabecera__acciones a,
+.perfil-formulario__acciones a,
+.perfil-publicacion__pie a,
+.perfil-vehiculo__acciones a,
+.perfil-vehiculo-detalle-cabecera__acciones a,
+.diagnostico-cabecera__acciones a,
+.admin-cabecera__acciones a,
+.admin-acciones a,
+.admin-formulario-accion a,
+.formulario__acciones a,
+.campo__acciones a,
+.estado-visual__acciones a,
+.estado-vacio__acciones a,
+.acciones-filtros a,
+.acciones-filtros-comunidad a,
+.enlace-limpiar-filtros {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espacio-2);
+    width: auto;
+    min-height: 40px;
+    padding: 9px 14px;
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-pill);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.14);
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background-color var(--transicion-rapida),
+        border-color var(--transicion-rapida),
+        color var(--transicion-rapida),
+        box-shadow var(--transicion-rapida);
+}
+
+.garaje-cabecera__acciones a:hover,
+.garaje-formulario-acciones a:hover,
+.detalle-vehiculo-acciones a:hover,
+.garaje-detalle-historial__acciones a:hover,
+.comunidad-cabecera__acciones a:hover,
+.comunidad-formulario-acciones a:hover,
+.comunidad-publicacion__acciones a:hover,
+.comunidad-detalle-publicacion__acciones a:hover,
+.comunidad-comentario__acciones a:hover,
+.perfil-cabecera__acciones a:hover,
+.perfil-formulario__acciones a:hover,
+.perfil-publicacion__pie a:hover,
+.perfil-vehiculo__acciones a:hover,
+.perfil-vehiculo-detalle-cabecera__acciones a:hover,
+.diagnostico-cabecera__acciones a:hover,
+.admin-cabecera__acciones a:hover,
+.admin-acciones a:hover,
+.admin-formulario-accion a:hover,
+.formulario__acciones a:hover,
+.campo__acciones a:hover,
+.estado-visual__acciones a:hover,
+.estado-vacio__acciones a:hover,
+.acciones-filtros a:hover,
+.acciones-filtros-comunidad a:hover,
+.enlace-limpiar-filtros:hover {
+    color: var(--color-texto-inverso);
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    box-shadow: 0 6px 14px rgba(194, 65, 12, 0.2);
+}
+
+/* enlaces sueltos típicos de auth */
+body>p>a[href*="login"],
+body>p>a[href*="registro"],
+body>p>a[href*="password"],
+body>p>a[href*="contrasena"],
+body>p>a[href*="contraseña"],
+body>section:not([class])>p>a[href*="login"],
+body>section:not([class])>p>a[href*="registro"],
+body>section:not([class])>p>a[href*="password"],
+body>section:not([class])>p>a[href*="contrasena"],
+body>section:not([class])>p>a[href*="contraseña"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espacio-2);
+    width: auto;
+    min-height: 40px;
+    padding: 9px 14px;
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-pill);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.14);
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    transition:
+        background-color var(--transicion-rapida),
+        border-color var(--transicion-rapida),
+        color var(--transicion-rapida),
+        box-shadow var(--transicion-rapida);
+}
+
+body>p>a[href*="login"]:hover,
+body>p>a[href*="registro"]:hover,
+body>p>a[href*="password"]:hover,
+body>p>a[href*="contrasena"]:hover,
+body>p>a[href*="contraseña"]:hover,
+body>section:not([class])>p>a[href*="login"]:hover,
+body>section:not([class])>p>a[href*="registro"]:hover,
+body>section:not([class])>p>a[href*="password"]:hover,
+body>section:not([class])>p>a[href*="contrasena"]:hover,
+body>section:not([class])>p>a[href*="contraseña"]:hover {
+    color: var(--color-texto-inverso);
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    box-shadow: 0 6px 14px rgba(194, 65, 12, 0.2);
+}
+
+/* enlaces de borrar / eliminar con tus variables personalizadas */
+.detalle-vehiculo-acciones a[href*="eliminar"],
+.garaje-detalle-historial__acciones a[href*="eliminar"],
+.garaje-formulario-acciones a[href*="eliminar"],
+.comunidad-publicacion__acciones a[href*="eliminar"],
+.comunidad-detalle-publicacion__acciones a[href*="eliminar"],
+.comunidad-comentario__acciones a[href*="eliminar"],
+.perfil-publicacion__pie a[href*="eliminar"],
+.perfil-vehiculo__acciones a[href*="eliminar"],
+.admin-acciones a[href*="eliminar"],
+.admin-formulario-accion a[href*="eliminar"],
+.detalle-vehiculo-acciones a[href*="borrar"],
+.garaje-detalle-historial__acciones a[href*="borrar"],
+.garaje-formulario-acciones a[href*="borrar"],
+.comunidad-publicacion__acciones a[href*="borrar"],
+.comunidad-detalle-publicacion__acciones a[href*="borrar"],
+.comunidad-comentario__acciones a[href*="borrar"],
+.perfil-publicacion__pie a[href*="borrar"],
+.perfil-vehiculo__acciones a[href*="borrar"],
+.admin-acciones a[href*="borrar"],
+.admin-formulario-accion a[href*="borrar"] {
+    border-color: var(--color-borrar-borde);
+    color: var(--color-borrar-texto);
+    background: var(--color-borrar-fondo);
+    box-shadow: 0 5px 12px rgba(159, 18, 57, 0.08);
+}
+
+.detalle-vehiculo-acciones a[href*="eliminar"]:hover,
+.garaje-detalle-historial__acciones a[href*="eliminar"]:hover,
+.garaje-formulario-acciones a[href*="eliminar"]:hover,
+.comunidad-publicacion__acciones a[href*="eliminar"]:hover,
+.comunidad-detalle-publicacion__acciones a[href*="eliminar"]:hover,
+.comunidad-comentario__acciones a[href*="eliminar"]:hover,
+.perfil-publicacion__pie a[href*="eliminar"]:hover,
+.perfil-vehiculo__acciones a[href*="eliminar"]:hover,
+.admin-acciones a[href*="eliminar"]:hover,
+.admin-formulario-accion a[href*="eliminar"]:hover,
+.detalle-vehiculo-acciones a[href*="borrar"]:hover,
+.garaje-detalle-historial__acciones a[href*="borrar"]:hover,
+.garaje-formulario-acciones a[href*="borrar"]:hover,
+.comunidad-publicacion__acciones a[href*="borrar"]:hover,
+.comunidad-detalle-publicacion__acciones a[href*="borrar"]:hover,
+.comunidad-comentario__acciones a[href*="borrar"]:hover,
+.perfil-publicacion__pie a[href*="borrar"]:hover,
+.perfil-vehiculo__acciones a[href*="borrar"]:hover,
+.admin-acciones a[href*="borrar"]:hover,
+.admin-formulario-accion a[href*="borrar"]:hover {
+    border-color: var(--color-borrar-borde-hover);
+    color: var(--color-borrar-texto-hover);
+    background: var(--color-borrar-fondo-hover);
+    box-shadow: 0 6px 14px rgba(159, 18, 57, 0.12);
+}
+
+/* responsive */
+@media (max-width: 700px) {
+
+    .garaje-cabecera__acciones a,
+    .garaje-formulario-acciones a,
+    .detalle-vehiculo-acciones a,
+    .garaje-detalle-historial__acciones a,
+    .comunidad-cabecera__acciones a,
+    .comunidad-formulario-acciones a,
+    .comunidad-publicacion__acciones a,
+    .comunidad-detalle-publicacion__acciones a,
+    .comunidad-comentario__acciones a,
+    .perfil-cabecera__acciones a,
+    .perfil-formulario__acciones a,
+    .perfil-publicacion__pie a,
+    .perfil-vehiculo__acciones a,
+    .perfil-vehiculo-detalle-cabecera__acciones a,
+    .diagnostico-cabecera__acciones a,
+    .admin-cabecera__acciones a,
+    .admin-acciones a,
+    .admin-formulario-accion a,
+    .formulario__acciones a,
+    .campo__acciones a,
+    .estado-visual__acciones a,
+    .estado-vacio__acciones a,
+    .acciones-filtros a,
+    .acciones-filtros-comunidad a,
+    .enlace-limpiar-filtros,
+    body>p>a[href*="login"],
+    body>p>a[href*="registro"],
+    body>p>a[href*="password"],
+    body>p>a[href*="contrasena"],
+    body>p>a[href*="contraseña"],
+    body>section:not([class])>p>a[href*="login"],
+    body>section:not([class])>p>a[href*="registro"],
+    body>section:not([class])>p>a[href*="password"],
+    body>section:not([class])>p>a[href*="contrasena"],
+    body>section:not([class])>p>a[href*="contraseña"] {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   fase 4.7 - mantenimientos dentro del detalle de vehículo
+   ========================================================= */
+
+/* bloque general del historial */
+.garaje-detalle-historial {
+    gap: var(--espacio-4);
+}
+
+/* cabecera del historial */
+.garaje-detalle-historial__cabecera {
+    align-items: center;
+    margin-bottom: 0;
+    padding: var(--espacio-5);
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-xl);
+    background: var(--color-navbar-fondo);
+    box-shadow: var(--sombra-sm);
+}
+
+.garaje-detalle-historial__cabecera h2 {
+    color: var(--color-acento);
+}
+
+/* acciones superiores del historial */
+.garaje-detalle-historial__acciones {
+    align-items: center;
+}
+
+/* panel de filtros */
+.garaje-detalle-historial .form-filtros-mantenimientos {
+    margin: 0;
+    padding: var(--espacio-5);
+    border: 2px solid rgb(212, 212, 212);
+    border-radius: var(--radio-xl);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-xs);
+}
+
+.garaje-detalle-historial .fila-filtros {
+    gap: var(--espacio-4);
+    margin-bottom: var(--espacio-4);
+}
+
+.garaje-detalle-historial .campo-filtro label {
+    color: var(--color-acento);
+    font-weight: 600;
+}
+
+.garaje-detalle-historial .campo-filtro input,
+.garaje-detalle-historial .campo-filtro select {
+    border: 2px solid var(--color-navbar-borde);
+    border-radius: var(--radio-md);
+    background: #fffdf8;
+}
+
+.garaje-detalle-historial .campo-filtro input:hover,
+.garaje-detalle-historial .campo-filtro select:hover {
+    border-color: var(--color-acento-borde);
+}
+
+.garaje-detalle-historial .campo-filtro input:focus,
+.garaje-detalle-historial .campo-filtro select:focus {
+    border-color: var(--color-acento);
+    background: var(--color-superficie);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-acento) 14%, transparent);
+}
+
+/* acciones de filtros */
+.garaje-detalle-historial .acciones-filtros {
+    align-items: center;
+    margin-top: var(--espacio-4);
+    padding-top: var(--espacio-4);
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+/* resumen de mantenimientos */
+.garaje-detalle-historial .resumen-mantenimientos {
+    gap: var(--espacio-4);
+    margin: 0;
+}
+
+.garaje-detalle-historial .resumen-item {
+    padding: var(--espacio-4);
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-lg);
+    background: color-mix(in srgb, var(--color-acento-relleno) 86%, var(--color-acento) 14%);
+    box-shadow: var(--sombra-xs);
+}
+
+.garaje-detalle-historial .resumen-label {
+    color: var(--color-acento-hover);
+    font-weight: 700;
+}
+
+.garaje-detalle-historial .resumen-item strong,
+.garaje-detalle-historial .resumen-item span:not(.resumen-label) {
+    color: var(--color-principal);
+}
+
+/* contenedor de tabla */
+.garaje-detalle-historial #contenedor-tabla-mantenimientos {
+    margin-top: 0;
+    border: 2px solid rgb(212, 212, 212);
+    border-radius: var(--radio-xl);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-xs);
+}
+
+/* tabla de mantenimientos */
+.garaje-detalle-historial .tabla-mantenimientos,
+.garaje-detalle-historial #contenedor-tabla-mantenimientos table {
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    background: var(--color-superficie);
+}
+
+.garaje-detalle-historial .tabla-mantenimientos th,
+.garaje-detalle-historial #contenedor-tabla-mantenimientos table th {
+    color: var(--color-acento);
+    border-bottom: 2px solid var(--color-navbar-borde);
+    background: var(--color-navbar-fondo);
+}
+
+.garaje-detalle-historial .tabla-mantenimientos td,
+.garaje-detalle-historial #contenedor-tabla-mantenimientos table td {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.garaje-detalle-historial .tabla-mantenimientos tbody tr,
+.garaje-detalle-historial #contenedor-tabla-mantenimientos table tbody tr {
+    transition: background-color var(--transicion-rapida);
+}
+
+.garaje-detalle-historial .tabla-mantenimientos tbody tr:hover,
+.garaje-detalle-historial #contenedor-tabla-mantenimientos table tbody tr:hover {
+    background: #fff9ee;
+}
+
+.garaje-detalle-historial .tabla-mantenimientos tbody tr:last-child td,
+.garaje-detalle-historial #contenedor-tabla-mantenimientos table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+/* enlaces de acciones dentro de la tabla */
+.garaje-detalle-historial .tabla-mantenimientos td:last-child a,
+.garaje-detalle-historial #contenedor-tabla-mantenimientos table td:last-child a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 7px 11px;
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-pill);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    font-weight: 500;
+    text-decoration: none;
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.1);
+}
+
+.garaje-detalle-historial .tabla-mantenimientos td:last-child a:hover,
+.garaje-detalle-historial #contenedor-tabla-mantenimientos table td:last-child a:hover {
+    color: var(--color-texto-inverso);
+    background: var(--color-acento);
+}
+
+/* acciones peligrosas dentro de tabla */
+.garaje-detalle-historial .tabla-mantenimientos td:last-child a[href*="eliminar"],
+.garaje-detalle-historial #contenedor-tabla-mantenimientos table td:last-child a[href*="eliminar"],
+.garaje-detalle-historial .tabla-mantenimientos td:last-child a[href*="borrar"],
+.garaje-detalle-historial #contenedor-tabla-mantenimientos table td:last-child a[href*="borrar"] {
+    border-color: var(--color-borrar-borde);
+    color: var(--color-borrar-texto);
+    background: var(--color-borrar-fondo);
+}
+
+.garaje-detalle-historial .tabla-mantenimientos td:last-child a[href*="eliminar"]:hover,
+.garaje-detalle-historial #contenedor-tabla-mantenimientos table td:last-child a[href*="eliminar"]:hover,
+.garaje-detalle-historial .tabla-mantenimientos td:last-child a[href*="borrar"]:hover,
+.garaje-detalle-historial #contenedor-tabla-mantenimientos table td:last-child a[href*="borrar"]:hover {
+    border-color: var(--color-borrar-borde-hover);
+    color: var(--color-borrar-texto-hover);
+    background: var(--color-borrar-fondo-hover);
+}
+
+/* paginación */
+.garaje-detalle-historial .paginacion-mantenimientos {
+    justify-content: center;
+    gap: var(--espacio-2);
+    margin: var(--espacio-4) 0 0;
+    padding-bottom: 0;
+}
+
+.garaje-detalle-historial .btn-paginacion {
+    min-width: 40px;
+    min-height: 40px;
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-pill);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.12);
+    font-weight: 600;
+    transition:
+        background-color var(--transicion-rapida),
+        border-color var(--transicion-rapida),
+        color var(--transicion-rapida),
+        box-shadow var(--transicion-rapida);
+}
+
+.garaje-detalle-historial .btn-paginacion:hover {
+    color: var(--color-texto-inverso);
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    box-shadow: 0 6px 14px rgba(194, 65, 12, 0.2);
+}
+
+.garaje-detalle-historial .btn-paginacion.activo {
+    color: var(--color-texto-inverso);
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    box-shadow: 0 6px 14px rgba(194, 65, 12, 0.2);
+}
+
+/* estado vacío dentro del historial */
+.garaje-detalle-historial>p {
+    padding: var(--espacio-5);
+    border: 2px solid rgb(212, 212, 212);
+    border-radius: var(--radio-xl);
+    color: var(--color-texto-suave);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-xs);
+}
+
+/* responsive */
+@media (max-width: 700px) {
+
+    .garaje-detalle-historial__cabecera,
+    .garaje-detalle-historial .form-filtros-mantenimientos,
+    .garaje-detalle-historial>p {
+        padding: var(--espacio-4);
+        border-radius: var(--radio-lg);
+    }
+
+    .garaje-detalle-historial__cabecera {
+        align-items: stretch;
+    }
+
+    .garaje-detalle-historial__acciones,
+    .garaje-detalle-historial .acciones-filtros {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .garaje-detalle-historial__acciones a,
+    .garaje-detalle-historial .acciones-filtros button,
+    .garaje-detalle-historial .acciones-filtros a {
+        width: 100%;
+    }
+
+    .garaje-detalle-historial .resumen-mantenimientos {
+        grid-template-columns: 1fr;
+    }
+
+    .garaje-detalle-historial .paginacion-mantenimientos {
+        justify-content: flex-start;
+    }
+}
+
+/* =========================================================
+   fase 4.7b - colores en filtros y ordenación de mantenimientos
+   ========================================================= */
+
+/* panel de filtros con identidad torqhub */
+.garaje-detalle-historial .form-filtros-mantenimientos {
+    border: 2px solid var(--color-acento);
+    background: var(--color-navbar-fondo);
+    box-shadow: var(--sombra-sm);
+}
+
+/* los campos del filtro no actúan como tarjetas independientes */
+.garaje-detalle-historial .form-filtros-mantenimientos .campo-filtro {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+/* labels de filtros y ordenación */
+.garaje-detalle-historial .form-filtros-mantenimientos label,
+.garaje-detalle-historial .form-filtros-mantenimientos .campo-filtro label {
+    color: var(--color-acento);
+    font-weight: 600;
+}
+
+/* inputs y selects dentro de filtros, incluyendo ordenación */
+.garaje-detalle-historial .form-filtros-mantenimientos input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]),
+.garaje-detalle-historial .form-filtros-mantenimientos select,
+.garaje-detalle-historial .form-filtros-mantenimientos textarea {
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-md);
+    color: var(--color-acento);
+    background: #fffaf1;
+    font-weight: 500;
+}
+
+/* hover de campos: solo cambia el borde, no el fondo */
+.garaje-detalle-historial .form-filtros-mantenimientos input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):hover,
+.garaje-detalle-historial .form-filtros-mantenimientos select:hover,
+.garaje-detalle-historial .form-filtros-mantenimientos textarea:hover {
+    border-color: var(--color-acento-hover);
+    background: #fffaf1;
+}
+
+/* foco de campos */
+.garaje-detalle-historial .form-filtros-mantenimientos input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):focus,
+.garaje-detalle-historial .form-filtros-mantenimientos select:focus,
+.garaje-detalle-historial .form-filtros-mantenimientos textarea:focus {
+    border-color: var(--color-acento-hover);
+    color: var(--color-principal);
+    background: var(--color-superficie);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-acento) 18%, transparent);
+}
+
+/* separador de acciones del panel */
+.garaje-detalle-historial .form-filtros-mantenimientos .acciones-filtros {
+    border-top: 2px solid color-mix(in srgb, var(--color-acento) 25%, transparent);
+}
+
+/* botones dentro de filtros */
+.garaje-detalle-historial .form-filtros-mantenimientos .acciones-filtros button,
+.garaje-detalle-historial .form-filtros-mantenimientos .acciones-filtros a,
+.garaje-detalle-historial .form-filtros-mantenimientos button,
+.garaje-detalle-historial .form-filtros-mantenimientos input[type="submit"],
+.garaje-detalle-historial .form-filtros-mantenimientos input[type="button"] {
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-pill);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.14);
+    font-weight: 500;
+    text-decoration: none;
+    transform: none;
+}
+
+/* hover de botones dentro de filtros */
+.garaje-detalle-historial .form-filtros-mantenimientos .acciones-filtros button:hover,
+.garaje-detalle-historial .form-filtros-mantenimientos .acciones-filtros a:hover,
+.garaje-detalle-historial .form-filtros-mantenimientos button:hover,
+.garaje-detalle-historial .form-filtros-mantenimientos input[type="submit"]:hover,
+.garaje-detalle-historial .form-filtros-mantenimientos input[type="button"]:hover {
+    color: var(--color-texto-inverso);
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    box-shadow: 0 6px 14px rgba(194, 65, 12, 0.2);
+    transform: none;
+}
+
+/* =========================================================
+   fase 4.7c - corrección tabla y estado vacío mantenimientos
+   ========================================================= */
+
+/* contenedor ajax del historial */
+#contenedor-historial-mantenimientos {
+    display: grid;
+    gap: var(--espacio-4);
+}
+
+/* mensaje cuando no hay mantenimientos filtrados */
+.mantenimientos-estado-vacio,
+#contenedor-historial-mantenimientos>p {
+    margin: 0;
+    padding: var(--espacio-5);
+    border: 2px solid rgb(212, 212, 212);
+    border-radius: var(--radio-xl);
+    color: var(--color-texto-suave);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-xs);
+    font-weight: 600;
+    line-height: 1.45;
+}
+
+/* panel real de la tabla */
+#contenedor-tabla-mantenimientos {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border: 2px solid rgb(212, 212, 212);
+    border-radius: var(--radio-xl);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-xs);
+}
+
+/* tabla de mantenimientos */
+#contenedor-tabla-mantenimientos .tabla-mantenimientos {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--color-superficie);
+}
+
+/* cabecera de tabla */
+#contenedor-tabla-mantenimientos .tabla-mantenimientos th {
+    padding: 14px 16px;
+    border-bottom: 2px solid var(--color-navbar-borde);
+    color: var(--color-acento);
+    font-family: var(--fuente-titulos);
+    font-size: 0.88rem;
+    font-weight: 800;
+    background: var(--color-navbar-fondo);
+    white-space: nowrap;
+}
+
+/* celdas */
+#contenedor-tabla-mantenimientos .tabla-mantenimientos td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    color: var(--color-texto);
+    vertical-align: middle;
+    background: var(--color-superficie);
+}
+
+/* hover de filas */
+#contenedor-tabla-mantenimientos .tabla-mantenimientos tbody tr {
+    transition: background-color var(--transicion-rapida);
+}
+
+#contenedor-tabla-mantenimientos .tabla-mantenimientos tbody tr:hover td {
+    background: #fff9ee;
+}
+
+#contenedor-tabla-mantenimientos .tabla-mantenimientos tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+/* columnas que no deben romperse */
+#contenedor-tabla-mantenimientos .tabla-mantenimientos .nowrap {
+    white-space: nowrap;
+}
+
+/* acciones de la tabla */
+#contenedor-tabla-mantenimientos .form-eliminar-mantenimiento {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--espacio-2);
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* enlace editar dentro de tabla */
+#contenedor-tabla-mantenimientos .form-eliminar-mantenimiento a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 7px 11px;
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-pill);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.1);
+    font-weight: 500;
+    line-height: 1.2;
+    text-decoration: none;
+}
+
+#contenedor-tabla-mantenimientos .form-eliminar-mantenimiento a:hover {
+    color: var(--color-texto-inverso);
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+}
+
+/* botón eliminar dentro de tabla */
+#contenedor-tabla-mantenimientos .form-eliminar-mantenimiento button {
+    width: auto;
+    min-height: 34px;
+    padding: 7px 11px;
+    border: 2px solid var(--color-borrar-borde);
+    border-radius: var(--radio-pill);
+    color: var(--color-borrar-texto);
+    background: var(--color-borrar-fondo);
+    box-shadow: 0 5px 12px rgba(159, 18, 57, 0.08);
+    font-weight: 500;
+    line-height: 1.2;
+    transform: none;
+}
+
+#contenedor-tabla-mantenimientos .form-eliminar-mantenimiento button:hover {
+    color: var(--color-borrar-texto-hover);
+    border-color: var(--color-borrar-borde-hover);
+    background: var(--color-borrar-fondo-hover);
+    box-shadow: 0 6px 14px rgba(159, 18, 57, 0.12);
+    transform: none;
+}
+
+/* móvil */
+@media (max-width: 700px) {
+
+    .mantenimientos-estado-vacio,
+    #contenedor-historial-mantenimientos>p {
+        padding: var(--espacio-4);
+        border-radius: var(--radio-lg);
+    }
+
+    #contenedor-tabla-mantenimientos {
+        border-radius: var(--radio-lg);
+    }
+
+}
+
+/* =========================================================
+   fase 4.7d - borde principal tabla mantenimientos
+   ========================================================= */
+
+#contenedor-tabla-mantenimientos {
+    border-color: var(--color-acento);
+}
+
+#contenedor-tabla-mantenimientos .tabla-mantenimientos th {
+    border-bottom-color: var(--color-acento);
+}
+
+/* =========================================================
+   fase 4.7f - corrección definitiva borde tabla mantenimientos
+   ========================================================= */
+
+.garaje-detalle-historial #contenedor-tabla-mantenimientos,
+#contenedor-historial-mantenimientos #contenedor-tabla-mantenimientos,
+#contenedor-tabla-mantenimientos {
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-xl);
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-xs);
+}
+
+/* por si el borde que ves realmente pertenece a la tabla */
+.garaje-detalle-historial #contenedor-tabla-mantenimientos .tabla-mantenimientos,
+#contenedor-historial-mantenimientos #contenedor-tabla-mantenimientos .tabla-mantenimientos,
+#contenedor-tabla-mantenimientos .tabla-mantenimientos {
+    border: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* línea fuerte bajo la cabecera */
+.garaje-detalle-historial #contenedor-tabla-mantenimientos .tabla-mantenimientos th,
+#contenedor-historial-mantenimientos #contenedor-tabla-mantenimientos .tabla-mantenimientos th,
+#contenedor-tabla-mantenimientos .tabla-mantenimientos th {
+    border-bottom: 2px solid var(--color-acento);
+}
+
+/* evita que las celdas creen una sensación de borde gris exterior */
+.garaje-detalle-historial #contenedor-tabla-mantenimientos .tabla-mantenimientos tr:last-child td,
+#contenedor-historial-mantenimientos #contenedor-tabla-mantenimientos .tabla-mantenimientos tr:last-child td,
+#contenedor-tabla-mantenimientos .tabla-mantenimientos tr:last-child td {
+    border-bottom: 0;
+}
+
+/* =========================================================
+   fase 4.7e - peso de texto solo en tabla de mantenimientos
+   ========================================================= */
+
+#contenedor-tabla-mantenimientos .tabla-mantenimientos td,
+#contenedor-tabla-mantenimientos .tabla-mantenimientos td span,
+#contenedor-tabla-mantenimientos .tabla-mantenimientos td small,
+#contenedor-tabla-mantenimientos .tabla-mantenimientos td a,
+#contenedor-tabla-mantenimientos .tabla-mantenimientos td button {
+    font-weight: 500;
+}
+
+#contenedor-tabla-mantenimientos .tabla-mantenimientos th {
+    font-weight: 800;
+}
+
+/* =========================================================
+   fase 4.7e - peso específico estadísticas vehículo
+   ========================================================= */
+
+.estadistica-vehiculo-extra {
+    font-weight: 500;
+}
+
+/* =========================================================
+   fase 4.7f - acciones en línea tabla mantenimientos
+   ========================================================= */
+
+#contenedor-tabla-mantenimientos .tabla-mantenimientos td:last-child {
+    min-width: 190px;
+    white-space: nowrap;
+}
+
+#contenedor-tabla-mantenimientos .form-eliminar-mantenimiento {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: var(--espacio-2);
+    width: auto;
+}
+
+#contenedor-tabla-mantenimientos .form-eliminar-mantenimiento a,
+#contenedor-tabla-mantenimientos .form-eliminar-mantenimiento button {
+    width: auto;
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   fase 4.7g - paginación activa igual que hover
+   ========================================================= */
+
+#contenedor-historial-mantenimientos .paginacion-mantenimientos button.btn-paginacion.activo,
+#contenedor-historial-mantenimientos .paginacion-mantenimientos button.btn-paginacion.activo:hover {
+    color: var(--color-texto-inverso);
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    box-shadow: 0 6px 14px rgba(194, 65, 12, 0.2);
+}
+
+/* =========================================================
+   fase 4.7h - elementos activos sin cursor clicable
+   ========================================================= */
+
+/* paginación activa: no parece ni actúa como botón clicable */
+#contenedor-historial-mantenimientos .paginacion-mantenimientos button.btn-paginacion.activo,
+#contenedor-historial-mantenimientos .paginacion-mantenimientos button.btn-paginacion.activo:hover,
+.garaje-detalle-historial .paginacion-mantenimientos button.btn-paginacion.activo,
+.garaje-detalle-historial .paginacion-mantenimientos button.btn-paginacion.activo:hover {
+    cursor: default;
+    pointer-events: none;
+}
+
+/* idioma activo: no parece ni actúa como botón clicable */
+.navbar__idioma-boton--activo,
+.navbar__idioma-boton--activo:hover {
+    cursor: default;
+    pointer-events: none;
+    transform: none;
+}
+
+/* =========================================================
+   fase 4.8 - formularios de garaje y mantenimientos
+   ========================================================= */
+
+/* contenedor de formularios del garaje */
+.garaje-formulario-contenedor {
+    width: var(--ancho-pagina-formulario);
+}
+
+/* cabecera de crear/editar vehículo y mantenimientos */
+.garaje-formulario-cabecera {
+    margin-bottom: var(--espacio-5);
+    padding: var(--espacio-5);
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-xl);
+    background: var(--color-navbar-fondo);
+    box-shadow: var(--sombra-sm);
+}
+
+.garaje-formulario-cabecera h1 {
+    margin-bottom: 0;
+    color: var(--color-acento);
+}
+
+/* panel principal del formulario */
+.garaje-formulario-panel {
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-xl);
+    background: var(--color-navbar-fondo);
+    box-shadow: var(--sombra-sm);
+}
+
+/* campos dentro de formularios de garaje */
+.garaje-formulario-panel label {
+    color: var(--color-acento);
+    font-weight: 600;
+}
+
+.garaje-formulario-panel input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]),
+.garaje-formulario-panel select,
+.garaje-formulario-panel textarea {
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-md);
+    color: var(--color-principal);
+    background: #fffaf1;
+    font-weight: 500;
+}
+
+.garaje-formulario-panel input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):hover,
+.garaje-formulario-panel select:hover,
+.garaje-formulario-panel textarea:hover {
+    border-color: var(--color-acento-hover);
+    background: #fffaf1;
+}
+
+.garaje-formulario-panel input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):focus,
+.garaje-formulario-panel select:focus,
+.garaje-formulario-panel textarea:focus {
+    border-color: var(--color-acento-hover);
+    background: var(--color-superficie);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-acento) 18%, transparent);
+}
+
+/* ayuda bajo campos */
+.garaje-formulario-ayuda {
+    color: var(--color-texto-suave);
+    font-weight: 500;
+}
+
+/* bloque vin */
+.garaje-formulario-vin {
+    align-items: stretch;
+}
+
+.garaje-formulario-vin .boton-consultar-vin {
+    min-height: 42px;
+}
+
+/* mensaje de consulta vin */
+.mensaje-vin {
+    min-height: 22px;
+    font-weight: 600;
+}
+
+/* bloque de contexto en crear/editar mantenimiento */
+.garaje-formulario-contexto {
+    margin-bottom: var(--espacio-5);
+    padding: var(--espacio-4);
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-lg);
+    background: var(--color-navbar-fondo);
+    box-shadow: var(--sombra-xs);
+}
+
+.garaje-formulario-contexto span {
+    color: var(--color-acento);
+    font-weight: 600;
+}
+
+.garaje-formulario-contexto strong {
+    color: var(--color-principal);
+    font-weight: 800;
+}
+
+/* imagen actual en editar vehículo */
+.garaje-formulario-imagen-actual {
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-lg);
+    background: var(--color-acento-relleno);
+    box-shadow: var(--sombra-xs);
+}
+
+.garaje-formulario-imagen-actual h2 {
+    color: var(--color-acento);
+}
+
+.garaje-formulario-imagen-actual img {
+    border: 0;
+    border-radius: var(--radio-md);
+}
+
+/* separador inferior de acciones */
+.garaje-formulario-acciones {
+    padding-top: var(--espacio-4);
+    border-top: 2px solid color-mix(in srgb, var(--color-acento) 22%, transparent);
+}
+
+/* botones dentro de formularios de garaje */
+.garaje-formulario-acciones a,
+.garaje-formulario-acciones button,
+.garaje-formulario-panel button,
+.garaje-formulario-panel input[type="submit"] {
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio-pill);
+    color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.14);
+    font-weight: 500;
+    transform: none;
+}
+
+.garaje-formulario-acciones a:hover,
+.garaje-formulario-acciones button:hover,
+.garaje-formulario-panel button:hover,
+.garaje-formulario-panel input[type="submit"]:hover {
+    color: var(--color-texto-inverso);
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    box-shadow: 0 6px 14px rgba(194, 65, 12, 0.2);
+    transform: none;
+}
+
+/* botón consultar vin desactivado */
+.garaje-formulario-panel button:disabled,
+.garaje-formulario-panel button:disabled:hover {
+    cursor: default;
+    opacity: 0.65;
+    color: var(--color-acento);
+    border-color: var(--color-acento);
+    background: var(--color-acento-relleno);
+    box-shadow: 0 5px 12px rgba(194, 65, 12, 0.08);
+    transform: none;
+}
+
+/* errores de validación dentro del formulario */
+.garaje-formulario-panel .campo-con-error input,
+.garaje-formulario-panel .campo-con-error select,
+.garaje-formulario-panel .campo-con-error textarea,
+.garaje-formulario-panel .campo--error input,
+.garaje-formulario-panel .campo--error select,
+.garaje-formulario-panel .campo--error textarea,
+.garaje-formulario-panel .campo-error {
+    border-color: var(--color-error-borde);
+    color: var(--color-error-texto);
+    background: var(--color-error-fondo);
+}
+
+/* responsive */
+@media (max-width: 700px) {
+    .garaje-formulario-contenedor {
+        width: var(--ancho-pagina-formulario-movil);
+    }
+
+    .garaje-formulario-cabecera,
+    .garaje-formulario-panel,
+    .garaje-formulario-contexto,
+    .garaje-formulario-imagen-actual {
+        border-radius: var(--radio-lg);
+    }
+
+    .garaje-formulario-vin {
+        grid-template-columns: 1fr;
+    }
+
+    .garaje-formulario-acciones {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .garaje-formulario-acciones a,
+    .garaje-formulario-acciones button,
+    .garaje-formulario-panel button,
+    .garaje-formulario-panel input[type="submit"] {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   fase 4.8b - formularios garaje más compactos
+   ========================================================= */
+
+/* títulos de formularios: solo texto, sin caja */
+.garaje-formulario-cabecera {
+    margin-bottom: var(--espacio-4);
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.garaje-formulario-cabecera h1 {
+    margin-bottom: 0;
+    color: var(--color-acento);
+}
+
+/* panel principal más compacto */
+.garaje-formulario-panel {
+    gap: var(--espacio-3);
+    padding: var(--espacio-4);
+}
+
+/* menos separación vertical entre campos */
+.garaje-formulario-panel .garaje-formulario-campo,
+.garaje-formulario-panel > div,
+.garaje-formulario-panel > section {
+    margin-bottom: 0;
+}
+
+/* labels más pegados al campo */
+.garaje-formulario-panel label {
+    margin-bottom: var(--espacio-1);
+}
+
+/* inputs algo más compactos */
+.garaje-formulario-panel input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]),
+.garaje-formulario-panel select,
+.garaje-formulario-panel textarea {
+    min-height: 40px;
+    padding: 8px 11px;
+}
+
+/* textarea de mantenimiento menos alto por defecto */
+.garaje-formulario-panel textarea {
+    min-height: 96px;
+}
+
+/* ayuda de campos más compacta */
+.garaje-formulario-ayuda {
+    margin-top: var(--espacio-1);
+    font-size: 0.9rem;
+}
+
+/* bloque vin más compacto */
+.garaje-formulario-vin {
+    gap: var(--espacio-2);
+}
+
+/* contexto del vehículo en mantenimientos más compacto */
+.garaje-formulario-contexto {
+    margin-bottom: var(--espacio-4);
+    padding: var(--espacio-3);
+    gap: var(--espacio-1);
+}
+
+/* imagen actual en editar vehículo más compacta */
+.garaje-formulario-imagen-actual {
+    padding: var(--espacio-3);
+}
+
+.garaje-formulario-imagen-actual h2 {
+    margin-bottom: var(--espacio-2);
+}
+
+/* acciones inferiores más compactas */
+.garaje-formulario-acciones {
+    gap: var(--espacio-2);
+    padding-top: var(--espacio-3);
+}
+
+/* botones de formularios un poco menos altos */
+.garaje-formulario-acciones a,
+.garaje-formulario-acciones button,
+.garaje-formulario-panel button,
+.garaje-formulario-panel input[type="submit"] {
+    min-height: 38px;
+    padding: 8px 13px;
+}
+
+/* móvil */
+@media (max-width: 700px) {
+    .garaje-formulario-cabecera {
+        margin-bottom: var(--espacio-3);
+    }
+
+    .garaje-formulario-panel {
+        gap: var(--espacio-3);
+        padding: var(--espacio-3);
+    }
+
+    .garaje-formulario-contexto,
+    .garaje-formulario-imagen-actual {
+        padding: var(--espacio-3);
     }
 }
