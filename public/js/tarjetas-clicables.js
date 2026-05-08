@@ -1,9 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const tarjetas = document.querySelectorAll('[data-url-tarjeta]');
-
-    if (!tarjetas.length) {
-        return;
-    }
+    const selectorTarjeta = '[data-url-tarjeta]';
 
     const selectorInteractivo = [
         'a',
@@ -17,35 +13,44 @@ document.addEventListener('DOMContentLoaded', () => {
         '[data-no-click-tarjeta]'
     ].join(',');
 
-    tarjetas.forEach((tarjeta) => {
-        tarjeta.addEventListener('click', (evento) => {
-            if (evento.target.closest(selectorInteractivo)) {
-                return;
-            }
+    const abrirTarjeta = (tarjeta) => {
+        const url = tarjeta.dataset.urlTarjeta;
 
-            const url = tarjeta.dataset.urlTarjeta;
+        if (url) {
+            window.location.href = url;
+        }
+    };
 
-            if (url) {
-                window.location.href = url;
-            }
-        });
+    document.addEventListener('click', (evento) => {
+        const tarjeta = evento.target.closest(selectorTarjeta);
 
-        tarjeta.addEventListener('keydown', (evento) => {
-            if (evento.key !== 'Enter' && evento.key !== ' ') {
-                return;
-            }
+        if (!tarjeta) {
+            return;
+        }
 
-            if (evento.target.closest(selectorInteractivo)) {
-                return;
-            }
+        if (evento.target.closest(selectorInteractivo)) {
+            return;
+        }
 
-            evento.preventDefault();
+        abrirTarjeta(tarjeta);
+    });
 
-            const url = tarjeta.dataset.urlTarjeta;
+    document.addEventListener('keydown', (evento) => {
+        if (evento.key !== 'Enter' && evento.key !== ' ') {
+            return;
+        }
 
-            if (url) {
-                window.location.href = url;
-            }
-        });
+        const tarjeta = evento.target.closest(selectorTarjeta);
+
+        if (!tarjeta) {
+            return;
+        }
+
+        if (evento.target.closest(selectorInteractivo)) {
+            return;
+        }
+
+        evento.preventDefault();
+        abrirTarjeta(tarjeta);
     });
 });
