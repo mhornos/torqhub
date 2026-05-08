@@ -43,29 +43,25 @@ class AdminMiddleware
         } catch (PDOException $e) {
             error_log('Error comprobando estado de usuario en AdminMiddleware: ' . $e->getMessage());
 
-            if (peticion_ajax()) {
-                respuesta_json([
-                    'ok' => false,
-                    'mensaje' => t('seguridad.error.servidor'),
-                ], 500);
-            }
-
-            http_response_code(500);
-            echo escapar(t('seguridad.error.servidor'));
-            exit;
+            mostrar_error_http(
+                500,
+                t('error.500.titulo'),
+                t('seguridad.error.servidor'),
+                t('error.500.detalle'),
+                t('error.boton.inicio'),
+                url('/')
+            );
         }
 
         if (($_SESSION['usuario']['rol'] ?? 'usuario') !== 'admin') {
-            if (peticion_ajax()) {
-                respuesta_json([
-                    'ok' => false,
-                    'mensaje' => t('middleware.admin.error.acceso_denegado'),
-                ], 403);
-            }
-
-            http_response_code(403);
-            echo htmlspecialchars(t('middleware.admin.error.acceso_denegado'));
-            exit;
+            mostrar_error_http(
+                403,
+                t('error.403.titulo'),
+                t('middleware.admin.error.acceso_denegado'),
+                t('error.403.detalle'),
+                t('error.boton.inicio'),
+                url('/')
+            );
         }
     }
 }

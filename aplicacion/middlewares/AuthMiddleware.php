@@ -43,16 +43,14 @@ class AuthMiddleware
         } catch (PDOException $e) {
             error_log('Error comprobando estado de usuario en AuthMiddleware: ' . $e->getMessage());
 
-            if (peticion_ajax()) {
-                respuesta_json([
-                    'ok' => false,
-                    'mensaje' => t('seguridad.error.servidor'),
-                ], 500);
-            }
-
-            http_response_code(500);
-            echo escapar(t('seguridad.error.servidor'));
-            exit;
+            mostrar_error_http(
+                500,
+                t('error.500.titulo'),
+                t('seguridad.error.servidor'),
+                t('error.500.detalle'),
+                t('error.boton.inicio'),
+                url('/')
+            );
         }
     }
 }

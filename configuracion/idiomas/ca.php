@@ -26,6 +26,18 @@ return [
     'seguridad.error.servidor' => 'S’ha produït un error intern. Torna-ho a intentar més tard',
     'seguridad.error.ruta_no_encontrada' => 'Pàgina no trobada',
 
+    'error.403.titulo' => 'Accés denegat',
+    'error.403.detalle' => 'No tens permisos per accedir a aquesta zona o l’acció sol·licitada no és vàlida',
+    'error.404.titulo' => 'Pàgina no trobada',
+    'error.404.detalle' => 'La ruta que estàs intentant obrir no existeix o ha canviat d’ubicació',
+    'error.500.titulo' => 'Error intern',
+    'error.500.mensaje' => 'S’ha produït un error intern. Torna-ho a intentar més tard',
+    'error.500.detalle' => 'L’equip tècnic pot revisar els logs del servidor per localitzar el problema',
+    'error.descripcion.generica' => 'Pots tornar a l’inici o continuar navegant per TorqHub',
+    'error.boton.inicio' => 'Tornar a l’inici',
+    'error.boton.garaje' => 'Anar al meu garatge',
+    'error.boton.login' => 'Iniciar sessió',
+
     // auth - login
     'auth.login.titulo_pagina' => 'Iniciar sessió',
     'auth.login.titulo' => 'Iniciar sessió',

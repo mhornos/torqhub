@@ -78,28 +78,24 @@ try {
         exit;
     }
 
-    http_response_code(404);
-
-    if (peticion_ajax()) {
-        respuesta_json([
-            'ok' => false,
-            'mensaje' => t('seguridad.error.ruta_no_encontrada'),
-        ], 404);
-    }
-
-    echo escapar(t('seguridad.error.ruta_no_encontrada'));
+    mostrar_error_http(
+        404,
+        t('error.404.titulo'),
+        t('seguridad.error.ruta_no_encontrada'),
+        t('error.404.detalle'),
+        t('error.boton.inicio'),
+        url('/')
+    );
 
 } catch (Throwable $e) {
     error_log('Error no controlado en TorqHub: ' . $e->getMessage());
 
-    http_response_code(500);
-
-    if (peticion_ajax()) {
-        respuesta_json([
-            'ok' => false,
-            'mensaje' => t('seguridad.error.servidor'),
-        ], 500);
-    }
-
-    echo escapar(t('seguridad.error.servidor'));
+    mostrar_error_http(
+        500,
+        t('error.500.titulo'),
+        t('seguridad.error.servidor'),
+        t('error.500.detalle'),
+        t('error.boton.inicio'),
+        url('/')
+    );
 }

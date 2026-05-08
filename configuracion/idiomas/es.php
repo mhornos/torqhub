@@ -26,6 +26,18 @@ return [
     'seguridad.error.servidor' => 'Se ha producido un error interno. Inténtalo de nuevo más tarde',
     'seguridad.error.ruta_no_encontrada' => 'Página no encontrada',
 
+    'error.403.titulo' => 'Acceso denegado',
+    'error.403.detalle' => 'No tienes permisos para acceder a esta zona o la acción solicitada no es válida',
+    'error.404.titulo' => 'Página no encontrada',
+    'error.404.detalle' => 'La ruta que estás intentando abrir no existe o ha cambiado de ubicación',
+    'error.500.titulo' => 'Error interno',
+    'error.500.mensaje' => 'Se ha producido un error interno. Inténtalo de nuevo más tarde',
+    'error.500.detalle' => 'El equipo técnico puede revisar los logs del servidor para localizar el problema',
+    'error.descripcion.generica' => 'Puedes volver al inicio o continuar navegando por TorqHub',
+    'error.boton.inicio' => 'Volver al inicio',
+    'error.boton.garaje' => 'Ir a mi garaje',
+    'error.boton.login' => 'Iniciar sesión',
+
     // auth - login
     'auth.login.titulo_pagina' => 'Iniciar sesión',
     'auth.login.titulo' => 'Iniciar sesión',
