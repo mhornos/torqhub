@@ -12,13 +12,13 @@
 <body>
     <h1><?= htmlspecialchars(t('auth.login.titulo')) ?></h1>
 
-    <!-- // mensajes flash -->
+    <!-- mensajes flash -->
     <?php if ($mensaje = flash_get('error')): ?>
-        <p><?= htmlspecialchars($mensaje) ?></p>
+        <p class="mensaje-error"><?= htmlspecialchars($mensaje) ?></p>
     <?php endif; ?>
 
     <?php if ($mensaje = flash_get('ok')): ?>
-        <p><?= htmlspecialchars($mensaje) ?></p>
+        <p class="mensaje-ok"><?= htmlspecialchars($mensaje) ?></p>
     <?php endif; ?>
 
     <!-- // formulario de login -->

@@ -25,7 +25,11 @@ $errores = isset($errores) && is_array($errores) ? $errores : [];
     <h1><?= htmlspecialchars(t('auth.password_restablecer.titulo')) ?></h1>
 
     <?php if ($m = flash_get('error')): ?>
-        <p><?= htmlspecialchars($m) ?></p>
+        <p class="mensaje-error"><?= htmlspecialchars($m) ?></p>
+    <?php endif; ?>
+
+    <?php if ($m = flash_get('ok')): ?>
+        <p class="mensaje-ok"><?= htmlspecialchars($m) ?></p>
     <?php endif; ?>
 
     <form action="<?= url('/password/restablecer') ?>" method="POST">
