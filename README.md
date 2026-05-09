@@ -3,7 +3,10 @@
 [Documento](https://docs.google.com/document/d/1xBUbJVxpTcVCnY1csCN8iuvDQGqctCGAMUM9VGTCs7w/edit?usp=sharing)
 
 [Página web](http://torqhub.es.mialias.net/) o "torqhub.es.mialias.net"
-
+- Credenciales de acceso: 
+  - Usuario: torqhu513
+  - Constraseña: puthr98pd60o
+	
 TorqHub es una plataforma web social para aficionados al motor desarrollada desde cero con PHP y arquitectura MVC propia.
 
 El proyecto permite centralizar la gestión de vehículos personales, la participación en una comunidad de usuarios y el acceso a herramientas de ayuda relacionadas con el mantenimiento y el diagnóstico mecánico.
